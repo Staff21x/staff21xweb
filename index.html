@@ -375,95 +375,6 @@ footer{border-top:1px solid var(--border);padding:60px 48px 32px;max-width:1280p
     </div>
   </div>
 </div>
-<a href="otec.html" class="banner-otec">
-  <div class="banner-content">
-    <span class="banner-icon">🎓</span>
-    <div>
-      <strong>¿Tienes una OTEC?</strong>
-      <p>Descubre cómo un Trabajador Digital automatiza tus cotizaciones SENCE en minutos. Haz clic aquí para ver la solución específica para ti.</p>
-    </div>
-  </div>
-  <div class="banner-arrow">→</div>
-</a>
-
-<style>
-.banner-otec {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(135deg, rgba(91,106,240,0.10), rgba(124,58,237,0.10));
-  border: 1px solid rgba(91,106,240,0.3);
-  border-radius: 12px;
-  padding: 20px 24px;
-  margin: 40px auto; /* Centrado con espacio arriba y abajo */
-  max-width: 800px; /* Ancho máximo para que no se estire demasiado */
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.banner-otec:hover {
-  background: linear-gradient(135deg, rgba(91,106,240,0.20), rgba(124,58,237,0.20));
-  border-color: rgba(91,106,240,0.6);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(91,106,240,0.2);
-}
-
-.banner-content {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.banner-icon {
-  font-size: 36px;
-}
-
-.banner-content strong {
-  display: block;
-  color: #ffffff;
-  font-family: 'Inter', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.banner-content p {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  color: #b0b8d0;
-  line-height: 1.5;
-}
-
-.banner-arrow {
-  font-size: 24px;
-  color: #5b6af0;
-  font-weight: bold;
-  transition: transform 0.3s ease;
-}
-
-.banner-otec:hover .banner-arrow {
-  transform: translateX(6px); /* La flecha se mueve a la derecha al hacer hover */
-}
-
-/* Modo teléfono (Mobile) */
-@media (max-width: 600px) {
-  .banner-otec {
-    flex-direction: column;
-    text-align: center;
-    padding: 20px;
-    margin: 24px 20px; /* Margen a los lados para que no pegue en el borde */
-  }
-  .banner-content {
-    flex-direction: column;
-    gap: 12px;
-  }
-  .banner-arrow {
-    display: none; /* Ocultamos la flecha en celular para que quede más limpio */
-  }
-}
-</style>
-  
 <!-- MARQUEE -->
 <div class="marquee-section">
   <div style="display:flex;flex-direction:column;gap:0">
@@ -505,7 +416,119 @@ footer{border-top:1px solid var(--border);padding:60px 48px 32px;max-width:1280p
     </div>
   </div>
 </div>
+<a href="otec.html" class="banner-otec-new">
+  <div class="otec-content-wrapper">
+    <span class="otec-icon-new">🎓</span>
+    
+    <div class="otec-text-new">
+      <strong>¿Tienes una OTEC?</strong>
+      <p>Descubre cómo un Trabajador Digital automatiza tus cotizaciones SENCE en minutos. Haz clic aquí para ver la solución específica para ti.</p>
+    </div>
+  </div>
+  
+  <span class="otec-arrow-new">→</span>
+</a>
 
+<style>
+/* === ESTILOS DEL NUEVO BANNER OTEC === */
+.banner-otec-new {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 900px;
+  margin: 40px auto; /* Centrado con espacio arriba y abajo */
+  padding: 32px 48px; /* AÑADIMOS MUCHO AIRE PARA QUE RESPIRE EL CONTENIDO */
+  background-color: #0d0e12; /* Fondo casi negro para que resalte */
+  border: 2px solid #252a3d; /* Borde más definido y grueso */
+  border-radius: 20px;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif; /* Asumiendo la fuente por defecto de la página */
+  transition: all 0.3s ease; /* Transición suave para todos los efectos */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto hover profesional: gradiente sutil y glow */
+.banner-otec-new:hover {
+  transform: translateY(-2px); /* Un ligero salto para indicar que se puede pinchar */
+  border-color: #7b2cbf; /* Cambia al color de tus estadísticas */
+  background-color: #111217; /* Se aclara ligeramente */
+  box-shadow: 0 10px 40px -10px rgba(123, 44, 191, 0.4); /* Un glow suave alrededor */
+}
+
+/* Contenedor interno para alinear icono y texto */
+.otec-content-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+/* Icono de graduación más grande y con el color principal */
+.otec-icon-new {
+  font-size: 50px;
+  color: #7b2cbf; /* Color purple de tus estadísticas */
+  flex-shrink: 0;
+}
+
+/* Contenedor de texto para jerarquía */
+.otec-text-new {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Espacio entre título y descripción */
+}
+
+/* Título bold y grande */
+.otec-text-new strong {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+/* Descripción más pequeña y legible */
+.otec-text-new p {
+  font-size: 15px;
+  color: #a0a0a0; /* Un gris suave para el texto del cuerpo */
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Flecha de Call to Action */
+.otec-arrow-new {
+  font-size: 24px;
+  color: #7b2cbf; /* Color purple principal */
+  transition: transform 0.3s ease;
+}
+
+/* La flecha se mueve a la derecha al hacer hover */
+.banner-otec-new:hover .otec-arrow-new {
+  transform: translateX(6px);
+}
+
+/* Modo teléfono (Mobile) */
+@media (max-width: 600px) {
+  .banner-otec-new {
+    flex-direction: column;
+    text-align: center;
+    padding: 30px;
+    margin: 24px 20px;
+  }
+  .otec-content-wrapper {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .otec-icon-new {
+    font-size: 40px;
+  }
+  .otec-text-new strong {
+    font-size: 19px;
+  }
+  /* Ocultamos la flecha en celular para que quede más limpio */
+  .otec-arrow-new {
+    display: none;
+  }
+}
+</style>
 <!-- HERO IMAGE SECTION -->
 <div style="background:var(--bg1);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 48px">
   <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center">
