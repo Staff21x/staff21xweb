@@ -300,10 +300,12 @@ footer p{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3
 
 <footer><p>// staff21x.com · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="771f181b1637040316111145460f5914181a">[email&#160;protected]</a> · sin compromisos · sin spam</p></footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+
+  <script>
 var ST = { modelo:null, dolor:[], equipo:null };
 
-// Event delegation for opt clicks - fixes disabled button bug
+// Event delegation for opt clicks
 document.addEventListener('click', function(e) {
   var opt = e.target.closest('.opt');
   if (!opt) return;
@@ -337,8 +339,7 @@ var DOLORES = {
     'El seguimiento de pedidos es por WhatsApp informal',
     'Los reportes de producción los armo yo',
     'Las cotizaciones a clientes tardan días'
-  ]
-  marketplace: [
+  ],
   marketplace: [
     'Respondo tarde y pierdo ventas',
     'No puedo atender múltiples chats a la vez',
@@ -477,7 +478,6 @@ var ROLES_MAP = {
   retail: 'TD–Atención al Cliente 24/7 + Agenda de turnos',
   salud: 'TD–Atención al Cliente + Agenda médica',
   industria: 'TD–Compras + TD–Ventas para Empresas',
-  marketplace:
   marketplace: 'TD–Atención al Cliente + Ventas Marketplace',
   b2b: 'TD–Ventas para Empresas + Cotizaciones',
   servicios: 'TD–Administrador + Cobranza',
@@ -504,15 +504,9 @@ function enviar() {
     '<div class="res-row"><span class="res-label">TD sugerido</span><span class="res-val" style="color:var(--accent);font-weight:600">' + rol_sugerido + '</span></div>'
   ].join('');
 
-  var fd = new FormData();
-  fd.append('nombre', nombre);
-  fd.append('empresa', empresa);
-  fd.append('correo', correo);
-  fd.append('whatsapp', document.getElementById('f-pais').value + ' ' + wsp);
-  fd.append('modelo_negocio', ST.modelo);
-  fd.append('dolores', ST.dolor.join(', '));
-  fd.append('equipo', ST.equipo);
-  fd.append('td_sugerido', rol_sugerido);
-  fd.append('mensaje', extra);
-  fd.append('_replyto', correo);
-  fd.append('_subject', 'Demo
+  // Cambia a la pantalla de éxito
+  goTo(5);
+}
+</script>
+</body>
+</html>
