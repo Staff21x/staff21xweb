@@ -204,7 +204,7 @@ pre .num{color:#fb923c}
 .fi.open .fa{max-height:280px;padding-bottom:20px}
 .fi.open .fi-icon{transform:rotate(45deg);color:var(--accent)}
 
-/* ── CONTACT (CORREGIDO) ── */
+/* ── CONTACT ── */
 .contact-bg{background:var(--bg1)}
 .cg{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
 .ci p{font-size:16px;color:var(--text2);line-height:1.7;margin-bottom:28px}
@@ -224,6 +224,37 @@ pre .num{color:#fb923c}
 .fg input::placeholder,.fg textarea::placeholder{color:var(--text2)}
 .fg select{appearance:none;cursor:pointer;color:#fff}
 .fg textarea{resize:vertical;min-height:90px}
+
+  /* --- ESTILO DEL BOTÓN AGENDAR --- */
+.bsub {
+  background: var(--grad);
+  color: #fff;
+  border: none;
+  padding: 16px;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(91, 106, 240, 0.3);
+}
+
+.bsub:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(91, 106, 240, 0.5);
+  filter: brightness(1.1);
+}
+
+.bsub:disabled {
+  background: #22c55e !important;
+  cursor: not-allowed;
+  transform: none;
+}
 
 /* ── FOOTER ── */
 footer{border-top:1px solid var(--border);padding:60px 48px 32px;max-width:1280px;margin:0 auto}
