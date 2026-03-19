@@ -305,7 +305,7 @@ footer p{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3
   <script>
 var ST = { modelo:null, dolor:[], equipo:null };
 
-// Event delegation for opt clicks
+// 1. Delegación de clics: Escucha cuando tocas una opción
 document.addEventListener('click', function(e) {
   var opt = e.target.closest('.opt');
   if (!opt) return;
@@ -315,108 +315,102 @@ document.addEventListener('click', function(e) {
   pick(opt, gname, opt.dataset.val);
 });
 
+// 2. Lógica Dinámica de Dolores (¡Exactamente lo que pediste!)
 var DOLORES = {
   retail: [
     'Respondo las mismas preguntas todo el día',
     'No puedo atender WhatsApp y el local a la vez',
     'Agenda de turnos o reservas es un caos',
-    'Los clientes preguntan horarios y precios constantemente',
-    'No tengo control del stock en tiempo real',
     'Pierdo ventas cuando estoy cerrado'
   ],
   salud: [
     'La agenda de citas se llena de errores',
     'Olvido enviar recordatorios a pacientes',
-    'Los pacientes preguntan disponibilidad a toda hora',
     'La cobranza de copagos es manual',
-    'No tengo seguimiento post-consulta',
     'El tiempo de secretaria se va en llamadas básicas'
   ],
   industria: [
     'Las órdenes de compra las proceso manualmente',
     'No tengo visibilidad del stock en tiempo real',
-    'Los proveedores me mandan listas de precios y las comparo a mano',
-    'El seguimiento de pedidos es por WhatsApp informal',
-    'Los reportes de producción los armo yo',
+    'Los pedidos y el stock se manejan a mano',
     'Las cotizaciones a clientes tardan días'
   ],
   marketplace: [
     'Respondo tarde y pierdo ventas',
     'No puedo atender múltiples chats a la vez',
     'El seguimiento post-venta es un caos',
-    'No tengo stock actualizado en tiempo real',
-    'Las devoluciones y reclamos me consumen',
-    'No escalo sin contratar más personas'
+    'Las devoluciones y reclamos me consumen'
   ],
   b2b: [
     'Preparo cotizaciones manualmente',
     'El seguimiento de oportunidades se pierde',
-    'Tardo días en responder consultas',
     'Mi CRM siempre está desactualizado',
-    'No sé en qué estado está cada venta',
     'Pierdo clientes por falta de seguimiento'
   ],
   servicios: [
     'La agenda y reprogramaciones son un caos',
     'Cobrar y hacer seguimiento de pagos me agota',
     'El papeleo administrativo me roba tiempo',
-    'No puedo responder fuera de horario',
-    'Los recordatorios a clientes los hago yo',
-    'No tengo visibilidad del flujo de caja'
-  ],
-  transaccional: [
-    'El equipo no da abasto con el volumen',
-    'Hay errores humanos en procesos repetitivos',
-    'Los reportes los armo a mano',
-    'El onboarding de nuevos clientes es lento',
-    'Las consultas básicas saturan al equipo',
-    'No tengo trazabilidad de lo que se hace'
+    'Los recordatorios a clientes los hago yo'
   ],
   otec: [
     'Cotizar cursos SENCE toma horas',
     'Valido códigos SENCE manualmente',
-    'El seguimiento de propuestas se pierde',
     'Armo los Excel de cotización a mano',
-    'Gerencia no tiene visibilidad del pipeline',
     'Las minutas de reuniones no las documenta nadie'
   ],
   solo: [
     'No puedo responder cuando estoy ocupado',
-    'Pierdo leads porque no respondo rápido',
     'La administración me quita tiempo del negocio',
-    'No tengo tiempo para hacer seguimiento',
     'Cobrar y recordar pagos es agotador',
     'Quiero escalar pero no puedo contratar'
   ]
 };
 
 var INSIGHTS = {
-  retail: '💡 <strong>El 60% de las consultas en locales son las mismas 5 preguntas.</strong> Un TD las responde 24/7 y libera a tu equipo para atender lo que importa.',
-  salud: '💡 <strong>El 30% de las citas médicas se pierden por falta de recordatorio.</strong> Un TD envía confirmaciones y recordatorios automáticamente.',
-  industria: '💡 <strong>Las empresas industriales gastan hasta 15 horas semanales comparando precios de proveedores manualmente.</strong> Un TD lo hace en minutos.',
-  marketplace: '💡 <strong>El 67% de las ventas en marketplace se pierden en la primera hora.</strong> Un TD de Atención al Cliente responde en segundos y cierra mientras duermes.',
-  b2b: '💡 <strong>El 80% de las ventas B2B requieren 5 o más seguimientos.</strong> Un TD de Ventas hace el seguimiento sistemático sin que nadie lo olvide.',
-  servicios: '💡 <strong>Los profesionales dedican hasta 40% de su tiempo a tareas administrativas.</strong> Un TD libera ese tiempo para que te enfoques en entregar valor.',
-  transaccional: '💡 <strong>Los errores en operaciones repetitivas cuestan en promedio 3x más en correcciones.</strong> Un TD ejecuta con consistencia 100% del tiempo.',
-  otec: '💡 <strong>Una OTEC puede perder 30-50% de sus cotizaciones por demora en responder.</strong> El TD-OTEC cotiza con código SENCE en menos de 2 minutos.',
-  solo: '💡 <strong>El primer respondedor gana el cliente el 78% de las veces.</strong> Un TD responde por ti incluso a las 3am.'
+  retail: '💡 <strong>El 60% de las consultas en locales son las mismas 5 preguntas.</strong> Un TD las responde 24/7.',
+  salud: '💡 <strong>El 30% de las citas médicas se pierden por falta de recordatorio.</strong> Un TD envía confirmaciones.',
+  industria: '💡 <strong>Se gastan hasta 15 horas semanales en procesos manuales de stock y compras.</strong> Un TD lo automatiza.',
+  marketplace: '💡 <strong>El 67% de las ventas online se pierden en la primera hora.</strong> Un TD responde en segundos.',
+  b2b: '💡 <strong>El 80% de las ventas B2B requieren 5 o más seguimientos.</strong> Un TD hace el seguimiento sistemático.',
+  servicios: '💡 <strong>Se dedica hasta 40% del tiempo a tareas administrativas.</strong> Un TD libera ese tiempo.',
+  otec: '💡 <strong>Una OTEC puede perder 50% de cotizaciones por demora.</strong> El TD-OTEC cotiza en minutos.',
+  solo: '💡 <strong>El primer respondedor gana el cliente el 78% de las veces.</strong> Un TD responde por ti.'
+};
+
+var ROLES_MAP = {
+  retail: 'TD–Atención al Cliente 24/7 + Agenda',
+  salud: 'TD–Atención al Cliente + Agenda médica',
+  industria: 'TD–Compras + TD–Ventas B2B',
+  marketplace: 'TD–Atención al Cliente + Ventas',
+  b2b: 'TD–Ventas para Empresas',
+  servicios: 'TD–Administrador + Cobranza',
+  otec: 'TD–OTEC (especialización SENCE)',
+  solo: 'TD–Ventas + Atención al Cliente'
 };
 
 function pick(el, group, val) {
+  // Deselecciona visualmente los otros
   document.querySelectorAll('#g-' + group + ' .opt').forEach(function(o){ o.classList.remove('sel'); });
+  // Selecciona el actual
   el.classList.add('sel');
   ST[group] = val;
+
+  // ¡MAGIA DE AVANCE AUTOMÁTICO!
   if (group === 'modelo') {
     document.getElementById('b1').classList.remove('btn-dis');
+    setTimeout(function(){ goTo(2); }, 350); // Pasa al paso 2 tras una pausa breve
   } else if (group === 'equipo') {
     document.getElementById('b3').classList.remove('btn-dis');
+    setTimeout(function(){ goTo(4); }, 350); // Pasa al paso 4 tras una pausa breve
   }
 }
 
 function buildDolores() {
   var list = DOLORES[ST.modelo] || DOLORES.solo;
   var cont = document.getElementById('g-dolor');
-  cont.innerHTML = '';
+  cont.innerHTML = ''; // Limpia dolores del modelo anterior
+  
   list.forEach(function(d) {
     var c = document.createElement('div');
     c.className = 'chip';
@@ -424,8 +418,13 @@ function buildDolores() {
     c.onclick = function() { toggleChip(c); };
     cont.appendChild(c);
   });
+  
   ST.dolor = [];
-  document.getElementById('b2').disabled = true;
+  
+  // SOLUCIÓN DEL CONGELAMIENTO:
+  var btn = document.getElementById('b2');
+  btn.classList.add('btn-dis'); 
+  
   var ins = document.getElementById('insight-dolor');
   ins.classList.remove('show');
 }
@@ -434,7 +433,14 @@ function toggleChip(el) {
   el.classList.toggle('sel');
   var sel = document.querySelectorAll('#g-dolor .chip.sel');
   ST.dolor = Array.from(sel).map(function(c){ return c.textContent; });
-  if(ST.dolor.length>0){document.getElementById('b2').classList.remove('btn-dis')}else{document.getElementById('b2').classList.add('btn-dis')}
+  
+  var btn = document.getElementById('b2');
+  if(ST.dolor.length > 0) {
+    btn.classList.remove('btn-dis');
+  } else {
+    btn.classList.add('btn-dis');
+  }
+  
   if (ST.dolor.length > 0) {
     var ins = document.getElementById('insight-dolor');
     document.getElementById('insight-text').innerHTML = INSIGHTS[ST.modelo] || INSIGHTS.solo;
@@ -449,17 +455,20 @@ function goTo(n) {
   STEPS.forEach(function(i){ document.getElementById('s'+i).classList.remove('active'); });
   document.getElementById('s'+n).classList.add('active');
   document.getElementById('prog').style.width = PROG[n-1] + '%';
+  
   if (n === 2) buildDolores();
   if (n === 4) adaptStep4();
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
 function adaptStep4() {
   var msgs = {
     marketplace: ['¡Ya casi!', 'Dinos quién eres y te mostramos cuántas ventas puedes recuperar.'],
     b2b: ['Último paso', 'Prepararemos la demo con casos reales de tu industria.'],
-    servicios: ['¡Excelente!', 'Con estos datos te mostramos exactamente cuántas horas puedes recuperar.'],
-    transaccional: ['Casi listo', 'Necesitamos tus datos para dimensionar correctamente tu solución.'],
+    retail: ['¡Excelente!', 'Prepararemos una demo simulando las preguntas de tus clientes.'],
+    salud: ['¡Excelente!', 'Te mostraremos cómo el TD atiende a tus pacientes 24/7.'],
+    industria: ['Casi listo', 'Veamos cómo automatizar tus pedidos y stock.'],
+    servicios: ['¡Excelente!', 'Te mostramos cuántas horas puedes recuperar.'],
     otec: ['¡Perfecto!', 'Prepararemos una demo con cursos reales de tu catálogo SENCE.'],
     solo: ['¡Último paso!', 'Dinos quién eres — somos tú, pero con 24/7 de disponibilidad.']
   };
@@ -471,27 +480,16 @@ function adaptStep4() {
 function chk4() {
   var n = document.getElementById('f-nombre').value.trim();
   var c = document.getElementById('f-correo').value.trim();
-  if(n&&c){document.getElementById('b4').classList.remove('btn-dis')}else{document.getElementById('b4').classList.add('btn-dis')}
+  var btn = document.getElementById('b4');
+  if(n && c) {
+    btn.classList.remove('btn-dis');
+  } else {
+    btn.classList.add('btn-dis');
+  }
 }
-
-var ROLES_MAP = {
-  retail: 'TD–Atención al Cliente 24/7 + Agenda de turnos',
-  salud: 'TD–Atención al Cliente + Agenda médica',
-  industria: 'TD–Compras + TD–Ventas para Empresas',
-  marketplace: 'TD–Atención al Cliente + Ventas Marketplace',
-  b2b: 'TD–Ventas para Empresas + Cotizaciones',
-  servicios: 'TD–Administrador + Cobranza',
-  transaccional: 'TD–Atención al Cliente 24/7',
-  otec: 'TD–OTEC (especialización SENCE)',
-  solo: 'TD–Ventas + Atención al Cliente'
-};
 
 function enviar() {
   var nombre = document.getElementById('f-nombre').value.trim();
-  var empresa = document.getElementById('f-empresa').value.trim();
-  var correo = document.getElementById('f-correo').value.trim();
-  var wsp = document.getElementById('f-wsp').value.trim();
-  var extra = document.getElementById('f-extra').value.trim();
   var rol_sugerido = ROLES_MAP[ST.modelo] || 'A definir en demo';
 
   document.getElementById('s-nombre').textContent = nombre.split(' ')[0];
@@ -504,7 +502,6 @@ function enviar() {
     '<div class="res-row"><span class="res-label">TD sugerido</span><span class="res-val" style="color:var(--accent);font-weight:600">' + rol_sugerido + '</span></div>'
   ].join('');
 
-  // Cambia a la pantalla de éxito
   goTo(5);
 }
 </script>
