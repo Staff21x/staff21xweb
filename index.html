@@ -375,7 +375,95 @@ footer{border-top:1px solid var(--border);padding:60px 48px 32px;max-width:1280p
     </div>
   </div>
 </div>
+<a href="otec.html" class="banner-otec">
+  <div class="banner-content">
+    <span class="banner-icon">🎓</span>
+    <div>
+      <strong>¿Tienes una OTEC?</strong>
+      <p>Descubre cómo un Trabajador Digital automatiza tus cotizaciones SENCE en minutos. Haz clic aquí para ver la solución específica para ti.</p>
+    </div>
+  </div>
+  <div class="banner-arrow">→</div>
+</a>
 
+<style>
+.banner-otec {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, rgba(91,106,240,0.10), rgba(124,58,237,0.10));
+  border: 1px solid rgba(91,106,240,0.3);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin: 40px auto; /* Centrado con espacio arriba y abajo */
+  max-width: 800px; /* Ancho máximo para que no se estire demasiado */
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.banner-otec:hover {
+  background: linear-gradient(135deg, rgba(91,106,240,0.20), rgba(124,58,237,0.20));
+  border-color: rgba(91,106,240,0.6);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(91,106,240,0.2);
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.banner-icon {
+  font-size: 36px;
+}
+
+.banner-content strong {
+  display: block;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.banner-content p {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #b0b8d0;
+  line-height: 1.5;
+}
+
+.banner-arrow {
+  font-size: 24px;
+  color: #5b6af0;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.banner-otec:hover .banner-arrow {
+  transform: translateX(6px); /* La flecha se mueve a la derecha al hacer hover */
+}
+
+/* Modo teléfono (Mobile) */
+@media (max-width: 600px) {
+  .banner-otec {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+    margin: 24px 20px; /* Margen a los lados para que no pegue en el borde */
+  }
+  .banner-content {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .banner-arrow {
+    display: none; /* Ocultamos la flecha en celular para que quede más limpio */
+  }
+}
+</style>
+  
 <!-- MARQUEE -->
 <div class="marquee-section">
   <div style="display:flex;flex-direction:column;gap:0">
