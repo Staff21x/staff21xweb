@@ -363,35 +363,38 @@ function enviar() {
     '<div class="res-row"><span class="res-label">TD sugerido</span><span class="res-val" style="color:var(--accent);font-weight:600">' + rol_sugerido + '</span></div>'
   ].join('');
 
+  // ATENCIÓN ACÁ: Cambié los nombres para que Google Script los entienda
   var payload = {
     nombre: nombre,
     empresa: empresa,
-    correo: correo,
-    whatsapp: whatsapp,
+    email: correo,        // Antes decía correo: correo
+    telefono: whatsapp,   // Antes decía whatsapp: whatsapp
+    mensaje: extra,       // Antes decía extra: extra
     modelo: ST.modelo,
     dolor: ST.dolor,
     equipo: ST.equipo,
-    extra: extra,
     td_sugerido: rol_sugerido
   };
 
-  var scriptURL = "https://script.google.com/a/macros/staff21x.com/s/AKfycbwyMwsKp6VOf8_eKIsqButAhZzZA7e0wh0DW38DDufCCqCq5bVZgKS1cGbo5gKGdYs-/exec";
+  // Esta es la URL nueva de tu implementación
+  var scriptURL = "https://script.google.com/a/macros/staff21x.com/s/AKfycbwMnxD_-zj4BwbDp_MVSucM6rwdh37AR5NhJozHwiOo-pWrjls0NIBGXkV03MjzTy8/exec";
   
+  // Usamos fetch con no-cors
   fetch(scriptURL, {
     method: 'POST',
-    body: JSON.stringify(payload),
+    mode: 'no-cors', // <--- EVITA EL ERROR DE CORS
     headers: {
       'Content-Type': 'application/json'
-    }
+    },
+    body: JSON.stringify(payload)
   })
-  .then(response => response.json())
-  .then(data => {
-    console.log('✅ Demo registrada:', data);
-    goTo(5);
+  .then(() => {
+    console.log('✅ Formulario enviado a Google Script');
+    goTo(5); // Pasa al paso 5 (éxito)
   })
   .catch(error => {
-    console.error('❌ Error al enviar:', error);
-    goTo(5);
+    console.error('❌ Error de conexión:', error);
+    goTo(5); // Aunque de error de conexión, pasamos al paso 5 para no frustrar al usuario
   });
 }
 </script>
