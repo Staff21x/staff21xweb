@@ -762,13 +762,12 @@ footer{border-top:1px solid var(--border);padding:60px 48px 32px;max-width:1280p
 
 <div class="contact-bg">
 <div class="wrap" id="contacto">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:flex-start" class="contact-grid-inner">
-    
+  
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center" class="contact-grid-inner">
     <div>
       <span class="eyebrow">// agendar_demo</span>
       <h2>¿Listo para operar<br>sin limites?</h2>
       <p style="font-size:16px;color:#b0b8d0;line-height:1.7;margin-bottom:32px">Respondemos 4 preguntas clave sobre tu negocio y te mostramos exactamente qué Trabajador Digital necesitas — en 30 minutos, sin tecnicismos.</p>
-      
       <a href="demo.html" style="display:flex;align-items:center;gap:16px;padding:24px 28px;background:var(--grad);border-radius:14px;text-decoration:none;box-shadow:0 8px 32px rgba(91,106,240,.35);transition:all .2s;margin-bottom:14px" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 40px rgba(91,106,240,.5)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 8px 32px rgba(91,106,240,.35)'">
         <div style="width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🎯</div>
         <div>
@@ -777,7 +776,6 @@ footer{border-top:1px solid var(--border);padding:60px 48px 32px;max-width:1280p
         </div>
         <div style="margin-left:auto;font-size:20px;color:rgba(255,255,255,.8)">→</div>
       </a>
-      
       <a href="https://calendar.app.google/8gXWWVzvjTJNZwyX7" target="_blank" style="display:flex;align-items:center;gap:16px;padding:20px 24px;background:var(--bg2);border:1px solid var(--border2);border-radius:14px;text-decoration:none;transition:all .2s" onmouseover="this.style.borderColor='rgba(91,106,240,.4)'" onmouseout="this.style.borderColor='var(--border2)'">
         <div style="width:42px;height:42px;border-radius:10px;background:var(--grad-dim);border:1px solid var(--grad-border);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">📅</div>
         <div>
@@ -786,41 +784,7 @@ footer{border-top:1px solid var(--border);padding:60px 48px 32px;max-width:1280p
         </div>
         <div style="margin-left:auto;font-size:16px;color:var(--text3)">→</div>
       </a>
-
-      <div style="margin-top: 48px; padding-top: 40px; border-top: 1px solid var(--border);">
-        <h3 style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 24px;">O envíanos un mensaje directo</h3>
-        
-        <div class="fields">
-          <div class="frow">
-            <div class="fg"><label>Nombre</label><input type="text" id="c-nombre" placeholder="Tu nombre" oninput="chkContacto()"></div>
-            <div class="fg"><label>Empresa</label><input type="text" id="c-empresa" placeholder="Tu empresa" oninput="chkContacto()"></div>
-          </div>
-          <div class="fg"><label>Correo</label><input type="email" id="c-correo" placeholder="correo@tuempresa.cl" oninput="chkContacto()"></div>
-          <div class="fg">
-            <label>WhatsApp</label>
-            <div style="display:flex;gap:8px">
-              <select id="c-pais" style="background:#1e2336;border:1px solid #3a4262;border-radius:10px;padding:12px 10px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;outline:none;cursor:pointer;flex-shrink:0;width:130px">
-                <option value="+56" selected>🇨🇱 +56</option>
-                <option value="+54">🇦🇷 +54</option>
-                <option value="+55">🇧🇷 +55</option>
-                <option value="+57">🇨🇴 +57</option>
-                <option value="+52">🇲🇽 +52</option>
-              </select>
-              <input type="tel" id="c-wsp" placeholder="9 XXXX XXXX" style="flex:1;background:#1e2336;border:1px solid #3a4262;border-radius:10px;padding:12px 15px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;outline:none">
-            </div>
-          </div>
-          <div class="fg"><label>¿En qué te podemos ayudar?</label><textarea id="c-extra" placeholder="Escribe tu mensaje aquí..."></textarea></div>
-        </div>
-        
-        <button class="btn-next btn-dis" id="btn-contacto" style="width: 100%; padding: 15px; border-radius: 11px; border: none; background: var(--bg2); border: 1px solid var(--border2); color: #fff; font-weight: 700; cursor: pointer;" onclick="if(!this.classList.contains('btn-dis')) enviarContacto()">Enviar Mensaje →</button>
-        
-        <div id="msg-exito" style="display:none; color: #a7f3d0; margin-top: 20px; text-align: center; font-weight: 600; font-size: 15px;">
-          ✅ ¡Mensaje enviado con éxito! Nos pondremos en contacto.
-        </div>
-      </div>
-
     </div>
-
     <div>
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px">
         <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px">// contacto_directo</div>
@@ -842,6 +806,42 @@ footer{border-top:1px solid var(--border);padding:60px 48px 32px;max-width:1280p
       </div>
     </div>
   </div>
+  
+  <div style="margin-top: 64px; max-width: 800px; margin-left: auto; margin-right: auto;">
+    <div style="text-align: center; margin-bottom: 24px;">
+      <h3 style="font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 8px;">O envíanos un mensaje directo</h3>
+      <p style="color: var(--text2); font-size: 15px;">Completá el formulario y un especialista te contactará a la brevedad.</p>
+    </div>
+    
+    <div class="fields" style="background:var(--bg2); padding: 32px; border-radius: 16px; border: 1px solid var(--border);">
+      <div class="frow">
+        <div class="fg"><label>Nombre</label><input type="text" id="c-nombre" placeholder="Tu nombre" oninput="chkContacto()"></div>
+        <div class="fg"><label>Empresa</label><input type="text" id="c-empresa" placeholder="Tu empresa" oninput="chkContacto()"></div>
+      </div>
+      <div class="fg"><label>Correo</label><input type="email" id="c-correo" placeholder="correo@tuempresa.cl" oninput="chkContacto()"></div>
+      <div class="fg">
+        <label>WhatsApp</label>
+        <div style="display:flex;gap:8px">
+          <select id="c-pais" style="background:#1e2336;border:1px solid #3a4262;border-radius:10px;padding:12px 10px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;outline:none;cursor:pointer;flex-shrink:0;width:130px">
+            <option value="+56" selected>🇨🇱 +56</option>
+            <option value="+54">🇦🇷 +54</option>
+            <option value="+55">🇧🇷 +55</option>
+            <option value="+57">🇨🇴 +57</option>
+            <option value="+52">🇲🇽 +52</option>
+          </select>
+          <input type="tel" id="c-wsp" placeholder="9 XXXX XXXX" style="flex:1;background:#1e2336;border:1px solid #3a4262;border-radius:10px;padding:12px 15px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;outline:none">
+        </div>
+      </div>
+      <div class="fg"><label>¿En qué te podemos ayudar?</label><textarea id="c-extra" placeholder="Escribe tu mensaje aquí..."></textarea></div>
+      
+      <button class="btn-next btn-dis" id="btn-contacto" style="width: 100%; margin-top: 10px; padding: 15px; border-radius: 11px; border: none; background: var(--grad); color: #fff; font-weight: 700; cursor: pointer;" onclick="if(!this.classList.contains('btn-dis')) enviarContacto()">Enviar Mensaje →</button>
+      
+      <div id="msg-exito" style="display:none; color: #a7f3d0; margin-top: 20px; text-align: center; font-weight: 600; font-size: 15px;">
+        ✅ ¡Mensaje enviado con éxito! Nos pondremos en contacto.
+      </div>
+    </div>
+  </div>
+
 </div>
 </div>
 
