@@ -490,8 +490,16 @@ function chk4() {
 
 function enviar() {
   var nombre = document.getElementById('f-nombre').value.trim();
+  var empresa = document.getElementById('f-empresa').value.trim();
+  var correo = document.getElementById('f-correo').value.trim();
+  var pais = document.getElementById('f-pais').value;
+  var wsp = document.getElementById('f-wsp').value.trim();
+  var extra = document.getElementById('f-extra').value.trim();
+  
+  var whatsapp = pais + " " + wsp;
   var rol_sugerido = ROLES_MAP[ST.modelo] || 'A definir en demo';
 
+  // MOSTRAR EL RESUMEN (como antes)
   document.getElementById('s-nombre').textContent = nombre.split(' ')[0];
 
   var res = document.getElementById('resumen');
@@ -502,8 +510,35 @@ function enviar() {
     '<div class="res-row"><span class="res-label">TD sugerido</span><span class="res-val" style="color:var(--accent);font-weight:600">' + rol_sugerido + '</span></div>'
   ].join('');
 
-  goTo(5);
+  // ★★★ NUEVO: ENVIAR DATOS A GOOGLE APPS SCRIPT ★★★
+  var payload = {
+    nombre: nombre,
+    empresa: empresa,
+    correo: correo,
+    whatsapp: whatsapp,
+    modelo: ST.modelo,
+    dolor: ST.dolor,
+    equipo: ST.equipo,
+    extra: extra,
+    td_sugerido: rol_sugerido
+  };
+
+  var scriptURL = "https://script.google.com/macros/s/AKfycbzk7Ua0cIqyCFj-Bokl5q0Z4DY5nydcSjr-Hyn8qrvOVpc6RwQSUMoEmP2xArxUDFSV/usercontent";
+  
+  fetch(scriptURL, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('✅ Demo registrada:', data);
+    goTo(5);
+  })
+  .catch(error => {
+    console.error('❌ Error al enviar:', error);
+    goTo(5);
+  });
 }
-</script>
-</body>
-</html>
