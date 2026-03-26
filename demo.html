@@ -23,15 +23,10 @@ nav{height:62px;display:flex;align-items:center;justify-content:space-between;pa
 .logo span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .nav-back{font-size:13px;color:var(--text2);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .15s}
 .nav-back:hover{color:var(--text)}
-
-/* PROGRESS */
 .progress-wrap{background:var(--border);height:3px;flex-shrink:0}
 .progress-fill{height:100%;background:var(--grad);transition:width .5s cubic-bezier(.16,1,.3,1)}
-
 main{flex:1;display:flex;align-items:center;justify-content:center;padding:48px 24px}
 .wizard{width:100%;max-width:600px}
-
-/* STEP COUNTER */
 .step-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
 .step-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
 .sdot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);animation:bdot 2s infinite}
@@ -40,17 +35,12 @@ main{flex:1;display:flex;align-items:center;justify-content:center;padding:48px 
 .sdot-n{width:8px;height:8px;border-radius:50%;background:var(--border2);transition:background .3s,transform .3s}
 .sdot-n.done{background:var(--accent)}
 .sdot-n.active{background:var(--accent);transform:scale(1.3);box-shadow:0 0 8px var(--accent)}
-
-/* STEP */
 .step{display:none}
 .step.active{display:block;animation:fadeUp .4s cubic-bezier(.16,1,.3,1)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-
 h2{font-size:clamp(24px,4vw,34px);font-weight:800;letter-spacing:-1.5px;color:#fff;margin-bottom:8px;line-height:1.2}
 .step-sub{font-size:15px;color:var(--text2);margin-bottom:28px;line-height:1.6}
 .step-sub strong{color:var(--text)}
-
-/* OPTIONS */
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
 .opts.cols1{grid-template-columns:1fr}
 .opt{padding:16px 18px;background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:all .2s;display:flex;align-items:flex-start;gap:12px;text-align:left}
@@ -59,24 +49,16 @@ h2{font-size:clamp(24px,4vw,34px);font-weight:800;letter-spacing:-1.5px;color:#f
 .opt-icon{font-size:22px;flex-shrink:0;line-height:1.3}
 .opt-title{font-size:14px;font-weight:600;color:#fff;margin-bottom:2px}
 .opt-desc{font-size:12px;color:var(--text2);line-height:1.4}
-
-/* PAIN TAG — highlight the pain word */
 .pain{color:var(--accent)}
-
-/* CHIPS */
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
 .chip{padding:9px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .2s;font-family:'JetBrains Mono',monospace}
 .chip:hover{border-color:var(--border2);color:var(--text)}
 .chip.sel{border-color:var(--accent);background:rgba(91,106,240,.1);color:var(--accent)}
-
-/* INSIGHT BOX */
 .insight{background:rgba(91,106,240,.06);border:1px solid rgba(91,106,240,.2);border-radius:12px;padding:16px 20px;margin-bottom:24px;display:none}
 .insight.show{display:flex;gap:12px;align-items:flex-start;animation:fadeUp .4s ease}
 .insight-icon{font-size:20px;flex-shrink:0}
 .insight-text{font-size:13px;color:var(--text2);line-height:1.65}
 .insight-text strong{color:#fff}
-
-/* FIELDS */
 .fields{display:flex;flex-direction:column;gap:13px;margin-bottom:24px}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:13px}
 .fg{display:flex;flex-direction:column;gap:5px}
@@ -86,15 +68,11 @@ h2{font-size:clamp(24px,4vw,34px);font-weight:800;letter-spacing:-1.5px;color:#f
 .fg input::placeholder,.fg textarea::placeholder{color:#3a4060}
 .fg select{appearance:none;cursor:pointer;color:var(--text2)}
 .fg textarea{resize:none;min-height:90px}
-
-/* BTN */
 .btn-next{width:100%;padding:15px;border-radius:11px;border:none;background:var(--grad);color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(91,106,240,.3);display:flex;align-items:center;justify-content:center;gap:10px}
 .btn-next:hover{box-shadow:0 4px 32px rgba(91,106,240,.5);transform:translateY(-1px)}
 .btn-next.btn-dis{background:#1a1f2e !important;color:var(--text3) !important;box-shadow:none !important;transform:none !important;cursor:not-allowed !important;pointer-events:none !important}
 .btn-back{background:none;border:none;color:var(--text2);font-size:13px;cursor:pointer;padding:10px 0;font-family:'Inter',sans-serif;transition:color .15s;text-align:center;width:100%;margin-top:6px}
 .btn-back:hover{color:var(--text)}
-
-/* SUCCESS */
 .success{text-align:center;padding:32px 0}
 .sicon{font-size:56px;margin-bottom:16px;animation:pop .5s cubic-bezier(.16,1,.3,1)}
 @keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
@@ -102,16 +80,12 @@ h2{font-size:clamp(24px,4vw,34px);font-weight:800;letter-spacing:-1.5px;color:#f
 .sdesc{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:28px;max-width:420px;margin-left:auto;margin-right:auto}
 .btn-cal{display:inline-flex;align-items:center;gap:10px;padding:15px 32px;border-radius:11px;background:var(--grad);color:#fff;font-size:15px;font-weight:700;text-decoration:none;box-shadow:0 4px 20px rgba(91,106,240,.3);transition:all .2s}
 .btn-cal:hover{box-shadow:0 4px 32px rgba(91,106,240,.5);transform:translateY(-1px)}
-
-/* RESUMEN (step 5) */
 .resumen{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:24px;display:flex;flex-direction:column;gap:10px}
 .res-row{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;font-size:13px}
 .res-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;flex-shrink:0}
 .res-val{color:var(--text2);text-align:right}
-
 footer{padding:16px 48px;border-top:1px solid var(--border);text-align:center;flex-shrink:0}
 footer p{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)}
-
 @media(max-width:600px){
   nav{padding:0 20px}
   main{padding:28px 16px;align-items:flex-start}
@@ -131,7 +105,7 @@ footer p{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3
 <main>
 <div class="wizard">
 
-<!-- ─── STEP 1: MODELO DE NEGOCIO ─── -->
+<!-- STEP 1 -->
 <div class="step active" id="s1">
   <div class="step-meta">
     <div class="step-label"><div class="sdot"></div>paso 1 de 5</div>
@@ -139,103 +113,58 @@ footer p{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3
       <div class="sdot-n active"></div><div class="sdot-n"></div><div class="sdot-n"></div><div class="sdot-n"></div><div class="sdot-n"></div>
     </div>
   </div>
-  <h2>¿Cómo describe mejor<br>tu negocio?</h2>
+  <h2>¿Cómo describe mejor tu negocio?</h2>
   <p class="step-sub">Cada modelo tiene dolores distintos. Elige el que mejor te describe.</p>
   <div class="opts" id="g-modelo">
-    <div class="opt" data-val="marketplace">
-      <div class="opt-icon">🛒</div>
-      <div><div class="opt-title">Marketplace / E-commerce</div><div class="opt-desc">Vendes productos online y <span class="pain">pierdes ventas por responder tarde</span></div></div>
-    </div>
-    <div class="opt" data-val="b2b">
-      <div class="opt-icon">🤝</div>
-      <div><div class="opt-title">B2B / Ventas empresariales</div><div class="opt-desc">Cotizas proyectos y <span class="pain">el seguimiento se pierde entre correos</span></div></div>
-    </div>
-    <div class="opt" data-val="retail">
-      <div class="opt-icon">🏪</div>
-      <div><div class="opt-title">Local / Retail / Atención al público</div><div class="opt-desc">Tienda, farmacia, gimnasio — <span class="pain">preguntas básicas saturan al equipo</span></div></div>
-    </div>
-    <div class="opt" data-val="salud">
-      <div class="opt-icon">🏥</div>
-      <div><div class="opt-title">Salud / Consultorio / Clínica</div><div class="opt-desc">Médicos, dentistas, psicólogos — <span class="pain">la agenda y los recordatorios son un caos</span></div></div>
-    </div>
-    <div class="opt" data-val="industria">
-      <div class="opt-icon">🏭</div>
-      <div><div class="opt-title">Industria / Fábrica / Distribuidora</div><div class="opt-desc">Proveedores, compras, logística — <span class="pain">los pedidos y el stock se manejan a mano</span></div></div>
-    </div>
-    <div class="opt" data-val="servicios">
-      <div class="opt-icon">⚙️</div>
-      <div><div class="opt-title">Servicios profesionales</div><div class="opt-desc">Legal, contable, consultoría — <span class="pain">el papeleo consume tu tiempo facturable</span></div></div>
-    </div>
-    <div class="opt" data-val="otec">
-      <div class="opt-icon">🎓</div>
-      <div><div class="opt-title">OTEC / Capacitación SENCE</div><div class="opt-desc">Organismo de capacitación — <span class="pain">cotizar cursos manualmente toma horas</span></div></div>
-    </div>
-    <div class="opt" data-val="solo">
-      <div class="opt-icon">🧑‍💻</div>
-      <div><div class="opt-title">Emprendedor / Independiente</div><div class="opt-desc">Eres tú el negocio y <span class="pain">no puedes estar disponible siempre</span></div></div>
-    </div>
+    <div class="opt" data-val="marketplace"><div class="opt-icon">🛒</div><div><div class="opt-title">Marketplace / E-commerce</div><div class="opt-desc">Vendes productos online y <span class="pain">pierdes ventas por responder tarde</span></div></div></div>
+    <div class="opt" data-val="b2b"><div class="opt-icon">🤝</div><div><div class="opt-title">B2B / Ventas empresariales</div><div class="opt-desc">Cotizas proyectos y <span class="pain">el seguimiento se pierde entre correos</span></div></div></div>
+    <div class="opt" data-val="retail"><div class="opt-icon">🏪</div><div><div class="opt-title">Local / Retail / Atención al público</div><div class="opt-desc">Tienda, farmacia, gimnasio — <span class="pain">preguntas básicas saturan al equipo</span></div></div></div>
+    <div class="opt" data-val="salud"><div class="opt-icon">🏥</div><div><div class="opt-title">Salud / Consultorio / Clínica</div><div class="opt-desc">Médicos, dentistas, psicólogos — <span class="pain">la agenda y los recordatorios son un caos</span></div></div></div>
+    <div class="opt" data-val="industria"><div class="opt-icon">🏭</div><div><div class="opt-title">Industria / Fábrica / Distribuidora</div><div class="opt-desc">Proveedores, compras, logística — <span class="pain">los pedidos y el stock se manejan a mano</span></div></div></div>
+    <div class="opt" data-val="servicios"><div class="opt-icon">⚙️</div><div><div class="opt-title">Servicios profesionales</div><div class="opt-desc">Legal, contable, consultoría — <span class="pain">el papeleo consume tu tiempo facturable</span></div></div></div>
+    <div class="opt" data-val="otec"><div class="opt-icon">🎓</div><div><div class="opt-title">OTEC / Capacitación SENCE</div><div class="opt-desc">Organismo de capacitación — <span class="pain">cotizar cursos manualmente toma horas</span></div></div></div>
+    <div class="opt" data-val="solo"><div class="opt-icon">🧑‍💻</div><div><div class="opt-title">Emprendedor / Independiente</div><div class="opt-desc">Eres tú el negocio y <span class="pain">no puedes estar disponible siempre</span></div></div></div>
   </div>
   <button class="btn-next btn-dis" id="b1" onclick="if(!this.classList.contains('btn-dis'))goTo(2)">Continuar →</button>
 </div>
 
-<!-- ─── STEP 2: DOLOR PRINCIPAL ─── -->
+<!-- STEP 2 -->
 <div class="step" id="s2">
   <div class="step-meta">
     <div class="step-label"><div class="sdot"></div>paso 2 de 5</div>
-    <div class="step-dots">
-      <div class="sdot-n done"></div><div class="sdot-n active"></div><div class="sdot-n"></div><div class="sdot-n"></div><div class="sdot-n"></div>
-    </div>
+    <div class="step-dots"><div class="sdot-n done"></div><div class="sdot-n active"></div><div class="sdot-n"></div><div class="sdot-n"></div><div class="sdot-n"></div></div>
   </div>
-  <h2>¿Cuál es tu mayor<br>dolor operativo hoy?</h2>
+  <h2>¿Cuál es tu mayor dolor operativo hoy?</h2>
   <p class="step-sub">El que más te quita el sueño. Puedes elegir más de uno.</p>
   <div class="chips" id="g-dolor"></div>
-  <div class="insight" id="insight-dolor">
-    <div class="insight-icon">💡</div>
-    <div class="insight-text" id="insight-text"></div>
-  </div>
+  <div class="insight" id="insight-dolor"><div class="insight-icon">💡</div><div class="insight-text" id="insight-text"></div></div>
   <button class="btn-next btn-dis" id="b2" onclick="if(!this.classList.contains('btn-dis'))goTo(3)">Continuar →</button>
   <button class="btn-back" onclick="goTo(1)">← volver</button>
 </div>
 
-<!-- ─── STEP 3: EQUIPO Y VOLUMEN ─── -->
+<!-- STEP 3 -->
 <div class="step" id="s3">
   <div class="step-meta">
     <div class="step-label"><div class="sdot"></div>paso 3 de 5</div>
-    <div class="step-dots">
-      <div class="sdot-n done"></div><div class="sdot-n done"></div><div class="sdot-n active"></div><div class="sdot-n"></div><div class="sdot-n"></div>
-    </div>
+    <div class="step-dots"><div class="sdot-n done"></div><div class="sdot-n done"></div><div class="sdot-n active"></div><div class="sdot-n"></div><div class="sdot-n"></div></div>
   </div>
-  <h2>Cuéntanos un poco<br>de tu operación.</h2>
+  <h2>Cuéntanos un poco de tu operación.</h2>
   <p class="step-sub">Esto nos permite dimensionar correctamente qué TD necesitas.</p>
   <div class="opts cols1" id="g-equipo">
-    <div class="opt" onclick="pick(this,'equipo','solo')" data-val="solo">
-      <div class="opt-icon">👤</div>
-      <div><div class="opt-title">Solo yo</div><div class="opt-desc">Soy el único que opera el negocio</div></div>
-    </div>
-    <div class="opt" onclick="pick(this,'equipo','2a5')" data-val="2a5">
-      <div class="opt-icon">👥</div>
-      <div><div class="opt-title">2 a 5 personas</div><div class="opt-desc">Equipo pequeño, todos hacen de todo</div></div>
-    </div>
-    <div class="opt" onclick="pick(this,'equipo','6a20')" data-val="6a20">
-      <div class="opt-icon">🏢</div>
-      <div><div class="opt-title">6 a 20 personas</div><div class="opt-desc">Hay roles definidos pero falta automatización</div></div>
-    </div>
-    <div class="opt" onclick="pick(this,'equipo','mas20')" data-val="mas20">
-      <div class="opt-icon">🏗️</div>
-      <div><div class="opt-title">Más de 20 personas</div><div class="opt-desc">Empresa con estructura, escalamos en serio</div></div>
-    </div>
+    <div class="opt" onclick="pick(this,'equipo','solo')" data-val="solo"><div class="opt-icon">👤</div><div><div class="opt-title">Solo yo</div><div class="opt-desc">Soy el único que opera el negocio</div></div></div>
+    <div class="opt" onclick="pick(this,'equipo','2a5')" data-val="2a5"><div class="opt-icon">👥</div><div><div class="opt-title">2 a 5 personas</div><div class="opt-desc">Equipo pequeño, todos hacen de todo</div></div></div>
+    <div class="opt" onclick="pick(this,'equipo','6a20')" data-val="6a20"><div class="opt-icon">🏢</div><div><div class="opt-title">6 a 20 personas</div><div class="opt-desc">Hay roles definidos pero falta automatización</div></div></div>
+    <div class="opt" onclick="pick(this,'equipo','mas20')" data-val="mas20"><div class="opt-icon">🏗️</div><div><div class="opt-title">Más de 20 personas</div><div class="opt-desc">Empresa con estructura, escalamos en serio</div></div></div>
   </div>
   <button class="btn-next btn-dis" id="b3" onclick="if(!this.classList.contains('btn-dis'))goTo(4)">Continuar →</button>
   <button class="btn-back" onclick="goTo(2)">← volver</button>
 </div>
 
-<!-- ─── STEP 4: DATOS ─── -->
+<!-- STEP 4 -->
 <div class="step" id="s4">
   <div class="step-meta">
     <div class="step-label"><div class="sdot"></div>paso 4 de 5</div>
-    <div class="step-dots">
-      <div class="sdot-n done"></div><div class="sdot-n done"></div><div class="sdot-n done"></div><div class="sdot-n active"></div><div class="sdot-n"></div>
-    </div>
+    <div class="step-dots"><div class="sdot-n done"></div><div class="sdot-n done"></div><div class="sdot-n done"></div><div class="sdot-n active"></div><div class="sdot-n"></div></div>
   </div>
   <h2 id="h-datos">¿Con quién hablamos?</h2>
   <p class="step-sub" id="sub-datos">Usamos estos datos solo para coordinar tu demo. Sin spam, prometido.</p>
@@ -245,44 +174,27 @@ footer p{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3
       <div class="fg"><label>Empresa</label><input type="text" id="f-empresa" placeholder="Nombre de tu empresa" oninput="chk4()"></div>
     </div>
     <div class="fg"><label>Correo</label><input type="email" id="f-correo" placeholder="correo@tuempresa.cl" oninput="chk4()"></div>
-    <div class="fg">
-  <label>WhatsApp</label>
-  <div style="display:flex;gap:8px">
-    <select id="f-pais" style="background:#1e2336;border:1px solid #3a4262;border-radius:10px;padding:12px 10px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;outline:none;cursor:pointer;flex-shrink:0;width:130px">
-      <option value="+56" selected>🇨🇱 +56</option>
-      <option value="+54">🇦🇷 +54</option>
-      <option value="+55">🇧🇷 +55</option>
-      <option value="+57">🇨🇴 +57</option>
-      <option value="+52">🇲🇽 +52</option>
-      <option value="+51">🇵🇪 +51</option>
-      <option value="+598">🇺🇾 +598</option>
-      <option value="+595">🇵🇾 +595</option>
-      <option value="+591">🇧🇴 +591</option>
-      <option value="+593">🇪🇨 +593</option>
-      <option value="+58">🇻🇪 +58</option>
-      <option value="+502">🇬🇹 +502</option>
-      <option value="+503">🇸🇻 +503</option>
-      <option value="+504">🇭🇳 +504</option>
-      <option value="+506">🇨🇷 +506</option>
-      <option value="+507">🇵🇦 +507</option>
-      <option value="+1">🇺🇸 +1</option>
-    </select>
-    <input type="tel" id="f-wsp" placeholder="9 XXXX XXXX" style="flex:1;background:#1e2336;border:1px solid #3a4262;border-radius:10px;padding:12px 15px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;outline:none">
-  </div>
-</div>
+    <div class="fg"><label>WhatsApp</label><div style="display:flex;gap:8px">
+      <select id="f-pais" style="background:#1e2336;border:1px solid #3a4262;border-radius:10px;padding:12px 10px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;outline:none;cursor:pointer;flex-shrink:0;width:130px">
+        <option value="+56" selected>🇨🇱 +56</option>
+        <option value="+54">🇦🇷 +54</option>
+        <option value="+55">🇧🇷 +55</option>
+        <option value="+57">🇨🇴 +57</option>
+        <option value="+52">🇲🇽 +52</option>
+      </select>
+      <input type="tel" id="f-wsp" placeholder="9 XXXX XXXX" style="flex:1;background:#1e2336;border:1px solid #3a4262;border-radius:10px;padding:12px 15px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;outline:none">
+    </div></div>
     <div class="fg"><label>¿Algo más que debamos saber? (opcional)</label><textarea id="f-extra" placeholder="Cuéntanos tu situación en una línea..."></textarea></div>
   </div>
   <button class="btn-next btn-dis" id="b4" onclick="if(!this.classList.contains('btn-dis'))enviar()">→ Ver mi Trabajador Digital ideal</button>
   <button class="btn-back" onclick="goTo(3)">← volver</button>
 </div>
 
-<!-- ─── STEP 5: SUCCESS + RESUMEN ─── -->
+<!-- STEP 5 -->
 <div class="step" id="s5">
   <div class="step-meta">
     <div class="step-label"><div class="sdot"></div>diagnóstico listo</div>
-    <div class="step-dots">
-      <div class="sdot-n done"></div><div class="sdot-n done"></div><div class="sdot-n done"></div><div class="sdot-n done"></div><div class="sdot-n active"></div>
-    </div>
+    <div class="step-dots"><div class="sdot-n done"></div><div class="sdot-n done"></div><div class="sdot-n done"></div><div class="sdot-n done"></div><div class="sdot-n active"></div></div>
   </div>
   <div class="success">
     <div class="sicon">🚀</div>
@@ -298,14 +210,11 @@ footer p{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3
 </div>
 </main>
 
-<footer><p>// staff21x.com · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="771f181b1637040316111145460f5914181a">[email&#160;protected]</a> · sin compromisos · sin spam</p></footer>
+<footer><p>// staff21x.com · hola@staff21x.com · sin compromisos · sin spam</p></footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-
-  <script>
+<script>
 var ST = { modelo:null, dolor:[], equipo:null };
 
-// 1. Delegación de clics: Escucha cuando tocas una opción
 document.addEventListener('click', function(e) {
   var opt = e.target.closest('.opt');
   if (!opt) return;
@@ -315,56 +224,15 @@ document.addEventListener('click', function(e) {
   pick(opt, gname, opt.dataset.val);
 });
 
-// 2. Lógica Dinámica de Dolores (¡Exactamente lo que pediste!)
 var DOLORES = {
-  retail: [
-    'Respondo las mismas preguntas todo el día',
-    'No puedo atender WhatsApp y el local a la vez',
-    'Agenda de turnos o reservas es un caos',
-    'Pierdo ventas cuando estoy cerrado'
-  ],
-  salud: [
-    'La agenda de citas se llena de errores',
-    'Olvido enviar recordatorios a pacientes',
-    'La cobranza de copagos es manual',
-    'El tiempo de secretaria se va en llamadas básicas'
-  ],
-  industria: [
-    'Las órdenes de compra las proceso manualmente',
-    'No tengo visibilidad del stock en tiempo real',
-    'Los pedidos y el stock se manejan a mano',
-    'Las cotizaciones a clientes tardan días'
-  ],
-  marketplace: [
-    'Respondo tarde y pierdo ventas',
-    'No puedo atender múltiples chats a la vez',
-    'El seguimiento post-venta es un caos',
-    'Las devoluciones y reclamos me consumen'
-  ],
-  b2b: [
-    'Preparo cotizaciones manualmente',
-    'El seguimiento de oportunidades se pierde',
-    'Mi CRM siempre está desactualizado',
-    'Pierdo clientes por falta de seguimiento'
-  ],
-  servicios: [
-    'La agenda y reprogramaciones son un caos',
-    'Cobrar y hacer seguimiento de pagos me agota',
-    'El papeleo administrativo me roba tiempo',
-    'Los recordatorios a clientes los hago yo'
-  ],
-  otec: [
-    'Cotizar cursos SENCE toma horas',
-    'Valido códigos SENCE manualmente',
-    'Armo los Excel de cotización a mano',
-    'Las minutas de reuniones no las documenta nadie'
-  ],
-  solo: [
-    'No puedo responder cuando estoy ocupado',
-    'La administración me quita tiempo del negocio',
-    'Cobrar y recordar pagos es agotador',
-    'Quiero escalar pero no puedo contratar'
-  ]
+  retail: ['Respondo las mismas preguntas todo el día','No puedo atender WhatsApp y el local a la vez','Agenda de turnos o reservas es un caos','Pierdo ventas cuando estoy cerrado'],
+  salud: ['La agenda de citas se llena de errores','Olvido enviar recordatorios a pacientes','La cobranza de copagos es manual','El tiempo de secretaria se va en llamadas básicas'],
+  industria: ['Las órdenes de compra las proceso manualmente','No tengo visibilidad del stock en tiempo real','Los pedidos y el stock se manejan a mano','Las cotizaciones a clientes tardan días'],
+  marketplace: ['Respondo tarde y pierdo ventas','No puedo atender múltiples chats a la vez','El seguimiento post-venta es un caos','Las devoluciones y reclamos me consumen'],
+  b2b: ['Preparo cotizaciones manualmente','El seguimiento de oportunidades se pierde','Mi CRM siempre está desactualizado','Pierdo clientes por falta de seguimiento'],
+  servicios: ['La agenda y reprogramaciones son un caos','Cobrar y hacer seguimiento de pagos me agota','El papeleo administrativo me roba tiempo','Los recordatorios a clientes los hago yo'],
+  otec: ['Cotizar cursos SENCE toma horas','Valido códigos SENCE manualmente','Armo los Excel de cotización a mano','Las minutas de reuniones no las documenta nadie'],
+  solo: ['No puedo responder cuando estoy ocupado','La administración me quita tiempo del negocio','Cobrar y recordar pagos es agotador','Quiero escalar pero no puedo contratar']
 };
 
 var INSIGHTS = {
@@ -390,27 +258,22 @@ var ROLES_MAP = {
 };
 
 function pick(el, group, val) {
-  // Deselecciona visualmente los otros
   document.querySelectorAll('#g-' + group + ' .opt').forEach(function(o){ o.classList.remove('sel'); });
-  // Selecciona el actual
   el.classList.add('sel');
   ST[group] = val;
-
-  // ¡MAGIA DE AVANCE AUTOMÁTICO!
   if (group === 'modelo') {
     document.getElementById('b1').classList.remove('btn-dis');
-    setTimeout(function(){ goTo(2); }, 350); // Pasa al paso 2 tras una pausa breve
+    setTimeout(function(){ goTo(2); }, 350);
   } else if (group === 'equipo') {
     document.getElementById('b3').classList.remove('btn-dis');
-    setTimeout(function(){ goTo(4); }, 350); // Pasa al paso 4 tras una pausa breve
+    setTimeout(function(){ goTo(4); }, 350);
   }
 }
 
 function buildDolores() {
   var list = DOLORES[ST.modelo] || DOLORES.solo;
   var cont = document.getElementById('g-dolor');
-  cont.innerHTML = ''; // Limpia dolores del modelo anterior
-  
+  cont.innerHTML = '';
   list.forEach(function(d) {
     var c = document.createElement('div');
     c.className = 'chip';
@@ -418,13 +281,9 @@ function buildDolores() {
     c.onclick = function() { toggleChip(c); };
     cont.appendChild(c);
   });
-  
   ST.dolor = [];
-  
-  // SOLUCIÓN DEL CONGELAMIENTO:
   var btn = document.getElementById('b2');
   btn.classList.add('btn-dis'); 
-  
   var ins = document.getElementById('insight-dolor');
   ins.classList.remove('show');
 }
@@ -433,14 +292,12 @@ function toggleChip(el) {
   el.classList.toggle('sel');
   var sel = document.querySelectorAll('#g-dolor .chip.sel');
   ST.dolor = Array.from(sel).map(function(c){ return c.textContent; });
-  
   var btn = document.getElementById('b2');
   if(ST.dolor.length > 0) {
     btn.classList.remove('btn-dis');
   } else {
     btn.classList.add('btn-dis');
   }
-  
   if (ST.dolor.length > 0) {
     var ins = document.getElementById('insight-dolor');
     document.getElementById('insight-text').innerHTML = INSIGHTS[ST.modelo] || INSIGHTS.solo;
@@ -455,7 +312,6 @@ function goTo(n) {
   STEPS.forEach(function(i){ document.getElementById('s'+i).classList.remove('active'); });
   document.getElementById('s'+n).classList.add('active');
   document.getElementById('prog').style.width = PROG[n-1] + '%';
-  
   if (n === 2) buildDolores();
   if (n === 4) adaptStep4();
   window.scrollTo({top:0, behavior:'smooth'});
@@ -495,13 +351,10 @@ function enviar() {
   var pais = document.getElementById('f-pais').value;
   var wsp = document.getElementById('f-wsp').value.trim();
   var extra = document.getElementById('f-extra').value.trim();
-  
   var whatsapp = pais + " " + wsp;
   var rol_sugerido = ROLES_MAP[ST.modelo] || 'A definir en demo';
-
-  // MOSTRAR EL RESUMEN (como antes)
+  
   document.getElementById('s-nombre').textContent = nombre.split(' ')[0];
-
   var res = document.getElementById('resumen');
   res.innerHTML = [
     '<div class="res-row"><span class="res-label">Perfil</span><span class="res-val">' + (ST.modelo||'-') + '</span></div>',
@@ -510,7 +363,6 @@ function enviar() {
     '<div class="res-row"><span class="res-label">TD sugerido</span><span class="res-val" style="color:var(--accent);font-weight:600">' + rol_sugerido + '</span></div>'
   ].join('');
 
-  // ★★★ NUEVO: ENVIAR DATOS A GOOGLE APPS SCRIPT ★★★
   var payload = {
     nombre: nombre,
     empresa: empresa,
@@ -542,3 +394,6 @@ function enviar() {
     goTo(5);
   });
 }
+</script>
+</body>
+</html>
