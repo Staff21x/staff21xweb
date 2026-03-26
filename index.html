@@ -167,7 +167,7 @@ pre .num{color:#fb923c}
 /* ── CONTACT ── */
 .contact-bg{background:var(--bg1)}
 
-/* ── NEW FORM STYLES ── */
+/* ── FORM STYLES ── */
 .fields{display:flex;flex-direction:column;gap:13px;margin-bottom:24px}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:13px}
 .fg{display:flex;flex-direction:column;gap:5px}
@@ -763,13 +763,32 @@ footer{border-top:1px solid var(--border);padding:60px 48px 32px;max-width:1280p
 <div class="contact-bg">
 <div class="wrap" id="contacto">
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:flex-start" class="contact-grid-inner">
+    
     <div>
       <span class="eyebrow">// agendar_demo</span>
       <h2>¿Listo para operar<br>sin limites?</h2>
       <p style="font-size:16px;color:#b0b8d0;line-height:1.7;margin-bottom:32px">Respondemos 4 preguntas clave sobre tu negocio y te mostramos exactamente qué Trabajador Digital necesitas — en 30 minutos, sin tecnicismos.</p>
       
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px">
-        <h3 style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 24px;">Contáctanos directamente</h3>
+      <a href="demo.html" style="display:flex;align-items:center;gap:16px;padding:24px 28px;background:var(--grad);border-radius:14px;text-decoration:none;box-shadow:0 8px 32px rgba(91,106,240,.35);transition:all .2s;margin-bottom:14px" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 40px rgba(91,106,240,.5)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 8px 32px rgba(91,106,240,.35)'">
+        <div style="width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🎯</div>
+        <div>
+          <div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:3px">Descubre tu Trabajador Digital ideal</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.7)">// diagnóstico gratuito · 5 preguntas · 3 minutos</div>
+        </div>
+        <div style="margin-left:auto;font-size:20px;color:rgba(255,255,255,.8)">→</div>
+      </a>
+      
+      <a href="https://calendar.app.google/8gXWWVzvjTJNZwyX7" target="_blank" style="display:flex;align-items:center;gap:16px;padding:20px 24px;background:var(--bg2);border:1px solid var(--border2);border-radius:14px;text-decoration:none;transition:all .2s" onmouseover="this.style.borderColor='rgba(91,106,240,.4)'" onmouseout="this.style.borderColor='var(--border2)'">
+        <div style="width:42px;height:42px;border-radius:10px;background:var(--grad-dim);border:1px solid var(--grad-border);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">📅</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:2px">Agendar directo en calendario</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">// elige día y hora ahora mismo</div>
+        </div>
+        <div style="margin-left:auto;font-size:16px;color:var(--text3)">→</div>
+      </a>
+
+      <div style="margin-top: 48px; padding-top: 40px; border-top: 1px solid var(--border);">
+        <h3 style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 24px;">O envíanos un mensaje directo</h3>
         
         <div class="fields">
           <div class="frow">
@@ -793,45 +812,32 @@ footer{border-top:1px solid var(--border);padding:60px 48px 32px;max-width:1280p
           <div class="fg"><label>¿En qué te podemos ayudar?</label><textarea id="c-extra" placeholder="Escribe tu mensaje aquí..."></textarea></div>
         </div>
         
-        <button class="btn-next btn-dis" id="btn-contacto" style="width: 100%; padding: 15px; border-radius: 11px; border: none; background: var(--grad); color: #fff; font-weight: 700; cursor: pointer;" onclick="if(!this.classList.contains('btn-dis')) enviarContacto()">Enviar Mensaje →</button>
+        <button class="btn-next btn-dis" id="btn-contacto" style="width: 100%; padding: 15px; border-radius: 11px; border: none; background: var(--bg2); border: 1px solid var(--border2); color: #fff; font-weight: 700; cursor: pointer;" onclick="if(!this.classList.contains('btn-dis')) enviarContacto()">Enviar Mensaje →</button>
         
         <div id="msg-exito" style="display:none; color: #a7f3d0; margin-top: 20px; text-align: center; font-weight: 600; font-size: 15px;">
           ✅ ¡Mensaje enviado con éxito! Nos pondremos en contacto.
         </div>
       </div>
-      </div>
-    
-    <div style="display:flex;flex-direction:column;gap:16px">
+
+    </div>
+
+    <div>
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px">// opciones_adicionales</div>
-        
-        <a href="demo.html" style="display:flex;align-items:center;gap:16px;padding:20px 24px;background:var(--bg1);border:1px solid var(--border);border-radius:14px;text-decoration:none;transition:all .2s;margin-bottom:14px" onmouseover="this.style.borderColor='rgba(91,106,240,.4)'" onmouseout="this.style.borderColor='var(--border)'">
-          <div style="width:42px;height:42px;border-radius:10px;background:var(--grad-dim);border:1px solid var(--grad-border);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🎯</div>
-          <div>
-            <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:2px">Cuestionario Diagnóstico</div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">// 5 preguntas · descubre tu rol</div>
-          </div>
-          <div style="margin-left:auto;font-size:16px;color:var(--text3)">→</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px">// contacto_directo</div>
+        <a href="https://wa.me/56987345554?text=Hola%2C%20quiero%20una%20demo%20de%20Staff21x" target="_blank" style="display:flex;align-items:center;gap:12px;text-decoration:none;padding:14px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg1);margin-bottom:10px;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(37,211,102,.3)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="width:36px;height:36px;border-radius:9px;background:#e9faf0;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">💬</div>
+          <div><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);display:block;text-transform:uppercase;letter-spacing:.5px">WhatsApp</span><span style="font-size:13px;color:#fff;font-weight:600">+56 9 8734 5554</span></div>
         </a>
-
-        <a href="https://calendar.app.google/8gXWWVzvjTJNZwyX7" target="_blank" style="display:flex;align-items:center;gap:16px;padding:20px 24px;background:var(--bg1);border:1px solid var(--border);border-radius:14px;text-decoration:none;transition:all .2s;margin-bottom:24px" onmouseover="this.style.borderColor='rgba(91,106,240,.4)'" onmouseout="this.style.borderColor='var(--border)'">
-          <div style="width:42px;height:42px;border-radius:10px;background:var(--grad-dim);border:1px solid var(--grad-border);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">📅</div>
-          <div>
-            <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:2px">Agendar en calendario</div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">// elige tu día y hora</div>
-          </div>
-          <div style="margin-left:auto;font-size:16px;color:var(--text3)">→</div>
+        <a href="mailto:hola@staff21x.com" style="display:flex;align-items:center;gap:12px;text-decoration:none;padding:14px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg1);margin-bottom:10px;transition:border-color .2s" onmouseover="this.style.borderColor='var(--grad-border)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="width:36px;height:36px;border-radius:9px;background:var(--grad-dim);border:1px solid var(--grad-border);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">✉️</div>
+          <div><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);display:block;text-transform:uppercase;letter-spacing:.5px">Email</span><span style="font-size:13px;color:#fff;font-weight:600">hola@staff21x.com</span></div>
         </a>
-
-        <div style="border-top:1px solid var(--border);padding-top:24px">
-          <a href="https://wa.me/56987345554?text=Hola%2C%20quiero%20una%20demo%20de%20Staff21x" target="_blank" style="display:flex;align-items:center;gap:12px;text-decoration:none;padding:14px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg1);margin-bottom:10px;transition:border-color .2s" onmouseover="this.style.borderColor='rgba(37,211,102,.3)'" onmouseout="this.style.borderColor='var(--border)'">
-            <div style="width:36px;height:36px;border-radius:9px;background:#e9faf0;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">💬</div>
-            <div><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);display:block;text-transform:uppercase;letter-spacing:.5px">WhatsApp</span><span style="font-size:13px;color:#fff;font-weight:600">+56 9 8734 5554</span></div>
-          </a>
-          <a href="mailto:hola@staff21x.com" style="display:flex;align-items:center;gap:12px;text-decoration:none;padding:14px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg1);transition:border-color .2s" onmouseover="this.style.borderColor='var(--grad-border)'" onmouseout="this.style.borderColor='var(--border)'">
-            <div style="width:36px;height:36px;border-radius:9px;background:var(--grad-dim);border:1px solid var(--grad-border);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">✉️</div>
-            <div><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);display:block;text-transform:uppercase;letter-spacing:.5px">Email</span><span style="font-size:13px;color:#fff;font-weight:600">hola@staff21x.com</span></div>
-          </a>
+        <a href="mailto:demo@staff21x.com" style="display:flex;align-items:center;gap:12px;text-decoration:none;padding:14px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg1);transition:border-color .2s" onmouseover="this.style.borderColor='var(--grad-border)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="width:36px;height:36px;border-radius:9px;background:var(--grad-dim);border:1px solid var(--grad-border);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📩</div>
+          <div><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);display:block;text-transform:uppercase;letter-spacing:.5px">Email demo</span><span style="font-size:13px;color:#fff;font-weight:600">demo@staff21x.com</span></div>
+        </a>
+        <div style="margin-top:20px;padding:16px;background:var(--grad-dim);border:1px solid var(--grad-border);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);text-align:center;line-height:1.6">
+          // sin_compromisos · respuesta &lt; 24h<br>demo gratuita · 30 minutos
         </div>
       </div>
     </div>
@@ -883,10 +889,13 @@ function chkContacto() {
     btn.classList.remove('btn-dis');
     btn.style.opacity = "1";
     btn.style.cursor = "pointer";
+    btn.style.borderColor = "var(--accent)";
+    btn.style.color = "#fff";
   } else {
     btn.classList.add('btn-dis');
     btn.style.opacity = "0.5";
     btn.style.cursor = "not-allowed";
+    btn.style.borderColor = "var(--border2)";
   }
 }
 
