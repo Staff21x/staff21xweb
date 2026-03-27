@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis Técnico — Agente MADICAP</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f4f0;color:#1a1a18;padding:2rem 1rem}
+.wrap{max-width:860px;margin:0 auto}
+.header{margin-bottom:1.5rem}
+.header h1{font-size:22px;font-weight:500;color:#1a1a18}
+.header p{font-size:13px;color:#6b6b67;margin-top:4px}
+.badge{display:inline-block;font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;margin-right:6px;margin-bottom:6px}
+.badge-teal{background:#E1F5EE;color:#085041}
+.badge-amber{background:#FAEEDA;color:#633806}
+.badge-purple{background:#EEEDFE;color:#3C3489}
+.module{background:#fff;border:0.5px solid #d3d1c7;border-radius:12px;margin-bottom:10px;overflow:hidden}
+.module-header{padding:14px 16px;display:flex;align-items:flex-start;gap:12px;cursor:pointer;user-select:none}
+.module-header:hover{background:#f5f4f0}
+.mod-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.mod-title{flex:1}
+.mod-title h3{font-size:14px;font-weight:500;color:#1a1a18}
+.mod-title p{font-size:12px;color:#6b6b67;margin-top:2px}
+.mod-meta{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.hours{font-size:12px;color:#6b6b67;white-space:nowrap}
+.chevron{font-size:10px;color:#888;transition:transform .2s}
+.chevron.open{transform:rotate(180deg)}
+.module-body{padding:0 16px 16px;display:none}
+.module-body.open{display:block}
+.section-label{font-size:11px;font-weight:600;color:#6b6b67;text-transform:uppercase;letter-spacing:.5px;margin:12px 0 6px}
+.req-item{display:flex;gap:8px;margin-bottom:7px;align-items:flex-start}
+.req-dot{width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.req-text{font-size:13px;color:#1a1a18;line-height:1.5}
+.req-sub{font-size:12px;color:#6b6b67;margin-top:2px}
+.divider{height:0.5px;background:#d3d1c7;margin:10px 0}
+.totals{background:#f5f4f0;border-radius:8px;padding:14px 16px;margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.total-card{text-align:center}
+.total-card .val{font-size:24px;font-weight:500;color:#1a1a18}
+.total-card .lbl{font-size:12px;color:#6b6b67;margin-top:2px}
+.constraint-box{border:0.5px solid #d3d1c7;border-radius:8px;padding:12px 14px;margin-top:12px;background:#fff}
+.constraint-box h4{font-size:13px;font-weight:500;color:#1a1a18;margin-bottom:8px}
+.expand-all{font-size:12px;color:#6b6b67;cursor:pointer;margin-bottom:12px;display:inline-block;background:none;border:none;padding:0}
+.expand-all:hover{color:#1a1a18}
+.footer{margin-top:24px;font-size:12px;color:#888;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <h1>Análisis técnico — Agente de postulación MADICAP</h1>
+    <p>Documento base para presentación al equipo de desarrollo · Basado en especificación oficial MADICAP</p>
+  </div>
+
+  <div style="margin-bottom:14px">
+    <span class="badge badge-teal">Plazo: 2–3 semanas</span>
+    <span class="badge badge-amber">Canal: WhatsApp Business API</span>
+    <span class="badge badge-purple">Integración: API bidireccional MADICAP</span>
+  </div>
+
+  <button class="expand-all" onclick="toggleAll()">Expandir / colapsar todo ▾</button>
+
+  <!-- MÓDULO 1 -->
+  <div class="module">
+    <div class="module-header" onclick="toggle(this)">
+      <div class="mod-num" style="background:#E1F5EE;color:#085041">1</div>
+      <div class="mod-title">
+        <h3>Integración API bidireccional con sistema MADICAP</h3>
+        <p>Recepción de postulantes y envío de resultados completos</p>
+      </div>
+      <div class="mod-meta"><span class="hours">8–12 hs</span><span class="chevron">▼</span></div>
+    </div>
+    <div class="module-body">
+      <div class="section-label">Qué pide MADICAP</div>
+      <div class="req-item"><div class="req-dot" style="background:#1D9E75"></div><div class="req-text">MADICAP envía al sistema los datos de cada postulante vía API para activar el flujo conversacional<div class="req-sub">Datos mínimos: id_postulante + rut, nombre_completo, telefono, programa, sede/comuna/modalidad</div></div></div>
+      <div class="req-item"><div class="req-dot" style="background:#1D9E75"></div><div class="req-text">El sistema devuelve a MADICAP todas las respuestas, estados del flujo y archivos adjuntos en tiempo real<div class="req-sub">Vía API, webhook o JSON. La salida debe ser exportable y permanente</div></div></div>
+      <div class="req-item"><div class="req-dot" style="background:#1D9E75"></div><div class="req-text">11 eventos mínimos que deben enviarse a MADICAP<div class="req-sub">invitación_enviada · mensaje_entregado · mensaje_leido · entrevista_iniciada · pregunta_enviada · respuesta_recibida · faq_respondida · entrevista_interrumpida · recordatorio_enviado · entrevista_completada · error_de_integracion</div></div></div>
+      <div class="req-item"><div class="req-dot" style="background:#1D9E75"></div><div class="req-text">Datos mínimos por cada respuesta enviada<div class="req-sub">id_postulante · id_conversacion · fecha_hora · id_pregunta · texto_pregunta · tipo_respuesta · respuesta_original · opcion_seleccionada · estado_flujo · canal</div></div></div>
+      <div class="divider"></div>
+      <div class="section-label">Stack técnico sugerido</div>
+      <div style="margin-top:4px">
+        <span style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;background:#f5f4f0;color:#6b6b67;margin:2px 3px 2px 0;border:0.5px solid #d3d1c7">Webhook receptor POST</span>
+        <span style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;background:#f5f4f0;color:#6b6b67;margin:2px 3px 2px 0;border:0.5px solid #d3d1c7">Autenticación API MADICAP</span>
+        <span style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;background:#f5f4f0;color:#6b6b67;margin:2px 3px 2px 0;border:0.5px solid #d3d1c7">Endpoint de salida (respuestas + eventos)</span>
+        <span style="display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;background:#f5f4f0;color:#6b6b67;margin:2px 3px 2px 0;border:0.5px solid #d3d1c7">Cola de reintentos ante error</span>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label">Restricción no negociable</div>
+      <div class="req-item"><div class="req-dot" style="background:#E24B4A"></div><div class="req-text">Los datos deben quedar en una base controlada por MADICAP o con exportación completa y permanente. No podemos retener datos propietarios de ellos.</div></div>
+    </div>
+  </div>
+
+  <!-- MÓDULO 2 -->
+  <div class="module">
+    <div class="module-header" onclick="toggle(this)">
+      <div class="mod-num" style="background:#EEEDFE;color:#3C3489">2</div>
+      <div class="mod-title">
+        <h3>Motor de entrevista estructurada parametrizable</h3>
+        <p>El núcleo del sistema — conversación guiada pregunta a pregunta</p>
+      </div>
+      <div class="mod-meta"><span class="hours">16–20 hs</span><span class="chevron">▼</span></div>
+    </div>
+    <div class="module-body">
+      <div class="section-label">Qué pide MADICAP</div>
+      <div class="req-item"><div class="req-dot" style="background:#534AB7"></div><div class="req-text">Una pregunta a la vez — sin excepciones</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#534AB7"></div><div class="req-text">Respuestas mediante alternativas, botones, listas o formato definido por MADICAP<div class="req-sub">El tipo de respuesta es por pregunta: selección, lista, texto libre, carga de archivo</div></div></div>
+      <div class="req-item"><div class="req-dot" style="background:#534AB7"></div><div class="req-text">Saltos lógicos simples según respuesta<div class="req-sub">Ej: si responde X ir a pregunta 5, si responde Y ir a pregunta 7</div></div></div>
+      <div class="req-item"><div class="req-dot" style="background:#534AB7"></div><div class="req-text">Registro exacto de cada respuesta tal como fue recibida — sin interpretación</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#534AB7"></div><div class="req-text">Reanudación desde el punto pendiente si la entrevista fue interrumpida</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#534AB7"></div><div class="req-text">Reintento cuando la respuesta no cumple el formato esperado</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#534AB7"></div><div class="req-text">Última pregunta siempre abierta (texto libre)</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#534AB7"></div><div class="req-text">Solicitud de documentos integrada al flujo (pregunta DOC01)<div class="req-sub">Cédula de identidad ambos lados → obligatoria. Registro Social de Hogares → opcional, no bloquea</div></div></div>
+      <div class="divider"></div>
+      <div class="section-label">Estructura de datos de cada pregunta</div>
+      <div class="req-item"><div class="req-dot" style="background:#7F77DD"></div><div class="req-text">id_pregunta · texto_pregunta · tipo_respuesta · alternativas · obligatoriedad · regla_de_continuidad · mensaje_de_validación</div></div>
+      <div class="divider"></div>
+      <div class="section-label">Restricción crítica</div>
+      <div class="req-item"><div class="req-dot" style="background:#E24B4A"></div><div class="req-text">MADICAP debe poder cambiar preguntas, alternativas y orden SIN que el equipo dev toque el código. El motor debe ser parametrizable desde configuración externa.</div></div>
+    </div>
+  </div>
+
+  <!-- MÓDULO 3 -->
+  <div class="module">
+    <div class="module-header" onclick="toggle(this)">
+      <div class="mod-num" style="background:#FAEEDA;color:#633806">3</div>
+      <div class="mod-title">
+        <h3>Motor de invitaciones y envío masivo</h3>
+        <p>Salida inicial a la base de potenciales postulantes</p>
+      </div>
+      <div class="mod-meta"><span class="hours">6–8 hs</span><span class="chevron">▼</span></div>
+    </div>
+    <div class="module-body">
+      <div class="section-label">Qué pide MADICAP</div>
+      <div class="req-item"><div class="req-dot" style="background:#BA7517"></div><div class="req-text">Envío masivo a base de contactos usando el número API y configuración WhatsApp de MADICAP<div class="req-sub">Cuenta ya activa: Instituto Madicap, verificada, 10.000 conversaciones/24h</div></div></div>
+      <div class="req-item"><div class="req-dot" style="background:#BA7517"></div><div class="req-text">Mensajes de marketing con enlace al formulario de postulación</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#BA7517"></div><div class="req-text">Contenido definido y aprobado por MADICAP — nosotros solo ejecutamos</div></div>
+      <div class="divider"></div>
+      <div class="section-label">Restricción no negociable</div>
+      <div class="req-item"><div class="req-dot" style="background:#E24B4A"></div><div class="req-text">La titularidad del número, cuenta WhatsApp Business, plantillas y configuración crítica queda bajo control de MADICAP. El cobro de Meta va separado.</div></div>
+    </div>
+  </div>
+
+  <!-- MÓDULO 4 -->
+  <div class="module">
+    <div class="module-header" onclick="toggle(this)">
+      <div class="mod-num" style="background:#FAECE7;color:#712B13">4</div>
+      <div class="mod-title">
+        <h3>FAQ y contención conversacional</h3>
+        <p>Manejo de preguntas fuera del flujo de entrevista</p>
+      </div>
+      <div class="mod-meta"><span class="hours">8–10 hs</span><span class="chevron">▼</span></div>
+    </div>
+    <div class="module-body">
+      <div class="section-label">Qué pide MADICAP</div>
+      <div class="req-item"><div class="req-dot" style="background:#D85A30"></div><div class="req-text">Si el postulante hace una pregunta ajena al flujo, el sistema responde con contenido aprobado por MADICAP y reconduciéndolo</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#D85A30"></div><div class="req-text">Temas habilitados: programa, horario, duración, modalidad, requisitos, certificación, lugar, gratuidad, entidad, documentos requeridos, pasos del proceso</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#D85A30"></div><div class="req-text">Después de responder la FAQ, el sistema SIEMPRE vuelve a la pregunta pendiente</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#D85A30"></div><div class="req-text">Registro del evento faq_respondida con trazabilidad completa</div></div>
+      <div class="divider"></div>
+      <div class="section-label">Restricción crítica</div>
+      <div class="req-item"><div class="req-dot" style="background:#E24B4A"></div><div class="req-text">El sistema NO evalúa, NO clasifica, NO puntúa. Solo captura y reenvía. Nunca reinterpreta una respuesta abierta.</div></div>
+    </div>
+  </div>
+
+  <!-- MÓDULO 5 -->
+  <div class="module">
+    <div class="module-header" onclick="toggle(this)">
+      <div class="mod-num" style="background:#E1F5EE;color:#085041">5</div>
+      <div class="mod-title">
+        <h3>Sistema de seguimiento y recordatorios automáticos</h3>
+        <p>Reactivación de postulantes que abandonan el flujo</p>
+      </div>
+      <div class="mod-meta"><span class="hours">8–10 hs</span><span class="chevron">▼</span></div>
+    </div>
+    <div class="module-body">
+      <div class="section-label">Qué pide MADICAP</div>
+      <div class="req-item"><div class="req-dot" style="background:#1D9E75"></div><div class="req-text">Recordatorios automáticos configurables cuando el postulante no completa el flujo</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#1D9E75"></div><div class="req-text">4 estados que activan seguimiento<div class="req-sub">1. Invitación enviada sin inicio · 2. Entrevista iniciada sin respuesta · 3. Entrevista abandonada · 4. Postulación incompleta</div></div></div>
+      <div class="req-item"><div class="req-dot" style="background:#1D9E75"></div><div class="req-text">Parámetros configurables por MADICAP<div class="req-sub">Intervalos en horas · Máximo de recordatorios por etapa · Texto diferenciado por estado · Stop automático cuando retoma o completa</div></div></div>
+      <div class="req-item"><div class="req-dot" style="background:#1D9E75"></div><div class="req-text">Registro de cada recordatorio enviado con timestamp</div></div>
+      <div class="divider"></div>
+      <div class="section-label">Ejemplo de parametrización</div>
+      <div class="req-item"><div class="req-dot" style="background:#5DCAA5"></div><div class="req-text">R1: 2 hs · R2: 4 hs · R3: 8 hs después de inactividad (tiempos exactos los define MADICAP)</div></div>
+    </div>
+  </div>
+
+  <!-- MÓDULO 6 -->
+  <div class="module">
+    <div class="module-header" onclick="toggle(this)">
+      <div class="mod-num" style="background:#EEEDFE;color:#3C3489">6</div>
+      <div class="mod-title">
+        <h3>Manejo de archivos adjuntos</h3>
+        <p>Recepción y reenvío de documentos del postulante</p>
+      </div>
+      <div class="mod-meta"><span class="hours">6–8 hs</span><span class="chevron">▼</span></div>
+    </div>
+    <div class="module-body">
+      <div class="section-label">Qué pide MADICAP</div>
+      <div class="req-item"><div class="req-dot" style="background:#534AB7"></div><div class="req-text">Recepción de imagen de cédula de identidad (ambos lados) — obligatoria para continuar</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#534AB7"></div><div class="req-text">Recepción de Registro Social de Hogares — opcional, no bloquea</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#534AB7"></div><div class="req-text">Los archivos o referencias deben incluirse en el payload enviado a MADICAP junto con las respuestas</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#534AB7"></div><div class="req-text">La solicitud de documentos es una pregunta más del flujo (id: DOC01) — misma lógica de registro y continuación</div></div>
+    </div>
+  </div>
+
+  <!-- MÓDULO 7 -->
+  <div class="module">
+    <div class="module-header" onclick="toggle(this)">
+      <div class="mod-num" style="background:#FAEEDA;color:#633806">7</div>
+      <div class="mod-title">
+        <h3>Trazabilidad completa por postulante</h3>
+        <p>Registro exhaustivo de todo el flujo</p>
+      </div>
+      <div class="mod-meta"><span class="hours">8–10 hs</span><span class="chevron">▼</span></div>
+    </div>
+    <div class="module-body">
+      <div class="section-label">Qué pide MADICAP</div>
+      <div class="req-item"><div class="req-dot" style="background:#BA7517"></div><div class="req-text">Trazabilidad por: postulante · conversación · pregunta · respuesta · recordatorio · estado</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#BA7517"></div><div class="req-text">Todo lo que el agente muestra y el postulante responde queda registrado exactamente como ocurrió</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#BA7517"></div><div class="req-text">Datos en base controlada por MADICAP o con exportación completa y permanente</div></div>
+    </div>
+  </div>
+
+  <!-- MÓDULO 8 -->
+  <div class="module">
+    <div class="module-header" onclick="toggle(this)">
+      <div class="mod-num" style="background:#FAECE7;color:#712B13">8</div>
+      <div class="mod-title">
+        <h3>Testing end-to-end — 4 casos obligatorios</h3>
+        <p>Definidos por MADICAP en la especificación</p>
+      </div>
+      <div class="mod-meta"><span class="hours">8–12 hs</span><span class="chevron">▼</span></div>
+    </div>
+    <div class="module-body">
+      <div class="section-label">Casos que deben pasar antes de producción</div>
+      <div class="req-item"><div class="req-dot" style="background:#D85A30"></div><div class="req-text">Caso A — Entrevista completada sin desvíos: postulante responde todo, sistema registra y envía consolidado</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#D85A30"></div><div class="req-text">Caso B — FAQ intermedia: postulante pregunta por horario, agente responde con FAQ aprobada y retoma pregunta pendiente</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#D85A30"></div><div class="req-text">Caso C — Entrevista abandonada: estado cambia a interrumpido, recordatorios se envían, al retomar continúa desde el punto pendiente</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#D85A30"></div><div class="req-text">Caso D — Respuesta fuera de formato: sistema reconduce y vuelve a presentar opciones sin interpretar libremente</div></div>
+    </div>
+  </div>
+
+  <!-- TOTALES -->
+  <div class="totals">
+    <div class="total-card"><div class="val">62–82</div><div class="lbl">horas de desarrollo</div></div>
+    <div class="total-card"><div class="val">2–3</div><div class="lbl">semanas con equipo dedicado</div></div>
+    <div class="total-card"><div class="val">8</div><div class="lbl">módulos independientes</div></div>
+  </div>
+
+  <!-- RESTRICCIONES -->
+  <div class="constraint-box">
+    <h4>Restricciones no negociables — vienen del documento de MADICAP</h4>
+    <div style="margin-top:8px">
+      <div class="req-item"><div class="req-dot" style="background:#E24B4A;margin-top:5px"></div><div class="req-text" style="font-size:12px">El agente NO evalúa, NO clasifica, NO puntúa, NO rankea. Solo captura y envía.</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#E24B4A;margin-top:5px"></div><div class="req-text" style="font-size:12px">El número WhatsApp, las plantillas y la cuenta Meta quedan a nombre de MADICAP.</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#E24B4A;margin-top:5px"></div><div class="req-text" style="font-size:12px">MADICAP debe poder editar preguntas y reglas sin que el equipo dev intervenga.</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#E24B4A;margin-top:5px"></div><div class="req-text" style="font-size:12px">El cobro de Meta va separado del cobro del proyecto.</div></div>
+      <div class="req-item"><div class="req-dot" style="background:#E24B4A;margin-top:5px"></div><div class="req-text" style="font-size:12px">Toda la lógica de ranking y evaluación vive en el sistema de MADICAP — nunca en el nuestro.</div></div>
+    </div>
+  </div>
+
+  <div class="footer">Preparado por Staff21x · staff21x.com</div>
+
+</div>
+<script>
+function toggle(header){
+  const body=header.nextElementSibling;
+  const chev=header.querySelector('.chevron');
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+function toggleAll(){
+  const bodies=document.querySelectorAll('.module-body');
+  const chevs=document.querySelectorAll('.chevron');
+  const anyOpen=[...bodies].some(b=>b.classList.contains('open'));
+  bodies.forEach(b=>b.classList.toggle('open',!anyOpen));
+  chevs.forEach(c=>c.classList.toggle('open',!anyOpen));
+}
+</script>
+</body>
+</html>
