@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff21x - Trabajadores Digitales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #7B68EE;
+            --primary-dark: #5D3FD3;
+            --accent: #9D7FFF;
+            --dark: #0F0F1A;
+            --dark-gray: #1A1A2E;
+            --light-gray: #E8E8F0;
+            --white: #FFFFFF;
+            --success: #00D9A3;
+            --gold: #FFA500;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--dark);
+            color: var(--white);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Fondos animados */
+        .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .gradient-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--primary-dark) 50%, var(--dark) 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        .grid-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(123, 104, 238, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(123, 104, 238, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        .lines-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(157, 127, 255, 0.03) 2px,
+                    rgba(157, 127, 255, 0.03) 4px
+                );
+            animation: linesMove 10s linear infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        @keyframes linesMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+
+        .slides-container {
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            z-index: 2;
+        }
+
+        .slide.prev {
+            transform: translateX(-100%);
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        /* Logo AJUSTADO */
+        .logo {
+            position: fixed;
+            top: 2.5rem;
+            left: 2.5rem;
+            z-index: 100;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .logo img {
+            height: 45px; /* Reducido de 90px a 45px */
+            width: auto;
+            filter: drop-shadow(0 4px 16px rgba(123, 104, 238, 0.5));
+        }
+
+        /* Navegación */
+        .nav-controls {
+            position: fixed;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1.5rem;
+            z-index: 100;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        .nav-btn {
+            background: rgba(123, 104, 238, 0.2);
+            border: 2px solid var(--primary);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(123, 104, 238, 0.6);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .nav-btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
+            background: rgba(123, 104, 238, 0.2);
+        }
+
+        .slide-indicator {
+            position: fixed;
+            bottom: 3rem;
+            right: 3rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent);
+            z-index: 100;
+            animation: fadeIn 1s ease-out 0.7s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* Slide 1 - Portada */
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .hero-title .highlight {
+            color: var(--primary);
+            display: block;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            color: var(--accent);
+            text-align: left;
+        }
+
+        /* Títulos generales */
+        .slide-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .accent-bar {
+            width: 150px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--gold));
+            margin-bottom: 3rem;
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.5);
+        }
+
+        /* Slide 2 - VENTAJA COMPETITIVA */
+        .advantage-cards {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .advantage-card {
+            background: rgba(26, 26, 46, 0.8);
+            padding: 2rem;
+            border-left: 5px solid var(--gold);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .advantage-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(255, 165, 0, 0.05));
+            pointer-events: none;
+        }
+
+        .advantage-card h3 {
+            color: var(--gold);
+            font-size: 1.4rem;
+            margin-bottom: 0.7rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .advantage-card h3 .icon {
+            font-size: 1.8rem;
+        }
+
+        .advantage-card p {
+            color: var(--light-gray);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        /* Slide 3 - Analogía */
+        .analogy-subtitle {
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: 3rem;
+        }
+
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            opacity: 0;
+        }
+
+        .step-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(26, 26, 46, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(123, 104, 238, 0.3);
+        }
+
+        .step-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+            font-weight: 700;
+        }
+
+        .step-content p {
+            color: var(--light-gray);
+            font-size: 1rem;
+        }
+
+        .cta-banner {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            padding: 1.5rem 3rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            box-shadow: 0 10px 40px rgba(123, 104, 238, 0.4);
+        }
+
+        /* Slide 4 - Casos de Uso */
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .use-cases-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .use-case {
+            background: rgba(26, 26, 46, 0.8);
+            padding: 1.2rem;
+            border-left: 5px solid var(--success);
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+        }
+
+        .use-case h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.4rem;
+            font-weight: 700;
+        }
+
+        .use-case p {
+            color: var(--light-gray);
+            font-size: 0.9rem;
+        }
+
+        .question-box {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            padding: 3rem;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: 0 10px 40px rgba(123, 104, 238, 0.4);
+        }
+
+        .question-box h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .question-box p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--light-gray);
+        }
+
+        .question-box .highlight {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Video container */
+        .video-container {
+            max-width: 900px;
+            margin: 2rem auto;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 177.78%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(123, 104, 238, 0.3);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-caption {
+            margin-top: 2rem;
+            text-align: center;
+            color: var(--light-gray);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        /* Proceso */
+        .process-header {
+            margin-bottom: 3rem;
+            text-align: left;
+        }
+
+        .process-step {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .process-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+        }
+
+        .checklist {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.2rem;
+            opacity: 0;
+        }
+
+        .checklist li::before {
+            content: "✓";
+            color: var(--success);
+            font-size: 1.8rem;
+            font-weight: 900;
+        }
+
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .column-card {
+            background: rgba(26, 26, 46, 0.8);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .column-card h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .column-card ul {
+            list-style: none;
+        }
+
+        .column-card li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--light-gray);
+        }
+
+        .column-card li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 900;
+        }
+
+        .highlight-text {
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        .time-badge {
+            display: inline-block;
+            background: var(--success);
+            color: var(--dark);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+
+        .tools-grid {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .tool {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            opacity: 0;
+        }
+
+        .tool-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(15, 15, 26, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .tool-name {
+            font-size: 1rem;
+            color: var(--light-gray);
+        }
+
+        .info-box {
+            background: rgba(15, 15, 26, 0.8);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .info-box h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--success);
+            font-weight: 800;
+        }
+
+        .info-box p {
+            color: var(--light-gray);
+            line-height: 1.6;
+        }
+
+        .rocket-banner {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            padding: 2rem 3rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            box-shadow: 0 10px 40px rgba(123, 104, 238, 0.4);
+        }
+
+        .rocket-icon {
+            font-size: 3rem;
+        }
+
+        /* Diferenciadores */
+        .diff-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .diff-card {
+            background: rgba(26, 26, 46, 0.8);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            opacity: 0;
+        }
+
+        .diff-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .diff-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .diff-content p {
+            color: var(--light-gray);
+            line-height: 1.6;
+        }
+
+        /* Próximos Pasos */
+        .investment-section {
+            margin-top: 3rem;
+        }
+
+        .investment-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .investment-box {
+            background: rgba(15, 15, 26, 0.8);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .investment-box h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .investment-box ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .investment-box li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--light-gray);
+        }
+
+        .investment-box li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 900;
+        }
+
+        .investment-note {
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .investment-note span {
+            color: var(--light-gray);
+            font-weight: 400;
+        }
+
+        /* Cierre */
+        .final-message {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .final-message .line-1 {
+            color: var(--white);
+        }
+
+        .final-message .line-2 {
+            color: var(--primary);
+        }
+
+        .final-message .line-3 {
+            color: var(--accent);
+        }
+
+        .contact-box {
+            background: rgba(26, 26, 46, 0.8);
+            padding: 2rem 3rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-brand {
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info {
+            color: var(--light-gray);
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 2rem;
+            }
+
+            .logo img {
+                height: 35px; /* Reducido de 60px a 35px para versión móvil */
+            }
+
+            .use-cases-grid,
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-controls {
+                bottom: 2rem;
+            }
+
+            .slide-indicator {
+                bottom: 2rem;
+                right: 2rem;
+            }
+
+            .video-wrapper {
+                padding-bottom: 56.25%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/4QC8RXhpZgAASUkqAAgAAAAGABIBAwABAAAAAQAAABoBBQABAAAAVgAAABsBBQABAAAAXgAAACgBAwABAAAAAgAAABMCAwABAAAAAQAAAGmHBAABAAAAZgAAAAAAAABgAAAAAQAAAGAAAAABAAAABgAAkAcABAAAADAyMTABkQcABAAAAAECAwAAoAcABAAAADAxMDABoAMAAQAAAP//AAACoAMAAQAAAPQBAAADoAMAAQAAAPQBAAAAAAAA/+EPTmh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8APD94cGFja2V0IGJlZ2luPSfvu78nIGlkPSdXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQnPz4KPHg6eG1wbWV0YSB4bWxuczp4PSdhZG9iZTpuczptZXRhLyc+CjxyZGY6UkRGIHhtbG5zOnJkZj0naHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyc+CgogPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9JycKICB4bWxuczpBdHRyaWI9J2h0dHA6Ly9ucy5hdHRyaWJ1dGlvbi5jb20vYWRzLzEuMC8nPgogIDxBdHRyaWI6QWRzPgogICA8cmRmOlNlcT4KICAgIDxyZGY6bGkgcmRmOnBhcnNlVHlwZT0nUmVzb3VyY2UnPgogICAgIDxBdHRyaWI6Q3JlYXRlZD4yMDI2LTAzLTIwPC9BdHRyaWI6Q3JlYXRlZD4KICAgICA8QXR0cmliOkRhdGE+eyZxdW90O2RvYyZxdW90OzomcXVvdDtEQUhFZ1g4SnpZayZxdW90OywmcXVvdDt1c2VyJnF1b3Q7OiZxdW90O1VBRnhFY2RDTjBvJnF1b3Q7LCZxdW90O2JyYW5kJnF1b3Q7OiZxdW90O0VxdWlwbyBkZSBXYWx0ZXIgQmVuZGV6dSAmcXVvdDssJnF1b3Q7dGVtcGxhdGUmcXVvdDs6JnF1b3Q7QnJvd24gdmludGFnZSB0aGUgZ29hdCBsb2dvJnF1b3Q7fTwvQXR0cmliOkRhdGE+CiAgICAgPEF0dHJpYjpFeHRJZD4xMDdlY2YyMC1iYmQyLTRmMTAtODgxZC0wN2ViZjc2NzU4NTA8L0F0dHJpYjpFeHRJZD4KICAgICA8QXR0cmliOkZiSWQ+NTI1MjY1OTE0MTc5NTgwPC9BdHRyaWI6RmJJZD4KICAgICA8QXR0cmliOlRvdWNoVHlwZT4yPC9BdHRyaWI6VG91Y2hUeXBlPgogICAgPC9yZGY6bGk+CiAgIDwvcmRmOlNlcT4KICA8L0F0dHJpYjpBZHM+CiA8L3JkZjpEZXNjcmlwdGlvbj4KCiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0nJwogIHhtbG5zOmRjPSdodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyc+CiAgPGRjOnRpdGxlPgogICA8cmRmOkFsdD4KICAgIDxyZGY6bGkgeG1sOmxhbmc9J3gtZGVmYXVsdCc+TE9HTyBTVEFGRjIxeCAtIDE8L3JkZjpsaT4KICAgPC9yZGY6QWx0PgogIDwvZGM6dGl0bGU+CiA8L3JkZjpEZXNjcmlwdGlvbj4KCiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0nJwogIHhtbG5zOnBkZj0naHR0cDovL25zLmFkb2JlLmNvbS9wZGYvMS4zLyc+CiAgPHBkZjpBdXRob3I+V2FsdGVyIEJlbmRlenUgPC9wZGY6QXV0aG9yPgogPC9yZGY6RGVzY3JpcHRpb24+CgogPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9JycKICB4bWxuczp4bXA9J2h0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8nPgogIDx4bXA6Q3JlYXRvclRvb2w+Q2FudmEgKFJlbmRlcmVyKSBkb2M9REFIRWdYOEp6WWsgdXNlcj1VQUZ4RWNkQ04wbyBicmFuZD1FcXVpcG8gZGUgV2FsdGVyIEJlbmRlenUgIHRlbXBsYXRlPUJyb3duIHZpbnRhZ2UgdGhlIGdvYXQgbG9nbzwveG1wOkNyZWF0b3JUb29sPgogPC9yZGY6RGVzY3JpcHRpb24+CjwvcmRmOlJERj4KPC94OnhtcG1ldGE+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCjw/eHBhY2tldCBlbmQ9J3cnPz7/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAH0AfQDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD5UooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigC19l/wBv9KPsv+3+lWaK05UTcrfZf9v9KPsv+3+lWaKVkFyt9l/2/wBKPsv+3+lWaKLILlb7L/t/pR9l/wBv9Ks0U+VBcrfZf9v9KPsv+3+lWaKXKguVvsv+3+lH2X/b/SrNFFkFyt9l/wBv9KPsv+3+lWaKLILlb7L/ALf6UfZf9v8ASrNFHKguVvsv+3+lH2X/AG/0qzRRZBcrfZf9v9KPsv8At/pVmiiyC5W+y/7f6UfZf9v9Ks0UWQXK32X/AG/0o+y/7f6VZoosguVvsv8At/pR9l/2/wBKs0UcqC5W+y/7f6UfZf8Ab/SrNFPlQXK32X/b/Sj7L/t/pVmijlQXK32X/b/Sj7L/ALf6VZopcqC5W+y/7f6UfZf9v9Ks0UWQXK32X/b/AEo+y/7f6VZoosguVvsv+3+lH2X/AG/0qzRRZBcrfZf9v9KPsv8At/pVmiiyC5W+y/7f6UfZf9v9Ks0U+VBcq/Zf9v8ASl+y/wC3+lWaKVkFyt9l/wBv9KPsv+3+lWaKOVBcrfZf9v8ASj7L/t/pVminZBcrfZf9v9KPsv8At/pVmilZBcrfZf8Ab/Sj7L/t/pVmiiyC5W+y/wC3+lH2X/b/AEqzRRZBcrfZf9v9KPsv+3+lWaKLILlb7L/t/pR9l/2/0qzRRZBcrfZf9v8ASj7L/t/pVmiiyC5W+y/7f6UfZf8Ab/SrNFFkFyr9l/2/0oqyaKfKguLRRRTAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKYBRRRSAKKKKACiiigAoopaAEooooAKKKKACiiimAUUUUAFFFFIAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAENFKaKYBRRRSAKKKKACiiimAUUUUAFLRSUCFpKKKQwooopgFFFFIAooooAKKWko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ROtbmBu4ldV4J12HThNbX0myA/OhPY+lctTWGainUdOXNESdj1Q+LNIHAuh+VY/ijVNI1jTCiXSi5iO+LPc91/H+YFcFtpQoreeMnOPLJIpyHUUUVykhRRRQAUUUUAIaKDRSELRRRQMKWkooELSUUUwCiilpAJRS0lABRRS0AJRS0UAJRS0YoASilxSUAFFFFAwo96KKBBRRRQAUUUUAFFLSUDCiiigQUUUUxhRRRSEFFFFAwooooEFFFFAwooooEFFFLQAmKKWkoAKKKKACiiigAoopaAEopaSgYUUtFAhKKKKYwooooAKKKKAENFBopCFooopjCiiigApaSigBaKSikIWiikoAWikpaACiig0AFFAozQAUUUUAFFFFABRRRQAUUUlAC0lLRQACikpaAA0lLSUAFFFFMYUUUUAFFFFABRRRQAUopKWkIKMUUUAGKKKKACiiigAooooAMUYoooAKKKKACiiigAooooASiilpgFJS5pKACiiigYGikNFIQtFFFMYUUUUALRRRQISilpKBhRRRQIKWkooGLSUUtAhKKKKBi0CkpRQIKKKKACikpaAEpaKKAEooooGFFFFAhaSiigAooooGFLSUUCCiiigYUUUUAFFFFABS0lFAhaKSgUALRRSUgFoopDQAtFFJTAKWgUlABS0lFAC0UlFABRRRQMKKKDQAUU50aN2R1KupwQRgg02gANFBopCMyiiisiwooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9k=" alt="Staff21x">
+    </div>
+
+    <div class="slide-indicator">
+        <span id="current-slide">1</span> / 11
+    </div>
+
+    <div class="nav-controls">
+        <button class="nav-btn" id="prev-btn" disabled>←</button>
+        <button class="nav-btn" id="next-btn">→</button>
+    </div>
+
+    <div class="slides-container" id="slides-container">
+        
+        <div class="slide active" data-slide="1">
+            <div class="animated-bg">
+                <div class="gradient-bg"></div>
+                <div class="grid-overlay"></div>
+                <div class="lines-overlay"></div>
+            </div>
+            
+            <div class="slide-content">
+                <h1 class="hero-title animate-in">
+                    TRABAJADORES
+                    <span class="highlight">DIGITALES</span>
+                </h1>
+                <p class="hero-subtitle animate-in" style="animation-delay: 0.3s;">
+                    Contratá talento sin límites físicos ni cargas sociales
+                </p>
+            </div>
+        </div>
+
+        <div class="slide" data-slide="2">
+            <div class="animated-bg">
+                <div class="gradient-bg"></div>
+                <div class="grid-overlay"></div>
+                <div class="lines-overlay"></div>
+            </div>
+            
+            <div class="slide-content">
+                <h2 class="slide-title">LA VENTAJA COMPETITIVA</h2>
+                <div class="accent-bar"></div>
+                <div class="advantage-cards">
+                    <div class="advantage-card">
+                        <h3><span class="icon">🚀</span> Adelantate al mercado</h3>
+                        <p>Mientras tu competencia sigue buscando talento humano para escalar, vos ya estás operando 24/7 sin límites de capacidad.</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h3><span class="icon">💰</span> ROI inmediato</h3>
+                        <p>Eliminás cargas sociales (60-80%), tiempos de contratación (45-90 días), y rotación constante. La inversión se recupera en el primer mes.</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h3><span class="icon">⚡</span> Velocidad de implementación</h3>
+                        <p>De la decisión a operación productiva en 7-10 días. Mientras otros esperan meses por un candidato, vos ya estás generando ingresos.</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h3><span class="icon">🎯</span> Early adopter advantage</h3>
+                        <p>Los que adoptan ahora, lideran mañana. Cuando esto sea commodity, vos ya vas a tener 2 años de ventaja operativa y aprendizaje.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide" data-slide="3">
+            <div class="animated-bg">
+                <div class="gradient-bg"></div>
+                <div class="grid-overlay"></div>
+                <div class="lines-overlay"></div>
+            </div>
+            
+            <div class="slide-content">
+                <h2 class="slide-title">¿CÓMO CONTRATARÍAS UNA PERSONA?</h2>
+                <p class="analogy-subtitle">Así funcionamos nosotros. Exactamente igual.</p>
+                
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-icon">📋</div>
+                        <div class="step-content">
+                            <h3>1. Job Description</h3>
+                            <p>Definís qué hace y qué no hace</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">👥</div>
+                        <div class="step-content">
+                            <h3>2. Entrevistas</h3>
+                            <p>Seleccionás el perfil adecuado</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">🛠️</div>
+                        <div class="step-content">
+                            <h3>3. Herramientas</h3>
+                            <p>Le das correo, WhatsApp, notebook</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">🧠</div>
+                        <div class="step-content">
+                            <h3>4. Capacitación</h3>
+                            <p>Le explicás cómo funciona TU empresa</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">▶️</div>
+                        <div class="step-content">
+                            <h3>5. Puesta en marcha</h3>
+                            <p>Empieza a trabajar en tu operación</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cta-banner">
+                    CON STAFF21X: Mismo proceso. Sin escritorio. Sin cargas sociales.
+                </div>
+            </div>
+        </div>
+
+        <div class="slide" data-slide="4">
+            <div class="animated-bg">
+                <div class="gradient-bg"></div>
+                <div class="grid-overlay"></div>
+                <div class="lines-overlay"></div>
+            </div>
+            
+            <div class="slide-content">
+                <h2 class="slide-title">¿QUÉ PUEDEN HACER?</h2>
+                <div class="accent-bar"></div>
+                
+                <div class="use-cases-grid">
+                    <div class="use-cases-list">
+                        <div class="use-case">
+                            <h3>Atención a clientes</h3>
+                            <p>Primera línea, consultas, seguimiento, escalamiento</p>
+                        </div>
+                        <div class="use-case">
+                            <h3>Cotizaciones</h3>
+                            <p>Respuesta automatizada con pricing, condiciones y envío</p>
+                        </div>
+                        <div class="use-case">
+                            <h3>Primer filtro RRHH</h3>
+                            <p>Screening inicial de CVs y entrevistas preliminares</p>
+                        </div>
+                        <div class="use-case">
+                            <h3>Proceso de compras</h3>
+                            <p>Desde solicitud hasta emisión de OC y seguimiento</p>
+                        </div>
+                        <div class="use-case">
+                            <h3>Análisis de datos</h3>
+                            <p>Reportes, dashboards, detección de anomalías</p>
+                        </div>
+                    </div>
+
+                    <div class="question-box">
+                        <h2>¿Puede hacer X?</h2>
+                        <p>
+                            Si cuando contratás una persona le podés explicar cómo hacerlo...
+                        </p>
+                        <p style="margin-top: 1.5rem;">
+                            <span class="highlight">El Trabajador Digital también puede aprenderlo.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide" data-slide="5">
+            <div class="animated-bg">
+                <div class="gradient-bg"></div>
+                <div class="grid-overlay"></div>
+                <div class="lines-overlay"></div>
+            </div>
+            
+            <div class="slide-content">
+                <h2 class="slide-title">MIRÁ CÓMO FUNCIONA</h2>
+                <p class="analogy-subtitle">Así trabaja un Trabajador Digital en acción</p>
+                
+                <div class="video-container">
+                    <div class="video-wrapper">
+                        <iframe 
+                            src="https://www.youtube.com/embed/1vReTwUgDyw?si=yon0fV4dltE7xmXN&controls=1&rel=0&modestbranding=1" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    
+                    <div class="video-caption">
+                        Interactúa con clientes en WhatsApp • Cotiza en tiempo real • Genera Excel • 
+                        Sube documentos • Todo automático, 24/7
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide" data-slide="6">
+            <div class="animated-bg">
+                <div class="gradient-bg"></div>
+                <div class="grid-overlay"></div>
+                <div class="lines-overlay"></div>
+            </div>
+            
+            <div class="slide-content">
+                <div class="process-header">
+                    <h3 class="slide-title">NUESTRO PROCESO</h3>
+                    <p class="process-step">Paso 1</p>
+                    <h2 class="process-title">CONSTRUCCIÓN DEL ROL</h2>
+                </div>
+                
+                <ul class="checklist">
+                    <li>Job Description: ¿Qué hace y qué NO hace?</li>
+                    <li>Conocimientos de industria requeridos</li>
+                    <li>Responsabilidades y límites de actuación</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="slide" data-slide="7">
+            <div class="animated-bg">
+                <div class="gradient-bg"></div>
+                <div class="grid-overlay"></div>
+                <div class="lines-overlay"></div>
+            </div>
+            
+            <div class="slide-content">
+                <div class="process-header">
+                    <h3 class="slide-title">NUESTRO PROCESO</h3>
+                    <p class="process-step">Paso 2</p>
+                    <h2 class="process-title">CAPACITACIÓN INTERNA</h2>
+                </div>
+                
+                <div class="two-columns">
+                    <div class="column-card">
+                        <h3>Sobre tu empresa</h3>
+                        <ul>
+                            <li>¿A quién reporta?</li>
+                            <li>¿Quién le reporta a él?</li>
+                            <li>Procesos internos</li>
+                            <li>Qué puede hacer y qué debe derivar</li>
+                            <li>Criterios de escalamiento</li>
+                        </ul>
+                    </div>
+
+                    <div class="column-card">
+                        <h3>Capacitación formal</h3>
+                        <p>
+                            Usamos <span class="highlight-text">los mismos materiales</span> que usás para capacitar a tu equipo:
+                        </p>
+                        <ul style="margin-top: 1rem;">
+                            <li>PDFs</li>
+                            <li>Presentaciones</li>
+                            <li>Videos</li>
+                            <li>Manuales</li>
+                            <li>Cualquier contenido</li>
+                        </ul>
+                        <div class="time-badge">Tiempo: 72 horas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide" data-slide="8">
+            <div class="animated-bg">
+                <div class="gradient-bg"></div>
+                <div class="grid-overlay"></div>
+                <div class="lines-overlay"></div>
+            </div>
+            
+            <div class="slide-content">
+                <div class="process-header">
+                    <h3 class="slide-title">NUESTRO PROCESO</h3>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 2rem;">
+                        <div>
+                            <p class="process-step">Paso 3</p>
+                            <h2 class="process-title">HERRAMIENTAS</h2>
+                            
+                            <div class="tools-grid" style="margin: 2rem 0;">
+                                <div class="tool">
+                                    <div class="tool-icon">📧</div>
+                                    <div class="tool-name">Correo</div>
+                                </div>
+                                <div class="tool">
+                                    <div class="tool-icon">💬</div>
+                                    <div class="tool-name">WhatsApp</div>
+                                </div>
+                                <div class="tool">
+                                    <div class="tool-icon">💼</div>
+                                    <div class="tool-name">LinkedIn</div>
+                                </div>
+                                <div class="tool">
+                                    <div class="tool-icon">⚙️</div>
+                                    <div class="tool-name">CRM</div>
+                                </div>
+                            </div>
+                            
+                            <p style="color: var(--accent); font-size: 1rem;">
+                                Conectamos todas las herramientas en 72-96 horas
+                            </p>
+                        </div>
+
+                        <div>
+                            <p class="process-step">Paso 4</p>
+                            <h2 class="process-title">PRUEBAS</h2>
+                            
+                            <div class="info-box" style="margin-top: 2rem;">
+                                <h3>48-72 horas</h3>
+                                <p>Correcciones y ajustes según feedback real de tu operación</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="process-step" style="margin-top: 3rem;">Paso 5</p>
+                    <h2 class="process-title">PUESTA EN MARCHA OFICIAL</h2>
+                    
+                    <div class="rocket-banner">
+                        <div class="rocket-icon">🚀</div>
+                        <div>Entre más rápido tenés definidas las funciones, más rápido es la puesta en marcha</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide" data-slide="9">
+            <div class="animated-bg">
+                <div class="gradient-bg"></div>
+                <div class="grid-overlay"></div>
+                <div class="lines-overlay"></div>
+            </div>
+            
+            <div class="slide-content">
+                <h2 class="slide-title">¿POR QUÉ STAFF21X?</h2>
+                
+                <div class="diff-cards">
+                    <div class="diff-card">
+                        <div class="diff-icon">⚡</div>
+                        <div class="diff-content">
+                            <h3>Se adapta a lo que tenés</h3>
+                            <p>Integramos con tus sistemas actuales: CRM, ERP, Google Workspace, Meta, lo que uses</p>
+                        </div>
+                    </div>
+                    <div class="diff-card">
+                        <div class="diff-icon">⚡</div>
+                        <div class="diff-content">
+                            <h3>Sin límites de horario</h3>
+                            <p>Disponibilidad 24/7/365. No hay vacaciones ni licencias</p>
+                        </div>
+                    </div>
+                    <div class="diff-card">
+                        <div class="diff-icon">⚡</div>
+                        <div class="diff-content">
+                            <h3>Escalabilidad inmediata</h3>
+                            <p>Necesitás más capacidad? Se escala en horas, no en meses</p>
+                        </div>
+                    </div>
+                    <div class="diff-card">
+                        <div class="diff-icon">⚡</div>
+                        <div class="diff-content">
+                            <h3>Costo predecible</h3>
+                            <p>Setup + mensualidad fija. Sin sorpresas ni gastos ocultos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide" data-slide="10">
+            <div class="animated-bg">
+                <div class="gradient-bg"></div>
+                <div class="grid-overlay"></div>
+                <div class="lines-overlay"></div>
+            </div>
+            
+            <div class="slide-content">
+                <h2 class="slide-title">PRÓXIMOS PASOS</h2>
+                <div class="accent-bar"></div>
+                
+                <ul class="checklist" style="margin-bottom: 3rem;">
+                    <li>Definimos juntos el Job Description del Trabajador Digital</li>
+                    <li>Relevamos procesos y herramientas actuales</li>
+                    <li>Entregamos cotización formal</li>
+                    <li>Arrancamos con la construcción</li>
+                </ul>
+
+                <div class="investment-section">
+                    <h2>MODELO DE INVERSIÓN</h2>
+                    
+                    <div class="investment-box">
+                        <h3>Setup + Mensualidad</h3>
+                        
+                        <ul>
+                            <li>50% al arrancar + 50% cuando se instala</li>
+                            <li>Primer mes de servicio incluido en el Setup</li>
+                            <li>Mensualidad adelantada (igual que cualquier IA)</li>
+                        </ul>
+                        
+                        <p class="investment-note">
+                            Gastos adicionales <span>(Meta, cuentas de correo, etc) corren por cuenta del cliente — igual que cuando contratás una persona</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide" data-slide="11">
+            <div class="animated-bg">
+                <div class="gradient-bg"></div>
+                <div class="grid-overlay"></div>
+                <div class="lines-overlay"></div>
+            </div>
+            
+            <div class="slide-content">
+                <div class="final-message">
+                    <div class="line-1">TU EQUIPO HUMANO</div>
+                    <div class="line-2">MÁS UN EQUIPO DIGITAL.</div>
+                    <div class="line-3">TRABAJANDO JUNTOS.</div>
+                </div>
+
+                <div class="contact-box">
+                    <div class="contact-brand">staff21x</div>
+                    <div class="contact-info">
+                        hola@staff21x.com  •  +56 9 8734 5554  •  staff21x.com
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const currentSlideDisplay = document.getElementById('current-slide');
+
+        function updateSlide(newSlide) {
+            if (newSlide < 0 || newSlide >= totalSlides) return;
+            
+            slides[currentSlide].classList.remove('active');
+            slides[currentSlide].classList.add('prev');
+            
+            currentSlide = newSlide;
+            
+            slides[currentSlide].classList.add('active');
+            slides[currentSlide].classList.remove('prev');
+            
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            currentSlideDisplay.textContent = currentSlide + 1;
+            
+            animateSlideElements();
+        }
+
+        function animateSlideElements() {
+            const slide = slides[currentSlide];
+            
+            if (currentSlide === 1) {
+                const cards = slide.querySelectorAll('.advantage-card');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.animation = 'slideInLeft 0.6s ease-out forwards';
+                    }, index * 100);
+                });
+            }
+            
+            if (currentSlide === 2) {
+                const steps = slide.querySelectorAll('.step');
+                steps.forEach((step, index) => {
+                    setTimeout(() => {
+                        step.style.animation = 'slideInRight 0.6s ease-out forwards';
+                    }, index * 100);
+                });
+            }
+            
+            if (currentSlide === 3) {
+                const useCases = slide.querySelectorAll('.use-case');
+                useCases.forEach((useCase, index) => {
+                    setTimeout(() => {
+                        useCase.style.animation = 'slideInLeft 0.6s ease-out forwards';
+                    }, index * 80);
+                });
+            }
+            
+            if (currentSlide === 5) {
+                const items = slide.querySelectorAll('.checklist li');
+                items.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.style.animation = 'fadeIn 0.6s ease-out forwards';
+                    }, index * 150);
+                });
+            }
+            
+            if (currentSlide === 7) {
+                const tools = slide.querySelectorAll('.tool');
+                tools.forEach((tool, index) => {
+                    setTimeout(() => {
+                        tool.style.animation = 'scaleIn 0.5s ease-out forwards';
+                    }, index * 100);
+                });
+            }
+            
+            if (currentSlide === 8) {
+                const diffCards = slide.querySelectorAll('.diff-card');
+                diffCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.animation = 'slideInRight 0.6s ease-out forwards';
+                    }, index * 100);
+                });
+            }
+            
+            if (currentSlide === 9) {
+                const items = slide.querySelectorAll('.checklist li');
+                items.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.style.animation = 'fadeIn 0.6s ease-out forwards';
+                    }, index * 100);
+                });
+            }
+        }
+
+        prevBtn.addEventListener('click', () => updateSlide(currentSlide - 1));
+        nextBtn.addEventListener('click', () => updateSlide(currentSlide + 1));
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') updateSlide(currentSlide - 1);
+            if (e.key === 'ArrowRight') updateSlide(currentSlide + 1);
+        });
+
+        window.addEventListener('load', () => {
+            animateSlideElements();
+        });
+    </script>
+</body>
+</html>
