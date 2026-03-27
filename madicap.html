@@ -41,12 +41,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .item-text{font-size:13px;color:#1a1a18;line-height:1.5}
 .item-sub{font-size:12px;color:#6b6b67;margin-top:2px}
 .tag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:4px;background:#f5f4f0;color:#6b6b67;border:0.5px solid #d3d1c7;margin:2px 3px 2px 0}
-.totals{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;background:#0038A8;border-radius:8px;padding:14px 16px}
-.tc{text-align:center}
-.tc .v{font-size:24px;font-weight:500;color:#FCD116}
-.tc .l{font-size:12px;color:#a8bce0;margin-top:2px}
 .expand-btn{font-size:12px;color:#6b6b67;cursor:pointer;background:none;border:none;padding:0;margin-bottom:12px}
 .expand-btn:hover{color:#1a1a18}
+
+/* SECCIÓN VARIABLES */
+.vars-title{font-size:18px;font-weight:500;color:#1a1a18;margin:32px 0 4px}
+.vars-sub{font-size:13px;color:#6b6b67;margin-bottom:16px}
+.var-block{background:#fff;border:0.5px solid #d3d1c7;border-radius:12px;margin-bottom:10px;overflow:hidden}
+.var-block-header{padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
+.var-block-header:hover{background:#f5f4f0}
+.var-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;background:#FCD116;color:#0038A8}
+.var-block-title{flex:1}
+.var-block-title h3{font-size:14px;font-weight:500;color:#1a1a18}
+.var-block-title p{font-size:12px;color:#6b6b67;margin-top:2px}
+.var-body{display:none;border-top:0.5px solid #d3d1c7;padding:14px 16px}
+.var-body.open{display:block}
+.var-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.var-row:last-child{margin-bottom:0}
+.var-field{background:#f5f4f0;border-radius:8px;padding:10px 12px}
+.var-field label{font-size:11px;font-weight:600;color:#6b6b67;text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:4px}
+.var-field .placeholder{font-size:13px;color:#aaa;font-style:italic}
+.var-note{font-size:12px;color:#6b6b67;margin-top:10px;padding:8px 10px;background:#fff8d6;border-radius:6px;border-left:3px solid #FCD116}
+
+/* BARRA FINAL */
+.totals{display:grid;grid-template-columns:repeat(3,1fr);background:#0038A8;border-radius:10px;overflow:hidden;margin-top:24px}
+.tc{text-align:center;padding:20px 16px;border-right:1px solid #1a4ab8}
+.tc:last-child{border-right:none}
+.tc .v{font-size:18px;font-weight:500;color:#FCD116;margin-bottom:4px}
+.tc .l{font-size:12px;color:#a8bce0;line-height:1.4}
+.tc .sub{font-size:11px;color:#6b8cc2;margin-top:3px}
 .footer{margin-top:20px;font-size:12px;color:#aaa;text-align:center}
 </style>
 </head>
@@ -54,26 +77,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div class="wrap">
 
 <div class="header">
-  <h1>Análisis técnico — Agente de postulación MADICAP</h1>
-  <p>Para revisión del equipo de desarrollo · Basado en especificación oficial MADICAP</p>
+  <h1>Declaración de requerimiento — Agente de postulación MADICAP</h1>
+  <p>Levantamiento comercial para análisis y cotización del equipo técnico · Basado en especificación oficial MADICAP</p>
 </div>
 <div class="badges">
-  <span class="badge b1">Plazo: 2–3 semanas</span>
+  <span class="badge b1">Plazo definido: 2–3 semanas</span>
   <span class="badge b2">Canal: WhatsApp Business API</span>
   <span class="badge b3">Integración: API bidireccional MADICAP</span>
 </div>
 
-<button class="expand-btn" onclick="toggleAll()">Expandir / colapsar todo ▾</button>
+<button class="expand-btn" onclick="toggleAll('mod-body')">Expandir / colapsar módulos ▾</button>
 
 <!-- M1 -->
 <div class="module">
-  <div class="mod-header" onclick="toggle(this)">
+  <div class="mod-header" onclick="toggle(this,'mod-body')">
     <div class="mod-num">1</div>
-    <div class="mod-info">
-      <h3>Integración API bidireccional con sistema MADICAP</h3>
-      <p>Recepción de postulantes entrantes + envío de respuestas, eventos y adjuntos</p>
-    </div>
-    <div class="mod-right"><span class="hs">8–12 hs</span><span class="chev">▼</span></div>
+    <div class="mod-info"><h3>Integración API bidireccional con sistema MADICAP</h3><p>Recepción de postulantes entrantes + envío de respuestas, eventos y adjuntos</p></div>
+    <div class="mod-right"><span class="chev">▼</span></div>
   </div>
   <div class="mod-body">
     <div class="section">
@@ -104,13 +124,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <!-- M2 -->
 <div class="module">
-  <div class="mod-header" onclick="toggle(this)">
+  <div class="mod-header" onclick="toggle(this,'mod-body')">
     <div class="mod-num">2</div>
-    <div class="mod-info">
-      <h3>Motor de entrevista estructurada parametrizable</h3>
-      <p>Núcleo del sistema — conversación guiada pregunta a pregunta por WhatsApp</p>
-    </div>
-    <div class="mod-right"><span class="hs">16–20 hs</span><span class="chev">▼</span></div>
+    <div class="mod-info"><h3>Motor de entrevista estructurada parametrizable</h3><p>Núcleo del sistema — conversación guiada pregunta a pregunta por WhatsApp</p></div>
+    <div class="mod-right"><span class="chev">▼</span></div>
   </div>
   <div class="mod-body">
     <div class="section">
@@ -148,13 +165,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <!-- M3 -->
 <div class="module">
-  <div class="mod-header" onclick="toggle(this)">
+  <div class="mod-header" onclick="toggle(this,'mod-body')">
     <div class="mod-num">3</div>
-    <div class="mod-info">
-      <h3>Motor de envío masivo e invitaciones</h3>
-      <p>Primer contacto con la base de potenciales postulantes vía WhatsApp</p>
-    </div>
-    <div class="mod-right"><span class="hs">6–8 hs</span><span class="chev">▼</span></div>
+    <div class="mod-info"><h3>Motor de envío masivo e invitaciones</h3><p>Primer contacto con la base de potenciales postulantes vía WhatsApp</p></div>
+    <div class="mod-right"><span class="chev">▼</span></div>
   </div>
   <div class="mod-body">
     <div class="section">
@@ -184,13 +198,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <!-- M4 -->
 <div class="module">
-  <div class="mod-header" onclick="toggle(this)">
+  <div class="mod-header" onclick="toggle(this,'mod-body')">
     <div class="mod-num">4</div>
-    <div class="mod-info">
-      <h3>FAQ y contención conversacional</h3>
-      <p>Respuesta a preguntas fuera del flujo sin perder el hilo de la entrevista</p>
-    </div>
-    <div class="mod-right"><span class="hs">8–10 hs</span><span class="chev">▼</span></div>
+    <div class="mod-info"><h3>FAQ y contención conversacional</h3><p>Respuesta a preguntas fuera del flujo sin perder el hilo de la entrevista</p></div>
+    <div class="mod-right"><span class="chev">▼</span></div>
   </div>
   <div class="mod-body">
     <div class="section">
@@ -221,13 +232,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <!-- M5 -->
 <div class="module">
-  <div class="mod-header" onclick="toggle(this)">
+  <div class="mod-header" onclick="toggle(this,'mod-body')">
     <div class="mod-num">5</div>
-    <div class="mod-info">
-      <h3>Recordatorios automáticos y reactivación</h3>
-      <p>Seguimiento de postulantes que abandonan o no completan el flujo</p>
-    </div>
-    <div class="mod-right"><span class="hs">8–10 hs</span><span class="chev">▼</span></div>
+    <div class="mod-info"><h3>Recordatorios automáticos y reactivación</h3><p>Seguimiento de postulantes que abandonan o no completan el flujo</p></div>
+    <div class="mod-right"><span class="chev">▼</span></div>
   </div>
   <div class="mod-body">
     <div class="section">
@@ -258,13 +266,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <!-- M6 -->
 <div class="module">
-  <div class="mod-header" onclick="toggle(this)">
+  <div class="mod-header" onclick="toggle(this,'mod-body')">
     <div class="mod-num">6</div>
-    <div class="mod-info">
-      <h3>Recepción y reenvío de archivos adjuntos</h3>
-      <p>Cédula de identidad obligatoria + Registro Social de Hogares opcional</p>
-    </div>
-    <div class="mod-right"><span class="hs">6–8 hs</span><span class="chev">▼</span></div>
+    <div class="mod-info"><h3>Recepción y reenvío de archivos adjuntos</h3><p>Cédula de identidad obligatoria + Registro Social de Hogares opcional</p></div>
+    <div class="mod-right"><span class="chev">▼</span></div>
   </div>
   <div class="mod-body">
     <div class="section">
@@ -293,13 +298,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <!-- M7 -->
 <div class="module">
-  <div class="mod-header" onclick="toggle(this)">
+  <div class="mod-header" onclick="toggle(this,'mod-body')">
     <div class="mod-num">7</div>
-    <div class="mod-info">
-      <h3>Trazabilidad completa del flujo</h3>
-      <p>Registro exhaustivo de cada interacción para auditoría y procesamiento de MADICAP</p>
-    </div>
-    <div class="mod-right"><span class="hs">8–10 hs</span><span class="chev">▼</span></div>
+    <div class="mod-info"><h3>Trazabilidad completa del flujo</h3><p>Registro exhaustivo de cada interacción para auditoría y procesamiento de MADICAP</p></div>
+    <div class="mod-right"><span class="chev">▼</span></div>
   </div>
   <div class="mod-body">
     <div class="section">
@@ -327,13 +329,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <!-- M8 -->
 <div class="module">
-  <div class="mod-header" onclick="toggle(this)">
+  <div class="mod-header" onclick="toggle(this,'mod-body')">
     <div class="mod-num">8</div>
-    <div class="mod-info">
-      <h3>Testing end-to-end — 4 casos obligatorios</h3>
-      <p>Definidos por MADICAP — deben pasar todos antes de ir a producción</p>
-    </div>
-    <div class="mod-right"><span class="hs">8–12 hs</span><span class="chev">▼</span></div>
+    <div class="mod-info"><h3>Testing end-to-end — 4 casos obligatorios</h3><p>Definidos por MADICAP — deben pasar todos antes de ir a producción</p></div>
+    <div class="mod-right"><span class="chev">▼</span></div>
   </div>
   <div class="mod-body">
     <div class="section">
@@ -360,26 +359,186 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- TOTALES -->
-<div class="totals">
-  <div class="tc"><div class="v">62–82</div><div class="l">horas de desarrollo</div></div>
-  <div class="tc"><div class="v">2–3</div><div class="l">semanas con equipo dedicado</div></div>
-  <div class="tc"><div class="v">8</div><div class="l">módulos independientes</div></div>
+<!-- ====== VARIABLES A DEFINIR ====== -->
+<div class="vars-title">Variables a definir por el equipo técnico</div>
+<div class="vars-sub">El jefe de desarrollo completa esta sección para poder armar la cotización. El área comercial no puede determinar estos valores.</div>
+
+<button class="expand-btn" onclick="toggleAll('var-body')" style="margin-bottom:12px">Expandir / colapsar variables ▾</button>
+
+<!-- V1 -->
+<div class="var-block">
+  <div class="var-block-header" onclick="toggle(this,'var-body')">
+    <div class="var-icon">A</div>
+    <div class="var-block-title"><h3>Horas de trabajo por módulo</h3><p>Estimación real de esfuerzo por cada uno de los 8 módulos</p></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="var-body">
+    <div class="var-row">
+      <div class="var-field"><label>Módulo 1 — API bidireccional</label><div class="placeholder">__ horas</div></div>
+      <div class="var-field"><label>Módulo 2 — Motor entrevista</label><div class="placeholder">__ horas</div></div>
+    </div>
+    <div class="var-row">
+      <div class="var-field"><label>Módulo 3 — Envío masivo</label><div class="placeholder">__ horas</div></div>
+      <div class="var-field"><label>Módulo 4 — FAQ</label><div class="placeholder">__ horas</div></div>
+    </div>
+    <div class="var-row">
+      <div class="var-field"><label>Módulo 5 — Recordatorios</label><div class="placeholder">__ horas</div></div>
+      <div class="var-field"><label>Módulo 6 — Adjuntos</label><div class="placeholder">__ horas</div></div>
+    </div>
+    <div class="var-row">
+      <div class="var-field"><label>Módulo 7 — Trazabilidad</label><div class="placeholder">__ horas</div></div>
+      <div class="var-field"><label>Módulo 8 — Testing</label><div class="placeholder">__ horas</div></div>
+    </div>
+    <div class="var-note">Total de horas = base para calcular el costo del proyecto. Sin este dato no hay cotización posible.</div>
+  </div>
 </div>
 
-<div class="footer">Preparado por Staff21x · staff21x.com</div>
+<!-- V2 -->
+<div class="var-block">
+  <div class="var-block-header" onclick="toggle(this,'var-body')">
+    <div class="var-icon">B</div>
+    <div class="var-block-title"><h3>Equipo necesario</h3><p>Perfiles, cantidad de personas y dedicación requerida</p></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="var-body">
+    <div class="var-row">
+      <div class="var-field"><label>Perfil 1 — rol</label><div class="placeholder">Ej: backend developer</div></div>
+      <div class="var-field"><label>Perfil 1 — dedicación</label><div class="placeholder">Ej: full time / part time</div></div>
+    </div>
+    <div class="var-row">
+      <div class="var-field"><label>Perfil 2 — rol</label><div class="placeholder">Ej: integrations specialist</div></div>
+      <div class="var-field"><label>Perfil 2 — dedicación</label><div class="placeholder">Ej: full time / part time</div></div>
+    </div>
+    <div class="var-row">
+      <div class="var-field"><label>Perfil 3 — rol</label><div class="placeholder">Completar si aplica</div></div>
+      <div class="var-field"><label>Perfil 3 — dedicación</label><div class="placeholder">Completar si aplica</div></div>
+    </div>
+    <div class="var-note">¿Se pueden trabajar módulos en paralelo? ¿Cuántas personas pueden correr simultáneamente sin generar dependencias?</div>
+  </div>
+</div>
+
+<!-- V3 -->
+<div class="var-block">
+  <div class="var-block-header" onclick="toggle(this,'var-body')">
+    <div class="var-icon">C</div>
+    <div class="var-block-title"><h3>Herramientas principales de desarrollo</h3><p>Stack tecnológico elegido para construir el sistema</p></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="var-body">
+    <div class="var-row">
+      <div class="var-field"><label>Lenguaje / framework backend</label><div class="placeholder">Ej: Node.js, Python, etc.</div></div>
+      <div class="var-field"><label>Base de datos</label><div class="placeholder">Ej: PostgreSQL, MongoDB, etc.</div></div>
+    </div>
+    <div class="var-row">
+      <div class="var-field"><label>Infraestructura / hosting</label><div class="placeholder">Ej: Railway, AWS, GCP, etc.</div></div>
+      <div class="var-field"><label>Proveedor WhatsApp Business API</label><div class="placeholder">Ej: 360Dialog, Twilio, Meta directo</div></div>
+    </div>
+    <div class="var-row">
+      <div class="var-field"><label>Orquestador de flujos</label><div class="placeholder">Ej: n8n, custom, otro</div></div>
+      <div class="var-field"><label>Control de versiones</label><div class="placeholder">Ej: GitHub, GitLab</div></div>
+    </div>
+    <div class="var-note">La elección del stack impacta directamente en velocidad de desarrollo y cumplimiento del plazo de 2–3 semanas.</div>
+  </div>
+</div>
+
+<!-- V4 -->
+<div class="var-block">
+  <div class="var-block-header" onclick="toggle(this,'var-body')">
+    <div class="var-icon">D</div>
+    <div class="var-block-title"><h3>Herramientas complementarias</h3><p>Servicios de soporte necesarios para operar el sistema</p></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="var-body">
+    <div class="var-row">
+      <div class="var-field"><label>Monitoreo y alertas</label><div class="placeholder">Ej: Datadog, Sentry, otro</div></div>
+      <div class="var-field"><label>Logs centralizados</label><div class="placeholder">Ej: Papertrail, Logtail, otro</div></div>
+    </div>
+    <div class="var-row">
+      <div class="var-field"><label>Almacenamiento de archivos adjuntos</label><div class="placeholder">Ej: S3, Cloudflare R2, otro</div></div>
+      <div class="var-field"><label>Cola de mensajes / jobs</label><div class="placeholder">Ej: Redis, BullMQ, otro</div></div>
+    </div>
+    <div class="var-row">
+      <div class="var-field"><label>Gestión de secretos / env vars</label><div class="placeholder">Ej: Doppler, .env, otro</div></div>
+      <div class="var-field"><label>CI/CD</label><div class="placeholder">Ej: GitHub Actions, otro</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- V5 -->
+<div class="var-block">
+  <div class="var-block-header" onclick="toggle(this,'var-body')">
+    <div class="var-icon">E</div>
+    <div class="var-block-title"><h3>Uso de IA complementaria</h3><p>Modelos de IA necesarios para detección de FAQ y contención conversacional</p></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="var-body">
+    <div class="var-row">
+      <div class="var-field"><label>Modelo para detección de intención (FAQ)</label><div class="placeholder">Ej: GPT-4o, Claude, Gemini, otro</div></div>
+      <div class="var-field"><label>Costo estimado por conversación</label><div class="placeholder">__ USD / conversación</div></div>
+    </div>
+    <div class="var-row">
+      <div class="var-field"><label>Volumen mensual estimado de conversaciones</label><div class="placeholder">__ conversaciones / mes</div></div>
+      <div class="var-field"><label>Costo mensual estimado de IA</label><div class="placeholder">__ USD / mes</div></div>
+    </div>
+    <div class="var-note">¿El módulo de FAQ requiere IA o puede resolverse con matching de palabras clave? El equipo técnico decide según complejidad del banco de FAQs.</div>
+  </div>
+</div>
+
+<!-- V6 -->
+<div class="var-block">
+  <div class="var-block-header" onclick="toggle(this,'var-body')">
+    <div class="var-icon">F</div>
+    <div class="var-block-title"><h3>Sistema de pruebas y ambiente de QA</h3><p>Estrategia para validar los 4 casos de prueba obligatorios antes de producción</p></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="var-body">
+    <div class="var-row">
+      <div class="var-field"><label>Ambiente de desarrollo separado de producción</label><div class="placeholder">Sí / No / cómo</div></div>
+      <div class="var-field"><label>Número de pruebas de integración con MADICAP</label><div class="placeholder">__ sesiones antes de go-live</div></div>
+    </div>
+    <div class="var-row">
+      <div class="var-field"><label>Herramienta de testing</label><div class="placeholder">Ej: Postman, Jest, manual, otro</div></div>
+      <div class="var-field"><label>Horas dedicadas a QA</label><div class="placeholder">__ horas</div></div>
+    </div>
+    <div class="var-note">MADICAP debe proveer acceso a su ambiente de test. Confirmar disponibilidad antes de arrancar el desarrollo.</div>
+  </div>
+</div>
+
+<!-- BARRA FINAL -->
+<div class="totals">
+  <div class="tc">
+    <div class="v">8 módulos</div>
+    <div class="l">requerimientos identificados</div>
+    <div class="sub">a validar con MADICAP</div>
+  </div>
+  <div class="tc">
+    <div class="v">2–3 semanas</div>
+    <div class="l">plazo definido por MADICAP</div>
+    <div class="sub">fecha de inicio a confirmar</div>
+  </div>
+  <div class="tc">
+    <div class="v">A definir</div>
+    <div class="l">equipo, horas y cotización</div>
+    <div class="sub">a cargo del jefe de desarrollo</div>
+  </div>
+</div>
+
+<div class="footer">Declaración de requerimiento preparada por Staff21x · staff21x.com</div>
 
 </div>
 <script>
-function toggle(h){
-  const b=h.nextElementSibling,c=h.querySelector('.chev');
-  b.classList.toggle('open');c.classList.toggle('open');
+function toggle(header, bodyClass){
+  const body = header.nextElementSibling;
+  const chev = header.querySelector('.chev');
+  body.classList.toggle('open');
+  if(chev) chev.classList.toggle('open');
 }
-function toggleAll(){
-  const bs=document.querySelectorAll('.mod-body'),cs=document.querySelectorAll('.chev');
-  const any=[...bs].some(b=>b.classList.contains('open'));
-  bs.forEach(b=>b.classList.toggle('open',!any));
-  cs.forEach(c=>c.classList.toggle('open',!any));
+function toggleAll(bodyClass){
+  const bodies = document.querySelectorAll('.'+bodyClass);
+  const chevs = document.querySelectorAll('.chev');
+  const any = [...bodies].some(b=>b.classList.contains('open'));
+  bodies.forEach(b=>b.classList.toggle('open',!any));
+  chevs.forEach(c=>c.classList.toggle('open',!any));
 }
 </script>
 </body>
