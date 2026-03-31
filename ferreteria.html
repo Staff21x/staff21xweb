@@ -1,545 +1,491 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Análisis Técnico — Agente MADICAP</title>
+<title>Declaración de requerimiento — Sistema de Compras y Logística</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f4f0;color:#1a1a18;padding:2rem 1rem}
-.wrap{max-width:900px;margin:0 auto}
-.header h1{font-size:22px;font-weight:500;color:#1a1a18;margin-bottom:4px}
-.header p{font-size:13px;color:#6b6b67}
-.badges{margin:12px 0 14px}
-.badge{display:inline-block;font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;margin-right:6px;margin-bottom:4px}
-.b1{background:#0038A8;color:#FCD116}
-.b2{background:#FCD116;color:#0038A8}
-.b3{background:#e8eef8;color:#0038A8}
-.module{background:#fff;border:0.5px solid #d3d1c7;border-radius:12px;margin-bottom:10px;overflow:hidden}
-.mod-header{padding:14px 16px;display:flex;align-items:flex-start;gap:12px;cursor:pointer;user-select:none}
-.mod-header:hover{background:#f5f4f0}
-.mod-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;margin-top:1px;background:#0038A8;color:#FCD116}
-.mod-info{flex:1}
-.mod-info h3{font-size:14px;font-weight:500;color:#1a1a18;line-height:1.3}
-.mod-info p{font-size:12px;color:#6b6b67;margin-top:2px}
-.mod-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.hs{font-size:12px;color:#6b6b67;white-space:nowrap}
-.chev{font-size:10px;color:#aaa;transition:transform .2s}
-.chev.open{transform:rotate(180deg)}
-.mod-body{display:none;border-top:0.5px solid #d3d1c7}
-.mod-body.open{display:block}
-.section{padding:12px 16px;border-bottom:0.5px solid #e8e8e4}
-.section:last-child{border-bottom:none}
-.sec-title{font-size:11px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px;padding:4px 8px;border-radius:4px;display:inline-block}
-.sec-pide{background:#e8eef8;color:#0038A8}
-.sec-provee{background:#fff8d6;color:#7a6200}
-.sec-construye{background:#0038A8;color:#FCD116}
-.sec-restriccion{background:#1a1a1a;color:#FCD116}
-.item{display:flex;gap:8px;margin-bottom:6px;align-items:flex-start}
-.item:last-child{margin-bottom:0}
-.dot{width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0}
-.item-text{font-size:13px;color:#1a1a18;line-height:1.5}
-.item-sub{font-size:12px;color:#6b6b67;margin-top:2px}
-.tag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:4px;background:#f5f4f0;color:#6b6b67;border:0.5px solid #d3d1c7;margin:2px 3px 2px 0}
-.expand-btn{font-size:12px;color:#6b6b67;cursor:pointer;background:none;border:none;padding:0;margin-bottom:12px}
-.expand-btn:hover{color:#1a1a18}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* SECCIÓN VARIABLES */
-.vars-title{font-size:18px;font-weight:500;color:#1a1a18;margin:32px 0 4px}
-.vars-sub{font-size:13px;color:#6b6b67;margin-bottom:16px}
-.var-block{background:#fff;border:0.5px solid #d3d1c7;border-radius:12px;margin-bottom:10px;overflow:hidden}
-.var-block-header{padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
-.var-block-header:hover{background:#f5f4f0}
-.var-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;background:#FCD116;color:#0038A8}
-.var-block-title{flex:1}
-.var-block-title h3{font-size:14px;font-weight:500;color:#1a1a18}
-.var-block-title p{font-size:12px;color:#6b6b67;margin-top:2px}
-.var-body{display:none;border-top:0.5px solid #d3d1c7;padding:14px 16px}
-.var-body.open{display:block}
-.var-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-.var-row:last-child{margin-bottom:0}
-.var-field{background:#f5f4f0;border-radius:8px;padding:10px 12px}
-.var-field label{font-size:11px;font-weight:600;color:#6b6b67;text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:4px}
-.var-field .placeholder{font-size:13px;color:#aaa;font-style:italic}
-.var-note{font-size:12px;color:#6b6b67;margin-top:10px;padding:8px 10px;background:#fff8d6;border-radius:6px;border-left:3px solid #FCD116}
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f5f5f0;
+    color: #1a1a1a;
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 56px 20px 100px;
+  }
 
-/* BARRA FINAL */
-.totals{display:grid;grid-template-columns:repeat(3,1fr);background:#0038A8;border-radius:10px;overflow:hidden;margin-top:24px}
-.tc{text-align:center;padding:20px 16px;border-right:1px solid #1a4ab8}
-.tc:last-child{border-right:none}
-.tc .v{font-size:18px;font-weight:500;color:#FCD116;margin-bottom:4px}
-.tc .l{font-size:12px;color:#a8bce0;line-height:1.4}
-.tc .sub{font-size:11px;color:#6b8cc2;margin-top:3px}
-.footer{margin-top:20px;font-size:12px;color:#aaa;text-align:center}
+  .page { max-width: 800px; margin: 0 auto; }
+
+  /* HEADER */
+  .header { margin-bottom: 32px; }
+  .header h1 { font-size: 28px; font-weight: 700; color: #111; margin-bottom: 8px; line-height: 1.25; }
+  .header .subtitle { font-size: 14px; color: #666; margin-bottom: 18px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; }
+  .badge { display: inline-flex; align-items: center; padding: 5px 13px; border-radius: 20px; font-size: 13px; font-weight: 500; }
+  .badge-navy  { background: #1e2d5e; color: #fff; }
+  .badge-gold  { background: #f0b429; color: #111; }
+  .badge-ghost { background: transparent; color: #555; border: 1.5px solid #ccc; }
+
+  /* SUMMARY BLOCK */
+  .summary-block {
+    background: #fff;
+    border: 1px solid #e0e0d8;
+    border-left: 4px solid #1e2d5e;
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 36px;
+  }
+  .summary-title { font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: #1e2d5e; margin-bottom: 12px; }
+  .summary-block p { font-size: 14px; color: #444; line-height: 1.78; }
+
+  /* CAPA HEADER */
+  .capa-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+  .capa-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .04em;
+  }
+  .capa-1 { background: #1e2d5e; color: #fff; }
+  .capa-2 { background: #e8eefc; color: #1e2d5e; border: 1.5px solid #c5d2f5; }
+  .capa-3 { background: #f5f0e0; color: #7a5c00; border: 1.5px solid #e0c96e; }
+
+  .capa-desc { font-size: 13px; color: #777; }
+  .capa-tag  { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: #bbb; }
+
+  /* PROCESO FLOW */
+  .proceso-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin: 16px 0 20px;
+    background: #fff;
+    border: 1px solid #e0e0d8;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .proceso-step {
+    flex: 1;
+    min-width: 130px;
+    padding: 16px 18px;
+    border-right: 1px solid #ebebeb;
+    position: relative;
+  }
+  .proceso-step:last-child { border-right: none; }
+  .proceso-step .ps-num {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 4px;
+  }
+  .proceso-step .ps-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 3px;
+  }
+  .proceso-step .ps-sub { font-size: 12px; color: #888; line-height: 1.5; }
+  .proceso-step .ps-arrow {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #1e2d5e;
+    font-size: 16px;
+    z-index: 1;
+    background: #fff;
+    padding: 2px 0;
+  }
+  .proceso-step:last-child .ps-arrow { display: none; }
+
+  /* SECTION LABEL */
+  .section-label { font-size: 13px; color: #555; margin: 20px 0 12px; cursor: pointer; user-select: none; width: fit-content; }
+  .section-label:hover { color: #111; }
+
+  /* ACCORDION */
+  .accordion { display: flex; flex-direction: column; gap: 8px; margin-bottom: 36px; }
+
+  .acc-item { background: #fff; border: 1px solid #e0e0d8; border-radius: 10px; overflow: hidden; cursor: pointer; }
+  .acc-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; user-select: none; }
+  .acc-header:hover { background: #fafaf6; }
+
+  .acc-num { width: 32px; height: 32px; border-radius: 50%; background: #1e2d5e; color: #fff; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+  .acc-info { flex: 1; }
+  .acc-title { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 2px; }
+  .acc-desc  { font-size: 13px; color: #777; }
+
+  .acc-chevron { color: #aaa; font-size: 14px; transition: transform .2s; flex-shrink: 0; }
+  .acc-item.open .acc-chevron { transform: rotate(180deg); }
+
+  .acc-body { display: none; padding: 0 20px 20px 66px; border-top: 1px solid #ebebeb; padding-top: 16px; cursor: default; }
+  .acc-item.open .acc-body { display: block; }
+
+  .acc-body .stag { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #1e2d5e; margin: 14px 0 7px; }
+  .acc-body .stag:first-child { margin-top: 0; }
+
+  .acc-body ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .acc-body li { font-size: 14px; color: #444; padding-left: 16px; position: relative; line-height: 1.6; }
+  .acc-body li::before { content: '—'; position: absolute; left: 0; color: #bbb; }
+  .acc-body li strong { color: #222; font-weight: 600; }
+
+  /* ROADMAP CARDS (Capa 2 y 3) */
+  .roadmap-card {
+    background: #fff;
+    border: 1px solid #e0e0d8;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 10px;
+    opacity: .75;
+  }
+  .roadmap-card .rc-title { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 6px; }
+  .roadmap-card .rc-desc  { font-size: 13.5px; color: #666; line-height: 1.65; }
+  .roadmap-card ul { list-style: none; margin-top: 10px; display: flex; flex-direction: column; gap: 5px; }
+  .roadmap-card li { font-size: 13.5px; color: #666; padding-left: 16px; position: relative; line-height: 1.55; }
+  .roadmap-card li::before { content: '—'; position: absolute; left: 0; color: #ccc; }
+  .roadmap-label { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: #bbb; margin-bottom: 10px; margin-top: 28px; }
+
+  /* VARIABLES */
+  .vars-header { margin: 40px 0 6px; }
+  .vars-header h2 { font-size: 22px; font-weight: 700; color: #111; margin-bottom: 6px; }
+  .vars-header p  { font-size: 14px; color: #666; max-width: 540px; line-height: 1.6; }
+
+  .var-num { width: 32px; height: 32px; border-radius: 50%; background: #f5f0e0; color: #7a5c00; border: 1.5px solid #e0c96e; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+  .var-body { display: none; border-top: 1px solid #ebebeb; padding: 16px 20px 20px 66px; cursor: default; }
+  .acc-item.open .var-body { display: block; }
+
+  .var-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; }
+  .var-field label { display: block; font-size: 12px; color: #888; margin-bottom: 3px; }
+  .var-input { display: block; width: 100%; padding: 7px 10px; border: 1.5px solid #ddd; border-radius: 6px; font-size: 14px; color: #777; background: #fafaf6; font-family: inherit; font-style: italic; }
+  .var-note { font-size: 13px; color: #666; margin-top: 14px; line-height: 1.65; padding-top: 12px; border-top: 1px solid #f0f0e8; }
+
+  /* FOOTER */
+  .footer { margin-top: 48px; background: #fff; border: 1px solid #e0e0d8; border-radius: 12px; padding: 28px 32px; display: flex; flex-wrap: wrap; align-items: flex-start; }
+  .footer-metric { flex: 1; min-width: 130px; padding: 0 24px; border-right: 1px solid #e8e8e0; }
+  .footer-metric:first-child { padding-left: 0; }
+  .footer-metric:last-of-type { border-right: none; }
+  .met-label { font-size: 11px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: #999; margin-bottom: 4px; }
+  .met-value { font-size: 26px; font-weight: 700; color: #111; line-height: 1.1; }
+  .met-sub   { font-size: 12px; color: #888; margin-top: 3px; }
+  .footer-note { width: 100%; margin-top: 20px; padding-top: 18px; border-top: 1px solid #ebebeb; font-size: 12.5px; color: #888; text-align: center; }
+
+  @media (max-width: 600px) {
+    .acc-body, .var-body { padding-left: 20px; }
+    .var-grid { grid-template-columns: 1fr; }
+    .footer { flex-direction: column; gap: 20px; }
+    .footer-metric { border-right: none; padding: 0; }
+    .proceso-flow { flex-direction: column; }
+    .proceso-step { border-right: none; border-bottom: 1px solid #ebebeb; }
+    .proceso-step:last-child { border-bottom: none; }
+    .ps-arrow { display: none; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="page">
 
-<div class="header">
-  <h1>Declaración de requerimiento — Agente de postulación MADICAP</h1>
-  <p>Levantamiento comercial para análisis y cotización del equipo técnico · Basado en especificación oficial MADICAP</p>
-</div>
-<div class="badges">
-  <span class="badge b1">Plazo definido: 2–3 semanas</span>
-  <span class="badge b2">Canal: WhatsApp Business API</span>
-  <span class="badge b3">Integración: API bidireccional MADICAP</span>
-</div>
+  <!-- HEADER -->
+  <div class="header">
+    <h1>Declaración de requerimiento —<br>Sistema de Compras y Logística</h1>
+    <p class="subtitle">Levantamiento comercial para análisis y cotización del equipo técnico · Ferretería con despacho propio</p>
+    <div class="badges">
+      <span class="badge badge-navy">Capa 1: MVP operativo</span>
+      <span class="badge badge-ghost">Plataforma web simple</span>
+      <span class="badge badge-ghost">Escalable a futuro</span>
+    </div>
+  </div>
 
-<button class="expand-btn" onclick="toggleAll('mod-body')">Expandir / colapsar módulos ▾</button>
+  <!-- RESUMEN -->
+  <div class="summary-block">
+    <div class="summary-title">Resumen de requerimiento</div>
+    <p>
+      El cliente opera una ferretería con despacho propio. Su modelo de negocio funciona así: compra mercadería a proveedores, la almacena en su bodega, vende por listas de precios, despacha a sus clientes y repone antes de llegar al quiebre de stock. Hoy todo este ciclo se gestiona a mano — sin ningún sistema de registro, sin alertas, sin trazabilidad.<br><br>
+      El problema no es complejo conceptualmente, pero sin digitalización se vuelve caótico: no se sabe con exactitud cuánto hay en bodega, cuándo hay que comprar, qué lista de precios aplica a cada cliente ni qué se despachó y qué está pendiente. El negocio funciona por memoria y planillas desconectadas, lo que genera errores, quiebres de stock evitables y decisiones de compra sin información.<br><br>
+      La solución es un sistema web simple y económico, diseñado para que cualquier persona lo use sin capacitación técnica. El objetivo de la primera etapa es digitalizar el ciclo operativo completo tal como funciona hoy: inventario, compras, ventas por lista de precios, despachos y alertas de reposición. Nada más, nada menos — ordenar la casa primero.
+    </p>
+  </div>
 
-<!-- M1 -->
-<div class="module">
-  <div class="mod-header" onclick="toggle(this,'mod-body')">
-    <div class="mod-num">1</div>
-    <div class="mod-info"><h3>Integración API bidireccional con sistema MADICAP</h3><p>Recepción de postulantes entrantes + envío de respuestas, eventos y adjuntos</p></div>
-    <div class="mod-right"><span class="chev">▼</span></div>
+  <!-- ══════════════════════════════ CAPA 1 ══════════════════════════════ -->
+  <div class="capa-header">
+    <span class="capa-badge capa-1">Capa 1 — MVP Operativo</span>
+    <span class="capa-desc">Barato · Liviano · Sin necesidad de conocimientos técnicos</span>
   </div>
-  <div class="mod-body">
-    <div class="section">
-      <div class="sec-title sec-pide">Lo que MADICAP nos pide</div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Recibir un webhook/POST desde el sistema de MADICAP cada vez que un postulante completa el formulario web, para activar el flujo conversacional en WhatsApp<div class="item-sub">Datos que llegan: id_postulante + rut · nombre_completo · telefono · programa · sede / comuna / modalidad</div></div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Enviar de vuelta a MADICAP, en tiempo real, cada evento del flujo + todas las respuestas + referencias a archivos adjuntos<div class="item-sub">11 eventos mínimos: invitación_enviada · mensaje_entregado · mensaje_leido · entrevista_iniciada · pregunta_enviada · respuesta_recibida · faq_respondida · entrevista_interrumpida · recordatorio_enviado · entrevista_completada · error_de_integracion</div></div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Payload mínimo por cada respuesta enviada a MADICAP<div class="item-sub">id_postulante · id_conversacion · fecha_hora · id_pregunta · texto_pregunta · tipo_respuesta · respuesta_original · opcion_seleccionada · estado_flujo · canal</div></div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-provee">Lo que MADICAP nos provee</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Documentación de su API y credenciales de acceso</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Endpoint de destino donde enviaremos los eventos y respuestas</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Equipo técnico propio disponible para resolver dudas de integración</div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-construye">Lo que nosotros construimos</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Endpoint receptor del webhook de MADICAP (activación del flujo)</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Servicio de salida que envía eventos y respuestas a la API de MADICAP con reintentos ante error</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Mapeo y serialización del payload completo por cada interacción</div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-restriccion">Restricciones que no se tocan</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Los datos deben quedar en base controlada por MADICAP o con exportación completa y permanente. No retenemos datos propietarios de ellos.</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">La salida debe ser exportable vía API / webhook / JSON — formato estándar, sin lock-in.</div></div>
-    </div>
-  </div>
-</div>
 
-<!-- M2 -->
-<div class="module">
-  <div class="mod-header" onclick="toggle(this,'mod-body')">
-    <div class="mod-num">2</div>
-    <div class="mod-info"><h3>Motor de entrevista estructurada parametrizable</h3><p>Núcleo del sistema — conversación guiada pregunta a pregunta por WhatsApp</p></div>
-    <div class="mod-right"><span class="chev">▼</span></div>
-  </div>
-  <div class="mod-body">
-    <div class="section">
-      <div class="sec-title sec-pide">Lo que MADICAP nos pide</div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Una pregunta a la vez — sin excepciones, sin anticipar la siguiente</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Cada pregunta puede tener tipo de respuesta distinto: alternativas, botones, lista, texto libre, o carga de archivo</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Saltos lógicos simples según la respuesta del postulante<div class="item-sub">Ej: si responde "Sí" ir a pregunta 5, si responde "No" ir a pregunta 8</div></div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Si la respuesta no cumple el formato esperado: reconducir y volver a presentar opciones — nunca interpretar libremente</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Si la entrevista se interrumpe: guardar estado y reanudar desde la pregunta pendiente cuando el postulante regrese</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">La última pregunta siempre es abierta (texto libre)</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Al finalizar: solicitar cédula de identidad (ambos lados) obligatoria + Registro Social de Hogares opcional<div class="item-sub">id_pregunta: DOC01 — la cédula bloquea continuidad, el RSH no</div></div></div>
+  <!-- PROCESO FLOW -->
+  <div class="proceso-flow">
+    <div class="proceso-step">
+      <div class="ps-num">Paso 1</div>
+      <div class="ps-title">Compra</div>
+      <div class="ps-sub">Registra OC y entrada a bodega</div>
+      <span class="ps-arrow">›</span>
     </div>
-    <div class="section">
-      <div class="sec-title sec-provee">Lo que MADICAP nos provee</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">El banco completo de preguntas con alternativas, tipos de respuesta y reglas de continuidad</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Los mensajes de validación para cada pregunta</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Las reglas de saltos lógicos definidas por ellos</div></div>
+    <div class="proceso-step">
+      <div class="ps-num">Paso 2</div>
+      <div class="ps-title">Stock</div>
+      <div class="ps-sub">Inventario actualizado en tiempo real</div>
+      <span class="ps-arrow">›</span>
     </div>
-    <div class="section">
-      <div class="sec-title sec-construye">Lo que nosotros construimos</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Motor que lee el banco de preguntas desde configuración externa (JSON / BD) y ejecuta el flujo en orden</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Lógica de estado por postulante: sabe en qué pregunta está, qué respondió, si pausó</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Manejo de saltos lógicos condicionales</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Validación de formato + reintento con mensaje de error configurado por MADICAP</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Reanudación desde punto de pausa cuando el postulante regresa</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Estructura de datos: <span class="tag">id_pregunta</span><span class="tag">texto_pregunta</span><span class="tag">tipo_respuesta</span><span class="tag">alternativas</span><span class="tag">obligatoriedad</span><span class="tag">regla_continuidad</span><span class="tag">msg_validacion</span></div></div>
+    <div class="proceso-step">
+      <div class="ps-num">Paso 3</div>
+      <div class="ps-title">Venta</div>
+      <div class="ps-sub">Lista de precios por cliente o segmento</div>
+      <span class="ps-arrow">›</span>
     </div>
-    <div class="section">
-      <div class="sec-title sec-restriccion">Restricciones que no se tocan</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">MADICAP debe poder modificar preguntas, alternativas y orden SIN que el equipo dev intervenga — el motor lee desde configuración externa, no hardcodeado.</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">El motor NO interpreta respuestas libres para clasificarlas. Registra exactamente lo que el postulante escribió o seleccionó.</div></div>
+    <div class="proceso-step">
+      <div class="ps-num">Paso 4</div>
+      <div class="ps-title">Despacho</div>
+      <div class="ps-sub">Registro de salida y trazabilidad</div>
+      <span class="ps-arrow">›</span>
+    </div>
+    <div class="proceso-step">
+      <div class="ps-num">Paso 5</div>
+      <div class="ps-title">Alerta</div>
+      <div class="ps-sub">Aviso antes del quiebre de stock</div>
     </div>
   </div>
-</div>
 
-<!-- M3 -->
-<div class="module">
-  <div class="mod-header" onclick="toggle(this,'mod-body')">
-    <div class="mod-num">3</div>
-    <div class="mod-info"><h3>Motor de envío masivo e invitaciones</h3><p>Primer contacto con la base de potenciales postulantes vía WhatsApp</p></div>
-    <div class="mod-right"><span class="chev">▼</span></div>
-  </div>
-  <div class="mod-body">
-    <div class="section">
-      <div class="sec-title sec-pide">Lo que MADICAP nos pide</div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Ejecutar envíos masivos a una base de contactos usando el número API y la cuenta WhatsApp de MADICAP</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Mensajes de marketing tipo HSM (plantilla aprobada por Meta) con enlace al formulario de postulación</div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-provee">Lo que MADICAP nos provee</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Cuenta WhatsApp Business API activa, verificada, con 10.000 conversaciones/24h (cuenta Entel2)</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Plantillas de mensajes de invitación redactadas y aprobadas por Meta</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">La base de contactos segmentada a enviar</div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-construye">Lo que nosotros construimos</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Integración con la API de WhatsApp Business de MADICAP para envío masivo</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Control de rate y gestión de errores de entrega</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Registro del evento invitación_enviada por cada contacto</div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-restriccion">Restricciones que no se tocan</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">La titularidad del número, cuenta WhatsApp Business, plantillas y configuración crítica queda bajo control de MADICAP.</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">El cobro de Meta (por conversación) va separado del cobro del proyecto.</div></div>
-    </div>
-  </div>
-</div>
+  <div class="section-label" onclick="toggleAll('mod1')">Expandir / colapsar módulos ▾</div>
 
-<!-- M4 -->
-<div class="module">
-  <div class="mod-header" onclick="toggle(this,'mod-body')">
-    <div class="mod-num">4</div>
-    <div class="mod-info"><h3>FAQ y contención conversacional</h3><p>Respuesta a preguntas fuera del flujo sin perder el hilo de la entrevista</p></div>
-    <div class="mod-right"><span class="chev">▼</span></div>
-  </div>
-  <div class="mod-body">
-    <div class="section">
-      <div class="sec-title sec-pide">Lo que MADICAP nos pide</div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Detectar cuando el postulante hace una pregunta ajena a la entrevista y responder con contenido autorizado</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Después de responder la FAQ, reconducir SIEMPRE a la pregunta pendiente de la entrevista</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Temas que el agente puede responder: programa · horario · duración · modalidad · requisitos · certificación · lugar · gratuidad · entidad · documentos requeridos · pasos del proceso</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Registrar el evento faq_respondida con trazabilidad completa</div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-provee">Lo que MADICAP nos provee</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Banco completo de preguntas frecuentes con respuestas autorizadas</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Lista de temas permitidos y temas fuera de alcance</div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-construye">Lo que nosotros construimos</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Detector de intención fuera de flujo</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Lookup en el banco de FAQs y respuesta con el texto autorizado</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Lógica de reencuadre: después de la FAQ el agente retoma la pregunta pendiente</div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-restriccion">Restricciones que no se tocan</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">El agente solo responde con contenido aprobado por MADICAP. No improvisa, no infiere, no inventa.</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Si la pregunta no está en el banco de FAQs, el agente dice que no tiene esa información y reconduce a la entrevista.</div></div>
-    </div>
-  </div>
-</div>
+  <div class="accordion" id="mod1">
 
-<!-- M5 -->
-<div class="module">
-  <div class="mod-header" onclick="toggle(this,'mod-body')">
-    <div class="mod-num">5</div>
-    <div class="mod-info"><h3>Recordatorios automáticos y reactivación</h3><p>Seguimiento de postulantes que abandonan o no completan el flujo</p></div>
-    <div class="mod-right"><span class="chev">▼</span></div>
-  </div>
-  <div class="mod-body">
-    <div class="section">
-      <div class="sec-title sec-pide">Lo que MADICAP nos pide</div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Recordatorios automáticos configurables cuando el postulante no completa el flujo</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">4 estados que activan recordatorio:<div class="item-sub">1 · Invitación enviada sin inicio · 2 · Entrevista iniciada sin respuesta · 3 · Entrevista abandonada · 4 · Postulación incompleta</div></div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Stop automático cuando el postulante retoma o completa</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Registrar cada recordatorio enviado con timestamp</div></div>
+    <div class="acc-item" onclick="toggle(this)">
+      <div class="acc-header">
+        <div class="acc-num">1</div>
+        <div class="acc-info">
+          <div class="acc-title">Maestro de productos e inventario</div>
+          <div class="acc-desc">La base de todo — qué hay, cuánto hay y dónde</div>
+        </div>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="stag">Lo que se construye</div>
+        <ul>
+          <li><strong>Ficha de producto:</strong> código, descripción, categoría, unidad de medida, proveedor asignado y foto opcional.</li>
+          <li><strong>Stock actual:</strong> cantidad disponible en bodega, actualizada automáticamente con cada compra, venta o despacho.</li>
+          <li><strong>Stock mínimo configurable:</strong> cada producto tiene su umbral de alerta — cuando el stock cae debajo, el sistema avisa.</li>
+          <li><strong>Historial de movimientos:</strong> cada entrada y salida queda registrada con fecha, cantidad y tipo de operación.</li>
+          <li><strong>Carga inicial:</strong> importación del maestro de productos desde planilla Excel para no empezar desde cero.</li>
+        </ul>
+      </div>
     </div>
-    <div class="section">
-      <div class="sec-title sec-provee">Lo que MADICAP nos provee</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Textos de cada recordatorio diferenciados por estado</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Intervalos de tiempo (ej: R1: 2 hs · R2: 4 hs · R3: 8 hs)</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Número máximo de recordatorios por etapa</div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-construye">Lo que nosotros construimos</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Motor de jobs programados que evalúa inactividad por postulante</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Scheduler parametrizable: intervalos, tope de envíos, textos por estado — todo desde configuración sin tocar código</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Cancelación automática cuando el postulante retoma o finaliza</div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-restriccion">Restricciones que no se tocan</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">MADICAP debe poder cambiar intervalos, textos y cantidad de recordatorios sin intervención del equipo dev.</div></div>
-    </div>
-  </div>
-</div>
 
-<!-- M6 -->
-<div class="module">
-  <div class="mod-header" onclick="toggle(this,'mod-body')">
-    <div class="mod-num">6</div>
-    <div class="mod-info"><h3>Recepción y reenvío de archivos adjuntos</h3><p>Cédula de identidad obligatoria + Registro Social de Hogares opcional</p></div>
-    <div class="mod-right"><span class="chev">▼</span></div>
-  </div>
-  <div class="mod-body">
-    <div class="section">
-      <div class="sec-title sec-pide">Lo que MADICAP nos pide</div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Recibir imagen de cédula de identidad por ambos lados — obligatoria, bloquea continuidad hasta recibirla</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Recibir Registro Social de Hogares — opcional, no bloquea</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Incluir archivos o referencias en el payload enviado a MADICAP junto con las respuestas</div></div>
+    <div class="acc-item" onclick="toggle(this)">
+      <div class="acc-header">
+        <div class="acc-num">2</div>
+        <div class="acc-info">
+          <div class="acc-title">Registro de compras y entrada a bodega</div>
+          <div class="acc-desc">Digitalización del ciclo compra → stock disponible</div>
+        </div>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="stag">Lo que se construye</div>
+        <ul>
+          <li><strong>Ficha de proveedor:</strong> nombre, RUT, contacto y condiciones básicas de pago.</li>
+          <li><strong>Orden de compra simple:</strong> registro de qué se compró, a quién, cuánto y a qué precio.</li>
+          <li><strong>Confirmación de recepción:</strong> cuando la mercadería llega, se confirma la entrada y el stock se actualiza automáticamente.</li>
+          <li><strong>Estado de la OC:</strong> pendiente de llegada / recibida parcialmente / recibida completa.</li>
+          <li><strong>Costo de compra por producto:</strong> base para calcular margen en la venta.</li>
+        </ul>
+      </div>
     </div>
-    <div class="section">
-      <div class="sec-title sec-provee">Lo que MADICAP nos provee</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Endpoint donde deben llegar los archivos o URLs de referencia</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Texto del mensaje de solicitud de documentos (pregunta DOC01)</div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-construye">Lo que nosotros construimos</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Recepción de imágenes/archivos vía WhatsApp y almacenamiento temporal</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Validación de que la cédula fue recibida antes de avanzar</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Inclusión de archivos o URLs en el payload de respuestas enviado a MADICAP</div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-restriccion">Restricciones que no se tocan</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Los archivos son propiedad de MADICAP. No los procesamos, no los analizamos, solo recibimos y reenviamos.</div></div>
-    </div>
-  </div>
-</div>
 
-<!-- M7 -->
-<div class="module">
-  <div class="mod-header" onclick="toggle(this,'mod-body')">
-    <div class="mod-num">7</div>
-    <div class="mod-info"><h3>Trazabilidad completa del flujo</h3><p>Registro exhaustivo de cada interacción para auditoría y procesamiento de MADICAP</p></div>
-    <div class="mod-right"><span class="chev">▼</span></div>
-  </div>
-  <div class="mod-body">
-    <div class="section">
-      <div class="sec-title sec-pide">Lo que MADICAP nos pide</div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Trazabilidad completa por: postulante · conversación · pregunta · respuesta · recordatorio · estado</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Todo lo que el agente muestra y el postulante responde queda registrado exactamente como ocurrió — sin resúmenes</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Datos en base controlada por MADICAP o con exportación completa y permanente</div></div>
+    <div class="acc-item" onclick="toggle(this)">
+      <div class="acc-header">
+        <div class="acc-num">3</div>
+        <div class="acc-info">
+          <div class="acc-title">Listas de precios y registro de ventas</div>
+          <div class="acc-desc">Precio correcto para cada cliente — sin errores ni consultas</div>
+        </div>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="stag">Lo que se construye</div>
+        <ul>
+          <li><strong>Listas de precios múltiples:</strong> precio lista general, precio mayorista, precio especial por cliente — configurables sin tocar código.</li>
+          <li><strong>Asignación de lista por cliente:</strong> cada cliente tiene su lista asignada y el sistema aplica el precio correcto automáticamente.</li>
+          <li><strong>Registro de venta:</strong> qué se vendió, a quién, a qué precio y en qué fecha — el stock se descuenta al instante.</li>
+          <li><strong>Pedido previo al despacho:</strong> posibilidad de registrar el pedido antes de preparar el despacho, para organizar la logística.</li>
+        </ul>
+      </div>
     </div>
-    <div class="section">
-      <div class="sec-title sec-provee">Lo que MADICAP nos provee</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Definición del formato de salida esperado (estructura JSON o esquema de BD)</div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-construye">Lo que nosotros construimos</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Log estructurado de cada evento del flujo con timestamp</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Registro de respuesta exacta por pregunta (texto original + opción seleccionada)</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Push automático a MADICAP del historial completo al finalizar la entrevista</div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-restriccion">Restricciones que no se tocan</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Nada de evaluación, ranking o puntaje reside en nuestro sistema. Solo entregamos datos en bruto a MADICAP.</div></div>
-    </div>
-  </div>
-</div>
 
-<!-- M8 -->
-<div class="module">
-  <div class="mod-header" onclick="toggle(this,'mod-body')">
-    <div class="mod-num">8</div>
-    <div class="mod-info"><h3>Testing end-to-end — 4 casos obligatorios</h3><p>Definidos por MADICAP — deben pasar todos antes de ir a producción</p></div>
-    <div class="mod-right"><span class="chev">▼</span></div>
-  </div>
-  <div class="mod-body">
-    <div class="section">
-      <div class="sec-title sec-pide">Lo que MADICAP nos pide</div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Caso A — Entrevista completada sin desvíos: postulante responde todo, sistema registra y envía consolidado</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Caso B — FAQ intermedia: agente responde con FAQ aprobada y retoma la pregunta pendiente</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Caso C — Entrevista abandonada: estado interrumpido, recordatorios enviados, al retomar continúa desde el punto pendiente</div></div>
-      <div class="item"><div class="dot" style="background:#0038A8"></div><div class="item-text">Caso D — Respuesta fuera de formato: reconduce y presenta opciones sin interpretar libremente</div></div>
+    <div class="acc-item" onclick="toggle(this)">
+      <div class="acc-header">
+        <div class="acc-num">4</div>
+        <div class="acc-info">
+          <div class="acc-title">Gestión de despachos</div>
+          <div class="acc-desc">Control de qué salió, cuándo y a quién</div>
+        </div>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="stag">Lo que se construye</div>
+        <ul>
+          <li><strong>Registro de despacho:</strong> vinculado a la venta — qué salió físicamente de bodega, fecha y responsable.</li>
+          <li><strong>Estado del despacho:</strong> preparado / en camino / entregado — trazabilidad básica del pedido.</li>
+          <li><strong>Guía de despacho simple:</strong> documento imprimible o PDF con el detalle de lo que se entrega.</li>
+          <li><strong>Despachos pendientes:</strong> vista rápida de qué está vendido pero todavía no salió de bodega.</li>
+        </ul>
+      </div>
     </div>
-    <div class="section">
-      <div class="sec-title sec-provee">Lo que MADICAP nos provee</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Acceso al ambiente de test de su sistema para validar la integración</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Criterios de aceptación por caso de prueba</div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-construye">Lo que nosotros construimos</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Scripts de prueba para los 4 casos con validación de payload enviado a MADICAP</div></div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">Checklist de aceptación firmado antes del pase a producción</div></div>
-    </div>
-    <div class="section">
-      <div class="sec-title sec-restriccion">Restricciones que no se tocan</div>
-      <div class="item"><div class="dot" style="background:#FCD116"></div><div class="item-text">No se va a producción sin los 4 casos aprobados. Sin excepciones.</div></div>
-    </div>
-  </div>
-</div>
 
-<!-- ====== VARIABLES A DEFINIR ====== -->
-<div class="vars-title">Variables a definir por el equipo técnico</div>
-<div class="vars-sub">El jefe de desarrollo completa esta sección para poder armar la cotización. El área comercial no puede determinar estos valores.</div>
+    <div class="acc-item" onclick="toggle(this)">
+      <div class="acc-header">
+        <div class="acc-num">5</div>
+        <div class="acc-info">
+          <div class="acc-title">Alertas de quiebre de stock y reposición</div>
+          <div class="acc-desc">El sistema avisa antes del problema — no después</div>
+        </div>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="stag">Lo que se construye</div>
+        <ul>
+          <li><strong>Alerta automática por stock mínimo:</strong> cuando un producto cae bajo el umbral configurado, aparece en el panel de alertas.</li>
+          <li><strong>Panel de reposición:</strong> vista centralizada de todos los productos que necesitan comprarse — ordenados por urgencia.</li>
+          <li><strong>Notificación por email:</strong> el sistema envía un correo al responsable cuando hay productos en alerta.</li>
+          <li><strong>Sugerencia de cantidad a comprar:</strong> basada en el consumo reciente, el sistema propone cuánto pedir para cubrir N días de venta.</li>
+        </ul>
+        <div class="stag">Primer toque de IA — incorporable desde Capa 1</div>
+        <ul>
+          <li>El cálculo de cantidad sugerida puede usar un modelo simple de IA que aprende del ritmo de ventas histórico y ajusta la sugerencia automáticamente.</li>
+        </ul>
+      </div>
+    </div>
 
-<button class="expand-btn" onclick="toggleAll('var-body')" style="margin-bottom:12px">Expandir / colapsar variables ▾</button>
+  </div>
 
-<!-- V1 -->
-<div class="var-block">
-  <div class="var-block-header" onclick="toggle(this,'var-body')">
-    <div class="var-icon">A</div>
-    <div class="var-block-title"><h3>Horas de trabajo por módulo</h3><p>Estimación real de esfuerzo por cada uno de los 8 módulos</p></div>
-    <span class="chev">▼</span>
-  </div>
-  <div class="var-body">
-    <div class="var-row">
-      <div class="var-field"><label>Módulo 1 — API bidireccional</label><div class="placeholder">__ horas</div></div>
-      <div class="var-field"><label>Módulo 2 — Motor entrevista</label><div class="placeholder">__ horas</div></div>
-    </div>
-    <div class="var-row">
-      <div class="var-field"><label>Módulo 3 — Envío masivo</label><div class="placeholder">__ horas</div></div>
-      <div class="var-field"><label>Módulo 4 — FAQ</label><div class="placeholder">__ horas</div></div>
-    </div>
-    <div class="var-row">
-      <div class="var-field"><label>Módulo 5 — Recordatorios</label><div class="placeholder">__ horas</div></div>
-      <div class="var-field"><label>Módulo 6 — Adjuntos</label><div class="placeholder">__ horas</div></div>
-    </div>
-    <div class="var-row">
-      <div class="var-field"><label>Módulo 7 — Trazabilidad</label><div class="placeholder">__ horas</div></div>
-      <div class="var-field"><label>Módulo 8 — Testing</label><div class="placeholder">__ horas</div></div>
-    </div>
-    <div class="var-note">Total de horas = base para calcular el costo del proyecto. Sin este dato no hay cotización posible.</div>
-  </div>
-</div>
 
-<!-- V2 -->
-<div class="var-block">
-  <div class="var-block-header" onclick="toggle(this,'var-body')">
-    <div class="var-icon">B</div>
-    <div class="var-block-title"><h3>Equipo necesario</h3><p>Perfiles, cantidad de personas y dedicación requerida</p></div>
-    <span class="chev">▼</span>
-  </div>
-  <div class="var-body">
-    <div class="var-row">
-      <div class="var-field"><label>Perfil 1 — rol</label><div class="placeholder">Ej: backend developer</div></div>
-      <div class="var-field"><label>Perfil 1 — dedicación</label><div class="placeholder">Ej: full time / part time</div></div>
-    </div>
-    <div class="var-row">
-      <div class="var-field"><label>Perfil 2 — rol</label><div class="placeholder">Ej: integrations specialist</div></div>
-      <div class="var-field"><label>Perfil 2 — dedicación</label><div class="placeholder">Ej: full time / part time</div></div>
-    </div>
-    <div class="var-row">
-      <div class="var-field"><label>Perfil 3 — rol</label><div class="placeholder">Completar si aplica</div></div>
-      <div class="var-field"><label>Perfil 3 — dedicación</label><div class="placeholder">Completar si aplica</div></div>
-    </div>
-    <div class="var-note">¿Se pueden trabajar módulos en paralelo? ¿Cuántas personas pueden correr simultáneamente sin generar dependencias?</div>
-  </div>
-</div>
 
-<!-- V3 -->
-<div class="var-block">
-  <div class="var-block-header" onclick="toggle(this,'var-body')">
-    <div class="var-icon">C</div>
-    <div class="var-block-title"><h3>Herramientas principales de desarrollo</h3><p>Stack tecnológico elegido para construir el sistema</p></div>
-    <span class="chev">▼</span>
+  <!-- VARIABLES TÉCNICAS -->
+  <div class="vars-header">
+    <h2>Variables a definir por el equipo técnico</h2>
+    <p>El jefe de desarrollo completa esta sección para poder armar la cotización. El área comercial no puede determinar estos valores sin validación técnica.</p>
   </div>
-  <div class="var-body">
-    <div class="var-row">
-      <div class="var-field"><label>Lenguaje / framework backend</label><div class="placeholder">Ej: Node.js, Python, etc.</div></div>
-      <div class="var-field"><label>Base de datos</label><div class="placeholder">Ej: PostgreSQL, MongoDB, etc.</div></div>
-    </div>
-    <div class="var-row">
-      <div class="var-field"><label>Infraestructura / hosting</label><div class="placeholder">Ej: Railway, AWS, GCP, etc.</div></div>
-      <div class="var-field"><label>Proveedor WhatsApp Business API</label><div class="placeholder">Ej: 360Dialog, Twilio, Meta directo</div></div>
-    </div>
-    <div class="var-row">
-      <div class="var-field"><label>Orquestador de flujos</label><div class="placeholder">Ej: n8n, custom, otro</div></div>
-      <div class="var-field"><label>Control de versiones</label><div class="placeholder">Ej: GitHub, GitLab</div></div>
-    </div>
-    <div class="var-note">La elección del stack impacta directamente en velocidad de desarrollo y cumplimiento del plazo de 2–3 semanas.</div>
-  </div>
-</div>
 
-<!-- V4 -->
-<div class="var-block">
-  <div class="var-block-header" onclick="toggle(this,'var-body')">
-    <div class="var-icon">D</div>
-    <div class="var-block-title"><h3>Herramientas complementarias</h3><p>Servicios de soporte necesarios para operar el sistema</p></div>
-    <span class="chev">▼</span>
-  </div>
-  <div class="var-body">
-    <div class="var-row">
-      <div class="var-field"><label>Monitoreo y alertas</label><div class="placeholder">Ej: Datadog, Sentry, otro</div></div>
-      <div class="var-field"><label>Logs centralizados</label><div class="placeholder">Ej: Papertrail, Logtail, otro</div></div>
-    </div>
-    <div class="var-row">
-      <div class="var-field"><label>Almacenamiento de archivos adjuntos</label><div class="placeholder">Ej: S3, Cloudflare R2, otro</div></div>
-      <div class="var-field"><label>Cola de mensajes / jobs</label><div class="placeholder">Ej: Redis, BullMQ, otro</div></div>
-    </div>
-    <div class="var-row">
-      <div class="var-field"><label>Gestión de secretos / env vars</label><div class="placeholder">Ej: Doppler, .env, otro</div></div>
-      <div class="var-field"><label>CI/CD</label><div class="placeholder">Ej: GitHub Actions, otro</div></div>
-    </div>
-  </div>
-</div>
+  <div class="section-label" onclick="toggleAll('vars')">Expandir / colapsar variables ▾</div>
 
-<!-- V5 -->
-<div class="var-block">
-  <div class="var-block-header" onclick="toggle(this,'var-body')">
-    <div class="var-icon">E</div>
-    <div class="var-block-title"><h3>Uso de IA complementaria</h3><p>Modelos de IA necesarios para detección de FAQ y contención conversacional</p></div>
-    <span class="chev">▼</span>
-  </div>
-  <div class="var-body">
-    <div class="var-row">
-      <div class="var-field"><label>Modelo para detección de intención (FAQ)</label><div class="placeholder">Ej: GPT-4o, Claude, Gemini, otro</div></div>
-      <div class="var-field"><label>Costo estimado por conversación</label><div class="placeholder">__ USD / conversación</div></div>
-    </div>
-    <div class="var-row">
-      <div class="var-field"><label>Volumen mensual estimado de conversaciones</label><div class="placeholder">__ conversaciones / mes</div></div>
-      <div class="var-field"><label>Costo mensual estimado de IA</label><div class="placeholder">__ USD / mes</div></div>
-    </div>
-    <div class="var-note">¿El módulo de FAQ requiere IA o puede resolverse con matching de palabras clave? El equipo técnico decide según complejidad del banco de FAQs.</div>
-  </div>
-</div>
+  <div class="accordion" id="vars">
 
-<!-- V6 -->
-<div class="var-block">
-  <div class="var-block-header" onclick="toggle(this,'var-body')">
-    <div class="var-icon">F</div>
-    <div class="var-block-title"><h3>Sistema de pruebas y ambiente de QA</h3><p>Estrategia para validar los 4 casos de prueba obligatorios antes de producción</p></div>
-    <span class="chev">▼</span>
-  </div>
-  <div class="var-body">
-    <div class="var-row">
-      <div class="var-field"><label>Ambiente de desarrollo separado de producción</label><div class="placeholder">Sí / No / cómo</div></div>
-      <div class="var-field"><label>Número de pruebas de integración con MADICAP</label><div class="placeholder">__ sesiones antes de go-live</div></div>
+    <div class="acc-item" onclick="toggle(this)">
+      <div class="acc-header">
+        <div class="var-num">A</div>
+        <div class="acc-info">
+          <div class="acc-title">Horas de trabajo por módulo — Capa 1</div>
+          <div class="acc-desc">Estimación real de esfuerzo para los 5 módulos del MVP</div>
+        </div>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="var-body">
+        <div class="var-grid">
+          <div class="var-field"><label>Módulo 1 — Maestro e inventario</label><span class="var-input">__ horas</span></div>
+          <div class="var-field"><label>Módulo 2 — Compras y entrada</label><span class="var-input">__ horas</span></div>
+          <div class="var-field"><label>Módulo 3 — Listas de precio y ventas</label><span class="var-input">__ horas</span></div>
+          <div class="var-field"><label>Módulo 4 — Despachos</label><span class="var-input">__ horas</span></div>
+          <div class="var-field"><label>Módulo 5 — Alertas y reposición</label><span class="var-input">__ horas</span></div>
+          <div class="var-field"><label>Setup inicial + carga de datos</label><span class="var-input">__ horas</span></div>
+        </div>
+        <p class="var-note">Total de horas = base para calcular el costo del proyecto. Sin este dato no hay cotización posible.</p>
+      </div>
     </div>
-    <div class="var-row">
-      <div class="var-field"><label>Herramienta de testing</label><div class="placeholder">Ej: Postman, Jest, manual, otro</div></div>
-      <div class="var-field"><label>Horas dedicadas a QA</label><div class="placeholder">__ horas</div></div>
+
+    <div class="acc-item" onclick="toggle(this)">
+      <div class="acc-header">
+        <div class="var-num">B</div>
+        <div class="acc-info">
+          <div class="acc-title">Stack tecnológico — criterio: simple, barato, escalable</div>
+          <div class="acc-desc">La Capa 1 tiene que ser liviana — sin sobredimensionar para un MVP</div>
+        </div>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="var-body">
+        <div class="var-grid">
+          <div class="var-field"><label>Framework backend</label><span class="var-input">Ej: Node.js, Python</span></div>
+          <div class="var-field"><label>Base de datos</label><span class="var-input">Ej: PostgreSQL, SQLite</span></div>
+          <div class="var-field"><label>Frontend</label><span class="var-input">Ej: React, Vue</span></div>
+          <div class="var-field"><label>Hosting</label><span class="var-input">Ej: Railway, Render</span></div>
+          <div class="var-field"><label>Notificaciones email</label><span class="var-input">Ej: Resend, SendGrid</span></div>
+          <div class="var-field"><label>Control de versiones</label><span class="var-input">GitHub</span></div>
+        </div>
+        <p class="var-note">Prioridad: costo de hosting bajo para el cliente, tecnología que escale a futuro sin reescribir. React como frontend facilita agregar app móvil en una etapa siguiente si se requiere.</p>
+      </div>
     </div>
-    <div class="var-note">MADICAP debe proveer acceso a su ambiente de test. Confirmar disponibilidad antes de arrancar el desarrollo.</div>
-  </div>
-</div>
 
-<!-- BARRA FINAL -->
-<div class="totals">
-  <div class="tc">
-    <div class="v">8 módulos</div>
-    <div class="l">requerimientos identificados</div>
-    <div class="sub">a validar con MADICAP</div>
-  </div>
-  <div class="tc">
-    <div class="v">2–3 semanas</div>
-    <div class="l">plazo definido por MADICAP</div>
-    <div class="sub">fecha de inicio a confirmar</div>
-  </div>
-  <div class="tc">
-    <div class="v">A definir</div>
-    <div class="l">equipo, horas y cotización</div>
-    <div class="sub">a cargo del jefe de desarrollo</div>
-  </div>
-</div>
+    <div class="acc-item" onclick="toggle(this)">
+      <div class="acc-header">
+        <div class="var-num">C</div>
+        <div class="acc-info">
+          <div class="acc-title">Modelo de precio — Capa 1</div>
+          <div class="acc-desc">Fee de implementación + SaaS mensual simple</div>
+        </div>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="var-body">
+        <div class="var-grid">
+          <div class="var-field"><label>Fee de implementación Capa 1</label><span class="var-input">__ USD — pago único</span></div>
+          <div class="var-field"><label>SaaS mensual</label><span class="var-input">__ USD / mes</span></div>
+          <div class="var-field"><label>Costo de hosting estimado</label><span class="var-input">__ USD / mes</span></div>
+          <div class="var-field"><label>Plazo estimado de entrega</label><span class="var-input">__ semanas</span></div>
+        </div>
+        <p class="var-note">El objetivo de Capa 1 es precio accesible — el cliente tiene que poder pagarlo sin que sea una decisión difícil. Sin costos de horas de desarrollo en este período per acuerdo vigente.</p>
+      </div>
+    </div>
 
-<div class="footer">Declaración de requerimiento preparada por Staff21x · staff21x.com</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-metric">
+      <div class="met-label">Capa 1 — Módulos</div>
+      <div class="met-value">5</div>
+      <div class="met-sub">MVP operativo</div>
+    </div>
+    <div class="footer-metric">
+      <div class="met-label">Entrega</div>
+      <div class="met-value">Web</div>
+      <div class="met-sub">sin app, sin instalación</div>
+    </div>
+    <div class="footer-metric">
+      <div class="met-label">Variables técnicas</div>
+      <div class="met-value">3</div>
+      <div class="met-sub">a completar por desarrollo</div>
+    </div>
+    <div class="footer-metric">
+      <div class="met-label">Sistema previo</div>
+      <div class="met-value">0</div>
+      <div class="met-sub">todo a mano hoy</div>
+    </div>
+    <div class="footer-note">Declaración de requerimiento preparada por Staff21x · staff21x.com</div>
+  </div>
 
 </div>
+
 <script>
-function toggle(header, bodyClass){
-  const body = header.nextElementSibling;
-  const chev = header.querySelector('.chev');
-  body.classList.toggle('open');
-  if(chev) chev.classList.toggle('open');
-}
-function toggleAll(bodyClass){
-  const bodies = document.querySelectorAll('.'+bodyClass);
-  const chevs = document.querySelectorAll('.chev');
-  const any = [...bodies].some(b=>b.classList.contains('open'));
-  bodies.forEach(b=>b.classList.toggle('open',!any));
-  chevs.forEach(c=>c.classList.toggle('open',!any));
-}
+  function toggle(card) { card.classList.toggle('open'); }
+  function toggleAll(id) {
+    const group = document.getElementById(id);
+    if (!group) return;
+    const items = [...group.querySelectorAll('.acc-item')];
+    const anyOpen = items.some(i => i.classList.contains('open'));
+    items.forEach(i => anyOpen ? i.classList.remove('open') : i.classList.add('open'));
+  }
 </script>
 </body>
 </html>
