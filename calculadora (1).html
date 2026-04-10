@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estimador de costos — Resility.io</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f4f6f9;
+      color: #1a1a2e;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #1a1a2e;
+      color: #ffffff;
+      padding: 24px 32px;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    main {
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 0 24px 40px;
+    }
+
+    .section {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 28px 32px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+      margin-bottom: 24px;
+    }
+
+    .section h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #5a5a8a;
+      margin-bottom: 20px;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f5;
+    }
+
+    .item:last-child { border-bottom: none; }
+
+    .item-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .item-left input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: #4a6cf7;
+      cursor: pointer;
+    }
+
+    .item-label {
+      font-size: 1rem;
+      color: #1a1a2e;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .section-note {
+      font-size: 0.875rem;
+      color: #6b6b9a;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .item-hrs {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #4a6cf7;
+      background: #eef1fd;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .item-block {
+      border-bottom: 1px solid #f0f0f5;
+    }
+
+    .item-block:last-child { border-bottom: none; }
+
+    .item-block .item {
+      border-bottom: none;
+    }
+
+    .item-note {
+      font-size: 0.8rem;
+      color: #6b6b9a;
+      padding: 0 0 10px 76px;
+      line-height: 1.4;
+    }
+
+    .item-number {
+      width: 62px;
+      padding: 5px 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1a1a2e;
+      background: #f4f6f9;
+      border: 1.5px solid #d0d4e8;
+      border-radius: 8px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.15s;
+      flex-shrink: 0;
+    }
+
+    .item-number:focus {
+      border-color: #4a6cf7;
+      background: #ffffff;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .section-header h2 { margin-bottom: 0; }
+
+    .toggle-switch {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch input { display: none; }
+
+    .toggle-track {
+      width: 44px;
+      height: 24px;
+      background: #d0d4e8;
+      border-radius: 12px;
+      position: relative;
+      transition: background 0.2s;
+    }
+
+    .toggle-switch input:checked + .toggle-track {
+      background: #4a6cf7;
+    }
+
+    .toggle-thumb {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: #ffffff;
+      border-radius: 50%;
+      top: 3px;
+      left: 3px;
+      transition: left 0.2s;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .toggle-switch input:checked + .toggle-track .toggle-thumb {
+      left: 23px;
+    }
+
+    .item-fixed input[type="checkbox"]:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
+    .item-fixed .item-label {
+      color: #7a7a9a;
+    }
+
+    .block-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #4a6cf7;
+      margin-bottom: 12px;
+    }
+
+    .block-b {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 2px dashed #e8e8f4;
+    }
+
+    .block-b .block-label {
+      color: #7a7ab8;
+    }
+
+    .block-note {
+      font-size: 0.85rem;
+      color: #6b6b9a;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .item-clp-client {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #6b6b9a;
+      background: #f0f0f8;
+      padding: 4px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .total-panel {
+      background: #1a1a2e;
+      color: #ffffff;
+      border-radius: 12px;
+      padding: 20px 32px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .total-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+    }
+
+    .total-sep {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin: 4px 0;
+    }
+
+    .total-panel .total-label {
+      font-size: 0.95rem;
+      color: #a0a0c0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .total-panel .total-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .total-sublabel {
+      font-size: 0.85rem;
+      color: #a0a0c0;
+    }
+
+    .total-subvalue {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #c0c8e8;
+    }
+
+    /* Sección 0 — Carga de archivo */
+    .upload-zone {
+      border: 2px dashed #c0c4e0;
+      border-radius: 10px;
+      padding: 36px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      background: #fafbff;
+    }
+
+    .upload-zone.drag-over {
+      border-color: #4a6cf7;
+      background: #eef1fd;
+    }
+
+    .upload-text {
+      font-size: 1rem;
+      color: #6b6b9a;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .upload-btn {
+      display: inline-block;
+      padding: 10px 24px;
+      background: #4a6cf7;
+      color: #ffffff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.15s;
+      pointer-events: none;
+    }
+
+    .upload-zone:hover .upload-btn,
+    .upload-zone.drag-over .upload-btn { background: #3a5ce6; }
+
+    #file-input { display: none; }
+
+    .detection-result {
+      margin-top: 16px;
+      padding: 14px 18px;
+      background: #fffbea;
+      border: 1.5px solid #f0c040;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      color: #7a5a00;
+      line-height: 1.6;
+    }
+
+    /* Botón y área de resumen */
+    .summary-btn {
+      width: 100%;
+      padding: 11px 20px;
+      background: #4a6cf7;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .summary-btn:hover { background: #3a5ce6; }
+
+    .summary-output {
+      width: 100%;
+      margin-top: 16px;
+      padding: 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      line-height: 1.55;
+      background: #ffffff;
+      border: 1.5px solid #d0d4e8;
+      border-radius: 10px;
+      resize: vertical;
+      color: #1a1a2e;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Estimador de costos — Resility.io</h1>
+  </header>
+
+  <main>
+    <div class="section" id="s0">
+      <h2>Sección 0 — Análisis del demo</h2>
+      <div class="upload-zone" id="upload-zone">
+        <p class="upload-text">Subí el HTML del demo del cliente para pre-completar la estimación</p>
+        <span class="upload-btn">Seleccionar archivo</span>
+        <input type="file" id="file-input" accept=".html,.htm" />
+      </div>
+      <div class="detection-result" id="detection-result" hidden></div>
+    </div>
+
+    <div class="section" id="s1">
+      <h2>Sección 1 — Canales</h2>
+
+      <div class="item">
+        <div class="item-left">
+          <input type="checkbox" id="ch-whatsapp" data-hrs="0.5" />
+          <label class="item-label" for="ch-whatsapp">WhatsApp Business</label>
+        </div>
+        <span class="item-hrs">0.5 hrs</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <input type="checkbox" id="ch-email" data-hrs="1" />
+          <label class="item-label" for="ch-email">Email</label>
+        </div>
+        <span class="item-hrs">1 hr</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <input type="checkbox" id="ch-voz" data-hrs="1.5" />
+          <label class="item-label" for="ch-voz">Voz/llamadas</label>
+        </div>
+        <span class="item-hrs">1.5 hrs</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <input type="checkbox" id="ch-chat" data-hrs="1" />
+          <label class="item-label" for="ch-chat">Chat web</label>
+        </div>
+        <span class="item-hrs">1 hr</span>
+      </div>
+    </div>
+
+    <div class="section" id="s2">
+      <h2>Sección 2 — Integraciones / APIs</h2>
+      <p class="section-note">Conexión de API solamente — autenticación, endpoint, prueba. Las APIs del ecosistema del cliente las gestiona el cliente.</p>
+
+      <div class="item">
+        <div class="item-left">
+          <input type="checkbox" id="int-openai" data-hrs="0.25" />
+          <label class="item-label" for="int-openai">OpenAI / Claude API</label>
+        </div>
+        <span class="item-hrs">0.25 hrs</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <input type="checkbox" id="int-meta" data-hrs="0.5" />
+          <label class="item-label" for="int-meta">Meta WhatsApp Business API</label>
+        </div>
+        <span class="item-hrs">0.5 hrs</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <input type="checkbox" id="int-crm" data-hrs="1" />
+          <label class="item-label" for="int-crm">CRM (HubSpot / Zoho / Salesforce)</label>
+        </div>
+        <span class="item-hrs">1 hr</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <input type="checkbox" id="int-calendar" data-hrs="0.5" />
+          <label class="item-label" for="int-calendar">Google Calendar / Outlook</label>
+        </div>
+        <span class="item-hrs">0.5 hrs</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <input type="checkbox" id="int-sheets" data-hrs="0.5" />
+          <label class="item-label" for="int-sheets">Google Sheets / Drive</label>
+        </div>
+        <span class="item-hrs">0.5 hrs</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <input type="checkbox" id="int-db" data-hrs="1.5" />
+          <label class="item-label" for="int-db">Base de datos externa del cliente</label>
+        </div>
+        <span class="item-hrs">1.5 hrs</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <input type="checkbox" id="int-erp" data-hrs="1.5" />
+          <label class="item-label" for="int-erp">ERP (SAP, Odoo u otro)</label>
+        </div>
+        <span class="item-hrs">1.5 hrs</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <input type="checkbox" id="int-api-custom" data-hrs="2" />
+          <label class="item-label" for="int-api-custom">API custom del cliente</label>
+        </div>
+        <span class="item-hrs">2 hrs</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <input type="checkbox" id="int-twilio" data-hrs="0.5" />
+          <label class="item-label" for="int-twilio">Twilio</label>
+        </div>
+        <span class="item-hrs">0.5 hrs</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <input type="checkbox" id="int-elevenlabs" data-hrs="0.5" />
+          <label class="item-label" for="int-elevenlabs">ElevenLabs</label>
+        </div>
+        <span class="item-hrs">0.5 hrs</span>
+      </div>
+    </div>
+
+    <div class="section" id="s3">
+      <h2>Sección 3 — Entrenamiento del agente</h2>
+      <p class="section-note">Acá vive la complejidad real. Cada prompt es prueba y error. No subestimar estas horas.</p>
+
+      <div class="item-block">
+        <div class="item">
+          <div class="item-left">
+            <input type="number" class="item-number" id="train-prompt" data-type="free" min="0" step="0.5" value="3" />
+            <label class="item-label" for="train-prompt">Prompt de sistema (identidad, rol, límites)</label>
+          </div>
+          <span class="item-hrs">hrs</span>
+        </div>
+      </div>
+
+      <div class="item-block">
+        <div class="item">
+          <div class="item-left">
+            <input type="number" class="item-number" id="train-contexto" data-type="free" min="0" step="0.5" value="4" />
+            <label class="item-label" for="train-contexto">Contexto del ecosistema del cliente</label>
+          </div>
+          <span class="item-hrs">hrs</span>
+        </div>
+        <p class="item-note">Consume tokens durante la construcción.</p>
+      </div>
+
+      <div class="item-block">
+        <div class="item">
+          <div class="item-left">
+            <input type="number" class="item-number" id="train-casos" data-type="qty" data-rate="1" min="0" step="1" value="3" />
+            <label class="item-label" for="train-casos">Casos de uso principales</label>
+          </div>
+          <span class="item-hrs">× 1 hr c/u</span>
+        </div>
+      </div>
+
+      <div class="item-block">
+        <div class="item">
+          <div class="item-left">
+            <input type="number" class="item-number" id="train-edge" data-type="qty" data-rate="0.5" min="0" step="1" value="5" />
+            <label class="item-label" for="train-edge">Edge cases y respuestas difíciles</label>
+          </div>
+          <span class="item-hrs">× 0.5 hrs c/u</span>
+        </div>
+      </div>
+
+      <div class="item-block">
+        <div class="item">
+          <div class="item-left">
+            <input type="number" class="item-number" id="train-rondas" data-type="qty" data-rate="3" min="0" step="1" value="2" />
+            <label class="item-label" for="train-rondas">Rondas de refinamiento post-pruebas</label>
+          </div>
+          <span class="item-hrs">× 3 hrs c/u</span>
+        </div>
+        <p class="item-note">Una ronda = pruebas completas + correcciones + re-prueba.</p>
+      </div>
+    </div>
+
+    <div class="section" id="s4">
+      <div class="section-header">
+        <h2>Sección 4 — Datos y analytics</h2>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggle-s4" />
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+        </label>
+      </div>
+
+      <div id="s4-body" hidden>
+        <div class="item">
+          <div class="item-left">
+            <input type="number" class="item-number" id="s4-fuentes" data-type="qty" data-rate="4" min="0" step="1" value="1" />
+            <label class="item-label" for="s4-fuentes">Conexión y normalización de fuentes de datos</label>
+          </div>
+          <span class="item-hrs">× 4 hrs c/u</span>
+        </div>
+
+        <div class="item">
+          <div class="item-left">
+            <input type="number" class="item-number" id="s4-kpis" data-type="qty" data-rate="1" min="0" step="1" value="4" />
+            <label class="item-label" for="s4-kpis">KPIs y métricas calculadas</label>
+          </div>
+          <span class="item-hrs">× 1 hr c/u</span>
+        </div>
+
+        <div class="item">
+          <div class="item-left">
+            <input type="number" class="item-number" id="s4-dashboards" data-type="qty" data-rate="4" min="0" step="1" value="2" />
+            <label class="item-label" for="s4-dashboards">Paneles / dashboards</label>
+          </div>
+          <span class="item-hrs">× 4 hrs c/u</span>
+        </div>
+
+        <div class="item">
+          <div class="item-left">
+            <input type="checkbox" id="s4-alertas" data-hrs="3" />
+            <label class="item-label" for="s4-alertas">Sistema de alertas automáticas</label>
+          </div>
+          <span class="item-hrs">3 hrs</span>
+        </div>
+
+        <div class="item">
+          <div class="item-left">
+            <input type="checkbox" id="s4-export" data-hrs="1.5" />
+            <label class="item-label" for="s4-export">Exportación de reportes Excel/CSV</label>
+          </div>
+          <span class="item-hrs">1.5 hrs</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="s5">
+      <h2>Sección 5 — Tareas fijas</h2>
+      <p class="section-note">Siempre van incluidas en todo proyecto. No se pueden quitar.</p>
+
+      <div class="item item-fixed">
+        <div class="item-left">
+          <input type="checkbox" id="fix-arq" data-hrs="3" checked disabled />
+          <label class="item-label" for="fix-arq">Diseño de arquitectura técnica</label>
+        </div>
+        <span class="item-hrs">3 hrs</span>
+      </div>
+
+      <div class="item item-fixed">
+        <div class="item-left">
+          <input type="checkbox" id="fix-deploy" data-hrs="2" checked disabled />
+          <label class="item-label" for="fix-deploy">Despliegue en producción (Railway, variables de entorno, dominio)</label>
+        </div>
+        <span class="item-hrs">2 hrs</span>
+      </div>
+
+      <div class="item item-fixed">
+        <div class="item-left">
+          <input type="checkbox" id="fix-errors" data-hrs="3" checked disabled />
+          <label class="item-label" for="fix-errors">Control de errores y casos límite técnicos</label>
+        </div>
+        <span class="item-hrs">3 hrs</span>
+      </div>
+
+      <div class="item item-fixed">
+        <div class="item-left">
+          <input type="checkbox" id="fix-docs" data-hrs="2" checked disabled />
+          <label class="item-label" for="fix-docs">Documentación interna del desarrollo</label>
+        </div>
+        <span class="item-hrs">2 hrs</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <input type="number" class="item-number" id="s5-testing" data-type="qty" data-rate="1.5" min="0" step="1" value="3" />
+          <label class="item-label" for="s5-testing">Testing</label>
+        </div>
+        <span class="item-hrs">× 1.5 hrs c/u</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <input type="number" class="item-number" id="s5-capacitacion" data-type="qty" data-rate="1.5" min="0" step="1" value="1" />
+          <label class="item-label" for="s5-capacitacion">Capacitación al cliente</label>
+        </div>
+        <span class="item-hrs">× 1.5 hrs c/u</span>
+      </div>
+    </div>
+
+    <div class="section" id="s6">
+      <h2>Sección 6 — Infraestructura mensual</h2>
+      <p class="section-note">Estos costos van aparte. No se suman al costo de desarrollo.</p>
+
+      <div id="s6a">
+        <p class="block-label">Bloque A — La paga Resility</p>
+
+        <div class="item">
+          <div class="item-left">
+            <input type="checkbox" id="infra-tokens" data-clp="72000" />
+            <label class="item-label" for="infra-tokens">Claude / OpenAI tokens producción</label>
+          </div>
+          <span class="item-hrs">$72.000 CLP/mes</span>
+        </div>
+
+        <div class="item">
+          <div class="item-left">
+            <input type="checkbox" id="infra-railway" data-clp="13500" />
+            <label class="item-label" for="infra-railway">Railway servidor</label>
+          </div>
+          <span class="item-hrs">$13.500 CLP/mes</span>
+        </div>
+
+        <div class="item">
+          <div class="item-left">
+            <input type="checkbox" id="infra-supabase" data-clp="22500" />
+            <label class="item-label" for="infra-supabase">Supabase base de datos</label>
+          </div>
+          <span class="item-hrs">$22.500 CLP/mes</span>
+        </div>
+
+        <div class="item">
+          <div class="item-left">
+            <input type="checkbox" id="infra-n8n" data-clp="18000" />
+            <label class="item-label" for="infra-n8n">n8n automatizaciones</label>
+          </div>
+          <span class="item-hrs">$18.000 CLP/mes</span>
+        </div>
+
+        <div class="item">
+          <div class="item-left">
+            <input type="checkbox" id="infra-elevenlabs" data-clp="19800" />
+            <label class="item-label" for="infra-elevenlabs">ElevenLabs TTS</label>
+          </div>
+          <span class="item-hrs">$19.800 CLP/mes</span>
+        </div>
+
+        <div class="item">
+          <div class="item-left">
+            <input type="checkbox" id="infra-cloudflare" data-clp="4500" />
+            <label class="item-label" for="infra-cloudflare">Cloudflare / dominio</label>
+          </div>
+          <span class="item-hrs">$4.500 CLP/mes</span>
+        </div>
+      </div>
+
+      <div id="s6b" class="block-b">
+        <p class="block-label">Bloque B — La paga el cliente directamente</p>
+        <p class="block-note">Estos los contrata y paga el cliente. Se informan para que entienda el costo total de operación.</p>
+
+        <div class="item">
+          <div class="item-left">
+            <input type="checkbox" id="cli-whatsapp" data-clp="27000" />
+            <label class="item-label" for="cli-whatsapp">WhatsApp Business API (Meta)</label>
+          </div>
+          <span class="item-clp-client">~$27.000 CLP/mes</span>
+        </div>
+
+        <div class="item">
+          <div class="item-left">
+            <input type="checkbox" id="cli-twilio" data-clp="36000" />
+            <label class="item-label" for="cli-twilio">Twilio voz</label>
+          </div>
+          <span class="item-clp-client">~$36.000 CLP/mes</span>
+        </div>
+
+        <div class="item">
+          <div class="item-left">
+            <input type="checkbox" id="cli-crm" data-clp="45000" />
+            <label class="item-label" for="cli-crm">CRM externo</label>
+          </div>
+          <span class="item-clp-client">~$45.000 CLP/mes</span>
+        </div>
+
+        <div class="item">
+          <div class="item-left">
+            <input type="checkbox" id="cli-db" data-clp="0" />
+            <label class="item-label" for="cli-db">Base de datos / repositorio del cliente</label>
+          </div>
+          <span class="item-clp-client">costo propio</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="total-panel">
+      <div class="total-row">
+        <span class="total-label">Desarrollo</span>
+        <span class="total-value" id="total-display">0 hrs / $0 CLP</span>
+      </div>
+      <hr class="total-sep" />
+      <div class="total-row">
+        <span class="total-sublabel">Infra mensual — Resility</span>
+        <span class="total-subvalue" id="infra-a-display">$0 CLP/mes</span>
+      </div>
+      <div class="total-row">
+        <span class="total-sublabel">Infra mensual — Cliente</span>
+        <span class="total-subvalue" id="infra-b-display">$0 CLP/mes</span>
+      </div>
+      <hr class="total-sep" />
+      <div class="total-row">
+        <button id="btn-summary" class="summary-btn">Generar resumen</button>
+      </div>
+    </div>
+    <textarea id="summary-output" class="summary-output" hidden rows="24" readonly></textarea>
+  </main>
+
+  <script>
+    const HRS_RATE = 1600;
+    let uploadedFileName = '';
+
+    // ─── Reglas de detección para análisis de HTML ────────────────
+    const DETECTION_RULES = [
+      { keywords: ['whatsapp', 'wsp', 'meta'],        apply: () => check('ch-whatsapp'),                        label: 'WhatsApp Business (Sección 1)' },
+      { keywords: ['email', 'correo'],                apply: () => check('ch-email'),                           label: 'Email (Sección 1)' },
+      { keywords: ['voz', 'twilio', 'llamada'],       apply: () => check('ch-voz'),                             label: 'Voz/llamadas (Sección 1)' },
+      { keywords: ['webchat', 'widget'],              apply: () => check('ch-chat'),                            label: 'Chat web (Sección 1)' },
+      { keywords: ['dashboard', 'kpi'],               apply: () => activateS4(),                                label: 'Sección 4 activada (Datos y analytics)' },
+      { keywords: ['crm', 'hubspot', 'salesforce'],   apply: () => check('int-crm'),                            label: 'CRM (Sección 2)' },
+      { keywords: ['alerta', 'alert'],                apply: () => { activateS4(); check('s4-alertas'); },      label: 'Alertas automáticas (Sección 4)' },
+      { keywords: ['sheets', 'excel'],                apply: () => { activateS4(); check('s4-export'); },       label: 'Exportación Excel/CSV (Sección 4)' },
+      { keywords: ['elevenlabs'],                     apply: () => check('int-elevenlabs'),                     label: 'ElevenLabs (Sección 2)' },
+      { keywords: ['cobranza', 'pago'],               apply: () => increment('train-rondas', 1),                label: '+1 ronda de refinamiento (Sección 3)' },
+    ];
+
+    function check(id) {
+      const el = document.getElementById(id);
+      if (el && !el.checked) el.checked = true;
+    }
+
+    function activateS4() {
+      const toggle = document.getElementById('toggle-s4');
+      if (!toggle.checked) {
+        toggle.checked = true;
+        document.getElementById('s4-body').hidden = false;
+      }
+    }
+
+    function increment(id, amount) {
+      const el = document.getElementById(id);
+      if (el) el.value = (parseFloat(el.value) || 0) + amount;
+    }
+
+    // ─── Formato ──────────────────────────────────────────────────
+    function formatCLP(n) {
+      return '$' + n.toLocaleString('es-CL') + ' CLP';
+    }
+
+    // ─── Cálculo en tiempo real ───────────────────────────────────
+    function recalculate() {
+      let totalHrs = 0, infraA = 0, infraB = 0;
+      const s4Active = document.getElementById('toggle-s4').checked;
+
+      document.querySelectorAll('input[type="checkbox"][data-hrs]').forEach(cb => {
+        if (cb.closest('#s4-body')) return;
+        if (cb.checked) totalHrs += parseFloat(cb.dataset.hrs);
+      });
+
+      document.querySelectorAll('input[data-type="free"]').forEach(inp => {
+        totalHrs += parseFloat(inp.value) || 0;
+      });
+
+      document.querySelectorAll('input[data-type="qty"]').forEach(inp => {
+        if (inp.closest('#s4-body')) return;
+        totalHrs += (parseFloat(inp.value) || 0) * (parseFloat(inp.dataset.rate) || 0);
+      });
+
+      if (s4Active) {
+        document.querySelectorAll('#s4-body input[type="checkbox"][data-hrs]').forEach(cb => {
+          if (cb.checked) totalHrs += parseFloat(cb.dataset.hrs);
+        });
+        document.querySelectorAll('#s4-body input[data-type="qty"]').forEach(inp => {
+          totalHrs += (parseFloat(inp.value) || 0) * (parseFloat(inp.dataset.rate) || 0);
+        });
+      }
+
+      document.querySelectorAll('#s6a input[type="checkbox"][data-clp]').forEach(cb => {
+        if (cb.checked) infraA += parseFloat(cb.dataset.clp) || 0;
+      });
+      document.querySelectorAll('#s6b input[type="checkbox"][data-clp]').forEach(cb => {
+        if (cb.checked) infraB += parseFloat(cb.dataset.clp) || 0;
+      });
+
+      const totalCLP = Math.round(totalHrs * HRS_RATE);
+      const hrsLabel = totalHrs === 1 ? '1 hr' : totalHrs + ' hrs';
+      document.getElementById('total-display').textContent = hrsLabel + ' / ' + formatCLP(totalCLP);
+      document.getElementById('infra-a-display').textContent = formatCLP(infraA) + '/mes';
+      document.getElementById('infra-b-display').textContent = formatCLP(infraB) + '/mes';
+    }
+
+    // ─── Análisis de archivo HTML ─────────────────────────────────
+    function analyzeFile(text) {
+      const lower = text.toLowerCase();
+      const detected = [];
+      DETECTION_RULES.forEach(rule => {
+        if (rule.keywords.some(k => lower.includes(k))) {
+          rule.apply();
+          detected.push(rule.label);
+        }
+      });
+      return detected;
+    }
+
+    function showDetectionResult(detected, filename) {
+      const box = document.getElementById('detection-result');
+      box.hidden = false;
+      if (!detected.length) {
+        box.innerHTML = '<strong>No se detectaron patrones conocidos en el archivo.</strong>';
+        return;
+      }
+      box.innerHTML =
+        `<strong>Detectamos en &ldquo;${filename}&rdquo;:</strong>` +
+        `<ul style="margin:6px 0 0;padding-left:20px">${detected.map(d => `<li>${d}</li>`).join('')}</ul>` +
+        `<p style="margin:8px 0 0;font-size:0.8rem;opacity:0.75">Todo lo pre-marcado se puede cambiar manualmente.</p>`;
+    }
+
+    function handleFile(file) {
+      if (!file) return;
+      uploadedFileName = file.name;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const detected = analyzeFile(e.target.result);
+        recalculate();
+        showDetectionResult(detected, file.name);
+      };
+      reader.readAsText(file);
+    }
+
+    const uploadZone = document.getElementById('upload-zone');
+    const fileInput  = document.getElementById('file-input');
+
+    uploadZone.addEventListener('click',     () => fileInput.click());
+    uploadZone.addEventListener('dragover',  e  => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+    uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+    uploadZone.addEventListener('drop', e => {
+      e.preventDefault();
+      uploadZone.classList.remove('drag-over');
+      handleFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
+
+    // ─── Generación de resumen ────────────────────────────────────
+    function generateSummary() {
+      const sep   = '─'.repeat(44);
+      const lines = [];
+
+      lines.push('ESTIMACIÓN DE COSTOS — RESILITY.IO');
+      lines.push('Generado: ' + new Date().toLocaleDateString('es-CL'));
+      if (uploadedFileName) lines.push('Archivo analizado: ' + uploadedFileName);
+      lines.push('');
+      lines.push(sep);
+      lines.push('');
+
+      let grandHrs = 0;
+
+      function lbl(id) {
+        const el = document.querySelector(`label[for="${id}"]`);
+        return el ? el.textContent.trim() : id;
+      }
+      function fmtH(h) { return h + (h === 1 ? ' hr' : ' hrs'); }
+
+      function addSection(title, selCb, selFree, selQty) {
+        let hrs = 0;
+        const sLines = [];
+        if (selCb) document.querySelectorAll(selCb).forEach(cb => {
+          if (cb.checked) {
+            const h = parseFloat(cb.dataset.hrs);
+            hrs += h; sLines.push(`  - ${lbl(cb.id)}: ${fmtH(h)}`);
+          }
+        });
+        if (selFree) document.querySelectorAll(selFree).forEach(inp => {
+          const h = parseFloat(inp.value) || 0;
+          if (h > 0) { hrs += h; sLines.push(`  - ${lbl(inp.id)}: ${fmtH(h)}`); }
+        });
+        if (selQty) document.querySelectorAll(selQty).forEach(inp => {
+          const qty  = parseFloat(inp.value) || 0;
+          const rate = parseFloat(inp.dataset.rate) || 0;
+          const h = qty * rate;
+          if (h > 0) { hrs += h; sLines.push(`  - ${lbl(inp.id)}: ${fmtH(h)} (${qty} × ${fmtH(rate)})`); }
+        });
+        if (!sLines.length) return 0;
+        lines.push(title);
+        lines.push(...sLines);
+        lines.push(`  Subtotal: ${fmtH(hrs)}`);
+        lines.push('');
+        return hrs;
+      }
+
+      grandHrs += addSection('SECCIÓN 1 — CANALES',
+        '#s1 input[type="checkbox"][data-hrs]', null, null);
+      grandHrs += addSection('SECCIÓN 2 — INTEGRACIONES / APIs',
+        '#s2 input[type="checkbox"][data-hrs]', null, null);
+      grandHrs += addSection('SECCIÓN 3 — ENTRENAMIENTO DEL AGENTE',
+        null, '#s3 input[data-type="free"]', '#s3 input[data-type="qty"]');
+
+      if (document.getElementById('toggle-s4').checked) {
+        grandHrs += addSection('SECCIÓN 4 — DATOS Y ANALYTICS',
+          '#s4-body input[type="checkbox"][data-hrs]', null, '#s4-body input[data-type="qty"]');
+      }
+
+      grandHrs += addSection('SECCIÓN 5 — TAREAS FIJAS',
+        '#s5 input[type="checkbox"][data-hrs]', null, '#s5 input[data-type="qty"]');
+
+      lines.push(sep);
+      lines.push(`Total horas: ${fmtH(grandHrs)}`);
+      lines.push(`Total desarrollo: ${formatCLP(Math.round(grandHrs * HRS_RATE))}  (${fmtH(grandHrs)} × $${HRS_RATE.toLocaleString('es-CL')}/hr)`);
+      lines.push('');
+
+      let infraA = 0, infraB = 0;
+      const s6aLines = [], s6bLines = [];
+
+      document.querySelectorAll('#s6a input[type="checkbox"][data-clp]').forEach(cb => {
+        if (!cb.checked) return;
+        const v = parseFloat(cb.dataset.clp) || 0;
+        infraA += v;
+        s6aLines.push(`  - ${lbl(cb.id)}: ${formatCLP(v)}/mes`);
+      });
+      document.querySelectorAll('#s6b input[type="checkbox"][data-clp]').forEach(cb => {
+        if (!cb.checked) return;
+        infraB += parseFloat(cb.dataset.clp) || 0;
+        const badge = cb.closest('.item')?.querySelector('.item-clp-client')?.textContent?.trim() ?? '';
+        s6bLines.push(`  - ${lbl(cb.id)}: ${badge}`);
+      });
+
+      lines.push('INFRAESTRUCTURA MENSUAL');
+      lines.push(`Bloque A — Resility: ${formatCLP(infraA)}/mes`);
+      s6aLines.forEach(l => lines.push(l));
+      lines.push(`Bloque B — Cliente: ${formatCLP(infraB)}/mes`);
+      s6bLines.forEach(l => lines.push(l));
+      lines.push('');
+      lines.push(sep);
+      lines.push('');
+      lines.push('*** Precio al cliente: a definir por Walter y Patricio ***');
+
+      return lines.join('\n');
+    }
+
+    document.getElementById('btn-summary').addEventListener('click', () => {
+      const text = generateSummary();
+      const out  = document.getElementById('summary-output');
+      out.value  = text;
+      out.hidden = false;
+      out.rows   = Math.min(40, text.split('\n').length + 2);
+      navigator.clipboard.writeText(text).catch(() => { out.select(); document.execCommand('copy'); });
+      const btn = document.getElementById('btn-summary');
+      btn.textContent = '✓ Copiado al portapapeles';
+      setTimeout(() => { btn.textContent = 'Generar resumen'; }, 2500);
+    });
+
+    // ─── Event listeners ──────────────────────────────────────────
+    document.querySelectorAll('input[type="checkbox"][data-hrs]')
+      .forEach(cb => cb.addEventListener('change', recalculate));
+
+    document.querySelectorAll('input[type="checkbox"][data-clp]')
+      .forEach(cb => cb.addEventListener('change', recalculate));
+
+    document.querySelectorAll('input[data-type="free"], input[data-type="qty"]')
+      .forEach(inp => inp.addEventListener('input', recalculate));
+
+    document.getElementById('toggle-s4').addEventListener('change', function () {
+      document.getElementById('s4-body').hidden = !this.checked;
+      recalculate();
+    });
+
+    recalculate();
+  </script>
+
+</body>
+</html>
