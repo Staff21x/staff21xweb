@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taller Entretejido · Centro de Conversaciones</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F9F4EE;
+    --warm: #FFFCF8;
+    --beige: #EDE0D0;
+    --cocoa: #7A5C44;
+    --deep: #4A3428;
+    --sage: #8A9E85;
+    --gold: #C9A84C;
+    --buy: #C9A84C;
+    --tech: #8A9E85;
+    --info: #A0B4C8;
+    --urgent: #C0785A;
+    --text: #2C1F15;
+    --light: #9A8070;
+    --bg: #EFE7DA;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    background: var(--deep);
+    padding: 0 28px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    z-index: 10;
+  }
+
+  .topbar-left { display:flex; align-items:center; gap:18px; }
+
+  .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .brand span { color: var(--gold); font-style: italic; }
+  .brand-dot { width:5px; height:5px; background:var(--gold); border-radius:50%; }
+
+  .ig-badge {
+    display:flex; align-items:center; gap:6px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 4px 11px; border-radius:20px;
+    font-size: 11px; color: rgba(249,244,238,0.55);
+  }
+  .ig-dot {
+    width:6px; height:6px; background:#4CAF50; border-radius:50%;
+    box-shadow: 0 0 8px #4CAF50;
+    animation: igpulse 2s infinite;
+  }
+  @keyframes igpulse { 0%,100%{box-shadow:0 0 4px #4CAF50;} 50%{box-shadow:0 0 12px #4CAF50;} }
+
+  .topbar-right { display:flex; align-items:center; gap:14px; }
+
+  .live-pill {
+    display:flex; align-items:center; gap:5px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.25);
+    color: var(--gold); padding:4px 10px; border-radius:20px;
+    font-size:10px; letter-spacing:1.5px; text-transform:uppercase;
+  }
+  .live-dot { width:5px; height:5px; background:var(--gold); border-radius:50%; animation:pulse 1.4s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.25;} }
+
+  #clock { font-size:12px; color:rgba(249,244,238,0.4); font-variant-numeric: tabular-nums; }
+
+  /* ── KPI ROW ── */
+  .kpi-row {
+    display:grid; grid-template-columns:repeat(4,1fr);
+    gap:1px; background:var(--beige);
+    border-bottom:2px solid var(--beige);
+    flex-shrink:0;
+  }
+
+  .kpi {
+    background:var(--warm);
+    padding:14px 22px;
+    display:flex; align-items:center; gap:14px;
+    transition: background 0.3s;
+  }
+  .kpi.flash { animation: kpiflash 0.6s ease; }
+  @keyframes kpiflash { 0%,100%{background:var(--warm);} 40%{background:#FFF3DC;} }
+
+  .kpi-icon {
+    width:38px; height:38px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:17px; flex-shrink:0;
+  }
+  .kpi-icon.buy  { background:rgba(201,168,76,0.12); }
+  .kpi-icon.tech { background:rgba(138,158,133,0.12); }
+  .kpi-icon.info { background:rgba(160,180,200,0.12); }
+  .kpi-icon.spd  { background:rgba(74,52,40,0.07); }
+
+  .kpi-num {
+    font-family:'Playfair Display',serif;
+    font-size:26px; font-weight:400;
+    color:var(--deep); line-height:1;
+    transition: transform 0.2s;
+  }
+  .kpi-num.bump { animation: bump 0.3s ease; }
+  @keyframes bump { 0%,100%{transform:scale(1);} 50%{transform:scale(1.15);} }
+
+  .kpi-label { font-size:11px; color:var(--light); margin-top:2px; }
+
+  /* ── MAIN ── */
+  .main {
+    display:grid;
+    grid-template-columns: 1fr 320px;
+    flex:1;
+    overflow:hidden;
+    min-height:0;
+  }
+
+  /* ── FEED ── */
+  .feed-wrap {
+    display:flex; flex-direction:column;
+    overflow:hidden; min-height:0;
+  }
+
+  .feed-header {
+    padding:14px 24px 10px;
+    border-bottom:1px solid var(--beige);
+    display:flex; align-items:center; justify-content:space-between;
+    flex-shrink:0;
+  }
+
+  .feed-header-title {
+    font-size:11px; letter-spacing:2px;
+    text-transform:uppercase; color:var(--light);
+  }
+
+  #feed-counter {
+    font-size:11px; color:var(--cocoa);
+    font-weight:500;
+  }
+
+  .feed {
+    flex:1; overflow-y:auto;
+    padding:14px 20px;
+    display:flex; flex-direction:column;
+    gap:10px;
+    scroll-behavior:smooth;
+  }
+  .feed::-webkit-scrollbar { width:4px; }
+  .feed::-webkit-scrollbar-thumb { background:var(--beige); border-radius:2px; }
+
+  /* ── CONV CARD ── */
+  .conv-card {
+    background:var(--warm);
+    border:1px solid var(--beige);
+    border-left:3px solid transparent;
+    padding:13px 15px;
+    display:grid;
+    grid-template-columns:36px 1fr auto;
+    gap:12px; align-items:start;
+    cursor:pointer;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .conv-card:hover { box-shadow:0 4px 16px rgba(74,52,40,0.09); }
+  .conv-card.new-card {
+    animation: dropIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    opacity:0;
+  }
+  @keyframes dropIn {
+    from { opacity:0; transform:translateY(-14px) scale(0.98); }
+    to   { opacity:1; transform:translateY(0) scale(1); }
+  }
+
+  .conv-card.buy    { border-left-color:var(--buy); }
+  .conv-card.tech   { border-left-color:var(--tech); }
+  .conv-card.info   { border-left-color:var(--info); }
+  .conv-card.urgent { border-left-color:var(--urgent); }
+  .conv-card.active { background:#FFF8EE; border-color:var(--gold); border-left-color:var(--gold); }
+
+  .conv-avatar {
+    width:36px; height:36px; border-radius:50%;
+    background:var(--beige);
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:500; color:var(--cocoa);
+    flex-shrink:0;
+  }
+
+  .conv-name  { font-size:12px; font-weight:500; color:var(--deep); margin-bottom:3px; }
+  .conv-preview { font-size:11px; color:var(--light); line-height:1.5; margin-bottom:7px; }
+
+  .conv-response {
+    background:rgba(74,52,40,0.04);
+    border-left:2px solid var(--cocoa);
+    padding:6px 10px;
+    font-size:11px; color:var(--cocoa); line-height:1.55;
+  }
+  .conv-response-label {
+    font-size:9px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--light); margin-bottom:3px;
+  }
+
+  /* typing indicator on a card */
+  .typing-row {
+    display:flex; gap:4px; align-items:center;
+    padding:7px 10px;
+    background:rgba(74,52,40,0.04);
+    border-left:2px solid var(--cocoa);
+  }
+  .t-dot {
+    width:5px; height:5px; background:var(--cocoa);
+    border-radius:50%; opacity:0.4;
+    animation:tdot 1.2s infinite;
+  }
+  .t-dot:nth-child(2){animation-delay:0.2s;}
+  .t-dot:nth-child(3){animation-delay:0.4s;}
+  @keyframes tdot { 0%,60%,100%{transform:translateY(0);opacity:0.4;} 30%{transform:translateY(-4px);opacity:1;} }
+
+  .conv-meta { display:flex; flex-direction:column; align-items:flex-end; gap:5px; }
+
+  .tag {
+    font-size:9px; letter-spacing:1px; text-transform:uppercase;
+    padding:2px 7px; border-radius:2px; font-weight:500; white-space:nowrap;
+  }
+  .tag.buy    { background:rgba(201,168,76,0.14); color:#7A5A10; }
+  .tag.tech   { background:rgba(138,158,133,0.14); color:#3A6040; }
+  .tag.info   { background:rgba(160,180,200,0.14); color:#2A5068; }
+  .tag.urgent { background:rgba(192,120,90,0.14); color:#7A2A10; }
+
+  .conv-time { font-size:10px; color:var(--light); }
+  .resp-badge { font-size:9px; color:#4CAF50; }
+
+  /* ── PANEL DERECHO ── */
+  .panel {
+    background:var(--warm);
+    border-left:1px solid var(--beige);
+    display:flex; flex-direction:column;
+    overflow:hidden; min-height:0;
+  }
+
+  .panel-header {
+    padding:14px 18px 12px;
+    border-bottom:1px solid var(--beige);
+    flex-shrink:0;
+  }
+  .panel-title { font-family:'Playfair Display',serif; font-size:15px; font-weight:400; color:var(--deep); }
+  .panel-sub   { font-size:11px; color:var(--light); margin-top:2px; }
+
+  /* chat activo */
+  .active-conv {
+    padding:14px 16px;
+    flex:1; overflow-y:auto;
+    display:flex; flex-direction:column; gap:12px;
+    min-height:0;
+  }
+  .active-conv::-webkit-scrollbar { width:3px; }
+  .active-conv::-webkit-scrollbar-thumb { background:var(--beige); }
+
+  .active-user {
+    display:flex; align-items:center; gap:10px;
+    padding-bottom:10px; border-bottom:1px solid var(--beige);
+    flex-shrink:0;
+  }
+  .active-avatar {
+    width:34px; height:34px; border-radius:50%;
+    background:linear-gradient(135deg,var(--cocoa),var(--gold));
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; color:#fff; font-weight:500;
+  }
+  .active-name   { font-size:12px; font-weight:500; color:var(--deep); }
+  .active-handle { font-size:10px; color:var(--light); }
+
+  .bubble-wrap { display:flex; flex-direction:column; gap:9px; }
+
+  .bubble {
+    max-width:90%; padding:9px 12px;
+    border-radius:14px; font-size:11px; line-height:1.55;
+  }
+  .bubble.in  { background:var(--beige); color:var(--text); border-bottom-left-radius:3px; align-self:flex-start; }
+  .bubble.out { background:var(--deep); color:rgba(255,255,255,0.9); border-bottom-right-radius:3px; align-self:flex-end; }
+  .bubble.new-bubble { animation: bubblePop 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+  @keyframes bubblePop { from{transform:scale(0.85);opacity:0;} to{transform:scale(1);opacity:1;} }
+
+  .bubble-meta { font-size:9px; color:var(--light); margin-top:2px; }
+  .bubble-meta.right { text-align:right; color:rgba(255,255,255,0.35); }
+  .auto-label {
+    background:rgba(201,168,76,0.2); color:var(--gold);
+    padding:1px 5px; border-radius:8px; font-size:9px;
+  }
+
+  .panel-typing {
+    padding:10px 16px; flex-shrink:0;
+    display:none; align-items:center; gap:8px;
+    border-top:1px solid var(--beige);
+    font-size:10px; color:var(--light);
+  }
+  .panel-typing.show { display:flex; }
+  .pt-dots { display:flex; gap:3px; }
+  .pt-dot {
+    width:5px; height:5px; background:var(--cocoa); border-radius:50%; opacity:0.3;
+    animation:tdot 1.2s infinite;
+  }
+  .pt-dot:nth-child(2){animation-delay:0.2s;}
+  .pt-dot:nth-child(3){animation-delay:0.4s;}
+
+  /* alertas */
+  .alerts { padding:12px 16px; border-top:1px solid var(--beige); flex-shrink:0; }
+  .alerts-title { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--light); margin-bottom:10px; }
+
+  .alert-item {
+    display:flex; align-items:flex-start; gap:8px;
+    padding:8px 10px; border-radius:5px; margin-bottom:7px;
+    font-size:11px; line-height:1.45;
+    animation: alertSlide 0.4s ease;
+  }
+  @keyframes alertSlide { from{opacity:0;transform:translateX(10px);} to{opacity:1;transform:translateX(0);} }
+
+  .alert-item.buy    { background:rgba(201,168,76,0.1);  color:#6A4A10; }
+  .alert-item.urgent { background:rgba(192,120,90,0.1);  color:#6A2A0A; }
+  .alert-item.info   { background:rgba(138,158,133,0.1); color:#2A4A2A; }
+  .alert-icon { font-size:14px; flex-shrink:0; }
+
+  /* resumen */
+  .day-summary { background:var(--deep); padding:14px 16px; flex-shrink:0; }
+  .day-title { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:rgba(249,244,238,0.35); margin-bottom:10px; }
+
+  .day-stat {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.05);
+    font-size:11px; color:rgba(249,244,238,0.55);
+  }
+  .day-stat:last-child { border-bottom:none; }
+  .day-stat strong {
+    font-family:'Playfair Display',serif; font-size:15px;
+    color:var(--gold); font-weight:400;
+    transition:color 0.3s;
+  }
+
+  /* footnote */
+  .footnote {
+    background:var(--deep);
+    padding:8px 28px;
+    display:flex; justify-content:space-between; align-items:center;
+    border-top:1px solid rgba(255,255,255,0.06);
+    flex-shrink:0;
+  }
+  .footnote p { font-size:9px; color:rgba(249,244,238,0.25); letter-spacing:0.5px; }
+  .footnote .staff { font-family:'Playfair Display',serif; color:rgba(201,168,76,0.4); font-style:italic; font-size:12px; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="brand">
+      <div class="brand-dot"></div>
+      Taller Entretejido · <span>Centro de Conversaciones</span>
+    </div>
+    <div class="ig-badge">
+      <div class="ig-dot"></div>
+      Instagram conectado
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="live-pill"><div class="live-dot"></div>En vivo</div>
+    <span id="clock">—</span>
+  </div>
+</div>
+
+<!-- KPIs -->
+<div class="kpi-row">
+  <div class="kpi" id="kpi-buy">
+    <div class="kpi-icon buy">🛒</div>
+    <div>
+      <div class="kpi-num" id="knum-buy">18</div>
+      <div class="kpi-label">Intención de compra hoy</div>
+    </div>
+  </div>
+  <div class="kpi" id="kpi-tech">
+    <div class="kpi-icon tech">🧶</div>
+    <div>
+      <div class="kpi-num" id="knum-tech">64</div>
+      <div class="kpi-label">Consultas técnicas resueltas</div>
+    </div>
+  </div>
+  <div class="kpi" id="kpi-info">
+    <div class="kpi-icon info">💬</div>
+    <div>
+      <div class="kpi-num" id="knum-info">41</div>
+      <div class="kpi-label">Consultas generales</div>
+    </div>
+  </div>
+  <div class="kpi" id="kpi-spd">
+    <div class="kpi-icon spd">⚡</div>
+    <div>
+      <div class="kpi-num" id="knum-spd">&lt;30s</div>
+      <div class="kpi-label">Tiempo promedio de respuesta</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- FEED -->
+  <div class="feed-wrap">
+    <div class="feed-header">
+      <div class="feed-header-title">Conversaciones de hoy</div>
+      <div id="feed-counter">123 respondidas automáticamente</div>
+    </div>
+    <div class="feed" id="feed">
+
+      <div class="conv-card urgent">
+        <div class="conv-avatar">MR</div>
+        <div>
+          <div class="conv-name">mariajose.r</div>
+          <div class="conv-preview">Hola Claudia! Quiero comprar el sweater Rodrigo pero no sé si me quedará bien, soy ancha de hombros...</div>
+          <div class="conv-response">
+            <div class="conv-response-label">Respondido automáticamente</div>
+            ¡Hola! El Sweater Rodrigo tiene instrucciones para ajustar hombros en la pág. 4 🙌 ¿Te cuento cómo comprarlo?
+          </div>
+        </div>
+        <div class="conv-meta">
+          <span class="tag urgent">⚠ Revisar</span>
+          <span class="conv-time">hace 2 min</span>
+          <span class="resp-badge">✓✓ respondido</span>
+        </div>
+      </div>
+
+      <div class="conv-card buy active">
+        <div class="conv-avatar">CP</div>
+        <div>
+          <div class="conv-name">carmen.palomino</div>
+          <div class="conv-preview">Cuánto cuesta el patrón chaleco Dominga? Y cómo se paga?</div>
+          <div class="conv-response">
+            <div class="conv-response-label">Respondido automáticamente</div>
+            ¡Hola Carmen! El Chaleco Dominga vale $9.500, pago con tarjeta o transferencia en tallerentretejido.cl 🧶
+          </div>
+        </div>
+        <div class="conv-meta">
+          <span class="tag buy">🛒 Compra</span>
+          <span class="conv-time">hace 7 min</span>
+          <span class="resp-badge">✓✓ respondido</span>
+        </div>
+      </div>
+
+      <div class="conv-card tech">
+        <div class="conv-avatar">LV</div>
+        <div>
+          <div class="conv-name">laura.v</div>
+          <div class="conv-preview">Qué significa MIR en el patrón? No lo encuentro 😅</div>
+          <div class="conv-response">
+            <div class="conv-response-label">Respondido automáticamente</div>
+            ¡Hola! MIR = Malla al revés 😊 Al inicio del patrón hay un glosario completo de abreviaturas.
+          </div>
+        </div>
+        <div class="conv-meta">
+          <span class="tag tech">🧶 Técnica</span>
+          <span class="conv-time">hace 15 min</span>
+          <span class="resp-badge">✓✓ respondido</span>
+        </div>
+      </div>
+
+      <div class="conv-card info">
+        <div class="conv-avatar">AS</div>
+        <div>
+          <div class="conv-name">ana.soto.tz</div>
+          <div class="conv-preview">Hay cursos para principiantes? Nunca he tejido en mi vida jaja</div>
+          <div class="conv-response">
+            <div class="conv-response-label">Respondido automáticamente</div>
+            ¡Claro! Tenemos cursos grabados desde cero 🌿 Los puedes ver a tu ritmo cuando quieras.
+          </div>
+        </div>
+        <div class="conv-meta">
+          <span class="tag info">💬 Info</span>
+          <span class="conv-time">hace 21 min</span>
+          <span class="resp-badge">✓✓ respondido</span>
+        </div>
+      </div>
+
+      <div class="conv-card buy">
+        <div class="conv-avatar">PG</div>
+        <div>
+          <div class="conv-name">patricia.g</div>
+          <div class="conv-preview">Me encantó el Baloo! Quiero otro patrón para niña de 3 años ¿cuál me recomiendas?</div>
+          <div class="conv-response">
+            <div class="conv-response-label">Respondido automáticamente</div>
+            ¡Qué lindo! Para niña de 3 años el Chaleco Dominga o el Vest Carlota son preciosos 🌸 Tienen tallas desde los 2 años.
+          </div>
+        </div>
+        <div class="conv-meta">
+          <span class="tag buy">🛒 Compra</span>
+          <span class="conv-time">hace 28 min</span>
+          <span class="resp-badge">✓✓ respondido</span>
+        </div>
+      </div>
+
+      <div class="conv-card tech">
+        <div class="conv-avatar">RF</div>
+        <div>
+          <div class="conv-name">rosa.f</div>
+          <div class="conv-preview">Qué palillo uso para Drops Karisma? Tengo N°4 y N°5</div>
+          <div class="conv-response">
+            <div class="conv-response-label">Respondido automáticamente</div>
+            Para Drops Karisma lo ideal es N°4.5. Si tu tejido tiende a apretarse el N°5 calza perfecto 😊 Siempre haz muestra 10x10 antes.
+          </div>
+        </div>
+        <div class="conv-meta">
+          <span class="tag tech">🧶 Técnica</span>
+          <span class="conv-time">hace 34 min</span>
+          <span class="resp-badge">✓✓ respondido</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PANEL DERECHO -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-title">Vista detalle</div>
+      <div class="panel-sub" id="panel-sub">carmen.palomino · conversación activa</div>
+    </div>
+
+    <div class="active-conv" id="active-conv">
+      <div class="active-user">
+        <div class="active-avatar" id="active-av">CP</div>
+        <div>
+          <div class="active-name" id="active-name">carmen.palomino</div>
+          <div class="active-handle">@carmen.palomino · Instagram</div>
+        </div>
+      </div>
+      <div class="bubble-wrap" id="bubble-wrap">
+        <div>
+          <div class="bubble in">Cuánto cuesta el patrón chaleco Dominga? Y cómo se paga?</div>
+          <div class="bubble-meta">15:27 · Carmen</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;">
+          <div class="bubble out">¡Hola Carmen! El Chaleco Dominga vale $9.500, podés comprarlo en tallerentretejido.cl 🧶 El pago es por transferencia o tarjeta. ¿Te dejo el link directo?</div>
+          <div class="bubble-meta right">15:27 · <span class="auto-label">automático</span></div>
+        </div>
+        <div>
+          <div class="bubble in">Siii por favor! Y tiene tallas para adulto?</div>
+          <div class="bubble-meta">15:29 · Carmen</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;">
+          <div class="bubble out">¡Sí! Viene en tallas XS a XL 🙌 Acá el link: tallerentretejido.cl/patron-chaleco-dominga</div>
+          <div class="bubble-meta right">15:29 · <span class="auto-label">automático</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-typing" id="panel-typing">
+      <div class="pt-dots">
+        <div class="pt-dot"></div><div class="pt-dot"></div><div class="pt-dot"></div>
+      </div>
+      <span>respondiendo...</span>
+    </div>
+
+    <!-- ALERTAS -->
+    <div class="alerts">
+      <div class="alerts-title">⚡ Alertas del día</div>
+      <div class="alert-item buy" id="alert1">
+        <div class="alert-icon">🛒</div>
+        <div><strong id="buy-count">18</strong> personas con intención de compra hoy</div>
+      </div>
+      <div class="alert-item urgent">
+        <div class="alert-icon">⚠️</div>
+        <div><strong>mariajose.r</strong> — consulta compleja sobre tallas, revisar</div>
+      </div>
+      <div class="alert-item info">
+        <div class="alert-icon">📈</div>
+        <div>Patrón <strong>Dominga</strong> más consultado hoy — <span id="dominga-count">9</span> veces</div>
+      </div>
+    </div>
+
+    <!-- RESUMEN DEL DÍA -->
+    <div class="day-summary">
+      <div class="day-title">Resumen del día</div>
+      <div class="day-stat"><span>Total respondidas</span><strong id="stat-total">123</strong></div>
+      <div class="day-stat"><span>Resueltas solas</span><strong>98%</strong></div>
+      <div class="day-stat"><span>Derivadas a Javiera</span><strong id="stat-deriv">2</strong></div>
+      <div class="day-stat"><span>Tiempo libre de Claudia</span><strong>~4 hrs</strong></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTNOTE -->
+<div class="footnote">
+  <p>PANEL DE CONTROL · TALLER ENTRETEJIDO × STAFF21X · DEMOSTRACIÓN EN TIEMPO REAL</p>
+  <div class="staff">Staff21x</div>
+</div>
+
+<script>
+// ── RELOJ ──
+function updateClock() {
+  const now = new Date();
+  const d = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][now.getDay()];
+  const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('clock').textContent =
+    `${d} ${now.getDate()} ${months[now.getMonth()]} · ${h}:${m}:${s}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ── CONTADORES ──
+let totalResp = 123, buyCount = 18, techCount = 64, infoCount = 41, domingaCount = 9;
+
+function bump(id, kpiId) {
+  const el = document.getElementById(id);
+  const kpi = document.getElementById(kpiId);
+  if (el) { el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }
+  if (kpi) { kpi.classList.remove('flash'); void kpi.offsetWidth; kpi.classList.add('flash'); }
+}
+
+function incrementCounters(type) {
+  totalResp++;
+  document.getElementById('stat-total').textContent = totalResp;
+  document.getElementById('feed-counter').textContent = totalResp + ' respondidas automáticamente';
+  bump('knum-spd','kpi-spd');
+
+  if (type === 'buy') {
+    buyCount++;
+    document.getElementById('knum-buy').textContent = buyCount;
+    document.getElementById('buy-count').textContent = buyCount;
+    bump('knum-buy','kpi-buy');
+  } else if (type === 'tech') {
+    techCount++;
+    document.getElementById('knum-tech').textContent = techCount;
+    bump('knum-tech','kpi-tech');
+    if (Math.random() > 0.6) {
+      domingaCount++;
+      document.getElementById('dominga-count').textContent = domingaCount;
+    }
+  } else {
+    infoCount++;
+    document.getElementById('knum-info').textContent = infoCount;
+    bump('knum-info','kpi-info');
+  }
+}
+
+// ── CONVERSACIONES NUEVAS ──
+const newConvs = [
+  { initials:'SB', name:'sofia.b', type:'buy', tag:'🛒 Compra',
+    question:'Hola! Cuánto demora en llegar el patrón después de comprarlo?',
+    answer:'¡Hola Sofía! El patrón es digital — lo recibirás al instante por email justo después del pago 🙌 No hay espera.' },
+  { initials:'VM', name:'vale_m', type:'tech', tag:'🧶 Técnica',
+    question:'Qué es la "muestra de tensión"? Es obligatorio hacerla?',
+    answer:'¡Muy buena pregunta! La muestra de tensión es tejer un cuadradito de 10x10 cm para ver si tus puntos calzan con los del patrón 😊 Sí es importante hacerla — evita que te quede muy grande o chico.' },
+  { initials:'CR', name:'claudia.r', type:'info', tag:'💬 Info',
+    question:'Tienen cursos para tejer a crochet también o solo dos agujas?',
+    answer:'Por ahora nos especializamos en dos agujas 🌿 Todos los patrones y cursos son en esa técnica. ¿Te interesa aprender dos agujas?' },
+  { initials:'MA', name:'maria_a', type:'buy', tag:'🛒 Compra',
+    question:'Pueden hacer el patrón en talla XL? Tengo contextura grande',
+    answer:'¡Hola! Todos los patrones incluyen tallas desde XS hasta XL 🙌 Y muchos traen instrucciones para ajustar si necesitás algo entre tallas. ¿Cuál te interesa?' },
+  { initials:'TF', name:'tere.f', type:'tech', tag:'🧶 Técnica',
+    question:'Cómo se hace el punto jersey al derecho? Soy principiante',
+    answer:'¡Bienvenida al mundo del tejido! El punto jersey al derecho se teje alternando una vuelta de mallas al derecho y una al revés 😊 En los cursos grabados de principiantes lo explicamos paso a paso con video.' },
+  { initials:'NV', name:'naty.v', type:'buy', tag:'🛒 Compra',
+    question:'Tienen patrones para hombre? Quiero tejerle algo a mi pareja',
+    answer:'¡Qué lindo regalo! Sí, tenemos el Patrón Sweater Rodrigo y el Chaleco Mateo que son unisex/hombre 🧶 Los dos son muy lindos y con buenas instrucciones.' },
+];
+
+let convIndex = 0;
+const feed = document.getElementById('feed');
+
+function addNewConversation() {
+  const conv = newConvs[convIndex % newConvs.length];
+  convIndex++;
+
+  // Crear card con typing indicator
+  const card = document.createElement('div');
+  card.className = `conv-card ${conv.type} new-card`;
+  card.innerHTML = `
+    <div class="conv-avatar">${conv.initials}</div>
+    <div>
+      <div class="conv-name">${conv.name}</div>
+      <div class="conv-preview">${conv.question}</div>
+      <div class="typing-row">
+        <div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div>
+        <span style="font-size:9px;color:var(--light);margin-left:6px;letter-spacing:1px;text-transform:uppercase;">respondiendo...</span>
+      </div>
+    </div>
+    <div class="conv-meta">
+      <span class="tag ${conv.type}">${conv.tag}</span>
+      <span class="conv-time">ahora</span>
+    </div>
+  `;
+
+  // Insertar al principio del feed (debajo del header)
+  feed.insertBefore(card, feed.children[0]);
+
+  // Scroll suave
+  feed.scrollTop = 0;
+
+  // Después de 2.2s, reemplazar typing con respuesta
+  setTimeout(() => {
+    const bodyDiv = card.querySelector('div:nth-child(2)');
+    const typingRow = card.querySelector('.typing-row');
+    typingRow.outerHTML = `
+      <div class="conv-response">
+        <div class="conv-response-label">Respondido automáticamente</div>
+        ${conv.answer}
+      </div>`;
+    const respBadge = card.querySelector('.resp-badge');
+    if (!respBadge) {
+      card.querySelector('.conv-meta').insertAdjacentHTML('beforeend',
+        '<span class="resp-badge">✓✓ respondido</span>');
+    }
+    // Actualizar tiempo
+    card.querySelector('.conv-time').textContent = 'hace 1 min';
+    // Incrementar contadores
+    incrementCounters(conv.type);
+
+    // Mostrar typing en panel derecho brevemente si es la activa
+    showPanelTypingBrief();
+
+  }, 2200);
+
+  // Limpiar cards viejas si hay más de 10
+  while (feed.children.length > 10) {
+    feed.removeChild(feed.lastChild);
+  }
+
+  // Actualizar tiempos de las demás
+  updateTimes();
+}
+
+// ── TYPING EN PANEL DERECHO ──
+function showPanelTypingBrief() {
+  if (Math.random() > 0.5) return;
+  const pt = document.getElementById('panel-typing');
+  pt.classList.add('show');
+  setTimeout(() => pt.classList.remove('show'), 1800);
+}
+
+// ── ACTUALIZAR TIEMPOS ──
+const timeLabels = ['ahora','hace 1 min','hace 3 min','hace 7 min','hace 12 min',
+                    'hace 18 min','hace 24 min','hace 31 min','hace 38 min','hace 45 min'];
+function updateTimes() {
+  const cards = feed.querySelectorAll('.conv-card');
+  cards.forEach((c,i) => {
+    const t = c.querySelector('.conv-time');
+    if (t && timeLabels[i]) t.textContent = timeLabels[i];
+  });
+}
+
+// ── NUEVA BURBUJA EN PANEL CADA TANTO ──
+const panelMessages = [
+  { dir:'in',  text:'Y el patrón viene en PDF o cómo lo recibo?' },
+  { dir:'out', text:'¡Llega por email al instante como PDF descargable! También queda guardado en tu cuenta de la tienda 📩', auto:true },
+  { dir:'in',  text:'Perfecto, muchas gracias!' },
+  { dir:'out', text:'¡Con gusto! Cualquier duda me escribís 🌿', auto:true },
+];
+let panelMsgIdx = 0;
+
+function addPanelBubble() {
+  if (panelMsgIdx >= panelMessages.length) return;
+  const msg = panelMessages[panelMsgIdx++];
+  const wrap = document.getElementById('bubble-wrap');
+  const conv = document.getElementById('active-conv');
+
+  if (msg.dir === 'out') {
+    // Mostrar typing primero
+    const pt = document.getElementById('panel-typing');
+    pt.classList.add('show');
+    setTimeout(() => {
+      pt.classList.remove('show');
+      const div = document.createElement('div');
+      div.style.cssText = 'display:flex;flex-direction:column;align-items:flex-end;';
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2,'0');
+      const mm = String(now.getMinutes()).padStart(2,'0');
+      div.innerHTML = `
+        <div class="bubble out new-bubble">${msg.text}</div>
+        <div class="bubble-meta right">${hh}:${mm} · <span class="auto-label">automático</span></div>`;
+      wrap.appendChild(div);
+      conv.scrollTop = conv.scrollHeight;
+    }, 1600);
+  } else {
+    const div = document.createElement('div');
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2,'0');
+    const mm = String(now.getMinutes()).padStart(2,'0');
+    div.innerHTML = `
+      <div class="bubble in new-bubble">${msg.text}</div>
+      <div class="bubble-meta">${hh}:${mm} · Carmen</div>`;
+    wrap.appendChild(div);
+    conv.scrollTop = conv.scrollHeight;
+  }
+}
+
+// ── INICIAR SIMULACIÓN ──
+// Nueva conversación en el feed cada 6-10 segundos
+function scheduleNextConv() {
+  const delay = 6000 + Math.random() * 5000;
+  setTimeout(() => {
+    addNewConversation();
+    scheduleNextConv();
+  }, delay);
+}
+
+// Burbujas en el panel cada ~8 segundos
+function scheduleNextBubble() {
+  if (panelMsgIdx < panelMessages.length) {
+    const delay = 5000 + Math.random() * 4000;
+    setTimeout(() => {
+      addPanelBubble();
+      scheduleNextBubble();
+    }, delay);
+  }
+}
+
+// Arrancar con pequeño delay
+setTimeout(scheduleNextConv, 3000);
+setTimeout(scheduleNextBubble, 6000);
+</script>
+</body>
+</html>
