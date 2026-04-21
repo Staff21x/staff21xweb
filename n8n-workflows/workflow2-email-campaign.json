@@ -213,9 +213,7 @@
         },
         "options": {
           "response": {
-            "response": {
-              "responseFormat": "json"
-            }
+            "responseFormat": "json"
           }
         }
       }
