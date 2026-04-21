@@ -1,0 +1,459 @@
+{
+  "name": "Campaña Email Semanal - Rotación 4 Semanas",
+  "nodes": [
+    {
+      "id": "b2c3d4e5-0002-0002-0002-000000000001",
+      "name": "Schedule Trigger Semanal",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 300],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "b2c3d4e5-0002-0002-0002-000000000002",
+      "name": "Calcular Semana del Ciclo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [220, 300],
+      "parameters": {
+        "jsCode": "const now = new Date();\nconst startOfYear = new Date(now.getFullYear(), 0, 1);\nconst weekOfYear = Math.ceil(((now - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);\nconst weekCycle = ((weekOfYear - 1) % 4) + 1;\n\nreturn [{\n  json: {\n    weekOfYear,\n    weekCycle,\n    date: now.toISOString().split('T')[0],\n    year: now.getFullYear()\n  }\n}];"
+      }
+    },
+    {
+      "id": "b2c3d4e5-0002-0002-0002-000000000003",
+      "name": "Switch Semana",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [440, 300],
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "rules": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "loose"
+                },
+                "conditions": [
+                  {
+                    "id": "rule-semana1",
+                    "leftValue": "={{ $json.weekCycle }}",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Semana 1 - Cursos"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "loose"
+                },
+                "conditions": [
+                  {
+                    "id": "rule-semana2",
+                    "leftValue": "={{ $json.weekCycle }}",
+                    "rightValue": 2,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Semana 2 - Noticias"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "loose"
+                },
+                "conditions": [
+                  {
+                    "id": "rule-semana3",
+                    "leftValue": "={{ $json.weekCycle }}",
+                    "rightValue": 3,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Semana 3 - Sin envio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "loose"
+                },
+                "conditions": [
+                  {
+                    "id": "rule-semana4",
+                    "leftValue": "={{ $json.weekCycle }}",
+                    "rightValue": 4,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Semana 4 - Precios"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "b2c3d4e5-0002-0002-0002-000000000004",
+      "name": "Preparar Email Cursos",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [700, 80],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "s1-subject",
+              "name": "subject",
+              "value": "=🎓 Cursos disponibles esta semana - {{ $('Calcular Semana del Ciclo').item.json.date }}",
+              "type": "string"
+            },
+            {
+              "id": "s1-body",
+              "name": "body",
+              "value": "<h2>Cursos Disponibles Esta Semana</h2><p>Estimado/a,</p><p>Te compartimos los cursos disponibles esta semana para potenciar tus habilidades profesionales:</p><ul><li><strong>Curso 1:</strong> Descripción del curso 1 - <a href='#'>Ver detalles</a></li><li><strong>Curso 2:</strong> Descripción del curso 2 - <a href='#'>Ver detalles</a></li><li><strong>Curso 3:</strong> Descripción del curso 3 - <a href='#'>Ver detalles</a></li></ul><p>Inscríbete ahora y obtén un <strong>10% de descuento</strong> usando el código: SEMANA01</p><p>Saludos,<br>El Equipo de Formación</p>",
+              "type": "string"
+            },
+            {
+              "id": "s1-week",
+              "name": "weekType",
+              "value": "cursos",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "b2c3d4e5-0002-0002-0002-000000000005",
+      "name": "Gmail Cursos",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [940, 80],
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "sendTo": "lista@tudominio.com",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.body }}",
+        "options": {
+          "appendAttribution": false,
+          "ccList": "",
+          "bccList": ""
+        }
+      },
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "GMAIL_CRED_ID",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "id": "b2c3d4e5-0002-0002-0002-000000000006",
+      "name": "Buscar Noticias Web",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [700, 260],
+      "parameters": {
+        "method": "GET",
+        "url": "https://serpapi.com/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "noticias industria formación capacitación empresas esta semana"
+            },
+            {
+              "name": "api_key",
+              "value": "YOUR_SERPAPI_KEY"
+            },
+            {
+              "name": "hl",
+              "value": "es"
+            },
+            {
+              "name": "gl",
+              "value": "es"
+            },
+            {
+              "name": "num",
+              "value": "5"
+            },
+            {
+              "name": "tbm",
+              "value": "nws"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "b2c3d4e5-0002-0002-0002-000000000007",
+      "name": "Preparar Email Noticias",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [940, 260],
+      "parameters": {
+        "jsCode": "const newsData = $input.first().json;\nconst results = newsData.news_results || newsData.organic_results || [];\nconst date = $('Calcular Semana del Ciclo').first().json.date;\n\nlet newsItems = '';\nresults.slice(0, 5).forEach((item, i) => {\n  newsItems += `<li><strong>${item.title || item.snippet || 'Noticia ' + (i+1)}</strong><br>`;\n  if (item.link) newsItems += `<a href=\"${item.link}\">Leer más</a>`;\n  newsItems += '</li>';\n});\n\nif (!newsItems) {\n  newsItems = '<li>Consulta las últimas noticias del sector en nuestro blog.</li>';\n}\n\nreturn [{\n  json: {\n    subject: `📰 Noticias de la industria - Semana del ${date}`,\n    body: `<h2>Noticias de la Industria Esta Semana</h2><p>Estimado/a,</p><p>Te traemos las noticias más relevantes del sector esta semana:</p><ul>${newsItems}</ul><p>Mantente actualizado y sigue creciendo profesionalmente.</p><p>Saludos,<br>El Equipo</p>`,\n    weekType: 'noticias'\n  }\n}];"
+      }
+    },
+    {
+      "id": "b2c3d4e5-0002-0002-0002-000000000008",
+      "name": "Gmail Noticias",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [1180, 260],
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "sendTo": "lista@tudominio.com",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.body }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "GMAIL_CRED_ID",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "id": "b2c3d4e5-0002-0002-0002-000000000009",
+      "name": "Sin Envio Semana 3",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [700, 440],
+      "parameters": {}
+    },
+    {
+      "id": "b2c3d4e5-0002-0002-0002-000000000010",
+      "name": "Preparar Email Precios",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [700, 620],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "s4-subject",
+              "name": "subject",
+              "value": "=💰 Lista de precios actualizada + Curso Destacado del Mes",
+              "type": "string"
+            },
+            {
+              "id": "s4-body",
+              "name": "body",
+              "value": "<h2>Lista de Precios Actualizada</h2><p>Estimado/a,</p><p>Te recordamos nuestra lista de precios actualizada para todos nuestros servicios y cursos:</p><h3>Servicios</h3><table border='1' cellpadding='8' cellspacing='0' style='border-collapse:collapse;width:100%'><tr style='background:#f0f0f0'><th>Servicio</th><th>Precio</th></tr><tr><td>Consultoría básica</td><td>$XXX</td></tr><tr><td>Consultoría avanzada</td><td>$XXX</td></tr><tr><td>Capacitación in-company</td><td>$XXX</td></tr></table><h3>⭐ Curso Destacado del Mes</h3><div style='background:#fff3cd;padding:15px;border-radius:8px'><h4>Nombre del Curso Destacado</h4><p>Descripción breve del curso destacado. Ideal para profesionales que buscan especializarse.</p><ul><li>Duración: X horas</li><li>Modalidad: Online/Presencial</li><li>Precio especial: <strong>$XXX</strong></li></ul><a href='#' style='background:#0066cc;color:white;padding:10px 20px;text-decoration:none;border-radius:5px'>Inscribirme ahora</a></div><p><br>Para solicitar cotización personalizada, responde a este correo.</p><p>Saludos,<br>El Equipo Comercial</p>",
+              "type": "string"
+            },
+            {
+              "id": "s4-week",
+              "name": "weekType",
+              "value": "precios",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "b2c3d4e5-0002-0002-0002-000000000011",
+      "name": "Gmail Precios",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [940, 620],
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "sendTo": "lista@tudominio.com",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.body }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "GMAIL_CRED_ID",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger Semanal": {
+      "main": [
+        [
+          {
+            "node": "Calcular Semana del Ciclo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calcular Semana del Ciclo": {
+      "main": [
+        [
+          {
+            "node": "Switch Semana",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Semana": {
+      "main": [
+        [
+          {
+            "node": "Preparar Email Cursos",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Buscar Noticias Web",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Sin Envio Semana 3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar Email Precios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Email Cursos": {
+      "main": [
+        [
+          {
+            "node": "Gmail Cursos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Noticias Web": {
+      "main": [
+        [
+          {
+            "node": "Preparar Email Noticias",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Email Noticias": {
+      "main": [
+        [
+          {
+            "node": "Gmail Noticias",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar Email Precios": {
+      "main": [
+        [
+          {
+            "node": "Gmail Precios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b2c3d4e5-ffff-ffff-ffff-000000000002",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": ""
+  },
+  "id": "wf-email-campaign-002",
+  "tags": [
+    {
+      "createdAt": "2026-04-21T00:00:00.000Z",
+      "updatedAt": "2026-04-21T00:00:00.000Z",
+      "id": "tag-email",
+      "name": "email-campaign"
+    }
+  ]
+}
