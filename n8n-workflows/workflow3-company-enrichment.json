@@ -62,9 +62,7 @@
       "parameters": {
         "conditions": {
           "options": {
-            "caseSensitive": false,
-            "leftValue": "",
-            "typeValidation": "loose"
+            "caseSensitive": false
           },
           "conditions": [
             {
@@ -218,9 +216,7 @@
       "parameters": {
         "conditions": {
           "options": {
-            "caseSensitive": false,
-            "leftValue": "",
-            "typeValidation": "loose"
+            "caseSensitive": false
           },
           "conditions": [
             {
