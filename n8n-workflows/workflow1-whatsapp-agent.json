@@ -64,7 +64,7 @@
       "typeVersion": 1.7,
       "position": [440, 300],
       "parameters": {
-        "agent": "conversationalAgent",
+        "agent": "toolsAgent",
         "promptType": "define",
         "text": "={{ $json.message }}",
         "options": {
