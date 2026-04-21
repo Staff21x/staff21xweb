@@ -31,25 +31,25 @@
             {
               "id": "assign-phone",
               "name": "phone",
-              "value": "={{ $json.entry[0].changes[0].value.messages[0].from }}",
+              "value": "={{ $json.contacts[0].wa_id }}",
               "type": "string"
             },
             {
               "id": "assign-message",
               "name": "message",
-              "value": "={{ $json.entry[0].changes[0].value.messages[0].text.body }}",
+              "value": "={{ $json.messages[0].text.body }}",
               "type": "string"
             },
             {
               "id": "assign-msgid",
               "name": "messageId",
-              "value": "={{ $json.entry[0].changes[0].value.messages[0].id }}",
+              "value": "={{ $json.messages[0].id }}",
               "type": "string"
             },
             {
               "id": "assign-name",
               "name": "contactName",
-              "value": "={{ $json.entry[0].changes[0].value.contacts[0].profile.name }}",
+              "value": "={{ $json.contacts[0].profile.name }}",
               "type": "string"
             }
           ]
@@ -68,7 +68,7 @@
         "promptType": "define",
         "text": "={{ $json.message }}",
         "options": {
-          "systemMessage": "Eres un asistente de atención al cliente amable, profesional y útil. Responde siempre en el mismo idioma que el usuario. Si el usuario menciona o comparte un email, reconócelo explícitamente y confirma que se tomará acción con ese correo. Mantén respuestas concisas y claras."
+          "systemMessage": "Eres un asistente de atención al cliente amable, profesional y útil. Responde siempre en el mismo idioma que el usuario. Mantén respuestas concisas y claras."
         }
       }
     },
@@ -100,7 +100,7 @@
       "position": [560, 520],
       "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "={{ $('Extraer Datos').item.json.phone }}",
+        "sessionKey": "={{ $json.phone }}",
         "contextWindowLength": 10
       }
     },
@@ -134,10 +134,30 @@
     },
     {
       "id": "a1b2c3d4-0001-0001-0001-000000000007",
+      "name": "WhatsApp Confirmar Email",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [920, 160],
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "phoneNumberId": "YOUR_PHONE_NUMBER_ID",
+        "recipientPhoneNumber": "={{ $('Extraer Datos').item.json.phone }}",
+        "textBody": "Perfecto, te acabo de enviar toda la información a tu correo ✉️ Cualquier consulta adicional, aquí estoy."
+      },
+      "credentials": {
+        "whatsAppApi": {
+          "id": "WHATSAPP_CRED_ID",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "id": "a1b2c3d4-0001-0001-0001-000000000009",
       "name": "WhatsApp Responder",
       "type": "n8n-nodes-base.whatsApp",
       "typeVersion": 1,
-      "position": [920, 200],
+      "position": [920, 420],
       "parameters": {
         "resource": "message",
         "operation": "send",
@@ -157,7 +177,7 @@
       "name": "Enviar Gmail",
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
-      "position": [920, 420],
+      "position": [1140, 160],
       "parameters": {
         "resource": "message",
         "operation": "send",
@@ -179,79 +199,37 @@
   "connections": {
     "WhatsApp Trigger": {
       "main": [
-        [
-          {
-            "node": "Extraer Datos",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        [{ "node": "Extraer Datos", "type": "main", "index": 0 }]
       ]
     },
     "Extraer Datos": {
       "main": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        [{ "node": "AI Agent", "type": "main", "index": 0 }]
       ]
     },
     "AI Agent": {
       "main": [
-        [
-          {
-            "node": "Detectar Email",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        [{ "node": "Detectar Email", "type": "main", "index": 0 }]
       ]
     },
     "OpenAI GPT-4o": {
       "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
+        [{ "node": "AI Agent", "type": "ai_languageModel", "index": 0 }]
       ]
     },
     "Memoria por Teléfono": {
       "ai_memory": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
+        [{ "node": "AI Agent", "type": "ai_memory", "index": 0 }]
       ]
     },
     "Detectar Email": {
       "main": [
         [
-          {
-            "node": "WhatsApp Responder",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Enviar Gmail",
-            "type": "main",
-            "index": 0
-          }
+          { "node": "WhatsApp Confirmar Email", "type": "main", "index": 0 },
+          { "node": "Enviar Gmail", "type": "main", "index": 0 }
         ],
         [
-          {
-            "node": "WhatsApp Responder",
-            "type": "main",
-            "index": 0
-          }
+          { "node": "WhatsApp Responder", "type": "main", "index": 0 }
         ]
       ]
     }
@@ -260,7 +238,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "a1b2c3d4-ffff-ffff-ffff-000000000001",
+  "versionId": "a1b2c3d4-ffff-ffff-ffff-000000000002",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": ""
