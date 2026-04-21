@@ -161,9 +161,7 @@
         "subject": "={{ $json.subject }}",
         "message": "={{ $json.body }}",
         "options": {
-          "appendAttribution": false,
-          "ccList": "",
-          "bccList": ""
+          "appendAttribution": false
         }
       },
       "credentials": {
