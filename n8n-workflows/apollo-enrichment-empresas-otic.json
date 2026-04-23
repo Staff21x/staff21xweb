@@ -1,0 +1,219 @@
+{
+  "name": "Apollo – Enriquecimiento Empresas Chilenas OTIC",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "1a2b3c4d-0001",
+      "name": "Trigger Manual",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [160, 360]
+    },
+    {
+      "parameters": {
+        "operation": "readAllRows",
+        "documentId": {
+          "__rl": true,
+          "value": "1VFrzjM5NVyz8seCeC-JQQtVEMkaB6Z1go4LTmWy43K4",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "235960899",
+          "mode": "id"
+        }
+      },
+      "id": "1a2b3c4d-0002",
+      "name": "Leer Empresas",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [380, 360],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CRED_ID",
+          "name": "Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "1a2b3c4d-0003",
+      "name": "Bucle Empresas",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [600, 360]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "cond-0001",
+              "leftValue": "={{ $json['CONTACTO'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "1a2b3c4d-0004",
+      "name": "IF Sin Contacto",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [820, 360]
+    },
+    {
+      "parameters": {
+        "jsCode": "const empresa = $json['Empresa_Nombre'] || '';\n\nreturn [{\n  json: {\n    Empresa_Rut: $json['Empresa_Rut'] || '',\n    Empresa_Nombre: empresa,\n    apolloBody: JSON.stringify({\n      per_page: 10,\n      organization_names: [empresa],\n      person_titles: [\n        'Jefe de Capacitación',\n        'Gerente RRHH',\n        'Subgerente de Personas',\n        'Gerente Desarrollo Organizacional',\n        'Gerente Formación',\n        'HR Manager',\n        'Training Manager',\n        'People Manager',\n        'Learning and Development Manager'\n      ]\n    })\n  }\n}];"
+      },
+      "id": "1a2b3c4d-0005",
+      "name": "Preparar Solicitud Apollo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1040, 460]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apollo.io/api/v1/mixed_people/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ $json.apolloBody }}",
+        "options": {}
+      },
+      "id": "1a2b3c4d-0006",
+      "name": "Buscar en Apollo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1260, 460],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "APOLLO_CRED_ID",
+          "name": "Apollo X-Api-Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const apolloData = $input.first().json;\nconst company = $('Preparar Solicitud Apollo').first().json;\n\nconst people = (apolloData.people || []).filter(function(p) {\n  const email = p.email || '';\n  return email.includes('@') && !email.startsWith('email_not_unlocked');\n});\n\nconst stats = $workflow.staticData;\nstats.processedCount = (stats.processedCount || 0) + 1;\nstats.contactsFound = (stats.contactsFound || 0) + people.length;\n\nconst updateData = { Empresa_Rut: company.Empresa_Rut };\n\nfor (let i = 1; i <= 15; i++) {\n  const person = people[i - 1];\n  let label = '';\n  let email = '';\n  if (person) {\n    const firstName = person.first_name || '';\n    const lastName = person.last_name || '';\n    const fullName = [firstName, lastName].filter(function(s) { return s.length > 0; }).join(' ');\n    const title = person.title || '';\n    label = title ? (fullName + ' | ' + title) : fullName;\n    email = person.email || '';\n  }\n  if (i === 1) {\n    updateData['CONTACTO'] = label;\n    updateData['CORREO'] = email;\n  } else {\n    updateData['CONTACTO_' + i] = label;\n    updateData['CORREO_' + i] = email;\n  }\n}\n\nreturn [{ json: updateData }];"
+      },
+      "id": "1a2b3c4d-0007",
+      "name": "Procesar Contactos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1480, 460]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1VFrzjM5NVyz8seCeC-JQQtVEMkaB6Z1go4LTmWy43K4",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "235960899",
+          "mode": "id"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "matchingColumns": ["Empresa_Rut"],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "1a2b3c4d-0008",
+      "name": "Actualizar GSheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [1700, 460],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GOOGLE_SHEETS_CRED_ID",
+          "name": "Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const stats = $workflow.staticData;\nconst processed = stats.processedCount || 0;\nconst found = stats.contactsFound || 0;\n\nstats.processedCount = 0;\nstats.contactsFound = 0;\n\nreturn [{\n  json: {\n    estado: 'Enriquecimiento completado',\n    empresasEnriquecidas: processed,\n    contactosEncontrados: found,\n    promedioPorEmpresa: processed > 0 ? (found / processed).toFixed(1) : '0.0',\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "1a2b3c4d-0009",
+      "name": "Reporte Final",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [820, 200]
+    }
+  ],
+  "connections": {
+    "Trigger Manual": {
+      "main": [
+        [{"node": "Leer Empresas", "type": "main", "index": 0}]
+      ]
+    },
+    "Leer Empresas": {
+      "main": [
+        [{"node": "Bucle Empresas", "type": "main", "index": 0}]
+      ]
+    },
+    "Bucle Empresas": {
+      "main": [
+        [{"node": "IF Sin Contacto", "type": "main", "index": 0}],
+        [{"node": "Reporte Final", "type": "main", "index": 0}]
+      ]
+    },
+    "IF Sin Contacto": {
+      "main": [
+        [{"node": "Preparar Solicitud Apollo", "type": "main", "index": 0}],
+        [{"node": "Bucle Empresas", "type": "main", "index": 0}]
+      ]
+    },
+    "Preparar Solicitud Apollo": {
+      "main": [
+        [{"node": "Buscar en Apollo", "type": "main", "index": 0}]
+      ]
+    },
+    "Buscar en Apollo": {
+      "main": [
+        [{"node": "Procesar Contactos", "type": "main", "index": 0}]
+      ]
+    },
+    "Procesar Contactos": {
+      "main": [
+        [{"node": "Actualizar GSheets", "type": "main", "index": 0}]
+      ]
+    },
+    "Actualizar GSheets": {
+      "main": [
+        [{"node": "Bucle Empresas", "type": "main", "index": 0}]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeee0001",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "id": "apollo-otic-enrichment-001"
+}
