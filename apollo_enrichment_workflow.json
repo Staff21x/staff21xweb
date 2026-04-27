@@ -43,6 +43,16 @@
     },
     {
       "parameters": {
+        "jsCode": "// Google Sheets renombra headers duplicados: 'CONTACTO ' (con espacio), 'CONTACTO 1', 'CONTACTO 2'...\n// Este nodo normaliza a: CONTACTO, CONTACTO2, CONTACTO3... y lo mismo para CORREO.\nconst raw = $input.item.json;\nconst out = {};\n\nfor (const [key, val] of Object.entries(raw)) {\n  let cleanKey = key.trim();\n  // 'CONTACTO 1' -> 'CONTACTO2', 'CORREO 2' -> 'CORREO3', etc.\n  const m = cleanKey.match(/^(CONTACTO|CORREO)\\s+(\\d+)$/i);\n  if (m) {\n    cleanKey = m[1].toUpperCase() + (parseInt(m[2]) + 1);\n  }\n  out[cleanKey] = val;\n}\n\nreturn [{ json: out }];"
+      },
+      "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+      "name": "Normalizar Campos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [800, 400]
+    },
+    {
+      "parameters": {
         "conditions": {
           "options": {
             "caseSensitive": false,
@@ -254,8 +264,13 @@
     },
     "SplitInBatches": {
       "main": [
-        [{"node": "Sin Contacto", "type": "main", "index": 0}],
+        [{"node": "Normalizar Campos", "type": "main", "index": 0}],
         [{"node": "Reporte Final", "type": "main", "index": 0}]
+      ]
+    },
+    "Normalizar Campos": {
+      "main": [
+        [{"node": "Sin Contacto", "type": "main", "index": 0}]
       ]
     },
     "Sin Contacto": {
