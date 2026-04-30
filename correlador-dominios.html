@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Correlador de Dominios — Staff21x</title>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #0f2040;
+    --navy-light: #1a3058;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --gold-dim: #8a6f2e;
+    --white: #f4f0e8;
+    --gray: #8899aa;
+    --success: #2ecc71;
+    --warning: #f39c12;
+    --error: #e74c3c;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    background: var(--navy-mid);
+    border-bottom: 1px solid var(--gold-dim);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+  }
+
+  header span {
+    color: var(--gray);
+    font-size: 13px;
+    margin-left: auto;
+  }
+
+  .badge {
+    background: var(--gold-dim);
+    color: var(--gold-light);
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  main {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    flex: 1;
+    gap: 0;
+  }
+
+  /* PANEL IZQUIERDO */
+  .panel-left {
+    background: var(--navy-mid);
+    border-right: 1px solid var(--navy-light);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    height: calc(100vh - 57px);
+  }
+
+  .section-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+
+  label {
+    font-size: 12px;
+    color: var(--gray);
+    font-weight: 500;
+  }
+
+  .api-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  input[type="password"], input[type="text"] {
+    width: 100%;
+    background: var(--navy);
+    border: 1px solid var(--navy-light);
+    color: var(--white);
+    padding: 10px 40px 10px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  input:focus { border-color: var(--gold-dim); }
+
+  .toggle-eye {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--gray);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+    line-height: 1;
+  }
+
+  .hint {
+    font-size: 11px;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+
+  /* DROP ZONE */
+  .dropzone {
+    border: 2px dashed var(--navy-light);
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .dropzone:hover, .dropzone.dragover {
+    border-color: var(--gold-dim);
+    background: rgba(201,168,76,0.05);
+  }
+
+  .dropzone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+  }
+
+  .dropzone-icon { font-size: 28px; margin-bottom: 8px; }
+  .dropzone-text { font-size: 13px; color: var(--gray); }
+  .dropzone-text strong { color: var(--gold); }
+
+  .file-loaded {
+    background: rgba(46,204,113,0.08);
+    border: 1px solid rgba(46,204,113,0.3);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 12px;
+    display: none;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .file-loaded.show { display: flex; }
+  .file-loaded .file-name { color: var(--success); font-weight: 600; }
+  .file-loaded .file-meta { color: var(--gray); margin-left: auto; }
+
+  /* SLIDER */
+  .slider-wrap { display: flex; align-items: center; gap: 12px; }
+  input[type="range"] {
+    flex: 1;
+    accent-color: var(--gold);
+    cursor: pointer;
+  }
+  .slider-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--gold);
+    min-width: 20px;
+    text-align: center;
+  }
+
+  /* INFO BOX */
+  .info-box {
+    background: rgba(201,168,76,0.08);
+    border: 1px solid var(--gold-dim);
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+
+  .info-box strong { color: var(--gold-light); }
+
+  /* BTN PRINCIPAL */
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+    color: var(--navy);
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    width: 100%;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    margin-top: auto;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    transform: translateY(-1px);
+  }
+
+  .btn-primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-stop {
+    background: transparent;
+    color: var(--error);
+    border: 1px solid var(--error);
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    width: 100%;
+    display: none;
+    transition: all 0.2s;
+  }
+
+  .btn-stop:hover { background: rgba(231,76,60,0.1); }
+
+  /* PANEL DERECHO */
+  .panel-right {
+    padding: 24px;
+    overflow-y: auto;
+    height: calc(100vh - 57px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* STATS */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .stat-card {
+    background: var(--navy-mid);
+    border: 1px solid var(--navy-light);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  .stat-label { font-size: 11px; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; }
+  .stat-value { font-size: 28px; font-family: 'Playfair Display', serif; color: var(--gold); margin-top: 4px; }
+  .stat-sub { font-size: 11px; color: var(--gray); margin-top: 2px; }
+
+  /* PROGRESS */
+  .progress-wrap {
+    background: var(--navy-mid);
+    border: 1px solid var(--navy-light);
+    border-radius: 8px;
+    padding: 16px;
+    display: none;
+  }
+
+  .progress-wrap.show { display: block; }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+
+  .progress-status { color: var(--gray); }
+  .progress-pct { color: var(--gold); font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+
+  .progress-bar-bg {
+    background: var(--navy);
+    border-radius: 4px;
+    height: 6px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* TOOLBAR */
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .search-input {
+    background: var(--navy-mid);
+    border: 1px solid var(--navy-light);
+    color: var(--white);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    width: 220px;
+    transition: border-color 0.2s;
+  }
+
+  .search-input:focus { border-color: var(--gold-dim); }
+
+  .filter-select {
+    background: var(--navy-mid);
+    border: 1px solid var(--navy-light);
+    color: var(--white);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .btn-export {
+    background: var(--navy-mid);
+    border: 1px solid var(--gold-dim);
+    color: var(--gold);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    margin-left: auto;
+    transition: all 0.2s;
+  }
+
+  .btn-export:hover { background: rgba(201,168,76,0.1); }
+
+  /* TABLA */
+  .table-wrap {
+    background: var(--navy-mid);
+    border: 1px solid var(--navy-light);
+    border-radius: 8px;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  table { width: 100%; border-collapse: collapse; }
+
+  thead { background: var(--navy-light); }
+
+  th {
+    padding: 12px 14px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 14px;
+    font-size: 13px;
+    border-top: 1px solid var(--navy-light);
+    vertical-align: middle;
+  }
+
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .td-razon { color: var(--white); font-weight: 500; max-width: 200px; }
+  .td-holding { color: var(--gray); font-size: 12px; }
+  .td-fantasia { color: var(--gold-light); font-weight: 500; }
+  .td-dominio { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #7ecfff; }
+  .td-dominio a { color: #7ecfff; text-decoration: none; }
+  .td-dominio a:hover { text-decoration: underline; }
+
+  .conf-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .conf-ALTO { background: rgba(46,204,113,0.15); color: var(--success); border: 1px solid rgba(46,204,113,0.3); }
+  .conf-MEDIO { background: rgba(243,156,18,0.15); color: var(--warning); border: 1px solid rgba(243,156,18,0.3); }
+  .conf-BAJO { background: rgba(231,76,60,0.15); color: var(--error); border: 1px solid rgba(231,76,60,0.3); }
+  .conf-pending { background: rgba(136,153,170,0.15); color: var(--gray); border: 1px solid rgba(136,153,170,0.3); }
+
+  .status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .dot-ALTO { background: var(--success); }
+  .dot-MEDIO { background: var(--warning); }
+  .dot-BAJO { background: var(--error); }
+  .dot-pending { background: var(--gray); }
+  .dot-processing { background: var(--gold); animation: pulse 1s infinite; }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .reason-btn {
+    background: none;
+    border: 1px solid var(--navy-light);
+    color: var(--gray);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .reason-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.show { display: flex; }
+
+  .modal {
+    background: var(--navy-mid);
+    border: 1px solid var(--gold-dim);
+    border-radius: 10px;
+    padding: 24px;
+    max-width: 500px;
+    width: 90%;
+  }
+
+  .modal h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    margin-bottom: 12px;
+    font-size: 16px;
+  }
+
+  .modal p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+
+  .modal-close {
+    margin-top: 16px;
+    background: var(--navy);
+    border: 1px solid var(--navy-light);
+    color: var(--white);
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 48px;
+    color: var(--gray);
+  }
+
+  .empty-state .empty-icon { font-size: 40px; margin-bottom: 12px; }
+  .empty-state p { font-size: 14px; }
+
+  /* CONSOLE */
+  .console {
+    background: var(--navy);
+    border: 1px solid var(--navy-light);
+    border-radius: 8px;
+    padding: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gray);
+    height: 100px;
+    overflow-y: auto;
+    display: none;
+  }
+
+  .console.show { display: block; }
+  .console .log-line { line-height: 1.8; }
+  .console .log-line.ok { color: var(--success); }
+  .console .log-line.warn { color: var(--warning); }
+  .console .log-line.err { color: var(--error); }
+  .console .log-line.info { color: #7ecfff; }
+
+  /* COST */
+  .cost-bar {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--gray);
+    padding: 8px 12px;
+    background: var(--navy-mid);
+    border: 1px solid var(--navy-light);
+    border-radius: 6px;
+  }
+
+  .cost-bar span strong { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">STAFF21X</div>
+  <h1>Correlador de Dominios Empresariales</h1>
+  <span>Chile · Razón Social → Web Oficial</span>
+</header>
+
+<main>
+  <!-- PANEL IZQUIERDO -->
+  <div class="panel-left">
+    <div>
+      <div class="section-title">⚙ Configuración</div>
+      <div class="field-group">
+        <label>OpenAI API Key</label>
+        <div class="api-input-wrap">
+          <input type="password" id="apiKey" placeholder="sk-proj-..." autocomplete="off">
+          <button class="toggle-eye" onclick="toggleKey()">👁</button>
+        </div>
+        <span class="hint">La key nunca sale de tu browser. Se usa solo para llamar a OpenAI directamente.</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">📂 Archivo de Empresas</div>
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" accept=".xlsx,.csv" onchange="handleFile(event)">
+        <div class="dropzone-icon">📊</div>
+        <div class="dropzone-text">Arrastrá tu archivo acá<br><strong>XLSX o CSV</strong></div>
+      </div>
+      <div class="file-loaded" id="fileLoaded">
+        <span>✅</span>
+        <span class="file-name" id="fileName"></span>
+        <span class="file-meta" id="fileMeta"></span>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-title">🔧 Opciones</div>
+      <div class="field-group">
+        <label>Concurrencia (empresas simultáneas)</label>
+        <div class="slider-wrap">
+          <input type="range" id="concurrency" min="1" max="5" value="2" oninput="document.getElementById('concVal').textContent=this.value">
+          <span class="slider-val" id="concVal">2</span>
+        </div>
+        <span class="hint">Más concurrencia = más rápido pero más consumo de API.</span>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>¿Cómo funciona?</strong><br>
+      GPT-4o analiza cada razón social junto con el holding y zona geográfica para inferir el nombre comercial y dominio web real de la empresa. Ideal para convertir razones sociales legales chilenas en webs identificables.
+    </div>
+
+    <div class="cost-bar" id="costBar" style="display:none">
+      <span>Procesadas: <strong id="costCount">0</strong></span>
+      <span>Costo est.: <strong id="costTotal">$0.000</strong> USD</span>
+      <span>Tiempo: <strong id="costTime">0s</strong></span>
+    </div>
+
+    <button class="btn-primary" id="btnStart" disabled onclick="startProcessing()">
+      ▶ Iniciar Correlación
+    </button>
+    <button class="btn-stop" id="btnStop" onclick="stopProcessing()">
+      ⬛ Detener
+    </button>
+  </div>
+
+  <!-- PANEL DERECHO -->
+  <div class="panel-right">
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total</div>
+        <div class="stat-value" id="statTotal">0</div>
+        <div class="stat-sub">empresas cargadas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Encontrados</div>
+        <div class="stat-value" id="statFound" style="color:var(--success)">0</div>
+        <div class="stat-sub">confianza ALTO/MEDIO</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Inciertos</div>
+        <div class="stat-value" id="statLow" style="color:var(--warning)">0</div>
+        <div class="stat-sub">confianza BAJO</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Procesadas</div>
+        <div class="stat-value" id="statDone">0</div>
+        <div class="stat-sub">completadas</div>
+      </div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-header">
+        <span class="progress-status" id="progressStatus">Iniciando...</span>
+        <span class="progress-pct" id="progressPct">0%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <input class="search-input" type="text" placeholder="🔍 Buscar empresa..." oninput="filterTable(this.value)">
+      <select class="filter-select" id="filterConf" onchange="filterTable(document.querySelector('.search-input').value)">
+        <option value="">Todas las confianzas</option>
+        <option value="ALTO">ALTO</option>
+        <option value="MEDIO">MEDIO</option>
+        <option value="BAJO">BAJO</option>
+      </select>
+      <button class="btn-export" onclick="exportCSV()">⬇ Exportar CSV</button>
+    </div>
+
+    <!-- TABLA -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Razón Social</th>
+            <th>Holding</th>
+            <th>Nombre Fantasía</th>
+            <th>Dominio Web</th>
+            <th>Confianza</th>
+            <th>Razón</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <tr>
+            <td colspan="7">
+              <div class="empty-state">
+                <div class="empty-icon">📋</div>
+                <p>Cargá un archivo XLSX para comenzar</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CONSOLE -->
+    <div class="console" id="console"></div>
+  </div>
+</main>
+
+<!-- MODAL RAZONAMIENTO -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3 id="modalTitle">Razonamiento IA</h3>
+    <p id="modalText"></p>
+    <button class="modal-close" onclick="closeModal()">Cerrar</button>
+  </div>
+</div>
+
+<script>
+// ─── ESTADO ───────────────────────────────────────────────────────
+let empresas = [];
+let resultados = [];
+let stopFlag = false;
+let startTime = null;
+let timerInterval = null;
+
+const SYSTEM_PROMPT = `Eres un experto en el ecosistema empresarial chileno. Tu objetivo es encontrar el dominio web oficial de una empresa dado su nombre legal (razón social) y los datos disponibles.
+
+CONTEXTO DEL ECOSISTEMA:
+- En Chile las empresas tienen una razón social legal que frecuentemente no tiene ninguna relación con su nombre comercial. El nombre de la empresa que buscamos raramente aparece en la nomenclatura de la razón social.
+- El holding es una pista valiosa pero no siempre la más importante — a veces el holding es más conocido que la empresa misma, a veces es igualmente desconocido, y a veces la empresa no tiene holding registrado. En ese caso trabajá solo con la razón social, zona geográfica y RUT.
+- Usá todos los datos disponibles. Si encontrás otras correlaciones útiles seguí ese camino — no te limites solo a los datos provistos.
+- El criterio para decidir si un dato es relevante es simple: ¿este dato me acerca al dominio web oficial de esta empresa? Si sí, usalo. Si no, descartalo.
+- Datos NO relevantes: estados financieros, balances, dotación de personal, historial judicial.
+- Datos SÍ relevantes: nombre comercial, sector de actividad inferido desde la razón social, marcas comerciales conocidas, presencia en redes sociales, noticias de prensa, grupo económico al que pertenece.
+
+TAREA:
+Dado los datos de la empresa, determiná:
+1. Nombre de fantasía / nombre comercial más probable
+2. Dominio web oficial más probable (solo el dominio, ej: empresa.cl)
+3. Nivel de confianza: ALTO / MEDIO / BAJO
+4. Razonamiento breve de cómo llegaste a esa conclusión
+
+Respondé SOLO en JSON con este formato exacto, sin texto adicional:
+{"nombre_fantasia": "", "dominio": "", "confianza": "", "razonamiento": ""}`;
+
+// ─── ARCHIVO ──────────────────────────────────────────────────────
+function handleFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (evt) => {
+    const wb = XLSX.read(evt.target.result, {type:'array'});
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    const data = XLSX.utils.sheet_to_json(ws, {defval:''});
+    empresas = data;
+    resultados = data.map(r => ({...r, nombre_fantasia:'', dominio:'', confianza:'pending', razonamiento:'', _status:'pending'}));
+    document.getElementById('fileName').textContent = file.name;
+    document.getElementById('fileMeta').textContent = `${data.length} filas`;
+    document.getElementById('fileLoaded').classList.add('show');
+    document.getElementById('statTotal').textContent = data.length;
+    renderTable(resultados);
+    checkReady();
+    log(`📂 Archivo cargado: ${file.name} — ${data.length} empresas`, 'info');
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+// DRAG & DROP
+const dz = document.getElementById('dropzone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragover'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('dragover'));
+dz.addEventListener('drop', e => {
+  e.preventDefault();
+  dz.classList.remove('dragover');
+  const f = e.dataTransfer.files[0];
+  if (f) { document.getElementById('fileInput').files = e.dataTransfer.files; handleFile({target:{files:[f]}}); }
+});
+
+// ─── UI HELPERS ────────────────────────────────────────────────────
+function toggleKey() {
+  const inp = document.getElementById('apiKey');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+function checkReady() {
+  const ok = document.getElementById('apiKey').value.trim().startsWith('sk-') && empresas.length > 0;
+  document.getElementById('btnStart').disabled = !ok;
+}
+
+document.getElementById('apiKey').addEventListener('input', checkReady);
+
+function log(msg, type='') {
+  const c = document.getElementById('console');
+  c.classList.add('show');
+  const ts = new Date().toLocaleTimeString('es-CL');
+  c.innerHTML += `<div class="log-line ${type}">[${ts}] ${msg}</div>`;
+  c.scrollTop = c.scrollHeight;
+}
+
+function updateProgress(done, total) {
+  const pct = total > 0 ? Math.round((done/total)*100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressStatus').textContent = `Procesando empresa ${done} de ${total}...`;
+  document.getElementById('statDone').textContent = done;
+}
+
+function updateStats() {
+  const found = resultados.filter(r => r.confianza === 'ALTO' || r.confianza === 'MEDIO').length;
+  const low = resultados.filter(r => r.confianza === 'BAJO').length;
+  document.getElementById('statFound').textContent = found;
+  document.getElementById('statLow').textContent = low;
+}
+
+function updateCost(count) {
+  const cost = count * 0.003;
+  document.getElementById('costCount').textContent = count;
+  document.getElementById('costTotal').textContent = '$' + cost.toFixed(3);
+  if (startTime) {
+    const elapsed = Math.round((Date.now() - startTime) / 1000);
+    document.getElementById('costTime').textContent = elapsed + 's';
+  }
+}
+
+// ─── RENDER TABLA ─────────────────────────────────────────────────
+function renderTable(data) {
+  const tbody = document.getElementById('tableBody');
+  if (!data.length) {
+    tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">📋</div><p>Sin resultados</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map((r, i) => {
+    const conf = r.confianza || 'pending';
+    const isPending = conf === 'pending';
+    const isProcessing = r._status === 'processing';
+    const dotClass = isProcessing ? 'dot-processing' : `dot-${conf}`;
+    const badgeClass = isPending ? 'conf-pending' : `conf-${conf}`;
+    const badgeText = isPending ? (isProcessing ? '⟳ procesando' : '— pendiente') : conf;
+    const dominio = r.dominio ? `<a href="https://${r.dominio}" target="_blank">${r.dominio}</a>` : '—';
+    const razBtn = r.razonamiento ? `<button class="reason-btn" onclick="showModal('${escapeHtml(r.Empresa_Nombre || '')}','${escapeHtml(r.razonamiento)}')">ver</button>` : '—';
+    return `<tr>
+      <td style="color:var(--gray);font-family:'JetBrains Mono',monospace;font-size:11px">${i+1}</td>
+      <td class="td-razon">${escapeHtml(r.Empresa_Nombre || r.empresa_nombre || Object.values(r)[0] || '')}</td>
+      <td class="td-holding">${escapeHtml(r.Holding || r.holding || '')}</td>
+      <td class="td-fantasia">${escapeHtml(r.nombre_fantasia || '')}</td>
+      <td class="td-dominio">${dominio}</td>
+      <td><span class="conf-badge ${badgeClass}"><span class="status-dot ${dotClass}"></span>${badgeText}</span></td>
+      <td>${razBtn}</td>
+    </tr>`;
+  }).join('');
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function filterTable(q) {
+  const conf = document.getElementById('filterConf').value;
+  const filtered = resultados.filter(r => {
+    const nombre = (r.Empresa_Nombre || r.empresa_nombre || '').toLowerCase();
+    const matchQ = !q || nombre.includes(q.toLowerCase());
+    const matchConf = !conf || r.confianza === conf;
+    return matchQ && matchConf;
+  });
+  renderTable(filtered);
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────
+function showModal(title, text) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalText').textContent = text;
+  document.getElementById('modal').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+}
+
+// ─── OPENAI CALL ──────────────────────────────────────────────────
+async function callOpenAI(empresa) {
+  const apiKey = document.getElementById('apiKey').value.trim();
+  const userMsg = `Empresa:
+- Razón Social: ${empresa.Empresa_Nombre || empresa.empresa_nombre || ''}
+- Holding / Grupo Económico: ${empresa.Holding || empresa.holding || '(sin holding registrado)'}
+- Zona Geográfica: ${empresa.Zona || empresa.zona || ''}
+- RUT: ${empresa.Empresa_Rut || empresa.empresa_rut || ''}`;
+
+  const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + apiKey
+    },
+    body: JSON.stringify({
+      model: 'gpt-4o',
+      max_tokens: 300,
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: userMsg }
+      ]
+    })
+  });
+
+  if (!resp.ok) throw new Error(`API error ${resp.status}`);
+  const data = await resp.json();
+  const text = data.choices[0].message.content.trim();
+  const match = text.match(/\{[\s\S]*\}/);
+  if (!match) throw new Error('JSON no encontrado en respuesta');
+  return JSON.parse(match[0]);
+}
+
+// ─── PROCESAMIENTO ────────────────────────────────────────────────
+async function startProcessing() {
+  if (!document.getElementById('apiKey').value.trim().startsWith('sk-')) {
+    alert('Ingresá una OpenAI API key válida (sk-...)'); return;
+  }
+
+  stopFlag = false;
+  startTime = Date.now();
+  document.getElementById('btnStart').style.display = 'none';
+  document.getElementById('btnStop').style.display = 'block';
+  document.getElementById('progressWrap').classList.add('show');
+  document.getElementById('costBar').style.display = 'flex';
+
+  timerInterval = setInterval(() => updateCost(resultados.filter(r=>r._status==='done').length), 1000);
+
+  const concurrency = parseInt(document.getElementById('concurrency').value);
+  let doneCount = 0;
+  const total = resultados.length;
+
+  log(`▶ Iniciando con concurrencia ${concurrency}`, 'info');
+
+  // Procesar en chunks
+  for (let i = 0; i < total; i += concurrency) {
+    if (stopFlag) { log('⬛ Detenido por usuario', 'warn'); break; }
+    const chunk = resultados.slice(i, Math.min(i + concurrency, total));
+
+    // Marcar como procesando
+    chunk.forEach(r => r._status = 'processing');
+    renderTable(resultados);
+
+    await Promise.all(chunk.map(async (r) => {
+      const nombre = r.Empresa_Nombre || r.empresa_nombre || '';
+      try {
+        log(`🔍 Buscando: ${nombre}`, '');
+        const res = await callOpenAI(r);
+        r.nombre_fantasia = res.nombre_fantasia || '';
+        r.dominio = res.dominio || '';
+        r.confianza = res.confianza || 'BAJO';
+        r.razonamiento = res.razonamiento || '';
+        r._status = 'done';
+        log(`✅ ${nombre} → ${r.dominio} [${r.confianza}]`, 'ok');
+      } catch(e) {
+        r.confianza = 'BAJO';
+        r.razonamiento = 'Error: ' + e.message;
+        r._status = 'done';
+        log(`❌ Error en ${nombre}: ${e.message}`, 'err');
+      }
+      doneCount++;
+      updateProgress(doneCount, total);
+      updateStats();
+    }));
+
+    renderTable(resultados);
+    if (i + concurrency < total) await sleep(500);
+  }
+
+  clearInterval(timerInterval);
+  updateCost(doneCount);
+  document.getElementById('btnStart').style.display = 'block';
+  document.getElementById('btnStop').style.display = 'none';
+  document.getElementById('progressStatus').textContent = stopFlag ? 'Detenido' : '✅ Completado';
+  log(stopFlag ? '⬛ Proceso detenido' : `✅ Proceso completado — ${doneCount} empresas procesadas`, stopFlag ? 'warn' : 'ok');
+}
+
+function stopProcessing() { stopFlag = true; }
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ─── EXPORT CSV ───────────────────────────────────────────────────
+function exportCSV() {
+  if (!resultados.length) { alert('No hay datos para exportar'); return; }
+  const cols = ['Empresa_Nombre','Holding','Zona','Empresa_Rut','nombre_fantasia','dominio','confianza','razonamiento'];
+  const header = cols.join(',');
+  const rows = resultados.map(r =>
+    cols.map(c => `"${String(r[c]||'').replace(/"/g,'""')}"`).join(',')
+  );
+  const csv = [header, ...rows].join('\n');
+  const blob = new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'correlacion_dominios.csv';
+  a.click(); URL.revokeObjectURL(url);
+  log('⬇ CSV exportado', 'ok');
+}
+</script>
+</body>
+</html>
