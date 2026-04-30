@@ -1366,5 +1366,623 @@
     </div>
   </footer>
 
+
+<script>
+(function () {
+  'use strict';
+
+  // ── State ──────────────────────────────────────────────────────
+  const state = {
+    apiKey: '',
+    rows: [],
+    colIndex: -1,
+    results: [],
+    running: false,
+    abortController: null,
+    startTime: null,
+    timerInterval: null,
+    currentPage: 1,
+    pageSize: 50,
+    filterMode: 'all',
+    searchTerm: '',
+  };
+
+  // ── DOM refs ───────────────────────────────────────────────────
+  const $ = id => document.getElementById(id);
+  const $$ = sel => document.querySelectorAll(sel);
+
+  const elApiKey            = $('api-key');
+  const elToggleKey         = $('toggle-key');
+  const elUploadZone        = $('upload-zone');
+  const elFileInput         = $('file-input');
+  const elFilePreview       = $('file-preview');
+  const elPreviewName       = $('preview-name');
+  const elPreviewMeta       = $('preview-meta');
+  const elRemoveFile        = $('remove-file');
+  const elColSelect         = $('col-select');
+  const elConcurrency       = $('concurrency');
+  const elConcurrencyVal    = $('concurrency-value');
+  const elBtnRun            = $('btn-run');
+  const elProgressSec       = $('progress-section');
+  const elProgressFill      = $('progress-fill');
+  const elProgressPct       = $('progress-pct');
+  const elProgressStatus    = $('progress-status');
+  const elProgressLabel     = elProgressSec.querySelector('.progress-label');
+  const elStatTotal         = $('stat-total');
+  const elStatOk            = $('stat-ok');
+  const elStatWarn          = $('stat-warn');
+  const elStatElapsed       = $('stat-elapsed');
+  const elResultsSub        = $('results-subtitle');
+  const elSearchInput       = $('search-input');
+  const elBtnExport         = $('btn-export');
+  const elResultsBody       = $('results-body');
+  const elPagination        = $('pagination');
+  const elPaginationInfo    = $('pagination-info');
+  const elPaginationControls = $('pagination-controls');
+  const elPrevPage          = $('prev-page');
+  const elNextPage          = $('next-page');
+  const elLogConsole        = $('log-console');
+
+  // ── System prompt ──────────────────────────────────────────────
+  const SYSTEM_PROMPT = `Eres un experto en el ecosistema empresarial chileno. Tu objetivo es encontrar el dominio web oficial de una empresa dado su nombre legal (razón social) y los datos disponibles.
+CONTEXTO DEL ECOSISTEMA:
+
+En Chile las empresas tienen una razón social legal que frecuentemente no tiene ninguna relación con su nombre comercial. El nombre de la empresa que buscamos raramente aparece en la nomenclatura de la razón social.
+El holding es una pista valiosa pero no siempre la más importante — a veces el holding es más conocido que la empresa misma, a veces es igualmente desconocido, y a veces la empresa no tiene holding registrado. En ese caso trabajá solo con la razón social, zona geográfica y RUT.
+Usá todos los datos disponibles. Si encontrás otras correlaciones útiles seguí ese camino — no te limites.
+El criterio para decidir si un dato es relevante es simple: ¿este dato me acerca al dominio web oficial de esta empresa? Si sí, usalo. Si no, descartalo. Datos NO relevantes: estados financieros, balances, dotación de personal. Datos SÍ relevantes: nombre comercial, sector de actividad, marcas, presencia en redes sociales, noticias de prensa.
+
+TAREA:
+Dado los datos de la empresa, determiná:
+
+Nombre de fantasía / nombre comercial más probable
+Dominio web oficial más probable
+Nivel de confianza: ALTO / MEDIO / BAJO
+Razonamiento breve de cómo llegaste a esa conclusión
+
+Respondé SOLO en JSON con este formato:
+{"nombre_fantasia": "", "dominio": "", "confianza": "", "razonamiento": ""}`;
+
+  // ── Logging ────────────────────────────────────────────────────
+  function log(msg, type = 'info') {
+    const now = new Date();
+    const t = [now.getHours(), now.getMinutes(), now.getSeconds()]
+      .map(n => String(n).padStart(2, '0')).join(':');
+    const line = document.createElement('div');
+    line.className = `log-line log-${type}`;
+    line.innerHTML = `<span class="log-time">${t}</span><span class="log-msg">${esc(msg)}</span>`;
+    elLogConsole.appendChild(line);
+    elLogConsole.scrollTop = elLogConsole.scrollHeight;
+  }
+
+  // ── Timer ──────────────────────────────────────────────────────
+  function startTimer() {
+    state.startTime = Date.now();
+    state.timerInterval = setInterval(() => {
+      const s = Math.floor((Date.now() - state.startTime) / 1000);
+      const m = Math.floor(s / 60);
+      const ss = String(s % 60).padStart(2, '0');
+      elStatElapsed.textContent = m > 0 ? `${m}m ${ss}s` : `${s}s`;
+    }, 500);
+  }
+
+  function stopTimer() {
+    clearInterval(state.timerInterval);
+    state.timerInterval = null;
+  }
+
+  // ── Form validation ────────────────────────────────────────────
+  function updateRunBtn() {
+    const ready = state.apiKey.trim().startsWith('sk-')
+      && state.rows.length > 0
+      && state.colIndex >= 0
+      && !state.running;
+    elBtnRun.disabled = !ready;
+  }
+
+  // ── API key toggle ─────────────────────────────────────────────
+  elToggleKey.addEventListener('click', () => {
+    const show = elApiKey.type === 'password';
+    elApiKey.type = show ? 'text' : 'password';
+    elToggleKey.querySelector('svg').innerHTML = show
+      ? `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`
+      : `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+  });
+
+  elApiKey.addEventListener('input', () => {
+    state.apiKey = elApiKey.value;
+    updateRunBtn();
+  });
+
+  // ── File upload ────────────────────────────────────────────────
+  elUploadZone.addEventListener('dragover', e => {
+    e.preventDefault();
+    elUploadZone.classList.add('drag-over');
+  });
+  elUploadZone.addEventListener('dragleave', () => {
+    elUploadZone.classList.remove('drag-over');
+  });
+  elUploadZone.addEventListener('drop', e => {
+    e.preventDefault();
+    elUploadZone.classList.remove('drag-over');
+    if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+  });
+  elFileInput.addEventListener('change', () => {
+    if (elFileInput.files[0]) handleFile(elFileInput.files[0]);
+  });
+  elRemoveFile.addEventListener('click', clearFile);
+
+  function handleFile(file) {
+    if (!/\.(xlsx|xls)$/i.test(file.name)) {
+      log('Formato no soportado. Usá .xlsx o .xls', 'err');
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      log('Archivo demasiado grande (máx. 10 MB)', 'err');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        const wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+        const sheet = wb.Sheets[wb.SheetNames[0]];
+        const json = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+
+        if (json.length < 2) {
+          log('La hoja no tiene datos suficientes', 'warn');
+          return;
+        }
+
+        const headers = json[0].map(String);
+        state.rows = json.slice(1).filter(r => r.some(c => c !== ''));
+
+        elPreviewName.textContent = file.name;
+        elPreviewMeta.textContent =
+          `${wb.SheetNames.length} hoja(s) · ${state.rows.length} filas · ${(file.size / 1024 / 1024).toFixed(2)} MB`;
+        elUploadZone.style.display = 'none';
+        elFilePreview.classList.add('visible');
+
+        elColSelect.innerHTML = '<option value="">— Selecciona columna —</option>';
+        headers.forEach((h, i) => {
+          const opt = document.createElement('option');
+          opt.value = i;
+          opt.textContent = h || `Columna ${i + 1}`;
+          elColSelect.appendChild(opt);
+        });
+        elColSelect.disabled = false;
+
+        // Auto-select obvious column name
+        const autoIdx = headers.findIndex(h =>
+          /raz[oó]n.?social|empresa|nombre|company/i.test(h)
+        );
+        if (autoIdx >= 0) {
+          elColSelect.value = autoIdx;
+          state.colIndex = autoIdx;
+        } else {
+          state.colIndex = -1;
+        }
+
+        log(`Archivo cargado: ${file.name} — ${state.rows.length} filas`, 'ok');
+        updateRunBtn();
+      } catch (err) {
+        log(`Error al leer el archivo: ${err.message}`, 'err');
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
+  function clearFile() {
+    state.rows = [];
+    state.colIndex = -1;
+    elFileInput.value = '';
+    elUploadZone.style.display = '';
+    elFilePreview.classList.remove('visible');
+    elColSelect.innerHTML = '<option value="">— Cargar archivo primero —</option>';
+    elColSelect.disabled = true;
+    updateRunBtn();
+    log('Archivo removido', 'info');
+  }
+
+  elColSelect.addEventListener('change', () => {
+    const v = parseInt(elColSelect.value, 10);
+    state.colIndex = isNaN(v) ? -1 : v;
+    updateRunBtn();
+  });
+
+  // ── Concurrency slider ─────────────────────────────────────────
+  elConcurrency.addEventListener('input', () => {
+    elConcurrencyVal.textContent = elConcurrency.value;
+  });
+
+  // ── OpenAI call ────────────────────────────────────────────────
+  async function callOpenAI(razonSocial, signal) {
+    const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      signal,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${state.apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o',
+        temperature: 0.2,
+        max_tokens: 300,
+        response_format: { type: 'json_object' },
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user',   content: `Razón social: ${razonSocial}` },
+        ],
+      }),
+    });
+
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({}));
+      throw new Error(err?.error?.message || `HTTP ${resp.status}`);
+    }
+
+    const data = await resp.json();
+    const raw = data.choices?.[0]?.message?.content ?? '{}';
+    return JSON.parse(raw);
+  }
+
+  // ── Concurrency pool ───────────────────────────────────────────
+  async function runPool(tasks, concurrency, signal, onResult) {
+    let idx = 0;
+
+    async function worker() {
+      while (idx < tasks.length) {
+        if (signal.aborted) return;
+        const i = idx++;
+        try {
+          const result = await callOpenAI(tasks[i].razonSocial, signal);
+          onResult(i, tasks[i], result, null);
+        } catch (err) {
+          if (err.name === 'AbortError') return;
+          onResult(i, tasks[i], null, err);
+        }
+      }
+    }
+
+    await Promise.all(Array.from({ length: Math.min(concurrency, tasks.length) }, worker));
+  }
+
+  // ── Run / Stop ─────────────────────────────────────────────────
+  elBtnRun.addEventListener('click', async () => {
+    // Stop if running
+    if (state.running) {
+      state.abortController.abort();
+      return;
+    }
+
+    const tasks = state.rows
+      .map((row, i) => ({ idx: i, razonSocial: String(row[state.colIndex] ?? '').trim() }))
+      .filter(t => t.razonSocial);
+
+    if (!tasks.length) {
+      log('No se encontraron razones sociales en la columna seleccionada', 'warn');
+      return;
+    }
+
+    state.running = true;
+    state.abortController = new AbortController();
+    state.results = tasks.map(t => ({
+      idx:           t.idx,
+      razonSocial:   t.razonSocial,
+      nombreFantasia: '',
+      dominio:       '',
+      confianza:     '',
+      razonamiento:  '',
+      status:        'pending',
+    }));
+
+    const concurrency = parseInt(elConcurrency.value, 10);
+
+    // UI: running state
+    elBtnRun.innerHTML = '<span class="btn-icon">■</span> Detener';
+    elBtnRun.disabled = false;
+    elBtnRun.style.background = 'linear-gradient(135deg,#f87171,#ef4444)';
+    elBtnRun.style.color = '#fff';
+    elProgressSec.classList.add('visible');
+    elProgressLabel.textContent = 'Procesando empresas…';
+    elSearchInput.disabled = false;
+    elBtnExport.disabled = false;
+    elStatTotal.textContent = tasks.length;
+    elStatOk.textContent = '0';
+    elStatWarn.textContent = '0';
+    elStatElapsed.textContent = '0s';
+    elResultsSub.textContent = `${tasks.length} empresas · procesando…`;
+
+    startTimer();
+    log(`Iniciando: ${tasks.length} empresas · concurrencia ${concurrency}`, 'info');
+
+    let done = 0;
+    setProgress(0, tasks.length, '');
+    renderTable();
+
+    await runPool(tasks, concurrency, state.abortController.signal, (i, task, result, err) => {
+      done++;
+      const row = state.results[i];
+
+      if (err) {
+        row.status = 'error';
+        row.confianza = 'ERR';
+        log(`✗ [${i + 1}] ${task.razonSocial} — ${err.message}`, 'err');
+      } else {
+        row.nombreFantasia = result.nombre_fantasia ?? '';
+        row.dominio        = (result.dominio ?? '')
+          .replace(/^https?:\/\//i, '').replace(/\/$/, '');
+        row.confianza      = (result.confianza ?? '').toUpperCase();
+        row.razonamiento   = result.razonamiento ?? '';
+        row.status         = row.confianza === 'ALTO' ? 'ok'
+                           : (row.confianza === 'MEDIO' || row.confianza === 'BAJO') ? 'warn'
+                           : 'error';
+        log(
+          `✓ [${i + 1}] ${task.razonSocial} → ${row.dominio || 'sin dominio'} (${row.confianza})`,
+          row.status === 'ok' ? 'ok' : 'warn'
+        );
+      }
+
+      setProgress(done, tasks.length, task.razonSocial);
+      updateStats();
+      renderTable();
+    });
+
+    stopTimer();
+    state.running = false;
+
+    const aborted = state.abortController.signal.aborted;
+    elProgressLabel.textContent = aborted ? 'Proceso detenido' : 'Proceso completado';
+    setProgress(done, tasks.length, '');
+    elResultsSub.textContent = `${done} de ${tasks.length} empresas procesadas`;
+    elBtnRun.style.background = '';
+    elBtnRun.style.color = '';
+    elBtnRun.innerHTML = '<span class="btn-icon">↺</span> Ejecutar de nuevo';
+    elBtnRun.disabled = false;
+    log(aborted ? `Proceso detenido manualmente (${done} procesadas)` : `Proceso completado — ${done} empresas`, aborted ? 'warn' : 'ok');
+  });
+
+  function setProgress(done, total, currentName) {
+    const pct = total ? Math.round((done / total) * 100) : 0;
+    elProgressFill.style.width = `${pct}%`;
+    elProgressPct.textContent = `${pct}%`;
+    elProgressStatus.textContent = done < total && currentName
+      ? `[${done}/${total}] Procesando: ${currentName}`
+      : `${done} de ${total} completadas`;
+  }
+
+  function updateStats() {
+    const ok   = state.results.filter(r => r.status === 'ok').length;
+    const warn = state.results.filter(r => r.status === 'warn').length;
+    elStatOk.textContent   = ok;
+    elStatWarn.textContent = warn;
+  }
+
+  // ── Table rendering ────────────────────────────────────────────
+  function getFiltered() {
+    let list = state.results;
+    if (state.filterMode === 'ok')   list = list.filter(r => r.status === 'ok');
+    if (state.filterMode === 'warn') list = list.filter(r => r.status === 'warn');
+    if (state.searchTerm) {
+      const q = state.searchTerm.toLowerCase();
+      list = list.filter(r =>
+        r.razonSocial.toLowerCase().includes(q) ||
+        r.nombreFantasia.toLowerCase().includes(q) ||
+        r.dominio.toLowerCase().includes(q)
+      );
+    }
+    return list;
+  }
+
+  function renderTable() {
+    const filtered = getFiltered();
+    const total    = filtered.length;
+
+    if (total === 0 && state.results.length === 0) {
+      elResultsBody.innerHTML = emptyHtml('🏢', 'Sin resultados aún', 'Carga tu archivo XLSX e ingresa tu API key para comenzar.');
+      elPagination.style.display = 'none';
+      return;
+    }
+    if (total === 0) {
+      elResultsBody.innerHTML = emptyHtml('🔍', 'Sin coincidencias', 'Probá con otro término de búsqueda o filtro.');
+      elPagination.style.display = 'none';
+      return;
+    }
+
+    const start = (state.currentPage - 1) * state.pageSize;
+    const page  = filtered.slice(start, start + state.pageSize);
+    const end   = Math.min(start + state.pageSize, total);
+
+    elResultsBody.innerHTML = page.map((r, i) => {
+      const n = start + i + 1;
+
+      const domainCell = r.status === 'pending'
+        ? `<span class="badge badge-pending">Pendiente</span>`
+        : r.dominio
+          ? `<a class="domain-link" href="https://${esc(r.dominio)}" target="_blank" rel="noopener noreferrer">${esc(r.dominio)}</a>`
+          : `<span class="domain-empty">Sin dominio</span>`;
+
+      const fantasyLine = r.nombreFantasia
+        ? `<div style="font-size:11px;color:var(--text-muted);margin-top:3px;">${esc(r.nombreFantasia)}</div>`
+        : '';
+
+      const rowTitle = r.razonamiento
+        ? ` title="${esc(r.razonamiento).replace(/"/g, '&quot;')}"`
+        : '';
+
+      const copyBtn = r.dominio
+        ? `<button class="filter-btn" style="padding:4px 8px;font-size:11px;" onclick="copyDomain('${esc(r.dominio)}')">Copiar</button>`
+        : '';
+
+      return `<tr>
+        <td class="row-num">${n}</td>
+        <td class="empresa-name"${rowTitle}>${esc(r.razonSocial)}${fantasyLine}</td>
+        <td>${domainCell}</td>
+        <td>${renderConfidence(r)}</td>
+        <td>${renderBadge(r)}</td>
+        <td>${copyBtn}</td>
+      </tr>`;
+    }).join('');
+
+    // Pagination
+    const totalPages = Math.ceil(total / state.pageSize);
+    elPaginationInfo.textContent = `Mostrando ${start + 1}–${end} de ${total}`;
+    if (totalPages > 1) {
+      elPagination.style.display = 'flex';
+      renderPageControls(totalPages);
+    } else {
+      elPagination.style.display = 'none';
+    }
+  }
+
+  function emptyHtml(icon, title, desc) {
+    return `<tr><td colspan="6"><div class="table-empty">
+      <div class="table-empty-icon">${icon}</div>
+      <div class="table-empty-title">${title}</div>
+      <div class="table-empty-desc">${desc}</div>
+    </div></td></tr>`;
+  }
+
+  function renderBadge(r) {
+    const map = {
+      ok:      ['badge-success', 'Alto'],
+      warn:    ['badge-warning', r.confianza === 'MEDIO' ? 'Medio' : 'Bajo'],
+      error:   ['badge-error',   'Error'],
+      pending: ['badge-pending', '—'],
+    };
+    const [cls, label] = map[r.status] ?? map.pending;
+    return `<span class="badge ${cls}">${label}</span>`;
+  }
+
+  function renderConfidence(r) {
+    if (r.status === 'pending') return '<span style="color:var(--text-muted);font-size:12px;">—</span>';
+    const pct   = r.confianza === 'ALTO' ? 100 : r.confianza === 'MEDIO' ? 60 : r.confianza === 'BAJO' ? 30 : 0;
+    const color = pct >= 80 ? '#34d399' : pct >= 50 ? '#fbbf24' : '#f87171';
+    return `<div class="confidence-bar">
+      <div class="confidence-track"><div class="confidence-fill" style="width:${pct}%;background:${color};"></div></div>
+      <span class="confidence-text" style="color:${color};">${r.confianza || '—'}</span>
+    </div>`;
+  }
+
+  // ── Pagination controls ────────────────────────────────────────
+  function renderPageControls(totalPages) {
+    const cur = state.currentPage;
+    elPrevPage.disabled = cur === 1;
+    elNextPage.disabled = cur === totalPages;
+
+    // Remove all page buttons (keep only prev/next at edges)
+    Array.from(elPaginationControls.children)
+      .filter(el => el !== elPrevPage && el !== elNextPage)
+      .forEach(el => el.remove());
+
+    const range = pageRange(cur, totalPages);
+    const frag  = document.createDocumentFragment();
+
+    range.forEach(p => {
+      if (p === '…') {
+        const span = document.createElement('span');
+        span.textContent = '…';
+        span.style.cssText = 'padding:0 4px;color:var(--text-muted);align-self:center;font-size:12px;';
+        frag.appendChild(span);
+      } else {
+        const btn = document.createElement('button');
+        btn.className = 'page-btn' + (p === cur ? ' active' : '');
+        btn.textContent = p;
+        btn.addEventListener('click', () => { state.currentPage = p; renderTable(); });
+        frag.appendChild(btn);
+      }
+    });
+
+    elNextPage.parentNode.insertBefore(frag, elNextPage);
+  }
+
+  function pageRange(cur, total) {
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+    if (cur <= 4)         return [1, 2, 3, 4, 5, '…', total];
+    if (cur >= total - 3) return [1, '…', total-4, total-3, total-2, total-1, total];
+    return [1, '…', cur-1, cur, cur+1, '…', total];
+  }
+
+  elPrevPage.addEventListener('click', () => {
+    if (state.currentPage > 1) { state.currentPage--; renderTable(); }
+  });
+  elNextPage.addEventListener('click', () => {
+    if (state.currentPage < Math.ceil(getFiltered().length / state.pageSize)) {
+      state.currentPage++; renderTable();
+    }
+  });
+
+  // ── Search & filter ────────────────────────────────────────────
+  elSearchInput.addEventListener('input', () => {
+    state.searchTerm = elSearchInput.value;
+    state.currentPage = 1;
+    renderTable();
+  });
+
+  $$('.filter-btn[data-filter]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      $$('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.filterMode = btn.dataset.filter;
+      state.currentPage = 1;
+      renderTable();
+    });
+  });
+
+  // ── Export CSV ─────────────────────────────────────────────────
+  elBtnExport.addEventListener('click', () => {
+    if (!state.results.length) return;
+
+    const header = ['#', 'Razón Social', 'Nombre Fantasía', 'Dominio Web', 'Confianza', 'Razonamiento', 'Estado'];
+    const rows = state.results.map((r, i) => [
+      i + 1,
+      r.razonSocial,
+      r.nombreFantasia,
+      r.dominio,
+      r.confianza,
+      r.razonamiento,
+      r.status,
+    ]);
+
+    const csv = [header, ...rows]
+      .map(row => row.map(c => `"${String(c ?? '').replace(/"/g, '""')}"`).join(','))
+      .join('\r\n');
+
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = Object.assign(document.createElement('a'), {
+      href: url,
+      download: `dominios_${new Date().toISOString().slice(0, 10)}.csv`,
+    });
+    a.click();
+    URL.revokeObjectURL(url);
+    log('CSV exportado correctamente', 'ok');
+  });
+
+  // ── Clipboard helper (called from table HTML) ──────────────────
+  window.copyDomain = async text => {
+    try {
+      await navigator.clipboard.writeText(text);
+      log(`Copiado: ${text}`, 'ok');
+    } catch {
+      log('No se pudo copiar al portapapeles', 'warn');
+    }
+  };
+
+  // ── Utility ───────────────────────────────────────────────────
+  function esc(str) {
+    return String(str ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // ── Init ───────────────────────────────────────────────────────
+  updateRunBtn();
+  renderTable();
+})();
+</script>
+
 </body>
 </html>
