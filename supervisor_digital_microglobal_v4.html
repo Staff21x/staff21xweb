@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supervisor Digital — Microglobal</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d2d6b;--blue:#1a6fba;--sky:#2db3e0;
+  --green:#075E54;--green-l:#dcf8c6;
+  --wsp-bg:#ECE5DD;--wsp-in:#fff;--wsp-out:#dcf8c6;
+  --wsp-hdr:#075E54;--wsp-hdr2:#128C7E;
+  --red:#B91C1C;--red-bg:#FEE2E2;
+  --amber:#92400E;--amber-bg:#FEF3C7;
+  --blue-bg:#EFF6FF;
+  --purple:#5B21B6;--purple-bg:#EDE9FE;
+  --teal:#0F766E;--teal-bg:#F0FDFA;
+  --border:#e5e7eb;--bg:#f3f4f6;
+  --text:#111827;--sub:#6B7280;--muted:#9CA3AF;
+  --gold:#F59E0B;--silver:#94A3B8;--bronze:#B45309;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;background:var(--bg);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.app{display:flex;flex:1;overflow:hidden}
+
+/* ── SIDEBAR ── */
+.sidebar{width:290px;background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
+.sb-top{background:var(--wsp-hdr);padding:11px 14px;flex-shrink:0}
+.sb-brand{font-size:13px;font-weight:800;color:#fff;letter-spacing:-.2px}
+.sb-sub{font-size:9px;color:rgba(255,255,255,.65);margin-top:1px}
+
+/* MAIN TABS (Chat / Rankings) */
+.main-tabs{display:flex;background:#f8fafc;border-bottom:1px solid var(--border);flex-shrink:0}
+.mt-tab{flex:1;padding:9px 6px;font-size:11px;font-weight:700;text-align:center;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;border:none;background:transparent;font-family:inherit}
+.mt-tab.active{color:var(--navy);border-bottom:2px solid var(--navy);background:#fff}
+.mt-tab:hover:not(.active){color:var(--navy)}
+
+.sb-search{padding:7px 10px;border-bottom:1px solid var(--border);background:#f0f2f5}
+.sb-search input{width:100%;padding:6px 10px;border-radius:20px;border:none;background:#fff;font-size:11px;outline:none;font-family:inherit}
+
+.contact-list{flex:1;overflow-y:auto}
+.list-section{padding:5px 12px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);background:#f9fafb;border-bottom:1px solid var(--border)}
+
+/* CONTACT ITEM — with rank indicator */
+.contact-item{display:flex;align-items:center;gap:9px;padding:9px 12px;border-bottom:1px solid #f3f4f6;cursor:pointer;transition:background .12s;position:relative}
+.contact-item:hover{background:#f9fafb}
+.contact-item.active{background:#f0f4ff}
+.contact-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--navy)}
+.ci-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0;position:relative}
+.ci-online{position:absolute;bottom:1px;right:1px;width:8px;height:8px;border-radius:50%;background:#25D366;border:2px solid #fff}
+.ci-body{flex:1;min-width:0}
+.ci-row1{display:flex;align-items:center;gap:5px}
+.ci-name{font-size:11px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.ci-preview{font-size:9px;color:var(--sub);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* RANK PILL */
+.rank-pill{display:flex;align-items:center;gap:3px;flex-shrink:0}
+.rp-pos{font-size:9px;font-weight:800;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
+.rp-bar-wrap{width:32px;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.rp-bar{height:100%;border-radius:2px;transition:width .6s ease}
+/* BADGE */
+.ci-badge{background:var(--wsp-hdr);color:#fff;font-size:8px;font-weight:800;padding:2px 5px;border-radius:9px;min-width:16px;text-align:center;flex-shrink:0}
+
+/* ── MAIN AREA ── */
+.main-area{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* ── CHAT VIEW ── */
+.chat-view{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--wsp-bg)}
+.chat-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--bg)}
+.chat-empty-icon{font-size:44px;opacity:.25}
+.chat-empty-lbl{font-size:13px;font-weight:600;color:var(--muted)}
+
+.chat-hdr{background:var(--wsp-hdr);padding:10px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.ch-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0}
+.ch-name{font-size:12px;font-weight:700;color:#fff}
+.ch-status{font-size:9px;color:rgba(255,255,255,.7)}
+.ch-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.ch-rank-badge{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.15);padding:4px 9px;border-radius:10px;font-size:10px;color:#fff;font-weight:700}
+.ch-tag{font-size:9px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.85);padding:3px 7px;border-radius:8px;font-weight:600}
+
+.chat-msgs{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:4px;background-image:url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23b0bec5' fill-opacity='0.05'%3E%3Cpath d='M26 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-26V-6h-2v4h-4v2h4v4h2V0h4v-2h-4z'/%3E%3C/g%3E%3C/svg%3E")}
+.date-sep{text-align:center;margin:6px 0}.date-sep span{font-size:9px;background:rgba(255,255,255,.72);padding:3px 9px;border-radius:9px;color:var(--sub);font-weight:600}
+
+.msg-wrap{display:flex;flex-direction:column;margin-bottom:2px}
+.msg-wrap.out{align-items:flex-end}.msg-wrap.in{align-items:flex-start}
+.msg-b{max-width:76%;padding:7px 10px 4px;border-radius:8px;font-size:11px;line-height:1.5;word-break:break-word}
+.msg-b.in{background:#fff;border-top-left-radius:2px;box-shadow:0 1px 2px rgba(0,0,0,.09)}
+.msg-b.out{background:var(--wsp-out);border-top-right-radius:2px;box-shadow:0 1px 2px rgba(0,0,0,.09)}
+.msg-b.proactive{background:#EFF6FF;border-left:3px solid var(--navy);border-top-left-radius:2px}
+.msg-b.alert-msg{background:#FFFBEB;border-left:3px solid var(--gold)}
+.msg-sender{font-size:9px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.msg-tr{display:flex;align-items:center;justify-content:flex-end;gap:3px;margin-top:3px}
+.msg-time{font-size:8px;color:var(--muted)}
+.msg-ticks{font-size:9px;color:#53bdeb}
+.msg-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px;padding-top:6px;border-top:1px solid rgba(0,0,0,.06)}
+.m-btn{font-size:10px;padding:4px 10px;border-radius:14px;border:1.5px solid var(--navy);color:var(--navy);background:transparent;cursor:pointer;font-family:inherit;font-weight:600;transition:all .15s;white-space:nowrap}
+.m-btn:hover,.m-btn.done{background:var(--navy);color:#fff}
+.m-btn.sec{border-color:var(--muted);color:var(--sub)}.m-btn.sec:hover{background:var(--sub);color:#fff;border-color:var(--sub)}
+
+.typing-wrap{padding:5px 14px;background:var(--wsp-bg);display:none}
+.typing-b{background:#fff;padding:9px 12px;border-radius:8px;border-top-left-radius:2px;display:inline-flex;gap:4px;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.tdot{width:6px;height:6px;border-radius:50%;background:#bbb;animation:bounce 1.2s infinite}
+.tdot:nth-child(2){animation-delay:.2s}.tdot:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+
+.quick-chips{padding:6px 10px;background:#f0f2f5;display:flex;gap:5px;flex-wrap:wrap;border-top:1px solid var(--border);flex-shrink:0}
+.qc{font-size:9px;padding:4px 9px;border-radius:12px;background:#fff;border:1px solid var(--border);color:var(--navy);cursor:pointer;font-weight:600;transition:all .15s;font-family:inherit}
+.qc:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+.chat-input-area{background:#f0f2f5;padding:7px 10px;display:flex;align-items:center;gap:7px;flex-shrink:0;border-top:1px solid var(--border)}
+.chat-inp{flex:1;background:#fff;border:none;border-radius:18px;padding:8px 13px;font-size:12px;outline:none;font-family:inherit;box-shadow:0 1px 2px rgba(0,0,0,.07)}
+.send-btn{width:36px;height:36px;border-radius:50%;background:var(--wsp-hdr);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+.send-btn:hover{background:var(--wsp-hdr2)}
+.send-btn svg{fill:#fff;width:15px;height:15px}
+
+/* ── RANKING VIEW ── */
+.rank-view{flex:1;overflow-y:auto;background:#fff;display:none}
+.rv-top{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#fff;position:sticky;top:0;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.rv-title{font-size:14px;font-weight:800;color:var(--navy)}
+.period-tabs{display:flex;gap:0;background:#f0f2f5;border-radius:8px;overflow:hidden;padding:2px}
+.pt{font-size:10px;font-weight:700;padding:5px 11px;cursor:pointer;border-radius:6px;color:var(--sub);border:none;background:transparent;font-family:inherit;transition:all .15s}
+.pt.active{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.rv-export{margin-left:auto;font-size:10px;padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:#fff;color:var(--navy);font-weight:700;cursor:pointer;font-family:inherit}
+.rv-export:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+/* KPI CATEGORY SECTIONS */
+.kpi-section{padding:16px 20px;border-bottom:1px solid var(--border)}
+.ks-head{display:flex;align-items:center;gap:8px;margin-bottom:12px;cursor:pointer}
+.ks-icon{font-size:16px}
+.ks-title{font-size:13px;font-weight:800;color:var(--navy)}
+.ks-desc{font-size:10px;color:var(--sub);margin-left:4px}
+.ks-toggle{margin-left:auto;font-size:10px;color:var(--blue);font-weight:700}
+.ks-body{overflow:hidden;transition:max-height .3s ease}
+
+/* RANKING TABLE */
+.rk-table{width:100%;border-collapse:collapse}
+.rk-table th{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);padding:5px 10px;border-bottom:1px solid var(--border);background:#fafbfc;text-align:left;white-space:nowrap;position:sticky;top:0}
+.rk-table th:not(:first-child){text-align:center}
+.rk-table td{padding:8px 10px;border-bottom:1px solid #f3f4f6;font-size:11px;vertical-align:middle}
+.rk-table td:not(:first-child){text-align:center}
+.rk-table tr:hover td{background:#f9fafb}
+.rk-table tr{animation:fadein .3s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+
+.vend-cell{display:flex;align-items:center;gap:7px}
+.vav{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0}
+.vname{font-size:11px;font-weight:700;color:var(--text)}
+.vsub{font-size:9px;color:var(--sub)}
+.medal{font-size:14px}
+
+.badge-green{background:var(--teal-bg);color:var(--teal);font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px}
+.badge-blue{background:var(--blue-bg);color:var(--blue);font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px}
+.badge-amber{background:var(--amber-bg);color:var(--amber);font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px}
+.badge-red{background:var(--red-bg);color:var(--red);font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px}
+.badge-purple{background:var(--purple-bg);color:var(--purple);font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px}
+.badge-gray{background:#f3f4f6;color:var(--sub);font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px}
+
+.mini-bar-wrap{display:flex;align-items:center;gap:4px;justify-content:center}
+.mini-track{width:48px;height:5px;background:var(--border);border-radius:2px;overflow:hidden}
+.mini-fill{height:100%;border-radius:2px}
+.mf-h{background:var(--teal)}.mf-m{background:var(--blue)}.mf-l{background:var(--gold)}.mf-x{background:var(--red)}
+
+/* SCORE DONUT (simple text circle) */
+.score-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;margin:0 auto}
+
+/* ONLINE / OFFLINE indicator */
+.conn-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:3px}
+.dot-on{background:#22C55E}.dot-away{background:#F59E0B}.dot-off{background:#EF4444}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:9px 18px;border-radius:8px;font-size:12px;display:none;z-index:999;box-shadow:0 4px 16px rgba(0,0,0,.3);max-width:380px;text-align:center}
+
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:2px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ── SIDEBAR ── -->
+<div class="sidebar">
+  <div class="sb-top">
+    <div class="sb-brand">Microglobal</div>
+    <div class="sb-sub">Supervisor Digital · Panel activo</div>
+  </div>
+  <div class="main-tabs">
+    <button class="mt-tab active" onclick="switchMainTab('chat',this)">💬 Chats</button>
+    <button class="mt-tab" onclick="switchMainTab('ranking',this)">🏆 Rankings</button>
+  </div>
+  <div class="sb-search"><input placeholder="🔍 Buscar vendedor..." oninput="searchList(this.value)" id="sbSearch"></div>
+  <div class="contact-list" id="contactList"></div>
+</div>
+
+<!-- ── MAIN AREA ── -->
+<div class="main-area">
+
+  <!-- CHAT VIEW -->
+  <div class="chat-view" id="chatView">
+    <div class="chat-empty" id="chatEmpty">
+      <div class="chat-empty-icon">🤖</div>
+      <div class="chat-empty-lbl">Seleccioná un vendedor para ver su chat</div>
+    </div>
+    <div id="chatMain" style="display:none;flex-direction:column;flex:1;overflow:hidden">
+      <div class="chat-hdr" id="chatHdr"></div>
+      <div class="quick-chips" id="quickChips"></div>
+      <div class="chat-msgs" id="chatMsgs"></div>
+      <div class="typing-wrap" id="typingWrap"><div class="typing-b"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div></div>
+      <div class="chat-input-area">
+        <input class="chat-inp" id="chatInp" placeholder="Respondé al Supervisor..." onkeydown="if(event.key==='Enter')sendReply()">
+        <button class="send-btn" onclick="sendReply()"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RANKING VIEW -->
+  <div class="rank-view" id="rankView">
+    <div class="rv-top">
+      <div class="rv-title">📊 Rankings del Equipo</div>
+      <div class="period-tabs" id="periodTabs">
+        <button class="pt active" onclick="setPeriod('mes',this)">Mes</button>
+        <button class="pt" onclick="setPeriod('q1',this)">Q1</button>
+        <button class="pt" onclick="setPeriod('q2',this)">Q2</button>
+        <button class="pt" onclick="setPeriod('q3',this)">Q3</button>
+        <button class="pt" onclick="setPeriod('q4',this)">Q4</button>
+      </div>
+      <button class="rv-export" onclick="showToast('📊 Exportando reporte PDF...')">Exportar PDF</button>
+    </div>
+    <div id="rankContent"></div>
+  </div>
+
+</div><!-- /main-area -->
+</div><!-- /app -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── STAFF ────────────────────────────────────────────────────────────────────
+const staff=[
+  {id:'christian',name:'Christian Font',short:'C. Font',role:'Gerente de Ventas',email:'cfont@microglobal.com.ar',color:'#0d2d6b',ini:'CF',isManager:true,pendingCount:0,
+   messages:[
+    {from:'sup',time:'09:00',type:'proactive',text:'Buenos días Christian 👋 Arrancamos con <strong>12 tareas pendientes en el equipo</strong>. Martín tiene 2 cotizaciones vencidas, Mauricio una propuesta sin enviar hace 3 días, Esteban no contestó 4 correos de ayer.\n¿Activo el recordatorio masivo o lo manejás vos?',actions:['Activar recordatorio','Ver detalle equipo','Lo manejo yo']},
+    {from:'sup',time:'09:02',type:'alert',text:'⚠️ <strong>Pipeline en riesgo:</strong> USD 68.400 en cotizaciones sin seguimiento activo. Top 3: Global Networks (USD 28K, 6 días), TechAndina (USD 19K, 4 días), Nexcom BA (USD 14K, 5 días).',actions:['Ver cotizaciones','Asignar seguimientos']},
+  ]},
+  {id:'augusto',name:'Augusto Rodriguez',short:'A. Rodriguez',role:'Jefe de Ventas',email:'arodrigu@microglobal.com.ar',color:'#1e3a5f',ini:'AR',isManager:true,pendingCount:0,
+   messages:[
+    {from:'sup',time:'09:00',type:'proactive',text:'Buenos días Augusto 👋 Hoy: <strong>Leandro y Esteban</strong> tienen correos sin contestar de ayer. Valeria tiene una propuesta que debió salir hace 2 días.\nAdemás, <strong>María R.</strong> está primera en tiempo de respuesta esta semana. ¿Le mandamos un reconocimiento?',actions:['Notificar equipo','Ver ranking','Reconocer a María']},
+  ]},
+  {id:'martin',name:'Martín Martínez',short:'M. Martínez',role:'Ejecutivo de Cuentas',email:'mmartine@microglobal.com.ar',color:'#1a6fba',ini:'MM',pendingCount:3,
+   messages:[
+    {from:'sup',time:'08:55',type:'alert',text:'🔴 <strong>Martín, urgente:</strong> La cotización de <strong>DataCenter BA</strong> lleva <strong>6 días sin seguimiento</strong>. USD 28.400 en HPE ProLiant. Si no actuás hoy, el deal se pierde.\n¿Preparo el mensaje de seguimiento?',actions:['Sí, preparame el mensaje','Ya lo contacté','Cerrar este deal']},
+    {from:'sup',time:'09:10',type:'normal',text:'📧 Tenés <strong>2 correos sin contestar desde ayer</strong>:\n① Nexcom Argentina — configuración Cisco Catalyst 9300. 18 hs esperando.\n② TechSur BA — precio HPE MR408i-o Gen11.',actions:['Resolver Nexcom','Resolver TechSur','Resolver los dos']},
+    {from:'sup',time:'11:30',type:'proactive',text:'💡 <strong>Cross-sell:</strong> DataCenter BA compró switches Cisco el mes pasado y no tiene UPS activo. APC Smart-UPS 3000VA x2 = <strong>USD 4.200</strong>. ¿Lo agrego al seguimiento de hoy?',actions:['Sí, agregalo','Después lo evalúo']},
+  ]},
+  {id:'mauricio',name:'Mauricio Fereira',short:'M. Fereira',role:'Ejecutivo de Cuentas',email:'mfereira@microglobal.com.ar',color:'#2563EB',ini:'MF',pendingCount:2,
+   messages:[
+    {from:'sup',time:'09:05',type:'alert',text:'🔴 <strong>Mauricio:</strong> La propuesta de <strong>TechAndina Rosario</strong> tenías que enviarla el miércoles. El cliente preguntó dos veces por WhatsApp. HPE DL380 Gen11 + APC = <strong>USD 19.600</strong>.\n¿La enviamos ahora?',actions:['Sí, enviala ya','Necesito revisarla','El cliente espera — mandá']},
+    {from:'sup',time:'10:15',type:'normal',text:'📋 <strong>Grupo Netsol</strong> recibió cotización Kingston DDR5 x150u hace 4 días. USD 8.400. Sin respuesta.\nSugerencia de seguimiento: <em>"¿Pudieron evaluar la propuesta? Tenemos stock confirmado hasta fin de semana."</em>',actions:['Enviar este mensaje','Personalizar','Marcar como perdido']},
+  ]},
+  {id:'lucas',name:'Lucas Federici',short:'L. Federici',role:'Ejecutivo de Cuentas',email:'lfederic@microglobal.com.ar',color:'#0891B2',ini:'LF',pendingCount:1,
+   messages:[
+    {from:'sup',time:'09:15',type:'normal',text:'Buenos días Lucas 👋 Un seguimiento activo:\n<strong>InfoRed Córdoba</strong> — HPE ProLiant DL20 Gen11 x3 (USD 12.800). 3 días sin respuesta. Tu historial con Sebastián Lemos es bueno. Te recomiendo llamado hoy, no mail.\n¿Te preparo los puntos clave?',actions:['Sí, preparame los puntos','Ya lo llamé','Mando mail']},
+    {from:'sup',time:'14:00',type:'proactive',text:'💡 Esta semana hubo 5 consultas sobre <strong>HPE MicroServer Gen10 Plus</strong> desde zona Córdoba/Rosario. Tus clientes de interior podrían estar interesados.\n¿Preparo un mail de prospección para tu cartera?',actions:['Sí, generalo','Después lo veo']},
+  ]},
+  {id:'antonella',name:'Antonella Migliavacca',short:'A. Migliavacca',role:'Ejecutiva de Cuentas',email:'amigliav@microglobal.com.ar',color:'#7C3AED',ini:'AM',pendingCount:2,
+   messages:[
+    {from:'sup',time:'08:50',type:'alert',text:'🔴 <strong>Antonella:</strong> <strong>Red & Sys</strong> mandó un correo ayer a las 17:30 sobre el RMA de Lenovo IdeaPad. 22 hs sin respuesta. El caso MG-2026-04789 está iniciado pero el cliente no lo sabe.\n¿Lo contesto yo por vos o lo hacés vos?',actions:['Contestalo vos','Lo contesto yo','Dame el estado del RMA']},
+    {from:'sup',time:'10:30',type:'normal',text:'📋 Cotización <strong>Cisco Meraki MX68 x4</strong> para NetArgentina vence mañana. Si no hay cierre hoy, el precio puede cambiar la semana que viene.\n¿Mando recordatorio urgente al cliente?',actions:['Sí, mandá','Necesito más tiempo','El cliente ya confirmó']},
+  ]},
+  {id:'karen',name:'Karen Ferraro',short:'K. Ferraro',role:'Ejecutiva de Cuentas Interior',email:'kferraro@microglobal.com.ar',color:'#DB2777',ini:'KF',pendingCount:1,
+   messages:[
+    {from:'sup',time:'09:20',type:'normal',text:'Buenos días Karen 👋 Tenés <strong>4 resellers de interior</strong> sin oferta de HP ProBook 460 G11. Las consultas subieron 34% esta semana.\nLista: Tecno Mendoza, DataSur Tucumán, InfoCba y Net Neuquén.\n¿Preparo los mensajes personalizados?',actions:['Sí, generá los mensajes','Los llamo yo','Solo los primeros 2']},
+  ]},
+  {id:'maria',name:'María Rodriguez',short:'M. Rodriguez',role:'Ejecutiva de Cuentas Interior',email:'mrodrigu@microglobal.com.ar',color:'#059669',ini:'MR',pendingCount:0,
+   messages:[
+    {from:'sup',time:'09:25',type:'proactive',text:'Buenos días María 👋 Esta semana estás <strong>primera en tiempo de respuesta</strong> del equipo (3.2 min promedio). 💪\nOportunidad: Distribuidora Patagonia consultó Kingston DDR4 el mes pasado. Hoy hay precio especial de lanzamiento DDR5.\n¿Preparo la oferta?',actions:['Sí, preparala','¿Cuál es el precio?','Después lo evalúo']},
+  ]},
+  {id:'maxi',name:'Maximiliano Schzantz',short:'M. Schzantz',role:'Ejecutivo de Cuentas Interior',email:'mschzant@microglobal.com.ar',color:'#D97706',ini:'MS',pendingCount:2,
+   messages:[
+    {from:'sup',time:'09:10',type:'alert',text:'🟡 Maxi, <strong>2 correos de ayer sin contestar</strong>:\n① TechSol Santa Fe — stock APC Smart-UPS 1500VA. 14 hs sin respuesta.\n② IT Rosario — compatibilidad HPE Gen10 con vSphere.\nAmbas son respuestas rápidas. ¿Preparo las dos respuestas técnicas para que las revises?',actions:['Sí, preparalas','Las contesto yo','Derivar al PM']},
+  ]},
+  {id:'estefania',name:'Estefanía Araujo',short:'E. Araujo',role:'Ejecutiva de Cuentas',email:'earaujo@microglobal.com.ar',color:'#BE185D',ini:'EA',pendingCount:1,
+   messages:[
+    {from:'sup',time:'10:00',type:'normal',text:'Estefanía 👋 <strong>Global IT Partners</strong> recibió tu cotización de Cisco Catalyst 9200L-24P x8 hace 5 días. Marcelo Aguirre prometió respuesta "esta semana" y la semana termina hoy.\nRecomiendo llamada antes de las 15 hs.\n¿Te preparo los puntos clave?',actions:['Sí, preparame los puntos','Ya hablé con él','Mando mail primero']},
+  ]},
+  {id:'belen',name:'Belén Palavecino',short:'B. Palavecino',role:'Ejecutiva de Cuentas',email:'bpalavec@microglobal.com.ar',color:'#9333EA',ini:'BP',pendingCount:1,
+   messages:[
+    {from:'sup',time:'09:30',type:'normal',text:'Buenos días Belén 👋 <strong>SurTech Bahía Blanca</strong> pidió cotización HP EliteBook 840 G10 x10u ayer a las 16 hs. Aún no enviaste.\nPrecio lista: <strong>USD 2.890 c/u = USD 28.900</strong>.\n¿La enviamos ahora?',actions:['Sí, enviá la cotización','Necesito negociar precio','El pedido cambió']},
+  ]},
+  {id:'valeria',name:'Valeria González',short:'V. González',role:'Ejecutiva de Cuentas',email:'vgonzale@microglobal.com.ar',color:'#0F766E',ini:'VG',pendingCount:2,
+   messages:[
+    {from:'sup',time:'08:45',type:'alert',text:'🔴 <strong>Valeria:</strong> La propuesta de <strong>Grupo DataNet</strong> debía salir el martes. El cliente ya preguntó por WhatsApp ayer: <em>"¿Cuándo nos mandan lo que prometieron?"</em>\nHPE DL380 Gen11 + storage Kingston = <strong>USD 21.400</strong>. Si no sale hoy, perdemos credibilidad.\n¿La enviamos ahora?',actions:['Sí, mandala ya','Necesito ajustar precio','Llamá al cliente primero']},
+    {from:'sup',time:'10:45',type:'normal',text:'Además, <strong>Tecnogroup CABA</strong> preguntó por Lenovo ThinkPad X1 Carbon hace 2 días. Sin respuesta. Este cliente compró 3 veces en los últimos 6 meses. No conviene demorar.',actions:['Contesto ahora','¿Qué precio tenemos?']},
+  ]},
+  {id:'myriam',name:'Myriam Nuñez',short:'M. Nuñez',role:'Ejecutiva de Cuentas',email:'mnunez@microglobal.com.ar',color:'#0369A1',ini:'MN',pendingCount:1,
+   messages:[
+    {from:'sup',time:'09:40',type:'normal',text:'Buenos días Myriam 👋 Esta semana cerraste <strong>3 deals</strong>. 💪\nOportunidad: Net Mendoza compró HP ProDesk en Q1. Es buen momento para ofrecerles HP ProBook 460 G11 como upgrade de cartera.\n¿Preparo la propuesta de renovación?',actions:['Sí, preparala','Los llamo yo','Después lo evalúo']},
+  ]},
+  {id:'esteban',name:'Esteban Rodriguez',short:'E. Rodriguez',role:'Ejecutivo de Cuentas',email:'ventasmg@microglobal.com.ar',color:'#DC2626',ini:'ER',pendingCount:3,
+   messages:[
+    {from:'sup',time:'08:40',type:'alert',text:'🔴 <strong>Esteban, 3 correos sin contestar de ayer:</strong>\n① DataCore BA — consulta técnica Cisco Nexus 9000. 19 hs.\n② IT Solutions CABA — precio HPE MR408i-o Gen11 x2. 16 hs.\n③ Nexcom Argentina — seguimiento cotización switches. 14 hs.\nDataCore ya mandó un segundo mail. Si no respondés antes del mediodía, van a otro mayorista.\n¿Arrancamos con DataCore?',actions:['Sí, arrancá por DataCore','Los contesto yo','¿Qué decía DataCore?']},
+  ]},
+  {id:'leandro',name:'Leandro Cortese',short:'L. Cortese',role:'Ejecutivo de Cuentas',email:'contactomg@microglobal.com.ar',color:'#B45309',ini:'LC',pendingCount:2,
+   messages:[
+    {from:'sup',time:'09:00',type:'alert',text:'🟡 Leandro, <strong>2 situaciones para hoy</strong>:\n① Red & Sys Córdoba — Cisco Meraki MX68 x6, USD 16.800. 4 días sin respuesta.\n② SurData Rosario — consulta Lenovo IdeaPad hace 12 hs. Cliente nuevo evaluando proveedores. Una respuesta rápida hoy puede definir si nos eligen.\n¿Por cuál arrancamos?',actions:['Arrancá por SurData','Arrancá por Red & Sys','Las gestiono yo']},
+  ]},
+];
+
+// ─── RANKING DATA ─────────────────────────────────────────────────────────────
+// Datos por período: correos, t_resp (min), t_wsp (min), desconectado (%), cotiz, seguimientos, cross_sell, score
+const rankPeriods={
+  mes:[
+    {id:'maria',   correos:312, t_resp:3.2, t_wsp:2.1, descon:4,  cotiz:89,  seg:21, cross:8,  score:94},
+    {id:'martin',  correos:289, t_resp:3.8, t_wsp:3.1, descon:8,  cotiz:112, seg:18, cross:11, score:88},
+    {id:'myriam',  correos:271, t_resp:4.1, t_wsp:2.8, descon:7,  cotiz:97,  seg:23, cross:9,  score:85},
+    {id:'belen',   correos:254, t_resp:4.4, t_wsp:3.4, descon:11, cotiz:78,  seg:17, cross:7,  score:81},
+    {id:'karen',   correos:241, t_resp:5.0, t_wsp:4.1, descon:13, cotiz:84,  seg:19, cross:12, score:78},
+    {id:'lucas',   correos:228, t_resp:5.3, t_wsp:4.8, descon:15, cotiz:74,  seg:14, cross:6,  score:74},
+    {id:'antonella',correos:214,t_resp:5.8, t_wsp:4.2, descon:18, cotiz:69,  seg:22, cross:8,  score:71},
+    {id:'mauricio',correos:198, t_resp:6.2, t_wsp:5.1, descon:21, cotiz:82,  seg:11, cross:5,  score:67},
+    {id:'maxi',    correos:187, t_resp:7.1, t_wsp:6.0, descon:24, cotiz:61,  seg:13, cross:4,  score:62},
+    {id:'estefania',correos:176,t_resp:7.4, t_wsp:5.8, descon:22, cotiz:58,  seg:16, cross:6,  score:60},
+    {id:'valeria', correos:162, t_resp:9.2, t_wsp:7.4, descon:28, cotiz:54,  seg:9,  cross:3,  score:54},
+    {id:'leandro', correos:148, t_resp:11.1,t_wsp:9.2, descon:31, cotiz:48,  seg:8,  cross:4,  score:49},
+    {id:'esteban', correos:131, t_resp:13.4,t_wsp:11.1,descon:38, cotiz:41,  seg:6,  cross:2,  score:42},
+  ],
+  q1:[
+    {id:'martin',  correos:891, t_resp:4.1, t_wsp:3.4, descon:9,  cotiz:312, seg:61, cross:28, score:87},
+    {id:'maria',   correos:844, t_resp:3.8, t_wsp:2.9, descon:6,  cotiz:281, seg:58, cross:24, score:91},
+    {id:'myriam',  correos:812, t_resp:4.4, t_wsp:3.2, descon:8,  cotiz:298, seg:64, cross:21, score:84},
+    {id:'karen',   correos:778, t_resp:5.2, t_wsp:4.4, descon:14, cotiz:264, seg:52, cross:34, score:79},
+    {id:'belen',   correos:741, t_resp:5.0, t_wsp:3.9, descon:12, cotiz:244, seg:48, cross:19, score:77},
+    {id:'lucas',   correos:698, t_resp:5.6, t_wsp:5.1, descon:16, cotiz:228, seg:43, cross:17, score:72},
+    {id:'antonella',correos:662,t_resp:6.1, t_wsp:4.8, descon:19, cotiz:211, seg:61, cross:22, score:69},
+    {id:'mauricio',correos:634, t_resp:6.8, t_wsp:5.6, descon:22, cotiz:248, seg:34, cross:14, score:65},
+    {id:'maxi',    correos:598, t_resp:7.4, t_wsp:6.3, descon:25, cotiz:194, seg:39, cross:11, score:61},
+    {id:'estefania',correos:571,t_resp:7.8, t_wsp:6.1, descon:23, cotiz:182, seg:44, cross:16, score:59},
+    {id:'valeria', correos:531, t_resp:9.8, t_wsp:8.1, descon:29, cotiz:168, seg:28, cross:9,  score:52},
+    {id:'leandro', correos:498, t_resp:11.4,t_wsp:9.8, descon:33, cotiz:152, seg:24, cross:11, score:47},
+    {id:'esteban', correos:441, t_resp:14.1,t_wsp:12.2,descon:41, cotiz:134, seg:18, cross:6,  score:40},
+  ],
+  q2:[
+    {id:'maria',   correos:1021,t_resp:3.1, t_wsp:2.4, descon:5,  cotiz:341, seg:72, cross:29, score:95},
+    {id:'martin',  correos:944, t_resp:3.6, t_wsp:3.0, descon:8,  cotiz:388, seg:64, cross:34, score:89},
+    {id:'karen',   correos:912, t_resp:4.8, t_wsp:4.0, descon:12, cotiz:312, seg:67, cross:41, score:82},
+    {id:'myriam',  correos:887, t_resp:4.2, t_wsp:3.1, descon:7,  cotiz:329, seg:71, cross:26, score:86},
+    {id:'belen',   correos:841, t_resp:4.6, t_wsp:3.7, descon:11, cotiz:288, seg:59, cross:23, score:80},
+    {id:'lucas',   correos:798, t_resp:5.4, t_wsp:4.9, descon:15, cotiz:268, seg:51, cross:19, score:74},
+    {id:'antonella',correos:761,t_resp:5.9, t_wsp:4.6, descon:18, cotiz:251, seg:74, cross:27, score:70},
+    {id:'mauricio',correos:724, t_resp:6.4, t_wsp:5.3, descon:21, cotiz:294, seg:41, cross:17, score:66},
+    {id:'maxi',    correos:688, t_resp:7.1, t_wsp:6.0, descon:24, cotiz:228, seg:46, cross:13, score:62},
+    {id:'estefania',correos:651,t_resp:7.6, t_wsp:5.9, descon:22, cotiz:214, seg:52, cross:18, score:58},
+    {id:'valeria', correos:601, t_resp:9.4, t_wsp:7.8, descon:28, cotiz:196, seg:34, cross:11, score:53},
+    {id:'leandro', correos:558, t_resp:10.8,t_wsp:9.4, descon:32, cotiz:178, seg:29, cross:13, score:48},
+    {id:'esteban', correos:498, t_resp:13.8,t_wsp:11.8,descon:39, cotiz:158, seg:22, cross:7,  score:41},
+  ],
+  q3:[
+    {id:'maria',   correos:1188,t_resp:2.9, t_wsp:2.2, descon:4,  cotiz:398, seg:81, cross:33, score:97},
+    {id:'myriam',  correos:1101,t_resp:3.4, t_wsp:2.8, descon:6,  cotiz:374, seg:78, cross:28, score:92},
+    {id:'martin',  correos:1044,t_resp:3.3, t_wsp:2.9, descon:7,  cotiz:421, seg:71, cross:38, score:90},
+    {id:'karen',   correos:998, t_resp:4.6, t_wsp:3.8, descon:11, cotiz:352, seg:74, cross:47, score:84},
+    {id:'belen',   correos:954, t_resp:4.4, t_wsp:3.5, descon:10, cotiz:318, seg:66, cross:26, score:82},
+    {id:'lucas',   correos:901, t_resp:5.1, t_wsp:4.7, descon:14, cotiz:298, seg:58, cross:21, score:76},
+    {id:'antonella',correos:858,t_resp:5.7, t_wsp:4.4, descon:17, cotiz:281, seg:82, cross:31, score:72},
+    {id:'mauricio',correos:818, t_resp:6.2, t_wsp:5.1, descon:20, cotiz:328, seg:47, cross:19, score:67},
+    {id:'maxi',    correos:774, t_resp:6.9, t_wsp:5.8, descon:23, cotiz:254, seg:52, cross:15, score:63},
+    {id:'estefania',correos:731,t_resp:7.4, t_wsp:5.7, descon:21, cotiz:241, seg:59, cross:20, score:60},
+    {id:'valeria', correos:678, t_resp:9.1, t_wsp:7.5, descon:27, cotiz:221, seg:39, cross:12, score:55},
+    {id:'leandro', correos:624, t_resp:10.4,t_wsp:9.1, descon:31, cotiz:201, seg:33, cross:14, score:50},
+    {id:'esteban', correos:558, t_resp:13.2,t_wsp:11.4,descon:37, cotiz:178, seg:25, cross:8,  score:43},
+  ],
+  q4:[
+    {id:'martin',  correos:1312,t_resp:3.0, t_wsp:2.6, descon:6,  cotiz:488, seg:88, cross:42, score:92},
+    {id:'maria',   correos:1244,t_resp:2.8, t_wsp:2.1, descon:4,  cotiz:441, seg:91, cross:36, score:96},
+    {id:'myriam',  correos:1188,t_resp:3.3, t_wsp:2.7, descon:6,  cotiz:411, seg:84, cross:31, score:93},
+    {id:'karen',   correos:1121,t_resp:4.4, t_wsp:3.7, descon:10, cotiz:388, seg:81, cross:52, score:86},
+    {id:'belen',   correos:1044,t_resp:4.2, t_wsp:3.4, descon:9,  cotiz:354, seg:72, cross:29, score:83},
+    {id:'lucas',   correos:988, t_resp:5.0, t_wsp:4.5, descon:13, cotiz:331, seg:64, cross:23, score:77},
+    {id:'antonella',correos:941,t_resp:5.5, t_wsp:4.2, descon:16, cotiz:311, seg:91, cross:34, score:73},
+    {id:'mauricio',correos:898, t_resp:6.1, t_wsp:5.0, descon:19, cotiz:364, seg:52, cross:21, score:68},
+    {id:'maxi',    correos:851, t_resp:6.7, t_wsp:5.6, descon:22, cotiz:281, seg:58, cross:17, score:64},
+    {id:'estefania',correos:808,t_resp:7.2, t_wsp:5.5, descon:20, cotiz:268, seg:65, cross:22, score:61},
+    {id:'valeria', correos:751, t_resp:8.8, t_wsp:7.2, descon:26, cotiz:244, seg:43, cross:13, score:56},
+    {id:'leandro', correos:694, t_resp:10.1,t_wsp:8.8, descon:30, cotiz:224, seg:37, cross:15, score:51},
+    {id:'esteban', correos:618, t_resp:12.9,t_wsp:11.1,descon:36, cotiz:198, seg:28, cross:9,  score:44},
+  ],
+};
+
+const medals=['🥇','🥈','🥉'];
+const conn=['on','on','on','away','on','on','away','on','off','on','away','off','off'];
+let currentPeriod='mes';
+let activeId=null;
+let currentMainTab='chat';
+
+// ─── SIDEBAR BUILD ────────────────────────────────────────────────────────────
+function getRankPos(id, period){
+  const data=rankPeriods[period]||rankPeriods.mes;
+  const idx=data.findIndex(r=>r.id===id);
+  return idx>=0?idx+1:null;
+}
+function getScore(id,period){
+  const data=rankPeriods[period]||rankPeriods.mes;
+  const r=data.find(x=>x.id===id);
+  return r?r.score:50;
+}
+function rankColor(pos){
+  if(pos===1)return'#F59E0B';
+  if(pos===2)return'#94A3B8';
+  if(pos===3)return'#B45309';
+  if(pos<=5)return'#1a6fba';
+  if(pos<=9)return'#6B7280';
+  return'#EF4444';
+}
+
+function buildSidebar(search=''){
+  const list=document.getElementById('contactList');
+  list.innerHTML='';
+  const managers=staff.filter(s=>s.isManager);
+  const execs=staff.filter(s=>!s.isManager);
+
+  function renderGroup(label,group){
+    const filtered=group.filter(s=>s.name.toLowerCase().includes(search.toLowerCase())||s.role.toLowerCase().includes(search.toLowerCase()));
+    if(!filtered.length)return;
+    const sec=document.createElement('div');sec.className='list-section';sec.textContent=label;list.appendChild(sec);
+    filtered.forEach((s,gi)=>{
+      const pos=s.isManager?null:getRankPos(s.id,currentPeriod);
+      const score=getScore(s.id,currentPeriod);
+      const pct=score;
+      const barClass=score>=80?'mf-h':score>=65?'mf-m':score>=50?'mf-l':'mf-x';
+      const rc=rankColor(pos);
+      const lastMsg=s.messages[s.messages.length-1];
+      const preview=lastMsg?lastMsg.text.replace(/<[^>]+>/g,'').substring(0,38)+'…':'';
+      const el=document.createElement('div');
+      el.className='contact-item'+(activeId===s.id?' active':'');
+      el.id='ci-'+s.id;
+      el.onclick=()=>currentMainTab==='chat'?openChat(s.id):openChat(s.id);
+      el.innerHTML=`
+        <div class="ci-av" style="background:${s.color}">${s.ini}<div class="ci-online"></div></div>
+        <div class="ci-body">
+          <div class="ci-row1">
+            <div class="ci-name">${s.name}</div>
+            ${pos?`<div class="rank-pill">
+              <div class="rp-pos" style="background:${rc};font-size:8px">${pos<=3?medals[pos-1]:'#'+pos}</div>
+              <div class="rp-bar-wrap"><div class="rp-bar ${barClass}" style="width:${pct}%"></div></div>
+            </div>`:''}
+            ${s.pendingCount>0?`<div class="ci-badge">${s.pendingCount}</div>`:''}
+          </div>
+          <div class="ci-preview">${pos?`Puesto ${pos} · `:''}${preview}</div>
+        </div>`;
+      list.appendChild(el);
+    });
+  }
+  renderGroup('Gerencia',managers);
+  renderGroup('Equipo de Ventas',execs);
+}
+
+function searchList(v){buildSidebar(v);}
+
+// ─── MAIN TAB SWITCH ─────────────────────────────────────────────────────────
+function switchMainTab(tab,btn){
+  currentMainTab=tab;
+  document.querySelectorAll('.mt-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(tab==='chat'){
+    document.getElementById('chatView').style.display='flex';
+    document.getElementById('rankView').style.display='none';
+  } else {
+    document.getElementById('chatView').style.display='none';
+    document.getElementById('rankView').style.display='block';
+    renderRanking(currentPeriod);
+  }
+}
+
+// ─── RANKING RENDER ───────────────────────────────────────────────────────────
+const kpiSections=[
+  {key:'score',      icon:'⭐', title:'Score General',        desc:'Índice compuesto 0–100',       fmt:v=>v, unit:'pts', higher:true,  badge:v=>v>=85?'badge-green':v>=70?'badge-blue':v>=55?'badge-amber':'badge-red'},
+  {key:'correos',    icon:'📧', title:'Correos contestados',  desc:'Total del período',             fmt:v=>v.toLocaleString('es-AR'), unit:'',  higher:true,  badge:v=>v>=900?'badge-green':v>=600?'badge-blue':v>=400?'badge-amber':'badge-red'},
+  {key:'t_resp',     icon:'⏱️', title:'Tiempo de respuesta',  desc:'Promedio correo (minutos)',     fmt:v=>v.toFixed(1), unit:'min', higher:false, badge:v=>v<=4?'badge-green':v<=6?'badge-blue':v<=9?'badge-amber':'badge-red'},
+  {key:'t_wsp',      icon:'💬', title:'Tiempo de respuesta WSP',desc:'Promedio WhatsApp (minutos)', fmt:v=>v.toFixed(1), unit:'min', higher:false, badge:v=>v<=3?'badge-green':v<=5?'badge-blue':v<=8?'badge-amber':'badge-red'},
+  {key:'descon',     icon:'🔌', title:'Tiempo desconectado',  desc:'% del tiempo laboral offline', fmt:v=>v+'%', unit:'', higher:false, badge:v=>v<=8?'badge-green':v<=15?'badge-blue':v<=25?'badge-amber':'badge-red'},
+  {key:'cotiz',      icon:'📋', title:'Cotizaciones enviadas',desc:'Total del período',             fmt:v=>v.toLocaleString('es-AR'), unit:'',  higher:true,  badge:v=>v>=300?'badge-green':v>=200?'badge-blue':v>=150?'badge-amber':'badge-red'},
+  {key:'seg',        icon:'🔍', title:'Seguimientos realizados',desc:'Cotizaciones con seguimiento activo',fmt:v=>v, unit:'', higher:true,  badge:v=>v>=70?'badge-green':v>=50?'badge-blue':v>=35?'badge-amber':'badge-red'},
+  {key:'cross',      icon:'🚀', title:'Cross-sell ejecutados',desc:'Propuestas adicionales enviadas',fmt:v=>v, unit:'', higher:true,  badge:v=>v>=30?'badge-green':v>=20?'badge-blue':v>=12?'badge-amber':'badge-red'},
+];
+
+let sectionOpen={};
+kpiSections.forEach(s=>sectionOpen[s.key]=true);
+
+function setPeriod(period,btn){
+  currentPeriod=period;
+  document.querySelectorAll('.pt').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderRanking(period);
+  buildSidebar(document.getElementById('sbSearch').value);
+}
+
+function renderRanking(period){
+  const data=[...(rankPeriods[period]||rankPeriods.mes)];
+  const content=document.getElementById('rankContent');
+  content.innerHTML='';
+
+  kpiSections.forEach(sec=>{
+    // Sort by this KPI
+    const sorted=[...data].sort((a,b)=>sec.higher?(b[sec.key]-a[sec.key]):(a[sec.key]-b[sec.key]));
+
+    const wrap=document.createElement('div');
+    wrap.className='kpi-section';
+    const isOpen=sectionOpen[sec.key]!==false;
+
+    wrap.innerHTML=`
+      <div class="ks-head" onclick="toggleSection('${sec.key}',this)">
+        <span class="ks-icon">${sec.icon}</span>
+        <span class="ks-title">${sec.title}</span>
+        <span class="ks-desc">— ${sec.desc}</span>
+        <span class="ks-toggle">${isOpen?'▲ Cerrar':'▼ Ver'}</span>
+      </div>
+      <div class="ks-body" id="ksb-${sec.key}" style="max-height:${isOpen?'800px':'0'};overflow:hidden">
+        <table class="rk-table">
+          <thead><tr>
+            <th style="width:20px">#</th>
+            <th style="text-align:left;min-width:130px">Vendedor</th>
+            <th>${sec.title}</th>
+            <th>Estado</th>
+            <th>Barra</th>
+          </tr></thead>
+          <tbody>
+            ${sorted.map((r,i)=>{
+              const s=staff.find(x=>x.id===r.id);
+              if(!s)return'';
+              const val=r[sec.key];
+              const maxVal=sorted[0][sec.key];
+              const minVal=sorted[sorted.length-1][sec.key];
+              const range=maxVal-minVal||1;
+              const pct=sec.higher?Math.round(((val-minVal)/range)*100):Math.round(((maxVal-val)/range)*100);
+              const barClass=pct>=75?'mf-h':pct>=50?'mf-m':pct>=25?'mf-l':'mf-x';
+              const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+              return`<tr>
+                <td style="text-align:center">${medal||`<span style="color:var(--muted);font-size:10px">${i+1}</span>`}</td>
+                <td><div class="vend-cell">
+                  <div class="vav" style="background:${s.color}">${s.ini}</div>
+                  <div><div class="vname">${s.short}</div><div class="vsub">${s.role.replace('Ejecutiv','Ejec.').replace(' de Cuentas','').replace(' Interior',' Int.')}</div></div>
+                </div></td>
+                <td><span class="${sec.badge(val)}">${sec.fmt(val)}${sec.unit?' '+sec.unit:''}</span></td>
+                <td><span style="font-size:9px;font-weight:700;color:${pct>=75?'var(--teal)':pct>=50?'var(--blue)':pct>=25?'var(--gold)':'var(--red)'}">${pct>=75?'✓ Top':pct>=50?'~ Bien':pct>=25?'↓ Bajo':'✗ Crítico'}</span></td>
+                <td><div class="mini-bar-wrap"><div class="mini-track"><div class="mini-fill ${barClass}" style="width:${pct}%"></div></div><span style="font-size:9px;color:var(--muted)">${pct}%</span></div></td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>`;
+    content.appendChild(wrap);
+  });
+}
+
+function toggleSection(key,headEl){
+  sectionOpen[key]=!sectionOpen[key];
+  const body=document.getElementById('ksb-'+key);
+  body.style.maxHeight=sectionOpen[key]?'800px':'0';
+  headEl.querySelector('.ks-toggle').textContent=sectionOpen[key]?'▲ Cerrar':'▼ Ver';
+}
+
+// ─── CHAT ─────────────────────────────────────────────────────────────────────
+function hora(){const d=new Date();return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')}
+function showToast(msg){const t=document.getElementById('toast');t.innerHTML=msg;t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',3500)}
+
+function openChat(id){
+  // Switch to chat view if on ranking tab
+  if(currentMainTab==='ranking'){
+    document.querySelector('.mt-tab').click();
+  }
+  activeId=id;
+  const p=staff.find(s=>s.id===id);if(!p)return;
+  document.getElementById('chatEmpty').style.display='none';
+  const cm=document.getElementById('chatMain');cm.style.display='flex';
+
+  const pos=getRankPos(id,currentPeriod);
+  const score=getScore(id,currentPeriod);
+
+  document.getElementById('chatHdr').innerHTML=`
+    <div class="ch-av" style="background:${p.color}">${p.ini}</div>
+    <div><div class="ch-name">${p.name}</div><div class="ch-status">${p.role} · ${p.email}</div></div>
+    <div class="ch-right">
+      ${pos?`<div class="ch-rank-badge">${pos<=3?medals[pos-1]:'#'+pos} Puesto ${pos} · ${score}pts</div>`:''}
+      ${p.pendingCount>0?`<div class="ch-tag">⚠ ${p.pendingCount} pendientes</div>`:'<div class="ch-tag">✓ Al día</div>'}
+    </div>`;
+
+  const chips=p.isManager?['Resumen equipo','Ver pendientes','Pipeline hoy','Rankings']:['¿Qué más tengo hoy?','Ver mi puesto','¿Qué puedo ofrecer?','Mis pendientes'];
+  document.getElementById('quickChips').innerHTML=chips.map(c=>`<button class="qc" onclick="sendReplyText('${c}')">${c}</button>`).join('');
+
+  const msgArea=document.getElementById('chatMsgs');
+  msgArea.innerHTML='';
+  const ds=document.createElement('div');ds.className='date-sep';ds.innerHTML='<span>Hoy</span>';msgArea.appendChild(ds);
+  p.messages.forEach(m=>renderMsg(m,msgArea,p));
+  msgArea.scrollTop=msgArea.scrollHeight;
+  buildSidebar(document.getElementById('sbSearch').value);
+}
+
+function renderMsg(m,container,person){
+  const wrap=document.createElement('div');wrap.className='msg-wrap in';
+  const bc=m.type==='proactive'?'proactive':m.type==='alert'?'alert-msg':'in';
+  const acts=m.actions&&m.actions.length?`<div class="msg-actions">${m.actions.map(a=>`<button class="m-btn" onclick="handleAction(this,'${a}','${person.id}')">${a}</button>`).join('')}</div>`:'';
+  wrap.innerHTML=`<div class="msg-b ${bc}"><div class="msg-sender">🤖 Supervisor Digital</div><div>${m.text.replace(/\n/g,'<br>')}</div>${acts}<div class="msg-tr"><span class="msg-time">${m.time}</span></div></div>`;
+  container.appendChild(wrap);
+}
+
+const actionReplies={
+  'Sí, preparame el mensaje':'Mensaje listo para DataCenter BA:\n\n<em>"Hola Marcelo, te escribe Martín desde Microglobal. Te enviamos la propuesta HPE ProLiant DL380 Gen11 hace unos días. ¿Pudiste revisarla? Tenemos stock confirmado y podemos ajustar tiempos de entrega. ¿Hablamos hoy?"</em>\n\n¿Lo enviamos así?',
+  'Sí, enviala ya':'✅ Propuesta enviada a TechAndina Rosario. Registrada en CRM. Seguimiento activo en 48 hs.',
+  'Resolver los dos':'✅ Respuestas preparadas. Nexcom: stock Cisco confirmado, cotización adjunta. TechSur: precio HPE MR408i-o enviado. ¿Las revisás antes de mandar?',
+  'Activar recordatorio':'✅ Recordatorio masivo enviado al equipo. Martín, Mauricio, Esteban, Valeria y Leandro recibieron notificación con sus pendientes.',
+  'Ver detalle equipo':'Resumen:\n• Martín: 3 pendientes (2 cotiz. vencidas, 1 correo)\n• Mauricio: propuesta sin enviar 3 días\n• Esteban: 3 correos sin contestar\n• Valeria: propuesta vencida 4 días\n• Leandro: 2 seguimientos sin actividad\nResto al día.',
+  'Sí, generá los mensajes':'✅ Mensajes para Tecno Mendoza, DataSur Tucumán, InfoCba y Net Neuquén listos. Cada uno personalizado con historial de compra + HP ProBook 460 G11. ¿Los reviso con vos o los envío directo?',
+  'Sí, arrancá por DataCore':'✅ Respuesta técnica para DataCore BA:\n<em>"Hola equipo, confirmamos disponibilidad Cisco Nexus 9000. Tenemos C9300-48P en stock CABA. Adjunto datasheet y cotización."</em>\n¿Enviamos?',
+  'Ver mi puesto':`Tu posición actual en el ranking del equipo es puesto ${()=>activeId?getRankPos(activeId,currentPeriod):'?'}. Seguí así — cada cotización rápida suma. ¿Querés ver en qué KPI podés mejorar más?`,
+  'default':'Entendido. Registrado. Avisame si necesitás que avance con algo específico.',
+};
+
+function handleAction(btn,action,pid){
+  btn.closest('.msg-actions').querySelectorAll('.m-btn').forEach(b=>{b.disabled=true;b.style.opacity='.5'});
+  btn.classList.add('done');
+  const p=staff.find(s=>s.id===pid);
+  const ma=document.getElementById('chatMsgs');
+  const uw=document.createElement('div');uw.className='msg-wrap out';
+  uw.innerHTML=`<div class="msg-b out">${action}<div class="msg-tr"><span class="msg-time">${hora()}</span><span class="msg-ticks">✓✓</span></div></div>`;
+  ma.appendChild(uw);ma.scrollTop=ma.scrollHeight;
+  const tw=document.getElementById('typingWrap');tw.style.display='block';
+  setTimeout(()=>{
+    tw.style.display='none';
+    const resp=actionReplies[action]||actionReplies['default'];
+    const sw=document.createElement('div');sw.className='msg-wrap in';
+    sw.innerHTML=`<div class="msg-b in"><div class="msg-sender">🤖 Supervisor Digital</div>${resp.replace(/\n/g,'<br>')}<div class="msg-tr"><span class="msg-time">${hora()}</span></div></div>`;
+    ma.appendChild(sw);ma.scrollTop=ma.scrollHeight;
+    if(p&&p.pendingCount>0)p.pendingCount=Math.max(0,p.pendingCount-1);
+    buildSidebar();showToast('✅ Acción ejecutada');
+  },1100+Math.random()*600);
+}
+
+function sendReply(){const i=document.getElementById('chatInp');const t=i.value.trim();if(!t||!activeId)return;i.value='';sendReplyText(t);}
+
+function sendReplyText(txt){
+  if(!activeId)return;
+  const ma=document.getElementById('chatMsgs');
+  const uw=document.createElement('div');uw.className='msg-wrap out';
+  uw.innerHTML=`<div class="msg-b out">${txt}<div class="msg-tr"><span class="msg-time">${hora()}</span><span class="msg-ticks">✓✓</span></div></div>`;
+  ma.appendChild(uw);ma.scrollTop=ma.scrollHeight;
+  const tw=document.getElementById('typingWrap');tw.style.display='block';
+  const pos=activeId?getRankPos(activeId,currentPeriod):'?';
+  const replies={
+    '¿Qué más tengo hoy?':'Además de lo que te mandé, hay una oportunidad de cross-sell esta semana. ¿Querés que arme la lista de clientes candidatos?',
+    'Ver mi puesto':`Estás en el puesto <strong>${pos}</strong> del equipo este período. Tu mejor categoría es correos contestados. Donde más podés mejorar: tiempo de respuesta. ¿Querés el detalle?`,
+    '¿Qué puedo ofrecer?':'Según tu cartera: ① Kingston NV3 2TB para clientes con servers (3 candidatos), ② APC Smart-UPS sin UPS activo (2 candidatos), ③ HP ProBook renovación (1 candidato). ¿Arrancamos?',
+    'Mis pendientes':'Tus pendientes activos están en los mensajes de arriba. ¿Querés que los gestione yo directamente?',
+    'Resumen equipo':'12 tareas pendientes en el equipo. Críticos: Esteban (DataCore BA), Valeria (propuesta vencida 4 días), Martín (cotización 6 días). ¿Activo recordatorio masivo?',
+    'Ver pendientes':'Pendientes críticos: ① Esteban — DataCore BA 19 hs. ② Valeria — propuesta vencida 4 días. ③ Martín — USD 28K sin seguimiento 6 días.',
+    'Pipeline hoy':'Pipeline activo urgente: USD 68.400. Top 3: DataCenter BA USD 28K (Martín), Grupo DataNet USD 21K (Valeria), TechAndina USD 19K (Mauricio).',
+    'Rankings':'Para ver los rankings completos, tocá la pestaña <strong>🏆 Rankings</strong> arriba en el menú izquierdo. Podés filtrar por mes, Q1, Q2, Q3 y Q4.',
+  };
+  const r=replies[txt]||'Entendido. Procesando. Avisame si necesitás algo específico del pipeline o un cliente.';
+  setTimeout(()=>{
+    tw.style.display='none';
+    const sw=document.createElement('div');sw.className='msg-wrap in';
+    sw.innerHTML=`<div class="msg-b in"><div class="msg-sender">🤖 Supervisor Digital</div>${r.replace(/\n/g,'<br>')}<div class="msg-tr"><span class="msg-time">${hora()}</span></div></div>`;
+    ma.appendChild(sw);ma.scrollTop=ma.scrollHeight;
+  },1000+Math.random()*700);
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+buildSidebar();
+</script>
+</body>
+</html>
