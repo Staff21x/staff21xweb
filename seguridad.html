@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Política de Seguridad de la Información — Staff21x</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --bg:#07090f;--bg1:#0c0f1a;--bg2:#131827;
+  --border:#1e2540;--border2:#2d3658;
+  --text:#cdd5f0;--text2:#8898c0;--text3:#4a5478;
+  --accent:#4f6ef7;--accent2:#6c3fff;
+  --green:#1aad7e;--amber:#e8a020;
+  --grad:linear-gradient(135deg,#4f6ef7,#6c3fff);
+  --grad-dim:rgba(79,110,247,.10);--grad-border:rgba(79,110,247,.22);
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;overflow-x:hidden}
+.mono{font-family:'JetBrains Mono',monospace}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(7,9,15,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Inter',sans-serif;font-size:19px;font-weight:800;color:#fff;text-decoration:none;letter-spacing:-1px}
+.logo span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-back{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);text-decoration:none;transition:color .15s}
+.nav-back:hover{color:var(--accent)}
+.version-pill{font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 12px;border-radius:20px;background:var(--grad-dim);border:1px solid var(--grad-border);color:var(--accent)}
+
+.section{max-width:960px;margin:0 auto;padding:96px 48px}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;display:block}
+h1{font-size:clamp(36px,4.5vw,56px);font-weight:900;letter-spacing:-2.5px;line-height:1.05;color:#fff;margin-bottom:12px}
+h2{font-size:22px;font-weight:800;letter-spacing:-.5px;color:#fff;margin-bottom:14px}
+h3{font-size:16px;font-weight:700;color:#fff;margin-bottom:8px}
+.grad{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* HERO */
+.hero-sec{padding:110px 48px 60px;max-width:960px;margin:0 auto}
+.doc-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px}
+.meta-pill{font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 12px;border-radius:6px;background:var(--bg2);border:1px solid var(--border);color:var(--text3)}
+.meta-pill.pub{background:rgba(26,173,126,.1);border-color:rgba(26,173,126,.2);color:#3dd4a0}
+
+/* ÍNDICE */
+.index-box{background:var(--bg1);border:1px solid var(--border);border-radius:14px;padding:24px 28px;margin-bottom:0}
+.index-title{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+.index-list{display:flex;flex-direction:column;gap:0}
+.index-item{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);text-decoration:none;transition:color .15s}
+.index-item:last-child{border-bottom:none}
+.index-item:hover .index-label{color:var(--accent)}
+.index-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);min-width:20px}
+.index-label{font-size:13px;color:var(--text2);flex:1}
+.index-arrow{font-size:10px;color:var(--text3)}
+
+/* SECCIONES */
+.sec-block{background:var(--bg);border-top:1px solid var(--border)}
+.sec-block-inner{max-width:960px;margin:0 auto;padding:64px 48px}
+.sec-block-inner h2{border-left:3px solid var(--accent);padding-left:16px;margin-bottom:20px}
+
+/* CALLOUT */
+.callout{background:var(--grad-dim);border:1px solid var(--grad-border);border-radius:10px;padding:16px 20px;margin:20px 0;display:flex;gap:12px;align-items:flex-start}
+.callout-ico{font-size:16px;flex-shrink:0;margin-top:1px}
+.callout p{font-size:13px;color:var(--text2);line-height:1.65;font-style:italic}
+.callout p strong{color:var(--text);font-style:normal}
+
+/* FLUJO */
+.flow{display:flex;align-items:center;gap:0;flex-wrap:wrap;margin:20px 0}
+.flow-step{background:var(--bg1);border:1px solid var(--border);border-radius:8px;padding:10px 16px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text2);white-space:nowrap}
+.flow-arrow{padding:0 10px;color:var(--accent);font-size:14px;font-weight:700}
+
+/* TABLE */
+.sec-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13px}
+.sec-table th{background:var(--bg2);padding:10px 14px;text-align:left;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+.sec-table td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top;line-height:1.55}
+.sec-table td strong{color:var(--text);font-weight:600}
+.sec-table tr:hover td{background:var(--bg1)}
+
+/* LISTA */
+.check-list{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.check-item{display:flex;align-items:flex-start;gap:10px}
+.check-ico{width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px}
+.check-ico.ok{background:rgba(26,173,126,.15)}
+.check-ico.no{background:rgba(232,160,32,.1)}
+.check-text{font-size:13px;color:var(--text2);line-height:1.6}
+
+/* NORMAS */
+.normas-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:20px 0}
+.norma-card{background:var(--bg1);border:1px solid var(--border);border-radius:10px;padding:16px}
+.norma-badge{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:#fff;margin-bottom:8px;display:block}
+.norma-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px}
+.norma-desc{font-size:12px;color:var(--text2);line-height:1.55}
+.norma-app{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);margin-top:8px}
+
+/* ZENTRIS */
+.zentris-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:20px 0}
+.z-stat{background:var(--bg1);border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;align-items:flex-start;gap:12px}
+.z-num{font-size:22px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1;flex-shrink:0;min-width:70px}
+.z-num span{font-size:13px;color:var(--accent)}
+.z-label{font-size:12px;color:var(--text2);line-height:1.5}
+
+/* RESPONSABILIDADES */
+.resp-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);border-radius:12px;overflow:hidden;margin:20px 0}
+.resp-col{background:var(--bg1);padding:20px}
+.resp-col-title{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+.resp-items{display:flex;flex-direction:column;gap:8px}
+.resp-item{display:flex;gap:8px;font-size:12px;color:var(--text2);line-height:1.5}
+.resp-item::before{content:"→";color:var(--accent);font-family:'JetBrains Mono',monospace;flex-shrink:0}
+
+/* CONTACTO */
+.contact-cards{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.c-card{background:var(--bg1);border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:10px;text-decoration:none;transition:border-color .15s}
+.c-card:hover{border-color:var(--accent)}
+.c-card-ico{font-size:16px}
+.c-card-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);display:block}
+.c-card-val{font-size:13px;font-weight:600;color:#fff}
+
+/* FOOTER */
+.doc-footer{border-top:1px solid var(--border);padding:32px 48px;max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.doc-footer p{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)}
+
+@media(max-width:768px){
+  nav{padding:0 20px}.nav-back span{display:none}
+  .hero-sec,.section,.sec-block-inner,.doc-footer{padding-left:20px;padding-right:20px}
+  .normas-grid,.zentris-grid,.resp-grid{grid-template-columns:1fr}
+  .flow{gap:4px}.flow-arrow{padding:0 4px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">staff<span>21x</span></a>
+  <a href="index.html" class="nav-back">← <span>volver al inicio</span></a>
+  <span class="version-pill">v1.0 · Abril 2026</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero-sec">
+  <span class="eyebrow">// politica_de_seguridad · clasificacion_publico</span>
+  <h1>Seguridad de<br>la <span class="grad">Información.</span></h1>
+  <p style="font-size:17px;color:var(--text2);line-height:1.75;max-width:620px;margin-bottom:28px">Este documento describe el modelo de seguridad bajo el cual operan los sistemas y agentes de Staff21x. Está dirigido a equipos de seguridad, áreas de compliance y departamentos de tecnología que evalúan la incorporación de nuestras soluciones.</p>
+
+  <div class="doc-meta">
+    <span class="meta-pill pub">✓ Clasificación: Público / Uso comercial</span>
+    <span class="meta-pill">Versión 1.0</span>
+    <span class="meta-pill">Abril 2026</span>
+    <span class="meta-pill">Staff21x · Resility</span>
+  </div>
+
+  <div class="index-box">
+    <div class="index-title">// contenido</div>
+    <div class="index-list">
+      <a href="#alcance" class="index-item"><span class="index-num">01</span><span class="index-label">Alcance y propósito</span><span class="index-arrow">↓</span></a>
+      <a href="#definicion" class="index-item"><span class="index-num">02</span><span class="index-label">Definición técnica — Trabajador Digital</span><span class="index-arrow">↓</span></a>
+      <a href="#datos" class="index-item"><span class="index-num">03</span><span class="index-label">Gestión de datos — qué accede, procesa y no retiene</span><span class="index-arrow">↓</span></a>
+      <a href="#arquitectura" class="index-item"><span class="index-num">04</span><span class="index-label">Arquitectura de seguridad</span><span class="index-arrow">↓</span></a>
+      <a href="#normas" class="index-item"><span class="index-num">05</span><span class="index-label">Marcos normativos y estándares de cumplimiento</span><span class="index-arrow">↓</span></a>
+      <a href="#zentris" class="index-item"><span class="index-num">06</span><span class="index-label">Infraestructura Resility / Zentris AISOC</span><span class="index-arrow">↓</span></a>
+      <a href="#responsabilidades" class="index-item"><span class="index-num">07</span><span class="index-label">Responsabilidades compartidas</span><span class="index-arrow">↓</span></a>
+      <a href="#contacto-sec" class="index-item"><span class="index-num">08</span><span class="index-label">Contacto para validación técnica</span><span class="index-arrow">↓</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- 01 ALCANCE -->
+<div class="sec-block" id="alcance">
+<div class="sec-block-inner">
+  <span class="eyebrow">// 01</span>
+  <h2>Alcance y propósito</h2>
+  <p style="font-size:14px;color:var(--text2);line-height:1.75;margin-bottom:16px">Este documento describe el modelo de seguridad de la información bajo el cual operan los Trabajadores Digitales y los sistemas desarrollados por Staff21x. Cubre arquitectura técnica, gestión de datos, controles de acceso, trazabilidad y cumplimiento normativo.</p>
+  <p style="font-size:14px;color:var(--text2);line-height:1.75;margin-bottom:16px">Staff21x opera sobre la infraestructura de <strong style="color:var(--text)">Resility</strong>, empresa especializada en ciberseguridad con soluciones de CyberSOC-as-a-Service. Toda la arquitectura tecnológica de Staff21x cumple con los estándares de seguridad definidos y operados por Resility.</p>
+  <div class="callout">
+    <div class="callout-ico">🎯</div>
+    <p>Este documento está dirigido a <strong>equipos de seguridad de la información, áreas de compliance y departamentos de tecnología</strong> de organizaciones que evalúan la incorporación de soluciones Staff21x en sus procesos operativos.</p>
+  </div>
+</div>
+</div>
+
+<!-- 02 DEFINICIÓN -->
+<div class="sec-block" id="definicion">
+<div class="sec-block-inner">
+  <span class="eyebrow">// 02</span>
+  <h2>Definición técnica — Trabajador Digital</h2>
+  <p style="font-size:14px;color:var(--text2);line-height:1.75;margin-bottom:20px">Un Trabajador Digital es un agente de inteligencia artificial configurado para ejecutar tareas operativas específicas dentro del entorno tecnológico del cliente. Opera exclusivamente mediante interfaces de programación autorizadas (APIs), sin acceso directo a bases de datos, sistemas de archivos internos, ni infraestructura no declarada en el contrato de implementación.</p>
+
+  <div class="callout">
+    <div class="callout-ico">🔒</div>
+    <p><strong>Un Trabajador Digital no copia, replica ni retiene las bases de datos del cliente.</strong> Procesa únicamente la información que el cliente expone explícitamente a través de las APIs configuradas durante la implementación.</p>
+  </div>
+
+  <h3 style="margin-top:24px">Modelo de interacción</h3>
+  <p style="font-size:13px;color:var(--text2);margin-bottom:14px">El flujo de información sigue estrictamente la siguiente cadena:</p>
+  <div class="flow">
+    <div class="flow-step">Sistema del cliente</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">API autorizada</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Trabajador Digital</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Respuesta / Acción</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Sistema del cliente</div>
+  </div>
+  <p style="font-size:12px;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-top:8px">// cada eslabón opera con autenticación, cifrado en tránsito y logs de auditoría · el agente nunca inicia conexiones salientes no declaradas</p>
+</div>
+</div>
+
+<!-- 03 DATOS -->
+<div class="sec-block" id="datos">
+<div class="sec-block-inner">
+  <span class="eyebrow">// 03</span>
+  <h2>Gestión de datos</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
+    <div>
+      <h3 style="color:var(--green);margin-bottom:12px">Datos que recibe</h3>
+      <div class="check-list">
+        <div class="check-item"><div class="check-ico ok">✓</div><div class="check-text">Exclusivamente los datos expuestos por el cliente vía API en el contexto de la tarea asignada</div></div>
+        <div class="check-item"><div class="check-ico ok">✓</div><div class="check-text">Consultas, mensajes y registros operativos específicos definidos durante la configuración</div></div>
+        <div class="check-item"><div class="check-ico ok">✓</div><div class="check-text">Ningún dato es transmitido fuera del alcance técnico acordado en la implementación</div></div>
+      </div>
+    </div>
+    <div>
+      <h3 style="color:var(--amber);margin-bottom:12px">Datos a los que NO accede</h3>
+      <div class="check-list">
+        <div class="check-item"><div class="check-ico no">✗</div><div class="check-text">Bases de datos completas o parciales fuera del scope de la API configurada</div></div>
+        <div class="check-item"><div class="check-ico no">✗</div><div class="check-text">Credenciales de sistemas, certificados o material criptográfico del cliente</div></div>
+        <div class="check-item"><div class="check-ico no">✗</div><div class="check-text">Archivos internos, repositorios de documentos o sistemas no incluidos en el contrato</div></div>
+        <div class="check-item"><div class="check-ico no">✗</div><div class="check-text">Información de otros clientes o entornos multi-tenant del cliente</div></div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Retención de datos</h3>
+  <div class="check-list" style="margin-top:12px">
+    <div class="check-item"><div class="check-ico ok">✓</div><div class="check-text">Los datos procesados durante una sesión <strong style="color:var(--text)">no se almacenan</strong> en servidores de Staff21x ni de Resility, salvo configuración explícita y documentada acordada con el cliente</div></div>
+    <div class="check-item"><div class="check-ico ok">✓</div><div class="check-text">No existe base de datos de clientes en Staff21x con información operativa del cliente final</div></div>
+    <div class="check-item"><div class="check-ico ok">✓</div><div class="check-text">Los logs de operación son configurables y auditables por el cliente según sus propias políticas de retención</div></div>
+  </div>
+</div>
+</div>
+
+<!-- 04 ARQUITECTURA -->
+<div class="sec-block" id="arquitectura">
+<div class="sec-block-inner">
+  <span class="eyebrow">// 04</span>
+  <h2>Arquitectura de seguridad</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+    <div style="background:var(--bg1);border:1px solid var(--border);border-radius:12px;padding:20px">
+      <h3 style="margin-bottom:12px">🔐 Cifrado y transmisión</h3>
+      <div class="check-list">
+        <div class="check-item"><div class="check-ico ok">✓</div><div class="check-text">Toda comunicación cifrada mediante <strong style="color:var(--text)">TLS versión mínima 1.2</strong></div></div>
+        <div class="check-item"><div class="check-ico ok">✓</div><div class="check-text">No se permiten conexiones no cifradas en ningún punto de la integración</div></div>
+      </div>
+    </div>
+    <div style="background:var(--bg1);border:1px solid var(--border);border-radius:12px;padding:20px">
+      <h3 style="margin-bottom:12px">🎯 Control de acceso</h3>
+      <div class="check-list">
+        <div class="check-item"><div class="check-ico ok">✓</div><div class="check-text"><strong style="color:var(--text)">Principio de mínimo privilegio</strong> — accede únicamente a endpoints declarados explícitamente</div></div>
+        <div class="check-item"><div class="check-ico ok">✓</div><div class="check-text">Autenticación mediante tokens o claves API con rotación periódica recomendada</div></div>
+        <div class="check-item"><div class="check-ico ok">✓</div><div class="check-text">Sin acceso a nivel de sistema operativo, red interna ni infraestructura subyacente del cliente</div></div>
+      </div>
+    </div>
+    <div style="background:var(--bg1);border:1px solid var(--border);border-radius:12px;padding:20px">
+      <h3 style="margin-bottom:12px">📋 Trazabilidad y auditoría</h3>
+      <div class="check-list">
+        <div class="check-item"><div class="check-ico ok">✓</div><div class="check-text">Toda interacción genera <strong style="color:var(--text)">logs auditables</strong>: timestamp, tipo de operación, endpoint, resultado</div></div>
+        <div class="check-item"><div class="check-ico ok">✓</div><div class="check-text">Los logs no incluyen el contenido de datos sensibles procesados</div></div>
+        <div class="check-item"><div class="check-ico ok">✓</div><div class="check-text">El cliente puede solicitar exportación de logs en cualquier momento</div></div>
+      </div>
+    </div>
+    <div style="background:var(--bg1);border:1px solid var(--border);border-radius:12px;padding:20px">
+      <h3 style="margin-bottom:12px">🏗️ Aislamiento de entornos</h3>
+      <div class="check-list">
+        <div class="check-item"><div class="check-ico ok">✓</div><div class="check-text">Cada implementación opera en un <strong style="color:var(--text)">entorno aislado</strong> — sin comunicación entre instancias de clientes distintos</div></div>
+        <div class="check-item"><div class="check-ico ok">✓</div><div class="check-text">Entorno de producción separado de entornos de desarrollo y pruebas</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 05 NORMAS -->
+<div class="sec-block" id="normas">
+<div class="sec-block-inner">
+  <span class="eyebrow">// 05</span>
+  <h2>Marcos normativos y estándares</h2>
+  <p style="font-size:14px;color:var(--text2);line-height:1.75;margin-bottom:20px">La infraestructura de Resility, sobre la cual opera Staff21x, está alineada con los siguientes estándares internacionales de seguridad de la información:</p>
+
+  <div class="normas-grid">
+    <div class="norma-card">
+      <span class="norma-badge" style="color:#fbbf24">PCI DSS</span>
+      <div class="norma-name">Payment Card Industry Data Security Standard</div>
+      <div class="norma-desc">Estándar de seguridad para datos de tarjetas de pago (Visa, Mastercard, Amex). Aplica a cualquier flujo que toque datos de pago.</div>
+      <div class="norma-app">→ cifrado de datos · control de acceso · auditoría de red</div>
+    </div>
+    <div class="norma-card">
+      <span class="norma-badge" style="color:#60a5fa">HIPAA</span>
+      <div class="norma-name">Health Insurance Portability and Accountability Act</div>
+      <div class="norma-desc">Ley federal de EE.UU. para protección de información de salud. Estándar de oro global para datos sensibles.</div>
+      <div class="norma-app">→ cifrado en tránsito (TLS) y en reposo · logs inmutables de acceso</div>
+    </div>
+    <div class="norma-card">
+      <span class="norma-badge" style="color:#a78bfa">NIST 800-53</span>
+      <div class="norma-name">National Institute of Standards and Technology</div>
+      <div class="norma-desc">Catálogo de controles de seguridad del gobierno de EE.UU. Base técnica para sistemas críticos.</div>
+      <div class="norma-app">→ reglas de detección · respuesta a incidentes · protección de comunicaciones</div>
+    </div>
+    <div class="norma-card">
+      <span class="norma-badge" style="color:#34d399">GDPR / RGPD</span>
+      <div class="norma-name">Reglamento General de Protección de Datos</div>
+      <div class="norma-desc">Reglamento europeo de protección de datos personales con alcance extraterritorial.</div>
+      <div class="norma-app">→ privacidad por diseño · recolección mínima · derecho al olvido</div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 12px;border-radius:6px;border:1px solid var(--grad-border);background:var(--grad-dim);color:#8ba4fa">TLS 1.2+</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 12px;border-radius:6px;border:1px solid var(--grad-border);background:var(--grad-dim);color:#8ba4fa">Zero-trust</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 12px;border-radius:6px;border:1px solid var(--grad-border);background:var(--grad-dim);color:#8ba4fa">MITRE ATT&CK</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 12px;border-radius:6px;border:1px solid var(--grad-border);background:var(--grad-dim);color:#8ba4fa">SOC Monitoring</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 12px;border-radius:6px;border:1px solid var(--grad-border);background:var(--grad-dim);color:#8ba4fa">Mínimo privilegio</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 12px;border-radius:6px;border:1px solid var(--grad-border);background:var(--grad-dim);color:#8ba4fa">Cifrado en reposo</span>
+  </div>
+</div>
+</div>
+
+<!-- 06 ZENTRIS -->
+<div class="sec-block" id="zentris">
+<div class="sec-block-inner">
+  <span class="eyebrow">// 06</span>
+  <h2>Infraestructura de seguridad — Resility / Zentris AISOC</h2>
+  <p style="font-size:14px;color:var(--text2);line-height:1.75;margin-bottom:20px">Staff21x opera sobre la plataforma de Resility, empresa especializada en ciberseguridad empresarial. Resility opera <strong style="color:var(--text)">Zentris AISOC</strong>, un CyberSOC-as-a-Service con monitoreo continuo, detección con IA y respuesta automatizada a incidentes.</p>
+
+  <div class="zentris-grid">
+    <div class="z-stat">
+      <div class="z-num">24<span>×7</span></div>
+      <div class="z-label">Monitoreo continuo de la infraestructura, 365 días al año, sin interrupciones</div>
+    </div>
+    <div class="z-stat">
+      <div class="z-num">&lt;15<span>min</span></div>
+      <div class="z-label">MTTD — tiempo máximo de detección de amenazas en tiempo real</div>
+    </div>
+    <div class="z-stat">
+      <div class="z-num">196K<span>+</span></div>
+      <div class="z-label">IPs en blocklist activa con threat intelligence integrada y actualización continua</div>
+    </div>
+    <div class="z-stat">
+      <div class="z-num">250K<span>+</span></div>
+      <div class="z-label">CVEs sincronizados para detección de vulnerabilidades conocidas</div>
+    </div>
+    <div class="z-stat">
+      <div class="z-num">14</div>
+      <div class="z-label">Tácticas del framework MITRE ATT&CK cubiertas en la detección de amenazas</div>
+    </div>
+    <div class="z-stat">
+      <div class="z-num">93<span>%</span></div>
+      <div class="z-label">Reducción de falsos positivos mediante análisis multicapa con inteligencia artificial</div>
+    </div>
+    <div class="z-stat">
+      <div class="z-num">99.9<span>%</span></div>
+      <div class="z-label">Uptime garantizado de la plataforma con RTO objetivo menor a 30 minutos</div>
+    </div>
+    <div class="z-stat">
+      <div class="z-num">SOAR</div>
+      <div class="z-label">Automatización de respuesta a incidentes con playbooks configurables por cliente</div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+    <a href="https://resility.io" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);text-decoration:none">resility.io →</a>
+    <a href="https://zentris.resility.io" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);text-decoration:none">zentris.resility.io →</a>
+  </div>
+</div>
+</div>
+
+<!-- 07 RESPONSABILIDADES -->
+<div class="sec-block" id="responsabilidades">
+<div class="sec-block-inner">
+  <span class="eyebrow">// 07</span>
+  <h2>Responsabilidades compartidas</h2>
+  <p style="font-size:14px;color:var(--text2);line-height:1.75;margin-bottom:20px">La seguridad de una implementación es una responsabilidad compartida entre Staff21x y el cliente. Este modelo define claramente el alcance de cada parte:</p>
+
+  <div class="resp-grid">
+    <div class="resp-col">
+      <div class="resp-col-title">Staff21x / Resility</div>
+      <div class="resp-items">
+        <div class="resp-item">Seguridad de la infraestructura de ejecución del agente</div>
+        <div class="resp-item">Cifrado en tránsito en la capa de comunicación</div>
+        <div class="resp-item">Monitoreo y detección de anomalías en la plataforma</div>
+        <div class="resp-item">Actualizaciones de seguridad del agente y su entorno</div>
+        <div class="resp-item">Aislamiento entre entornos de distintos clientes</div>
+        <div class="resp-item">Respuesta a incidentes de seguridad en la plataforma</div>
+      </div>
+    </div>
+    <div class="resp-col" style="background:var(--bg2)">
+      <div class="resp-col-title">Cliente</div>
+      <div class="resp-items">
+        <div class="resp-item">Seguridad de los sistemas propios y APIs expuestas al agente</div>
+        <div class="resp-item">Gestión de credenciales y tokens de acceso del lado del cliente</div>
+        <div class="resp-item">Definición del alcance de datos que el agente puede acceder</div>
+        <div class="resp-item">Políticas internas de retención y auditoría de logs</div>
+        <div class="resp-item">Seguridad física de los dispositivos que acceden al sistema</div>
+        <div class="resp-item">Cumplimiento normativo específico de su industria</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 08 CONTACTO -->
+<div class="sec-block" id="contacto-sec">
+<div class="sec-block-inner">
+  <span class="eyebrow">// 08</span>
+  <h2>Contacto para validación técnica</h2>
+  <p style="font-size:14px;color:var(--text2);line-height:1.75;margin-bottom:4px">Para consultas técnicas de seguridad, solicitudes de auditoría, requerimientos adicionales de compliance o evaluaciones formales, contactar:</p>
+
+  <div class="contact-cards">
+    <a href="mailto:walter@staff21x.com" class="c-card">
+      <div class="c-card-ico">✉️</div>
+      <div><span class="c-card-label">correo</span><span class="c-card-val">walter@staff21x.com</span></div>
+    </a>
+    <a href="https://staff21x.com" target="_blank" class="c-card">
+      <div class="c-card-ico">🌐</div>
+      <div><span class="c-card-label">web</span><span class="c-card-val">staff21x.com</span></div>
+    </a>
+    <a href="https://resility.io" target="_blank" class="c-card">
+      <div class="c-card-ico">🛡️</div>
+      <div><span class="c-card-label">infraestructura y SOC</span><span class="c-card-val">resility.io</span></div>
+    </a>
+  </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <p>Staff21x · Política de Seguridad de la Información · v1.0 Abril 2026</p>
+  <p>staff21x.com · Clasificación: Público / Uso comercial</p>
+</div>
+
+</body>
+</html>
