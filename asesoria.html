@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asesoría de IA — Staff21x</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --bg:#07090f;--bg1:#0c0f1a;--bg2:#131827;--bg3:#1a2035;
+  --border:#1e2540;--border2:#2d3658;
+  --text:#cdd5f0;--text2:#8898c0;--text3:#4a5478;
+  --accent:#4f6ef7;--accent2:#6c3fff;
+  --green:#1aad7e;--amber:#e8a020;
+  --grad:linear-gradient(135deg,#4f6ef7,#6c3fff);
+  --grad-dim:rgba(79,110,247,.10);--grad-border:rgba(79,110,247,.22);
+  --r:12px;
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;overflow-x:hidden}
+.mono{font-family:'JetBrains Mono',monospace}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(7,9,15,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Inter',sans-serif;font-size:19px;font-weight:800;color:#fff;text-decoration:none;letter-spacing:-1px}
+.logo span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-back{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);text-decoration:none;transition:color .15s}
+.nav-back:hover{color:var(--accent)}
+.btn-nav-cta{padding:8px 20px;border-radius:8px;background:var(--grad);color:#fff;font-size:13px;font-weight:600;text-decoration:none}
+
+.section{max-width:1100px;margin:0 auto;padding:96px 48px}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;display:block}
+h1{font-size:clamp(40px,5vw,64px);font-weight:900;letter-spacing:-3px;line-height:1.05;color:#fff;margin-bottom:16px}
+h2{font-size:clamp(28px,3.5vw,42px);font-weight:800;letter-spacing:-2px;line-height:1.1;color:#fff;margin-bottom:14px}
+h3{font-size:20px;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:-.5px}
+.sec-sub{font-size:16px;color:var(--text2);max-width:620px;line-height:1.75;margin-bottom:56px}
+.grad{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.btn-primary{padding:14px 30px;border-radius:10px;background:var(--grad);color:#fff;font-size:15px;font-weight:600;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 24px rgba(79,110,247,.35)}
+.btn-primary:hover{box-shadow:0 4px 36px rgba(79,110,247,.55);transform:translateY(-2px)}
+.btn-outline{padding:14px 30px;border-radius:10px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:15px;font-weight:500;text-decoration:none;transition:all .2s}
+.btn-outline:hover{border-color:var(--accent);color:var(--text)}
+
+/* HERO */
+.hero-ase{padding:120px 48px 80px;max-width:1100px;margin:0 auto}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--grad-dim);border:1px solid var(--grad-border);border-radius:999px;padding:5px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);margin-bottom:28px}
+.bdot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:bdot 2s infinite}
+@keyframes bdot{0%,100%{opacity:1}50%{opacity:.4}}
+
+.hero-kpis{display:flex;gap:0;margin-top:48px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--bg1)}
+.hkpi{flex:1;padding:24px 28px;border-right:1px solid var(--border);text-align:center}
+.hkpi:last-child{border-right:none}
+.hkpi-num{font-size:36px;font-weight:900;color:#fff;letter-spacing:-2px;line-height:1}
+.hkpi-num span{font-size:20px;color:var(--accent)}
+.hkpi-label{font-size:12px;color:var(--text2);margin-top:6px;line-height:1.4}
+.hkpi-source{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-top:4px}
+
+/* PROCESO */
+.proceso-grid{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.proceso-item{display:grid;grid-template-columns:80px 1fr;gap:0;border-bottom:1px solid var(--border)}
+.proceso-item:last-child{border-bottom:none}
+.proceso-num{background:var(--bg2);padding:28px 20px;display:flex;align-items:flex-start;justify-content:center;border-right:1px solid var(--border)}
+.proceso-num span{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:500;color:var(--border2);line-height:1}
+.proceso-body{padding:28px 32px;background:var(--bg1)}
+.proceso-body h3{font-size:17px;font-weight:700;color:#fff;margin-bottom:6px}
+.proceso-body p{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:14px}
+.proceso-tags{display:flex;gap:6px;flex-wrap:wrap}
+.ptag{font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 10px;border-radius:6px;background:var(--bg2);border:1px solid var(--border);color:var(--text3)}
+
+/* SECTORES */
+.sectores-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.sector-card{background:var(--bg1);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.sc-header{padding:18px 22px;border-bottom:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;gap:12px}
+.sc-icon{font-size:20px}
+.sc-name{font-size:15px;font-weight:700;color:#fff}
+.sc-sub{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+.sc-body{padding:20px 22px}
+.sc-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.sc-list li{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text2)}
+.sc-list li::before{content:"→";color:var(--accent);font-family:'JetBrains Mono',monospace;flex-shrink:0}
+.sc-impact{margin-top:16px;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--green);font-family:'JetBrains Mono',monospace}
+
+/* ENTREGABLE */
+.entregable-box{background:var(--bg1);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.eb-header{background:var(--grad);padding:20px 28px}
+.eb-header h3{color:#fff;font-size:18px;font-weight:700;margin-bottom:4px}
+.eb-header p{color:rgba(255,255,255,.75);font-size:13px}
+.eb-body{padding:28px}
+.eb-section{margin-bottom:24px}
+.eb-section:last-child{margin-bottom:0}
+.eb-section-title{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.eb-items{display:flex;flex-direction:column;gap:8px}
+.eb-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px}
+.eb-item-ico{font-size:14px;flex-shrink:0;margin-top:1px}
+.eb-item-text{font-size:13px;color:var(--text2);line-height:1.5}
+.eb-item-text strong{color:var(--text);font-weight:600;display:block;margin-bottom:2px}
+
+/* McKINSEY */
+.mck-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px}
+.mck-stat{background:var(--bg1);border:1px solid var(--border);border-radius:12px;padding:20px}
+.mck-num{font-size:32px;font-weight:900;color:#fff;letter-spacing:-2px;line-height:1;margin-bottom:6px}
+.mck-num span{font-size:18px;color:var(--accent)}
+.mck-label{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:8px}
+.mck-source{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3)}
+
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-item:last-child{border-bottom:none}
+.faq-q{padding:20px 24px;font-size:15px;font-weight:600;color:#fff;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s;user-select:none}
+.faq-q:hover{background:var(--bg2)}
+.faq-q::after{content:"＋";font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--accent);transition:transform .2s;flex-shrink:0}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{display:none;padding:0 24px 20px;font-size:14px;color:var(--text2);line-height:1.75}
+.faq-item.open .faq-a{display:block}
+
+/* CTA */
+.cta-final{background:linear-gradient(135deg,rgba(79,110,247,.1),rgba(108,63,255,.1));border-top:1px solid rgba(79,110,247,.18);padding:72px 48px;text-align:center}
+.cta-final h2{font-size:38px;font-weight:900;color:#fff;letter-spacing:-2px;margin-bottom:10px}
+.cta-final p{font-size:16px;color:var(--text2);margin-bottom:28px;max-width:520px;margin-left:auto;margin-right:auto}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+@media(max-width:1024px){
+  nav{padding:0 24px}
+  .hero-ase,.section{padding:90px 24px 60px}
+  .sectores-grid,.mck-grid{grid-template-columns:1fr}
+  .hero-kpis{flex-direction:column}
+  .hkpi{border-right:none;border-bottom:1px solid var(--border)}
+  .hkpi:last-child{border-bottom:none}
+}
+@media(max-width:600px){
+  h1{font-size:36px}
+  h2{font-size:28px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">staff<span>21x</span></a>
+  <a href="index.html" class="nav-back">← volver al inicio</a>
+  <a href="#contacto-ase" class="btn-nav-cta">Solicitar asesoría →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero-ase">
+  <div class="hero-badge"><div class="bdot"></div><span class="mono">// asesoria_operativa · datos · procesos · agentes</span></div>
+  <h1>Asesoría Operativa<br>de <span class="grad">IA.</span></h1>
+  <p style="font-size:22px;color:var(--text);font-weight:600;line-height:1.4;max-width:620px;margin-bottom:16px">¿Qué puede hacer la IA en tu empresa?</p>
+  <p style="font-size:16px;color:var(--text2);line-height:1.75;max-width:620px;margin-bottom:40px">Analizamos tus datos, mapeamos tus procesos y diseñamos la arquitectura de agentes que tu operación necesita. Sin supuestos. Sin herramientas genéricas. Con un entregable accionable.</p>
+  <div style="display:flex;gap:12px;flex-wrap:wrap">
+    <a href="#contacto-ase" class="btn-primary">Solicitar asesoría →</a>
+    <a href="#proceso" class="btn-outline">Ver cómo funciona</a>
+  </div>
+
+  <div class="hero-kpis">
+    <div class="hkpi">
+      <div class="hkpi-num">57<span>%</span></div>
+      <div class="hkpi-label">de las horas de trabajo actuales tienen potencial técnico de automatización</div>
+      <div class="hkpi-source">// McKinsey Global Institute, 2025</div>
+    </div>
+    <div class="hkpi">
+      <div class="hkpi-num">88<span>%</span></div>
+      <div class="hkpi-label">de las empresas ya usa IA en al menos una función de negocio</div>
+      <div class="hkpi-source">// McKinsey State of AI, 2025</div>
+    </div>
+    <div class="hkpi">
+      <div class="hkpi-num">1<span>%</span></div>
+      <div class="hkpi-label">describe su implementación de IA como madura y completamente integrada</div>
+      <div class="hkpi-source">// McKinsey State of AI, 2025</div>
+    </div>
+    <div class="hkpi">
+      <div class="hkpi-num">USD<span>7.9</span></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);margin-bottom:4px">billones de dólares anuales</div>
+      <div class="hkpi-label">impacto económico potencial de la IA generativa a nivel global — más que el PBI de Alemania</div>
+      <div class="hkpi-source">// McKinsey, análisis extendido</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESO -->
+<div style="background:var(--bg1);border-top:1px solid var(--border);border-bottom:1px solid var(--border)" id="proceso">
+<div class="section">
+  <span class="eyebrow">// cómo_funciona</span>
+  <h2>El proceso de asesoría.</h2>
+  <p class="sec-sub">Cuatro etapas estructuradas que van desde el diagnóstico de tu operación hasta un entregable accionable con arquitectura, prioridades y hoja de ruta.</p>
+
+  <div class="proceso-grid">
+    <div class="proceso-item">
+      <div class="proceso-num"><span>01</span></div>
+      <div class="proceso-body">
+        <h3>Relevamiento operativo</h3>
+        <p>Analizamos los procesos actuales de la empresa: cómo se ejecutan las tareas, qué datos existen, dónde hay repetición, qué decisiones se toman frecuentemente y dónde están los cuellos de botella. No trabajamos con supuestos. Trabajamos con la operación real.</p>
+        <div class="proceso-tags">
+          <span class="ptag">entrevistas con equipos</span>
+          <span class="ptag">mapeo de procesos</span>
+          <span class="ptag">inventario de datos</span>
+          <span class="ptag">identificación de fricciones</span>
+        </div>
+      </div>
+    </div>
+    <div class="proceso-item">
+      <div class="proceso-num"><span>02</span></div>
+      <div class="proceso-body">
+        <h3>Clasificación de oportunidades</h3>
+        <p>Separamos lo que se puede automatizar de lo que requiere un agente. No todo proceso necesita IA — algunos solo necesitan orden. Priorizamos por impacto operativo, viabilidad técnica y velocidad de implementación.</p>
+        <div class="proceso-tags">
+          <span class="ptag">automatizable vs. agéntico</span>
+          <span class="ptag">priorización por impacto</span>
+          <span class="ptag">análisis de integraciones</span>
+          <span class="ptag">evaluación de datos disponibles</span>
+        </div>
+      </div>
+    </div>
+    <div class="proceso-item">
+      <div class="proceso-num"><span>03</span></div>
+      <div class="proceso-body">
+        <h3>Diseño de arquitectura</h3>
+        <p>Para cada oportunidad priorizada, diseñamos la solución concreta: qué tipo de agente, cómo se conecta a los sistemas existentes, qué datos necesita y qué lógica de decisión ejecuta. La arquitectura contempla seguridad, escalabilidad y mantenimiento.</p>
+        <div class="proceso-tags">
+          <span class="ptag">tipo de agente</span>
+          <span class="ptag">integraciones API</span>
+          <span class="ptag">lógica de decisión</span>
+          <span class="ptag">modelo de seguridad</span>
+        </div>
+      </div>
+    </div>
+    <div class="proceso-item">
+      <div class="proceso-num"><span>04</span></div>
+      <div class="proceso-body">
+        <h3>Entregable ejecutivo</h3>
+        <p>Informe completo con diagnóstico, oportunidades priorizadas, arquitectura propuesta por proceso, estimación de impacto operativo y hoja de ruta de implementación. Un documento para tomar decisiones, no para guardar en un cajón.</p>
+        <div class="proceso-tags">
+          <span class="ptag">informe de diagnóstico</span>
+          <span class="ptag">arquitectura propuesta</span>
+          <span class="ptag">estimación de impacto</span>
+          <span class="ptag">hoja de ruta</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- DATOS -->
+<div style="background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+<div class="section">
+  <span class="eyebrow">// datos_e_infraestructura</span>
+  <h2>Antes del agente,<br>están los datos.</h2>
+  <p class="sec-sub">El error más frecuente en una implementación de IA es empezar por la tecnología. Antes de diseñar cualquier agente, hay que saber dónde están los datos, en qué estado están y cómo estructurarlos para que un sistema pueda consumirlos.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px" class="contact-grid-inner">
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="background:var(--bg1);border:1px solid var(--border);border-radius:14px;padding:24px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">// situación típica que encontramos</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:flex-start;gap:10px">
+            <div style="width:26px;height:26px;border-radius:7px;background:rgba(232,160,32,.15);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">⚠️</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.55">Datos de clientes en tres planillas distintas, sin criterio unificado de nombre ni RUT</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px">
+            <div style="width:26px;height:26px;border-radius:7px;background:rgba(232,160,32,.15);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">⚠️</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.55">Historial de ventas en correos y WhatsApp, sin estructura ni registro centralizado</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px">
+            <div style="width:26px;height:26px;border-radius:7px;background:rgba(232,160,32,.15);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">⚠️</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.55">Catálogo de productos en PDFs y hojas físicas, sin sistema de actualización</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px">
+            <div style="width:26px;height:26px;border-radius:7px;background:rgba(232,160,32,.15);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">⚠️</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.55">Sistemas que no tienen API: el agente no puede conectarse a lo que no tiene puerta de entrada</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px">
+            <div style="width:26px;height:26px;border-radius:7px;background:rgba(232,160,32,.15);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">⚠️</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.55">Información crítica en la cabeza de una sola persona — sin documentar, sin sistema</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="background:var(--bg1);border:1px solid rgba(26,173,126,.2);border-radius:14px;padding:24px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">// lo que analizamos y resolvemos</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:flex-start;gap:10px">
+            <div style="width:26px;height:26px;border-radius:7px;background:rgba(26,173,126,.15);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">✓</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.55"><strong style="color:var(--text)">Inventario de fuentes de datos</strong> — dónde está cada dato, en qué formato y quién lo controla</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px">
+            <div style="width:26px;height:26px;border-radius:7px;background:rgba(26,173,126,.15);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">✓</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.55"><strong style="color:var(--text)">Auditoría de calidad</strong> — duplicados, inconsistencias, datos faltantes y registros sin estructura</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px">
+            <div style="width:26px;height:26px;border-radius:7px;background:rgba(26,173,126,.15);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">✓</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.55"><strong style="color:var(--text)">Diseño de repositorio</strong> — arquitectura de base de datos o repositorio centralizado que el agente puede consumir</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px">
+            <div style="width:26px;height:26px;border-radius:7px;background:rgba(26,173,126,.15);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">✓</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.55"><strong style="color:var(--text)">Evaluación de seguridad</strong> — quién accede a qué datos, cómo se protegen y qué normativas aplican</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:10px">
+            <div style="width:26px;height:26px;border-radius:7px;background:rgba(26,173,126,.15);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">✓</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.55"><strong style="color:var(--text)">Plan de migración y limpieza</strong> — qué hay que hacer antes de implementar, en qué orden y con qué recursos</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="background:var(--bg2);border:1px solid rgba(79,110,247,.25);border-radius:14px;padding:28px 32px;margin-bottom:24px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">// principio rector</div>
+    <p style="font-size:22px;font-weight:800;color:#fff;line-height:1.3;letter-spacing:-.5px;margin-bottom:16px">"Un agente es tan bueno<br>como los datos que consume."</p>
+    <p style="font-size:15px;color:var(--text2);line-height:1.75;margin-bottom:16px">En computación existe un principio que tiene más de 60 años y sigue siendo la causa número uno de fracaso en proyectos de IA: <strong style="color:var(--text)">GIGO — Garbage In, Garbage Out.</strong> Si lo que entra es basura, lo que sale es basura. Solo que ahora, con un agente de IA, esa basura sale más rápido, a mayor escala y con apariencia de respuesta correcta.</p>
+    <p style="font-size:15px;color:var(--text2);line-height:1.75">Un agente que consume datos inconsistentes no falla de forma obvia — falla de forma sutil. Responde con confianza usando información desactualizada. Toma decisiones basadas en registros duplicados. Genera cotizaciones con precios incorrectos. El problema no es el agente. Es lo que le diste para trabajar.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px">
+    <div style="background:var(--bg1);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center">
+      <div style="font-size:38px;font-weight:900;color:#fff;letter-spacing:-2px;line-height:1;margin-bottom:8px">80<span style="font-size:22px;color:var(--accent)">%</span></div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:8px">de los proyectos de IA fracasan antes de llegar a producción — el doble de la tasa de fallo de proyectos IT tradicionales</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3)">// RAND Corporation, 2024</div>
+    </div>
+    <div style="background:var(--bg1);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center">
+      <div style="font-size:38px;font-weight:900;color:#fff;letter-spacing:-2px;line-height:1;margin-bottom:8px">43<span style="font-size:22px;color:var(--accent)">%</span></div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:8px">de los líderes de datos cita la calidad e integración de datos como el principal obstáculo para implementar IA con éxito</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3)">// Informatica CDO Insights, 2025</div>
+    </div>
+    <div style="background:var(--bg1);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center">
+      <div style="font-size:38px;font-weight:900;color:#fff;letter-spacing:-2px;line-height:1;margin-bottom:8px">2<span style="font-size:22px;color:var(--accent)">x</span></div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:8px">más probabilidades de retorno real tienen las empresas que rediseñaron sus flujos de datos <em>antes</em> de seleccionar la tecnología</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3)">// McKinsey, 2025</div>
+    </div>
+  </div>
+
+  <div style="background:var(--bg1);border:1px solid var(--border);border-radius:14px;padding:24px 28px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px">// el error más frecuente que vemos</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px" class="contact-grid-inner">
+      <div>
+        <h3 style="font-size:15px;font-weight:700;color:#fff;margin-bottom:10px">Lo que hace la mayoría</h3>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text2)"><span style="color:var(--amber);font-family:'JetBrains Mono',monospace;flex-shrink:0">01</span>Eligen la herramienta o el proveedor primero</div>
+          <div style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text2)"><span style="color:var(--amber);font-family:'JetBrains Mono',monospace;flex-shrink:0">02</span>Implementan sobre los datos que ya tienen, sin revisarlos</div>
+          <div style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text2)"><span style="color:var(--amber);font-family:'JetBrains Mono',monospace;flex-shrink:0">03</span>El agente funciona en el piloto con datos limpios de prueba</div>
+          <div style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text2)"><span style="color:var(--amber);font-family:'JetBrains Mono',monospace;flex-shrink:0">04</span>En producción, con datos reales, el sistema empieza a fallar</div>
+          <div style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text2)"><span style="color:var(--amber);font-family:'JetBrains Mono',monospace;flex-shrink:0">05</span>Culpan a la tecnología. El problema era los datos desde el día uno.</div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:15px;font-weight:700;color:#fff;margin-bottom:10px">Lo que hacemos nosotros</h3>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text2)"><span style="color:var(--green);font-family:'JetBrains Mono',monospace;flex-shrink:0">01</span>Auditamos los datos antes de diseñar cualquier solución</div>
+          <div style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text2)"><span style="color:var(--green);font-family:'JetBrains Mono',monospace;flex-shrink:0">02</span>Diseñamos el repositorio y la arquitectura de datos correcta</div>
+          <div style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text2)"><span style="color:var(--green);font-family:'JetBrains Mono',monospace;flex-shrink:0">03</span>Definimos qué datos necesita el agente y en qué formato</div>
+          <div style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text2)"><span style="color:var(--green);font-family:'JetBrains Mono',monospace;flex-shrink:0">04</span>El agente se construye sobre una base que ya funciona</div>
+          <div style="display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text2)"><span style="color:var(--green);font-family:'JetBrains Mono',monospace;flex-shrink:0">05</span>El resultado en producción es consistente con el piloto.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ENTREGABLE -->
+
+<div style="background:var(--bg1);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+<div class="section">
+  <span class="eyebrow">// qué_te_llevás</span>
+  <h2>Cuatro documentos.<br>Todo accionable.</h2>
+  <p class="sec-sub">No es un informe genérico. Es un manual de trabajo concreto con listas, métricas y un plan de acción. Algo que podés implementar el lunes siguiente.</p>
+
+  <!-- DOCUMENTO 1 -->
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px">
+    <div style="background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;gap:14px">
+      <div style="width:36px;height:36px;border-radius:9px;background:var(--grad-dim);border:1px solid var(--grad-border);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📋</div>
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#fff">Listado de oportunidades de automatización e IA</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3)">// documento_01 · priorizado · con estimación de impacto</div>
+      </div>
+    </div>
+    <div style="padding:20px 24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+      <div style="background:var(--bg1);border:1px solid rgba(79,110,247,.2);border-radius:10px;padding:14px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);margin-bottom:8px">✓ SÍ SE PUEDE AUTOMATIZAR</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.65">Proceso · tipo de automatización · tiempo estimado de implementación · ahorro de horas/mes · impacto en costo operativo</div>
+      </div>
+      <div style="background:var(--bg1);border:1px solid rgba(79,110,247,.2);border-radius:10px;padding:14px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#c084fc;margin-bottom:8px">🤖 REQUIERE UN AGENTE</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.65">Proceso · lógica de decisión requerida · datos que necesita · complejidad estimada · impacto operativo</div>
+      </div>
+      <div style="background:var(--bg1);border:1px solid rgba(232,160,32,.15);border-radius:10px;padding:14px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);margin-bottom:8px">⏳ AÚN NO ES VIABLE</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.65">Proceso · por qué no todavía · qué condición hay que resolver primero · cuándo revisitar</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTO 2 -->
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px">
+    <div style="background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;gap:14px">
+      <div style="width:36px;height:36px;border-radius:9px;background:rgba(232,160,32,.1);border:1px solid rgba(232,160,32,.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">⚠️</div>
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#fff">Reporte de procesos indefinidos o no declarados</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3)">// documento_02 · bloqueos operativos · lo que frena la automatización</div>
+      </div>
+    </div>
+    <div style="padding:20px 24px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--bg1);border-radius:8px;border:1px solid var(--border)">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);flex-shrink:0;padding-top:2px">PROCESO SIN DUEÑO</span>
+        <span style="font-size:13px;color:var(--text2)">Tareas que todos hacen distinto y nadie puede explicar cómo deberían hacerse. Un agente no puede ejecutar lo que la empresa misma no sabe definir.</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--bg1);border-radius:8px;border:1px solid var(--border)">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);flex-shrink:0;padding-top:2px">DATOS FALTANTES</span>
+        <span style="font-size:13px;color:var(--text2)">Procesos donde el dato que el agente necesita no existe, está incompleto o no está accesible en ningún sistema.</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--bg1);border-radius:8px;border:1px solid var(--border)">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);flex-shrink:0;padding-top:2px">DECISIÓN HUMANA CRÍTICA</span>
+        <span style="font-size:13px;color:var(--text2)">Pasos donde la decisión depende de criterio, relación o contexto que todavía no puede sistematizarse. Se documenta para saber dónde necesitás humano.</span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--bg1);border-radius:8px;border:1px solid var(--border)">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);flex-shrink:0;padding-top:2px">RIESGO DE SEGURIDAD</span>
+        <span style="font-size:13px;color:var(--text2)">Flujos donde se manejan datos sensibles sin políticas claras de acceso, retención o protección. Hay que resolver esto antes de automatizar.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTO 3 -->
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px">
+    <div style="background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;gap:14px">
+      <div style="width:36px;height:36px;border-radius:9px;background:rgba(26,173,126,.1);border:1px solid rgba(26,173,126,.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📊</div>
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#fff">Diagnóstico de datos e infraestructura</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3)">// documento_03 · estado actual · qué ordenar antes de implementar</div>
+      </div>
+    </div>
+    <div style="padding:20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:10px">POR CADA FUENTE DE DATOS SE ENTREGA:</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;gap:8px;font-size:13px;color:var(--text2)"><span style="color:var(--green)">→</span>Dónde está el dato y en qué formato</div>
+          <div style="display:flex;gap:8px;font-size:13px;color:var(--text2)"><span style="color:var(--green)">→</span>Calidad: duplicados, vacíos, inconsistencias</div>
+          <div style="display:flex;gap:8px;font-size:13px;color:var(--text2)"><span style="color:var(--green)">→</span>Accesibilidad: tiene API, exportable, bloqueado</div>
+          <div style="display:flex;gap:8px;font-size:13px;color:var(--text2)"><span style="color:var(--green)">→</span>Criticidad para los agentes propuestos</div>
+          <div style="display:flex;gap:8px;font-size:13px;color:var(--text2)"><span style="color:var(--green)">→</span>Acción recomendada: limpiar, migrar, estructurar</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:10px">ARQUITECTURA DE REPOSITORIO PROPUESTA:</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;gap:8px;font-size:13px;color:var(--text2)"><span style="color:var(--green)">→</span>Dónde centralizar los datos del negocio</div>
+          <div style="display:flex;gap:8px;font-size:13px;color:var(--text2)"><span style="color:var(--green)">→</span>Cómo estructurarlos para que el agente los consuma</div>
+          <div style="display:flex;gap:8px;font-size:13px;color:var(--text2)"><span style="color:var(--green)">→</span>Políticas de acceso y seguridad recomendadas</div>
+          <div style="display:flex;gap:8px;font-size:13px;color:var(--text2)"><span style="color:var(--green)">→</span>Estimación de tiempo para dejar los datos listos</div>
+          <div style="display:flex;gap:8px;font-size:13px;color:var(--text2)"><span style="color:var(--green)">→</span>Qué hacer primero para desbloquear la implementación</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTO 4 -->
+  <div style="background:var(--bg);border:1px solid rgba(79,110,247,.25);border-radius:14px;overflow:hidden">
+    <div style="background:var(--grad);padding:16px 24px;display:flex;align-items:center;gap:14px">
+      <div style="width:36px;height:36px;border-radius:9px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🗺️</div>
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#fff">Plan de acción</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.65)">// documento_04 · fases · tiempos · métricas de éxito · lo que hacés el lunes</div>
+      </div>
+    </div>
+    <div style="padding:20px 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+      <div style="background:var(--bg1);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:8px">FASE 0</div>
+        <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:6px">Ordenar datos</div>
+        <div style="font-size:11px;color:var(--text2)">Limpieza, repositorio, accesos. Sin esto, nada funciona.</div>
+      </div>
+      <div style="background:var(--bg1);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:8px">FASE 1</div>
+        <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:6px">Quick wins</div>
+        <div style="font-size:11px;color:var(--text2)">Las automatizaciones más simples y de mayor impacto inmediato.</div>
+      </div>
+      <div style="background:var(--bg1);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:8px">FASE 2</div>
+        <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:6px">Agentes core</div>
+        <div style="font-size:11px;color:var(--text2)">Los agentes que transforman los procesos críticos del negocio.</div>
+      </div>
+      <div style="background:var(--bg1);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:8px">FASE 3</div>
+        <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:6px">Escalar</div>
+        <div style="font-size:11px;color:var(--text2)">Integración total, optimización y expansión a nuevas áreas.</div>
+      </div>
+    </div>
+    <div style="padding:0 24px 20px">
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;align-items:center;gap:12px">
+        <span style="font-size:18px">📏</span>
+        <span style="font-size:13px;color:var(--text2)">Cada fase incluye <strong style="color:var(--text)">métricas de éxito medibles</strong>: horas operativas ahorradas, reducción de errores, tiempo de respuesta, costo por proceso antes y después. No "mejoró la eficiencia" — números concretos.</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- McKINSEY DATA -->
+<div style="background:var(--bg)">
+<div class="section">
+  <span class="eyebrow">// impacto_global</span>
+  <h2>La IA está transformando<br>cómo opera el mundo.</h2>
+  <p class="sec-sub">Investigación de McKinsey Global Institute sobre el estado actual de la IA en los negocios y su impacto operativo real.</p>
+
+  <div class="mck-grid">
+    <div class="mck-stat">
+      <div class="mck-num">60<span>–70%</span></div>
+      <div class="mck-label">del tiempo de los empleados podría ser absorbido por agentes de IA generativa — el doble que las estimaciones anteriores de automatización tradicional</div>
+      <div class="mck-source">// McKinsey Global Institute, 2024</div>
+    </div>
+    <div class="mck-stat">
+      <div class="mck-num">23<span>%</span></div>
+      <div class="mck-label">de las empresas ya está escalando sistemas de agentes de IA en sus operaciones — el resto está en etapa experimental o piloto</div>
+      <div class="mck-source">// McKinsey State of AI, 2025</div>
+    </div>
+    <div class="mck-stat">
+      <div class="mck-num">USD<span>400B</span></div>
+      <div class="mck-label">en valor anual que el retail podría capturar con IA — una de las industrias más subinvertidas en relación a su potencial</div>
+      <div class="mck-source">// McKinsey Global Institute</div>
+    </div>
+    <div class="mck-stat">
+      <div class="mck-num">50<span>%</span></div>
+      <div class="mck-label">de reducción posible en contactos atendidos por humanos en banca, telecomunicaciones y utilities gracias a agentes de IA generativa</div>
+      <div class="mck-source">// McKinsey, análisis por sector</div>
+    </div>
+    <div class="mck-stat">
+      <div class="mck-num">75<span>%</span></div>
+      <div class="mck-label">del potencial económico de la IA se concentra en cuatro funciones: atención al cliente, ventas, desarrollo de software y operaciones</div>
+      <div class="mck-source">// McKinsey State of AI, 2025</div>
+    </div>
+    <div class="mck-stat">
+      <div class="mck-num">7x</div>
+      <div class="mck-label">creció la demanda de habilidades de uso y gestión de IA en ofertas de empleo en los últimos dos años — la habilidad de mayor crecimiento en el mercado laboral</div>
+      <div class="mck-source">// McKinsey, Agents & Robots, 2025</div>
+    </div>
+  </div>
+
+  <div style="background:var(--bg1);border:1px solid var(--border);border-radius:14px;padding:24px 28px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:10px">// contexto de los datos</div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7">Los datos citados provienen de McKinsey Global Institute, una de las fuentes de investigación económica más rigurosas del mundo. Sus estudios analizan más de 850 ocupaciones y 2.100 actividades laborales en más de 47 países. Los números miden potencial técnico, no adopción garantizada — la diferencia la hace el diseño de la implementación.</p>
+  </div>
+</div>
+</div>
+
+<!-- FAQ -->
+<div style="background:var(--bg1);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+<div class="section">
+  <span class="eyebrow">// preguntas_frecuentes</span>
+  <h2>Preguntas frecuentes<br>sobre la asesoría.</h2>
+
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">¿Cuánto tiempo lleva una asesoría?</div>
+      <div class="faq-a">Depende del tamaño y complejidad de la operación. Una empresa mediana con 3 a 5 procesos críticos puede tener su diagnóstico completo en 2 a 3 semanas. Empresas con operaciones más complejas o múltiples áreas pueden requerir 4 a 6 semanas. El tiempo incluye relevamiento, análisis y entrega del informe ejecutivo.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">¿La asesoría implica contratar un desarrollo después?</div>
+      <div class="faq-a">No. La asesoría es un servicio independiente. El entregable es un informe con diagnóstico y arquitectura propuesta que el cliente puede usar para tomar decisiones. Si después de la asesoría decide avanzar con Staff21x para el desarrollo, perfecto. Si no, el informe sigue siendo tuyo y podés llevarlo a cualquier otro proveedor.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">¿Necesito tener infraestructura tecnológica previa?</div>
+      <div class="faq-a">No necesariamente. Analizamos la operación desde lo que existe. Hay empresas que operan con planillas de Excel, WhatsApp y correo — y eso tiene tanto potencial de automatización como una empresa con ERP. El punto de partida no limita el potencial. Lo que importa es qué procesos existen y qué datos están disponibles.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">¿Qué diferencia a un agente de IA de una automatización?</div>
+      <div class="faq-a">Una automatización ejecuta un flujo fijo: si pasa A, hace B. Si algo cambia, se rompe. Un agente analiza el contexto, toma decisiones y se adapta a situaciones no previstas. Por ejemplo: una automatización puede enviar un correo cuando se genera una orden. Un agente puede leer el historial de un cliente, detectar que lleva 3 meses sin comprar, analizar qué productos complementan lo que ya tiene y enviar una propuesta personalizada — sin que nadie le diga que lo haga.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">¿Qué procesos NO son candidatos para un agente?</div>
+      <div class="faq-a">Procesos que requieren juicio social y emocional complejo, decisiones éticas o legales de alta responsabilidad, trabajo físico que la tecnología actual no puede replicar, y situaciones donde el cliente o paciente requiere presencia humana real. La asesoría también identifica estos casos — saber qué no automatizar es tan valioso como saber qué sí.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">¿Se puede hacer asesoría de forma remota?</div>
+      <div class="faq-a">Sí. Operamos en Chile, Argentina, Perú, Colombia y México. La mayoría de las asesorías se realizan de forma completamente remota mediante reuniones de video, revisión de documentación y acceso a sistemas que el cliente autoriza. Para casos que requieren observación directa de procesos físicos, podemos coordinar visitas presenciales en Chile.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">¿Qué pasa con la confidencialidad de la información de la empresa?</div>
+      <div class="faq-a">Toda la información relevada durante la asesoría está protegida por acuerdo de confidencialidad (NDA) firmado antes de iniciar el proceso. Los datos operativos que compartís no se usan para ningún propósito fuera del análisis acordado. Nuestra infraestructura opera bajo los estándares de seguridad de Resility, con políticas alineadas a PCI DSS, HIPAA, NIST 800-53 y GDPR.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SECTORES -->
+<div style="background:var(--bg)" id="sectores">
+<div class="section">
+  <span class="eyebrow">// casos_por_sector</span>
+  <h2>Lo que podemos construir<br>en tu industria.</h2>
+  <p class="sec-sub">Una vez completada la asesoría, el siguiente paso es el desarrollo. Estos son los sistemas que construimos con mayor frecuencia por sector.</p>
+
+  <div class="sectores-grid">
+
+    <div class="sector-card">
+      <div class="sc-header">
+        <div class="sc-icon">🏭</div>
+        <div>
+          <div class="sc-name">Manufactura y distribución</div>
+          <div class="sc-sub">// fabricas · distribuidoras · mayoristas</div>
+        </div>
+      </div>
+      <div class="sc-body">
+        <ul class="sc-list">
+          <li>Análisis automático de listas de precios de proveedores y comparación en tiempo real</li>
+          <li>Agente de compras que detecta oportunidades y genera órdenes para aprobación</li>
+          <li>Control de inventario con alertas predictivas antes del quiebre de stock</li>
+          <li>Programación de compras basada en historial de ventas y estacionalidad</li>
+          <li>Atención a revendedores y clientes B2B por WhatsApp con precios y disponibilidad</li>
+        </ul>
+        <div class="sc-impact">→ impacto estimado: 30–50% de reducción en tiempo operativo de compras</div>
+      </div>
+    </div>
+
+    <div class="sector-card">
+      <div class="sc-header">
+        <div class="sc-icon">🏥</div>
+        <div>
+          <div class="sc-name">Salud y servicios médicos</div>
+          <div class="sc-sub">// clínicas · consultorios · centros médicos</div>
+        </div>
+      </div>
+      <div class="sc-body">
+        <ul class="sc-list">
+          <li>Agendamiento autónomo de citas por WhatsApp, web y llamada</li>
+          <li>Recordatorios personalizados con preparación específica por tipo de consulta</li>
+          <li>Gestión de lista de espera y reasignación automática de turnos cancelados</li>
+          <li>Escalado inteligente a urgencias cuando el paciente describe síntomas críticos</li>
+          <li>Encuestas de satisfacción automatizadas con alertas por evaluaciones negativas</li>
+        </ul>
+        <div class="sc-impact">→ impacto estimado: hasta 80% de reducción en carga de recepción</div>
+      </div>
+    </div>
+
+    <div class="sector-card">
+      <div class="sc-header">
+        <div class="sc-icon">🛒</div>
+        <div>
+          <div class="sc-name">Retail y ecommerce</div>
+          <div class="sc-sub">// tiendas · marketplaces · ventas online</div>
+        </div>
+      </div>
+      <div class="sc-body">
+        <ul class="sc-list">
+          <li>Respuesta inmediata 24/7 a consultas por WhatsApp, Mercado Libre y web</li>
+          <li>Entrega de precios, stock y condiciones en tiempo real desde el catálogo</li>
+          <li>Procesamiento de pedidos, actualización de inventario y envío de tracking</li>
+          <li>Gestión de reclamos y devoluciones con resolución automática de casos estándar</li>
+          <li>Seguimiento post-venta y generación de reseñas</li>
+        </ul>
+        <div class="sc-impact">→ impacto estimado: el que responde primero vende más del 60% de los casos</div>
+      </div>
+    </div>
+
+    <div class="sector-card">
+      <div class="sc-header">
+        <div class="sc-icon">💼</div>
+        <div>
+          <div class="sc-name">Servicios B2B y consultoría</div>
+          <div class="sc-sub">// empresas de servicios · agencias · consultoras</div>
+        </div>
+      </div>
+      <div class="sc-body">
+        <ul class="sc-list">
+          <li>Agente de prospección que identifica empresas objetivo y personaliza el primer contacto</li>
+          <li>Supervisor de equipo comercial que monitorea seguimientos y detecta leads fríos</li>
+          <li>Detección automática de oportunidades de cross-selling en clientes activos</li>
+          <li>CRM a medida integrado con el proceso comercial real del equipo</li>
+          <li>Automatización de propuestas y cotizaciones con datos del cliente</li>
+        </ul>
+        <div class="sc-impact">→ impacto estimado: 40% más de seguimientos efectivos por vendedor</div>
+      </div>
+    </div>
+
+    <div class="sector-card">
+      <div class="sc-header">
+        <div class="sc-icon">🎓</div>
+        <div>
+          <div class="sc-name">Educación y capacitación</div>
+          <div class="sc-sub">// OTECs · institutos · plataformas e-learning</div>
+        </div>
+      </div>
+      <div class="sc-body">
+        <ul class="sc-list">
+          <li>Agente de ventas que califica leads y explica programas disponibles</li>
+          <li>Proceso de inscripción automatizado desde WhatsApp hasta confirmación de matrícula</li>
+          <li>Recordatorios de clases, evaluaciones y documentación pendiente</li>
+          <li>Seguimiento post-curso y oferta de programas complementarios</li>
+          <li>Integración con sistemas SENCE y plataformas de gestión de capacitación</li>
+        </ul>
+        <div class="sc-impact">→ impacto estimado: 60% de reducción en gestión administrativa por alumno</div>
+      </div>
+    </div>
+
+    <div class="sector-card">
+      <div class="sc-header">
+        <div class="sc-icon">🏗️</div>
+        <div>
+          <div class="sc-name">Construcción e inmobiliaria</div>
+          <div class="sc-sub">// constructoras · inmobiliarias · servicios técnicos</div>
+        </div>
+      </div>
+      <div class="sc-body">
+        <ul class="sc-list">
+          <li>Agente de atención que califica prospectos y agenda visitas a propiedades</li>
+          <li>Seguimiento automático de cotizaciones y documentación de clientes</li>
+          <li>Coordinación de visitas técnicas y actualizaciones de estado de obra</li>
+          <li>Gestión de postventa: reclamos, garantías y solicitudes de servicio</li>
+          <li>Análisis de precios de materiales y proveedores de construcción</li>
+        </ul>
+        <div class="sc-impact">→ impacto estimado: ningún lead sin seguimiento, ninguna visita sin confirmar</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- CTA FINAL -->
+<div class="cta-final" id="contacto-ase">
+  <h2>Empieza con una<br>conversación.</h2>
+  <p>Contanos tu operación y en menos de 24 horas te decimos si tiene potencial para una asesoría y cómo estructurarla.</p>
+  <div class="cta-btns">
+    <a href="https://wa.me/56987345554?text=Hola%2C%20quiero%20info%20sobre%20la%20asesoría%20de%20IA%20de%20Staff21x" target="_blank" class="btn-primary">WhatsApp directo →</a>
+    <a href="https://calendar.app.google/8gXWWVzvjTJNZwyX7" target="_blank" class="btn-outline">Agendar reunión</a>
+  </div>
+  <div style="margin-top:32px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">// staff21x.com · hola@staff21x.com · +56 9 8734 5554</div>
+</div>
+
+<script>
+function toggleFaq(el){
+  const item=el.parentElement;
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+</script>
+</body>
+</html>
