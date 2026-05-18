@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Franquicia SENCE — Comisión de Trabajo</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sence-blue: #0076BA;
+  --sence-dark: #113B6A;
+  --sence-deep: #0B1D3A;
+  --sence-mid: #025E87;
+  --sence-red: #AD2A27;
+  --sence-red-light: rgba(173,42,39,0.12);
+  --sence-red-border: rgba(173,42,39,0.25);
+  --white: #FFFFFF;
+  --off-white: #F2F3F4;
+  --pale: #ECF0F1;
+  --light-gray: #AAAAAA;
+  --mid-gray: #777777;
+  --dark-gray: #333333;
+  --black: #181818;
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --glass: rgba(255,255,255,0.04);
+  --glass-b: rgba(255,255,255,0.08);
+  --r-background-color: var(--sence-deep);
+  --r-main-font: 'Outfit','Helvetica Neue',sans-serif;
+  --r-heading-font: 'Outfit','Helvetica Neue',sans-serif;
+  --r-main-color: #c8d6e5;
+  --r-heading-color: #ffffff;
+}
+.reveal{font-size:24px;}
+.reveal .slides{text-align:left;}
+.reveal .slides section{padding:20px 48px;height:540px;overflow:hidden;display:flex;flex-direction:column;justify-content:center;}
+.reveal h1{font-weight:900;letter-spacing:-2px;line-height:1.05;}
+.reveal h2{font-weight:800;letter-spacing:-1px;line-height:1.1;font-size:1.5em;margin-bottom:2px;}
+.reveal h3{font-weight:700;font-size:0.85em;margin:0;}
+.reveal p{font-weight:400;color:var(--light-gray);font-size:0.6em;line-height:1.5;margin:2px 0;}
+
+/* GLASS */
+.g{background:var(--glass);border:1px solid var(--glass-b);border-radius:10px;padding:12px 14px;backdrop-filter:blur(8px);}
+.g-blue{background:rgba(0,118,186,0.08);border-color:rgba(0,118,186,0.2);}
+.g-red{background:var(--sence-red-light);border-color:var(--sence-red-border);}
+.g-ok{background:rgba(34,197,94,0.06);border-color:rgba(34,197,94,0.15);}
+.g-warn{background:rgba(245,158,11,0.06);border-color:rgba(245,158,11,0.18);}
+
+/* ORBS */
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:0.12;animation:fl 14s ease-in-out infinite;pointer-events:none;}
+.o1{width:350px;height:350px;background:var(--sence-blue);top:-80px;right:-80px;}
+.o2{width:280px;height:280px;background:var(--sence-red);bottom:-60px;left:-60px;animation-delay:-5s;}
+@keyframes fl{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(25px,-25px) scale(1.08);}66%{transform:translate(-15px,15px) scale(0.92);}}
+
+/* TAG */
+.tag{display:inline-block;font-family:'JetBrains Mono';font-size:0.36em;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--sence-blue);border:1px solid rgba(0,118,186,0.3);padding:3px 10px;border-radius:4px;margin-bottom:8px;}
+
+/* GLOW */
+.glow{height:2px;background:linear-gradient(90deg,transparent,var(--sence-blue),var(--sence-red),transparent);margin:12px 0;}
+
+/* GRADIENT TEXT */
+.gr-b{background:linear-gradient(135deg,var(--sence-blue),#00b4d8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.gr-r{background:linear-gradient(135deg,var(--sence-red),#e74c3c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.gr-g{background:linear-gradient(135deg,var(--success),#059669);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* STAT */
+.stat{font-family:'JetBrains Mono';font-weight:700;line-height:1;}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;}
+
+/* BAR */
+.bar-bg{background:rgba(255,255,255,0.06);border-radius:5px;height:18px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:5px;}
+
+/* STEP */
+.step-n{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--sence-blue),var(--sence-mid));color:white;font-family:'JetBrains Mono';font-weight:700;font-size:1em;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;}
+
+/* FOOTER */
+.ft{position:absolute;bottom:6px;left:48px;right:48px;display:flex;justify-content:space-between;font-size:0.3em;color:rgba(255,255,255,0.15);font-family:'JetBrains Mono';letter-spacing:1px;}
+
+/* CHECK */
+.ci{display:flex;gap:10px;align-items:flex-start;margin-bottom:5px;}
+
+/* ARROW FLOW */
+.arrow{display:flex;align-items:center;justify-content:center;padding-top:16px;}
+
+/* PILL */
+.pill{display:inline-block;font-size:0.4em;font-weight:600;padding:3px 10px;border-radius:16px;background:rgba(0,118,186,0.15);color:var(--sence-blue);letter-spacing:1px;}
+
+/* CC */
+.cc-sep{width:24px;height:2px;margin:6px auto;}
+
+/* EJE CARDS */
+.eje-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px;}
+.eje-card{
+  position:relative;padding:18px 16px 14px 70px;border-radius:12px;overflow:hidden;
+  background:linear-gradient(135deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.06);
+  transition:transform 0.3s,box-shadow 0.3s;
+}
+.eje-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;}
+.eje-card.blue::before{background:linear-gradient(180deg,var(--sence-blue),var(--sence-mid));}
+.eje-card.red::before{background:linear-gradient(180deg,var(--sence-red),#d44);}
+.eje-card.green::before{background:linear-gradient(180deg,var(--success),#059669);}
+.eje-card.amber::before{background:linear-gradient(180deg,var(--warning),#d97706);}
+.eje-badge{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+}
+.eje-badge.blue{background:linear-gradient(135deg,var(--sence-blue),var(--sence-mid));box-shadow:0 4px 20px rgba(0,118,186,0.35);}
+.eje-badge.red{background:linear-gradient(135deg,var(--sence-red),#c44);box-shadow:0 4px 20px rgba(173,42,39,0.35);}
+.eje-badge.green{background:linear-gradient(135deg,var(--success),#059669);box-shadow:0 4px 20px rgba(34,197,94,0.35);}
+.eje-badge.amber{background:linear-gradient(135deg,var(--warning),#d97706);box-shadow:0 4px 20px rgba(245,158,11,0.35);}
+.eje-num{font-family:'JetBrains Mono';font-size:0.38em;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;}
+.eje-title{font-size:1.05em;font-weight:800;color:var(--white);margin-bottom:3px;}
+.eje-desc{font-size:0.5em;color:var(--light-gray);line-height:1.4;}
+
+/* Pulse ring */
+@keyframes pulse-ring{0%{transform:scale(1);opacity:0.4;}100%{transform:scale(1.8);opacity:0;}}
+.pulse-ring{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  width:44px;height:44px;border-radius:12px;
+  animation:pulse-ring 2.5s ease-out infinite;
+}
+.pulse-ring.blue{border:2px solid var(--sence-blue);}
+.pulse-ring.red{border:2px solid var(--sence-red);}
+.pulse-ring.green{border:2px solid var(--success);}
+.pulse-ring.amber{border:2px solid var(--warning);}
+
+@keyframes pulse-border{0%,100%{box-shadow:0 0 0 0 rgba(173,42,39,0.4);}50%{box-shadow:0 0 0 8px rgba(173,42,39,0);}}
+
+/* Animated counter */
+@keyframes countPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.04);}}
+.count-pulse{animation:countPulse 3s ease-in-out infinite;}
+
+/* DONUT CHART helper */
+.donut-track{fill:none;stroke:rgba(255,255,255,0.06);stroke-width:14;}
+.donut-seg{fill:none;stroke-width:14;stroke-linecap:round;transition:stroke-dasharray 1s ease;}
+
+/* FLOW CONNECTOR */
+.flow-arrow{color:var(--sence-blue);font-family:'JetBrains Mono';font-weight:700;font-size:1.4em;display:flex;align-items:center;justify-content:center;}
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============ SLIDE 1: PORTADA ============ -->
+<section data-transition="slide">
+  <div style="position:relative;text-align:center;">
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    <div class="tag">Comisión de Trabajo y Hacienda · Congreso Nacional</div>
+    <div style="margin-bottom:8px;">
+      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#0076BA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/><path d="M10 9h4"/><path d="M10 13h4"/></svg>
+    </div>
+    <h1 style="font-size:2.6em;margin:0;">FRANQUICIA SENCE</h1>
+    <h2 style="font-size:1.3em;font-weight:700;margin-top:2px;"><span style="color:var(--sence-blue);">Mejorar,</span> <span style="color:var(--sence-red);">no eliminar</span></h2>
+    <div class="glow" style="width:200px;margin:12px auto;"></div>
+    <p style="color:var(--off-white);font-size:0.5em;font-weight:500;margin-bottom:14px;">Propuestas para la Reconstrucción del Sistema de Capacitación</p>
+    <div style="margin-top:16px;">
+      <div style="font-size:0.68em;font-weight:600;color:var(--white);">Michel Faure Bastías</div>
+      <div style="font-size:0.48em;color:var(--mid-gray);margin-bottom:14px;">Presidente</div>
+      <p style="color:var(--mid-gray);font-size:0.42em;letter-spacing:3px;text-transform:uppercase;">PYMEs · Gremios · OTICs · OTECs · Certificadoras</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 2: LOS 2 HEMISFERIOS ============ -->
+<section data-transition="slide">
+  <div class="tag">Contexto clave</div>
+  <h2>Los 2 hemisferios de SENCE</h2>
+  <div class="g2" style="margin-top:12px;">
+    <div class="g g-blue fragment fade-right" style="padding:18px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--sence-blue)" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/></svg>
+        <h3 style="color:var(--sence-blue);font-size:0.95em;">FONCAP — INSERCIÓN LABORAL</h3>
+      </div>
+      <p style="color:var(--white);font-weight:600;font-size:0.62em;line-height:1.6;">Personas cesantes que buscan capacitarse para conseguir empleo.</p>
+      <p style="font-size:0.55em;margin-top:6px;">→ Programas de reinserción y formación</p>
+      <p style="font-size:0.55em;">→ Cursos largos para formar un oficio</p>
+      <p style="font-size:0.55em;">→ Personas que buscan trabajo</p>
+    </div>
+    <div class="g g-red fragment fade-left" style="padding:18px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--sence-red)" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a4 4 0 0 0-8 0v2"/></svg>
+        <h3 style="color:var(--sence-red);font-size:0.95em;">FRANQUICIA — MANTENER EL TRABAJO</h3>
+      </div>
+      <p style="color:var(--white);font-weight:600;font-size:0.62em;line-height:1.6;">Para QUIENES YA TRABAJAN. Actualización y movilidad laboral.</p>
+      <p style="font-size:0.55em;margin-top:6px;">→ Actualizar competencias y productividad</p>
+      <p style="font-size:0.55em;">→ Mantener empleabilidad frente al cambio tecnológico</p>
+      <p style="font-size:0.55em;">→ Unidades de aprendizaje cortas y pertinentes</p>
+    </div>
+  </div>
+  <div class="glow" style="margin:14px 0 10px;"></div>
+  <div class="fragment fade-up" style="text-align:center;">
+    <h3 style="color:var(--white);font-size:0.95em;font-weight:800;">NO ES UN SUBSIDIO DE CESANTÍA. <span style="color:var(--sence-blue);">ES INVERSIÓN EN CAPITAL HUMANO.</span></h3>
+  </div>
+  <div class="ft"><span>Michel Faure Bastías · Comisión de Trabajo</span><span>02</span></div>
+</section>
+
+<!-- ============ SLIDE 3: MITOS VS REALIDAD ============ -->
+<section data-transition="slide">
+  <div class="tag">Desmitificación directa</div>
+  <h2>Mitos vs. Realidad</h2>
+  <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+    <!-- MITO 1 -->
+    <div class="fragment fade-up" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="g g-red" style="padding:10px 12px;display:flex;align-items:flex-start;gap:10px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--sence-red)" stroke-width="2.5" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        <div><h3 style="color:var(--sence-red);font-size:0.7em;">MITO</h3><p style="font-size:0.52em;">¿Solo la usa la gran empresa para ahorrar impuestos?</p></div>
+      </div>
+      <div class="g g-blue" style="padding:10px 12px;display:flex;align-items:flex-start;gap:10px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--sence-blue)" stroke-width="2.5" style="flex-shrink:0;margin-top:1px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <div><h3 style="color:var(--sence-blue);font-size:0.7em;">REALIDAD</h3><p style="font-size:0.52em;"><span style="color:var(--sence-red);font-weight:800;">Falso.</span> El <strong style="color:var(--white);">76%</strong> de la inversión va a trabajadores no calificados y mandos medios.</p></div>
+      </div>
+    </div>
+    <!-- MITO 2 -->
+    <div class="fragment fade-up" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="g g-red" style="padding:10px 12px;display:flex;align-items:flex-start;gap:10px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--sence-red)" stroke-width="2.5" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        <div><h3 style="color:var(--sence-red);font-size:0.7em;">MITO</h3><p style="font-size:0.52em;">¿No genera nueva empleabilidad?</p></div>
+      </div>
+      <div class="g g-blue" style="padding:10px 12px;display:flex;align-items:flex-start;gap:10px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--sence-blue)" stroke-width="2.5" style="flex-shrink:0;margin-top:1px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <div><h3 style="color:var(--sence-blue);font-size:0.7em;">REALIDAD</h3><p style="font-size:0.52em;"><span style="color:var(--sence-red);font-weight:800;">Falso enfoque.</span> Su objetivo es <strong style="color:var(--white);">mantener el empleo</strong> de quienes ya trabajan.</p></div>
+      </div>
+    </div>
+    <!-- MITO 3 -->
+    <div class="fragment fade-up" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="g g-red" style="padding:10px 12px;display:flex;align-items:flex-start;gap:10px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--sence-red)" stroke-width="2.5" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        <div><h3 style="color:var(--sence-red);font-size:0.7em;">MITO</h3><p style="font-size:0.52em;">¿No incrementa los salarios inmediatos?</p></div>
+      </div>
+      <div class="g g-blue" style="padding:10px 12px;display:flex;align-items:flex-start;gap:10px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--sence-blue)" stroke-width="2.5" style="flex-shrink:0;margin-top:1px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <div><h3 style="color:var(--sence-blue);font-size:0.7em;">REALIDAD</h3><p style="font-size:0.52em;"><span style="color:var(--sence-red);font-weight:800;">Visión incompleta.</span> Aumenta productividad: <strong style="color:var(--white);">23,74% menos accidentes</strong> laborales.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="ft"><span>Michel Faure Bastías · Comisión de Trabajo</span><span>03</span></div>
+</section>
+
+<!-- ============ SLIDE 4: EVIDENCIA — +60% ============ -->
+<section data-transition="slide">
+  <div style="position:relative;">
+    <div class="orb o1"></div>
+    <div class="tag">Cifras del propio Estado</div>
+    <h2>+60% Hacia la Formalidad</h2>
+    <div class="g2" style="margin-top:12px;">
+      <div class="g g-blue fragment fade-up" style="text-align:center;padding:18px 14px;">
+        <!-- Animated bar graphic -->
+        <svg width="160" height="100" viewBox="0 0 160 100" style="display:block;margin:0 auto 8px;">
+          <rect x="10" y="70" width="30" height="25" rx="3" fill="rgba(255,255,255,0.08)"/>
+          <rect x="50" y="45" width="30" height="50" rx="3" fill="rgba(0,118,186,0.2)"/>
+          <rect x="90" y="15" width="30" height="80" rx="3" fill="var(--sence-blue)"/>
+          <text x="25" y="65" text-anchor="middle" fill="var(--light-gray)" font-family="JetBrains Mono" font-size="8">Antes</text>
+          <text x="65" y="40" text-anchor="middle" fill="var(--sence-blue)" font-family="JetBrains Mono" font-size="8">Durante</text>
+          <text x="105" y="10" text-anchor="middle" fill="var(--white)" font-family="JetBrains Mono" font-size="8" font-weight="700">+60%</text>
+          <path d="M30 68 L55 48" stroke="var(--sence-blue)" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
+          <path d="M70 43 L95 18" stroke="var(--sence-blue)" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
+        </svg>
+        <div class="stat" style="font-size:3em;color:var(--sence-blue);">+60%</div>
+        <div class="cc-sep" style="background:var(--sence-blue);"></div>
+        <p style="font-size:0.52em;margin-top:4px;">Aumento en probabilidad<br>de <strong style="color:var(--white);">cotizar formalmente</strong></p>
+      </div>
+      <div class="g g-red fragment fade-up" style="text-align:center;padding:18px 14px;">
+        <!-- Animated income graphic -->
+        <svg width="160" height="100" viewBox="0 0 160 100" style="display:block;margin:0 auto 8px;">
+          <rect x="10" y="55" width="30" height="40" rx="3" fill="rgba(255,255,255,0.08)"/>
+          <rect x="50" y="35" width="30" height="60" rx="3" fill="rgba(173,42,39,0.2)"/>
+          <rect x="90" y="10" width="30" height="85" rx="3" fill="var(--sence-red)"/>
+          <text x="25" y="50" text-anchor="middle" fill="var(--light-gray)" font-family="JetBrains Mono" font-size="8">Base</text>
+          <text x="65" y="30" text-anchor="middle" fill="var(--sence-red)" font-family="JetBrains Mono" font-size="8">6 meses</text>
+          <text x="105" y="6" text-anchor="middle" fill="var(--white)" font-family="JetBrains Mono" font-size="8" font-weight="700">+40%</text>
+          <path d="M12 2 L12 10 M8 6 L12 2 L16 6" stroke="var(--sence-red)" stroke-width="1.5" fill="none" transform="translate(115,14)"/>
+        </svg>
+        <div class="stat" style="font-size:3em;color:var(--sence-red);">+40%</div>
+        <div class="cc-sep" style="background:var(--sence-red);"></div>
+        <p style="font-size:0.52em;margin-top:4px;">Aumento en ingresos laborales<br>formales a <strong style="color:var(--white);">12 meses</strong> de egreso</p>
+      </div>
+    </div>
+    <div class="g g-blue fragment fade-up" style="text-align:center;padding:8px;margin-top:10px;">
+      <p style="font-size:0.55em;color:var(--white);font-weight:500;">Capacitar a un trabajador vulnerable aumenta en casi un <strong style="color:var(--sence-blue);">60%</strong> sus posibilidades de tener un trabajo con contrato legal.</p>
+    </div>
+  </div>
+  <div class="ft"><span>Michel Faure Bastías · Comisión de Trabajo</span><span>04</span></div>
+</section>
+
+<!-- ============ SLIDE 5: RADIOGRAFÍA REAL ============ -->
+<section data-transition="slide">
+  <div style="position:relative;">
+    <div class="orb o1"></div>
+    <div class="tag">Impacto humano</div>
+    <h2>¿A quiénes estamos capacitando?</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr 220px;gap:14px;margin-top:12px;align-items:center;">
+      <div class="fragment fade-up" style="text-align:center;">
+        <div class="stat gr-r" style="font-size:3em;">1.055.387</div>
+        <p style="font-size:0.55em;margin-top:4px;">participantes al año</p>
+      </div>
+      <div class="fragment fade-up" style="text-align:center;">
+        <div class="stat gr-r" style="font-size:4.2em;">90%</div>
+        <p style="font-size:0.5em;margin-top:4px;">del tramo de mayor<br>vulnerabilidad (RSH)</p>
+      </div>
+      <!-- DONUT CHART -->
+      <div class="fragment fade-up" style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <svg width="110" height="110" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="46" class="donut-track"/>
+          <!-- 66% sin ed. superior -->
+          <circle cx="60" cy="60" r="46" class="donut-seg" stroke="var(--sence-red)" stroke-dasharray="191.1 97.9" stroke-dashoffset="72.3"/>
+          <!-- 14% ed. técnica -->
+          <circle cx="60" cy="60" r="46" class="donut-seg" stroke="var(--sence-blue)" stroke-dasharray="40.5 248.5" stroke-dashoffset="-118.8"/>
+          <!-- 20% ed. superior -->
+          <circle cx="60" cy="60" r="46" class="donut-seg" stroke="var(--mid-gray)" stroke-dasharray="57.9 231.1" stroke-dashoffset="-159.3"/>
+          <text x="60" y="56" text-anchor="middle" fill="var(--sence-red)" font-family="JetBrains Mono" font-size="18" font-weight="800">66%</text>
+          <text x="60" y="70" text-anchor="middle" fill="var(--light-gray)" font-family="Outfit" font-size="7">sin Ed. Superior</text>
+        </svg>
+        <div style="font-size:0.38em;">
+          <div style="display:flex;align-items:center;gap:4px;margin-bottom:2px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--sence-red);display:inline-block;"></span><span style="color:var(--light-gray);">Sin Ed. Superior: <strong style="color:var(--white);">66%</strong></span></div>
+          <div style="display:flex;align-items:center;gap:4px;margin-bottom:2px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--sence-blue);display:inline-block;"></span><span style="color:var(--light-gray);">Técnica: <strong style="color:var(--white);">14%</strong></span></div>
+          <div style="display:flex;align-items:center;gap:4px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--mid-gray);display:inline-block;"></span><span style="color:var(--light-gray);">Superior: <strong style="color:var(--white);">20%</strong></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="glow" style="margin:8px 0;"></div>
+    <div class="fragment fade-up" style="text-align:center;">
+      <div class="stat" style="font-size:2.2em;color:var(--sence-red);">80%</div>
+      <p style="font-size:0.55em;">percibe rentas menores a <strong style="color:var(--white);">$1.7 Millones</strong></p>
+    </div>
+  </div>
+  <div class="ft"><span>Michel Faure Bastías · Comisión de Trabajo</span><span>05</span></div>
+</section>
+
+<!-- ============ SLIDE 6: ECOSISTEMA NACIONAL ============ -->
+<section data-transition="slide">
+  <div class="tag">Escala y cobertura</div>
+  <h2>El Ecosistema Nacional</h2>
+  <div class="g3" style="margin-top:14px;">
+    <div class="g g-blue fragment fade-up" style="text-align:center;padding:18px 10px;">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--sence-blue)" stroke-width="1.8" style="display:block;margin:0 auto 8px;"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+      <div class="stat" style="font-size:2.4em;color:var(--sence-blue);">9.306</div>
+      <div class="cc-sep" style="background:var(--sence-blue);"></div>
+      <p style="font-size:0.48em;margin-top:4px;">Empresas participantes<br>activamente</p>
+    </div>
+    <div class="g g-blue fragment fade-up" style="text-align:center;padding:18px 10px;">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--sence-blue)" stroke-width="1.8" style="display:block;margin:0 auto 8px;"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      <div class="stat" style="font-size:2.4em;color:var(--sence-blue);">16</div>
+      <div class="cc-sep" style="background:var(--sence-blue);"></div>
+      <p style="font-size:0.48em;margin-top:4px;">Regiones con cobertura<br>Arica a Magallanes</p>
+    </div>
+    <div class="g g-blue fragment fade-up" style="text-align:center;padding:18px 10px;">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--sence-blue)" stroke-width="1.8" style="display:block;margin:0 auto 8px;"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      <div class="stat" style="font-size:2.4em;color:var(--sence-blue);">1.713</div>
+      <div class="cc-sep" style="background:var(--sence-blue);"></div>
+      <p style="font-size:0.48em;margin-top:4px;">OTECs activas<br>en todo el país</p>
+    </div>
+  </div>
+  <div class="g g-red fragment fade-up" style="text-align:center;padding:10px;margin-top:12px;">
+    <h3 style="color:var(--white);font-size:0.75em;">Destruir esta red descentralizada dejaría un <span style="color:var(--sence-red);">vacío imposible de reemplazar</span></h3>
+  </div>
+  <div class="ft"><span>Michel Faure Bastías · Comisión de Trabajo</span><span>06</span></div>
+</section>
+
+<!-- ============ SLIDE 7: COSTO REAL DE ELIMINAR ============ -->
+<section data-transition="slide">
+  <div style="position:relative;">
+    <div class="orb" style="width:400px;height:400px;background:var(--sence-red);top:-100px;right:-100px;filter:blur(100px);opacity:0.1;position:absolute;"></div>
+    <div class="tag" style="color:var(--sence-red);border-color:var(--sence-red-border);">⚠ Lo que el informe financiero oculta</div>
+    <h2>El Costo Real de Eliminar</h2>
+    <div class="g2" style="margin-top:8px;">
+      <div class="g g-red fragment fade-up" style="text-align:center;padding:12px 10px;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--sence-red)" stroke-width="2" style="display:block;margin:0 auto 4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="18" y1="8" x2="23" y2="13"/><line x1="23" y1="8" x2="18" y2="13"/></svg>
+        <div class="stat" style="font-size:2em;color:var(--sence-red);">1.000.000</div>
+        <p style="font-size:0.48em;">trabajadores sin formación<br><strong style="color:var(--sence-red);">Efecto cicatriz irreversible</strong></p>
+      </div>
+      <div class="g" style="text-align:center;padding:12px 10px;background:rgba(173,42,39,0.2);border:2px solid var(--sence-red);animation:pulse-border 2s ease-in-out infinite;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--sence-red)" stroke-width="2" style="display:block;margin:0 auto 4px;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <div class="stat" style="font-size:2em;color:var(--sence-red);">30.000</div>
+        <p style="font-size:0.48em;">empleos destruidos =<br><strong style="color:var(--sence-red);">más gasto estatal</strong></p>
+      </div>
+    </div>
+    <!-- COSTOS DETALLADOS -->
+    <div class="g3 fragment fade-up" style="margin-top:8px;">
+      <div class="g g-red" style="text-align:center;padding:8px;">
+        <div class="stat" style="font-size:1.4em;color:var(--sence-red);">$36.000M</div>
+        <p style="font-size:0.4em;">extras en subsidios<br>de cesantía</p>
+      </div>
+      <div class="g g-red" style="text-align:center;padding:8px;">
+        <div class="stat" style="font-size:1.4em;color:var(--sence-red);">$18.000M</div>
+        <p style="font-size:0.4em;">cancelación de<br>arriendos y sedes</p>
+      </div>
+      <div class="g g-red" style="text-align:center;padding:8px;">
+        <div class="stat" style="font-size:1.4em;color:var(--sence-red);">$12.000M</div>
+        <p style="font-size:0.4em;">proveedores y<br>relatores freelance</p>
+      </div>
+    </div>
+    <div class="g fragment fade-up" style="text-align:center;padding:8px;margin-top:8px;border:1px solid var(--sence-red-border);">
+      <p style="font-size:0.55em;color:var(--white);font-weight:500;">Hacienda omite <span class="stat" style="color:var(--sence-red);font-size:1.3em;">$198.000M</span> en costos colaterales. El ahorro fiscal real es apenas <span class="stat" style="color:var(--sence-red);font-size:1.3em;">0,025%</span> del PIB.</p>
+    </div>
+  </div>
+  <div class="ft"><span>Michel Faure Bastías · Comisión de Trabajo</span><span>07</span></div>
+</section>
+
+<!-- ============ SLIDE 8: DIAGNÓSTICO HONESTO ============ -->
+<section data-transition="slide">
+  <div class="tag" style="color:var(--warning);border-color:rgba(245,158,11,0.3);">Autocrítica</div>
+  <h2>Reconocemos las fallas</h2>
+  <p style="font-size:0.6em;color:var(--white);font-weight:600;margin-bottom:8px;">El sistema requiere cirugía, no demolición.</p>
+  <div style="display:flex;flex-direction:column;gap:7px;margin-top:6px;">
+    <div class="g g-warn fragment fade-up" style="display:flex;align-items:center;gap:12px;padding:10px 14px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" style="flex-shrink:0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div><h3 style="color:var(--warning);">Conductas Oportunistas</h3><p>Integración vertical encubierta (Empresa-OTEC). Conflictos de interés sistémicos.</p></div>
+    </div>
+    <div class="g g-warn fragment fade-up" style="display:flex;align-items:center;gap:12px;padding:10px 14px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" style="flex-shrink:0;"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      <div><h3 style="color:var(--warning);">Baja Calidad</h3><p>Sobreoferta de cursos "a distancia" masivos de nulo impacto formativo.</p></div>
+    </div>
+    <div class="g g-warn fragment fade-up" style="display:flex;align-items:center;gap:12px;padding:10px 14px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" style="flex-shrink:0;"><rect x="3" y="3" width="7" height="18" rx="1"/><rect x="14" y="3" width="7" height="10" rx="1"/><rect x="14" y="16" width="7" height="5" rx="1"/></svg>
+      <div><h3 style="color:var(--warning);">Exceso de Atomización</h3><p>52% de las OTECs atiende a menos de 100 personas al año.</p></div>
+    </div>
+    <div class="g g-warn fragment fade-up" style="display:flex;align-items:center;gap:12px;padding:10px 14px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" style="flex-shrink:0;"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <div><h3 style="color:var(--warning);">Intermediación Débil</h3><p>Las OTIC deben generar empleabilidad real, no ser un mero trámite.</p></div>
+    </div>
+  </div>
+  <div class="ft"><span>Michel Faure Bastías · Comisión de Trabajo</span><span>08</span></div>
+</section>
+
+<!-- ============ SLIDE 9: PROPUESTAS I — CALIDAD ============ -->
+<section data-transition="slide">
+  <div style="position:relative;">
+    <div class="orb o1"></div>
+    <div style="text-align:center;margin-bottom:10px;">
+      <span style="font-family:'JetBrains Mono';font-size:0.42em;letter-spacing:4px;text-transform:uppercase;color:var(--sence-blue);">Propuestas Estructurales I</span>
+    </div>
+    <h2 style="text-align:center;">Calidad de la Oferta y Control</h2>
+    <div class="eje-grid" style="margin-top:12px;">
+      <div class="eje-card blue fragment fade-right">
+        <div class="pulse-ring blue"></div>
+        <div class="eje-badge blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        </div>
+        <div class="eje-num" style="color:var(--sence-blue);">REFORMA 01</div>
+        <div class="eje-title">Fin a los Abusos</div>
+        <div class="eje-desc">Prohibición absoluta de la integración vertical (Empresa mandante – OTEC).</div>
+      </div>
+      <div class="eje-card red fragment fade-left">
+        <div class="pulse-ring red"></div>
+        <div class="eje-badge red">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <div class="eje-num" style="color:var(--sence-red);">REFORMA 02</div>
+        <div class="eje-title">Depuración de la Oferta</div>
+        <div class="eje-desc">Eliminar modalidad asincrónica masiva. Exigir OTECs sin fines de lucro para reinversión.</div>
+      </div>
+      <div class="eje-card blue fragment fade-right">
+        <div class="pulse-ring blue"></div>
+        <div class="eje-badge blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div class="eje-num" style="color:var(--sence-blue);">REFORMA 03</div>
+        <div class="eje-title">Certificación Ministerial</div>
+        <div class="eje-desc">Vincular cursos con Mineduc para entregar títulos con validez oficial.</div>
+      </div>
+      <div class="eje-card red fragment fade-left">
+        <div class="pulse-ring red"></div>
+        <div class="eje-badge red">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <div class="eje-num" style="color:var(--sence-red);">REFORMA 04</div>
+        <div class="eje-title">Fiscalización con IA</div>
+        <div class="eje-desc">Control biométrico y algoritmos en tiempo real para detectar fraudes.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ft"><span>Michel Faure Bastías · Comisión de Trabajo</span><span>09</span></div>
+</section>
+
+<!-- ============ SLIDE 10: PROPUESTAS II — PYME ============ -->
+<section data-transition="slide">
+  <div style="position:relative;">
+    <div class="orb" style="width:300px;height:300px;background:var(--success);bottom:-60px;left:-60px;filter:blur(90px);opacity:0.08;position:absolute;"></div>
+    <div style="text-align:center;margin-bottom:10px;">
+      <span style="font-family:'JetBrains Mono';font-size:0.42em;letter-spacing:4px;text-transform:uppercase;color:var(--success);">Propuestas Estructurales II</span>
+    </div>
+    <h2 style="text-align:center;">Foco PYME y Empleabilidad</h2>
+    <div class="eje-grid" style="margin-top:12px;">
+      <div class="eje-card green fragment fade-right">
+        <div class="pulse-ring green"></div>
+        <div class="eje-badge green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+        </div>
+        <div class="eje-num" style="color:var(--success);">SOLUCIÓN 01</div>
+        <div class="eje-title">Inyección Directa PYME</div>
+        <div class="eje-desc">Fondo Solidario por ley que retenga un porcentaje del aporte de grandes empresas para PYMEs.</div>
+      </div>
+      <div class="eje-card green fragment fade-left">
+        <div class="pulse-ring green"></div>
+        <div class="eje-badge green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div class="eje-num" style="color:var(--success);">SOLUCIÓN 02</div>
+        <div class="eje-title">Pertinencia Absoluta</div>
+        <div class="eje-desc">Conectar los códigos SENCE directamente con los perfiles de CHILEVALORA.</div>
+      </div>
+      <div class="eje-card green fragment fade-right">
+        <div class="pulse-ring green"></div>
+        <div class="eje-badge green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="eje-num" style="color:var(--success);">SOLUCIÓN 03</div>
+        <div class="eje-title">Transformación OTIC</div>
+        <div class="eje-desc">Obligarlas a medir impacto: reducción de rotación, clima, accidentes.</div>
+      </div>
+      <div class="eje-card green fragment fade-left">
+        <div class="pulse-ring green"></div>
+        <div class="eje-badge green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="eje-num" style="color:var(--success);">SOLUCIÓN 04</div>
+        <div class="eje-title">Remunerar por Resultados</div>
+        <div class="eje-desc">Pagar a intermediadores por colocación laboral efectiva, no por gasto administrativo.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ft"><span>Michel Faure Bastías · Comisión de Trabajo</span><span>10</span></div>
+</section>
+
+<!-- ============ SLIDE 11: SIMULACIÓN REMANENTES ============ -->
+<section data-transition="slide">
+  <div class="tag">Eficiencia fiscal</div>
+  <h2>Redistribución de Remanentes</h2>
+  <div style="text-align:center;margin-top:14px;">
+    <div class="fragment fade-up">
+      <div class="stat gr-b" style="font-size:5.5em;">20%</div>
+      <div class="glow" style="width:180px;margin:8px auto;"></div>
+      <p style="font-size:0.65em;color:var(--white);font-weight:600;">de los remanentes al Fondo Nacional Solidario</p>
+    </div>
+  </div>
+  <div class="g2 fragment fade-up" style="margin-top:16px;">
+    <div class="g g-blue" style="padding:14px;display:flex;align-items:flex-start;gap:10px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--sence-blue)" stroke-width="2" style="flex-shrink:0;"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      <div>
+        <h3 style="color:var(--sence-blue);">Obligación Solidaria</h3>
+        <p>Financiar la capacitación de cesantes (Foncap) y el Fondo PYME con dinero privado.</p>
+      </div>
+    </div>
+    <div class="g g-ok" style="padding:14px;display:flex;align-items:flex-start;gap:10px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" style="flex-shrink:0;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <div>
+        <h3 style="color:var(--success);">Ahorro Estatal Directo</h3>
+        <p>Mantiene la inversión en el trabajador, alinea incentivos y rebaja gasto fiscal.</p>
+      </div>
+    </div>
+  </div>
+  <div class="ft"><span>Michel Faure Bastías · Comisión de Trabajo</span><span>11</span></div>
+</section>
+
+<!-- ============ SLIDE 12: HOJA DE RUTA LEGISLATIVA ============ -->
+<section data-transition="slide">
+  <div class="tag">Ruta legislativa</div>
+  <h2>Petición a la Comisión</h2>
+  <div class="g4" style="margin-top:12px;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;">
+    <div class="g fragment fade-up" style="text-align:center;padding:12px;">
+      <div class="step-n" style="background:linear-gradient(135deg,var(--sence-blue),var(--sence-mid));">1</div>
+      <h3 style="color:var(--white);margin-bottom:6px;font-size:0.75em;">Votación Separada</h3>
+      <p style="font-size:0.44em;">Discutir la Ley Miscelánea de manera independiente.</p>
+    </div>
+    <div class="flow-arrow fragment fade-up">→</div>
+    <div class="g fragment fade-up" style="text-align:center;padding:12px;">
+      <div class="step-n" style="background:linear-gradient(135deg,var(--sence-red),#c0392b);">2</div>
+      <h3 style="color:var(--white);margin-bottom:6px;font-size:0.75em;">Rechazar N°26</h3>
+      <p style="font-size:0.44em;">Aprobar la idea de legislar pero <strong style="color:var(--sence-red);">RECHAZAR</strong> "Deróguese".</p>
+    </div>
+    <div class="flow-arrow fragment fade-up">→</div>
+    <div class="g fragment fade-up" style="text-align:center;padding:12px;">
+      <div class="step-n" style="background:linear-gradient(135deg,var(--sence-blue),var(--sence-mid));">3</div>
+      <h3 style="color:var(--white);margin-bottom:6px;font-size:0.75em;">"Modifíquese"</h3>
+      <p style="font-size:0.44em;">Indicación sustitutiva: de "Deróguese" a "Modifíquese".</p>
+    </div>
+    <div class="flow-arrow fragment fade-up">→</div>
+    <div class="g fragment fade-up" style="text-align:center;padding:12px;">
+      <div class="step-n" style="background:linear-gradient(135deg,var(--success),#059669);">4</div>
+      <h3 style="color:var(--white);margin-bottom:6px;font-size:0.75em;">Mesa Técnica</h3>
+      <p style="font-size:0.44em;">SENCE + Gremios + Legisladores para reforma estructural.</p>
+    </div>
+  </div>
+  <div class="g g-red fragment fade-up" style="text-align:center;padding:10px;margin-top:14px;">
+    <h3 style="color:var(--white);font-size:0.85em;">SE APROBÓ IDEA DE LEGISLAR — <span style="color:var(--sence-red);">RECHAZAR PARA MEJORAR</span></h3>
+  </div>
+  <div class="ft"><span>Michel Faure Bastías · Comisión de Trabajo</span><span>12</span></div>
+</section>
+
+<!-- ============ SLIDE 13: CIERRE ============ -->
+<section data-transition="slide" style="text-align:center;display:flex;align-items:center;justify-content:center;">
+  <div style="position:relative;width:100%;">
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--sence-blue)" stroke-width="1.5" style="display:block;margin:0 auto 14px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    <h1 style="font-size:2.6em;margin:0;">RECHAZAR<br>PARA MEJORAR</h1>
+    <div class="glow" style="width:200px;margin:14px auto;"></div>
+    <p style="font-size:0.6em;text-align:center;font-style:italic;max-width:500px;margin:0 auto;">La formación laboral es una inversión estratégica en el capital humano del país, no un gasto de caja.</p>
+    <p style="font-size:0.52em;text-align:center;color:var(--sence-red);font-weight:600;margin-top:10px;">Eliminar el sistema es un error que se pagará con cesantía.<br>Modernizarlo es el único camino responsable.</p>
+    <div style="margin-top:20px;">
+      <div style="font-size:0.68em;font-weight:600;color:var(--white);">Michel Faure Bastías</div>
+      <div style="font-size:0.48em;color:var(--mid-gray);">Presidente</div>
+    </div>
+    <p style="font-size:0.42em;margin-top:14px;color:rgba(255,255,255,0.25);">Muchas gracias</p>
+  </div>
+</section>
+
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+Reveal.initialize({
+  hash:true, transition:'slide', transitionSpeed:'default',
+  backgroundTransition:'slide', width:960, height:540, margin:0.02,
+  center:true, controls:true, controlsTutorial:true, progress:true, history:true,
+});
+</script>
+</body>
+</html>
