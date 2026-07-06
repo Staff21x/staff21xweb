@@ -1,120 +1,396 @@
+Aquí tienes el código completo de la Landing Page estructurado en un único archivo HTML listo para usar, limpio de errores y optimizado visualmente para el Programa de Partners de Resility.
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resility · Partner Program</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0d1b2e;
-    --bg2: #0f2038;
-    --bg3: #132640;
-    --accent: #7c5cbf;
-    --accent-bright: #9b7de0;
-    --accent-glow: rgba(124,92,191,0.18);
-    --teal: #4ecdc4;
-    --text: #e8f0fe;
-    --text-muted: #7a9abf;
-    --border: rgba(124,92,191,0.18);
-    --card: rgba(15,32,56,0.8);
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resility · Partner Program</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d1b2e;
+      --bg2: #0f2038;
+      --bg3: #132640;
+      --accent: #7c5cbf;
+      --accent-bright: #9b7de0;
+      --accent-glow: rgba(124,92,191,0.18);
+      --teal: #4ecdc4;
+      --text: #e8f0fe;
+      --text-muted: #7a9abf;
+      --border: rgba(124,92,191,0.18);
+      --card: rgba(15,32,56,0.8);
+    }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Barlow', sans-serif;
-    overflow-x: hidden;
-  }
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 60px;
-    background: rgba(13,27,46,0.92);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-  }
-  nav a.cta-nav {
-    background: var(--accent);
-    color: #fff;
-    font-family: 'Barlow', sans-serif;
-    font-weight: 700;
-    font-size: 0.9rem;
-    padding: 10px 28px;
-    text-decoration: none;
-    border-radius: 50px;
-    transition: background 0.2s, transform 0.2s;
-  }
-  nav a.cta-nav:hover { background: var(--accent-bright); transform: translateY(-1px); }
-  .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 140px 40px 80px;
-    overflow: hidden;
-  }
-  .hero-grid {
-    position: absolute;
-    inset: 0;
-    background-image: linear-gradient(rgba(124,92,191,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(124,92,191,0.05) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 0%, transparent 100%);
-  }
-  .badge {
-    display: inline-block;
-    font-weight: 700;
-    font-size: 0.75rem;
-    letter-spacing: 4px;
-    color: var(--accent);
-    border: 1px solid var(--accent);
-    padding: 6px 18px;
-    margin-bottom: 32px;
-  }
-  .hero h1 {
-    font-size: clamp(3rem, 8vw, 6rem);
-    font-weight: 900;
-    line-height: 1.1;
-    max-width: 800px;
-  }
-  .hero h1 em { font-style: normal; color: var(--accent); }
-  .hero p { margin-top: 24px; font-size: 1.15rem; color: var(--text-muted); max-width: 600px; line-height: 1.7; }
-  .hero-cta { margin-top: 48px; display: flex; gap: 16px; justify-content: center; }
-  .btn-primary { background: var(--accent); color: #fff; font-weight: 700; padding: 16px 40px; text-decoration: none; border-radius: 50px; transition: all 0.2s; }
-  .btn-primary:hover { background: var(--accent-bright); transform: translateY(-2px); }
-</style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* Navegación */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 60px;
+      background: rgba(13,27,46,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .brand { font-weight: 900; font-size: 1.5rem; color: #fff; text-decoration: none; }
+    nav a.cta-nav {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 10px 28px;
+      text-decoration: none;
+      border-radius: 50px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    nav a.cta-nav:hover { background: var(--accent-bright); transform: translateY(-1px); }
+
+    /* Estilos de Sección Comunes */
+    .section {
+      padding: 100px 60px;
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .section-header {
+      margin-bottom: 60px;
+      max-width: 700px;
+    }
+    .section-header h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .section-header p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 140px 40px 80px;
+      overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(124,92,191,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(124,92,191,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 0%, transparent 100%);
+    }
+    .badge {
+      display: inline-block;
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 4px;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 6px 18px;
+      margin-bottom: 32px;
+    }
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 900;
+      line-height: 1.1;
+      max-width: 900px;
+    }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero p { margin-top: 24px; font-size: 1.2rem; color: var(--text-muted); max-width: 650px; line-height: 1.7; }
+    .hero-cta { margin-top: 48px; display: flex; gap: 16px; justify-content: center; }
+    .btn-primary { background: var(--accent); color: #fff; font-weight: 700; padding: 16px 40px; text-decoration: none; border-radius: 50px; transition: all 0.2s; border: none; cursor: pointer; }
+    .btn-primary:hover { background: var(--accent-bright); transform: translateY(-2px); }
+    .btn-secondary { background: transparent; color: var(--text); font-weight: 700; padding: 16px 40px; text-decoration: none; border-radius: 50px; border: 1px solid var(--border); transition: all 0.2s; }
+    .btn-secondary:hover { background: rgba(255,255,255,0.02); border-color: var(--accent); }
+
+    /* Servicios */
+    .grid-services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .card-service {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 40px;
+      border-radius: 4px;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card-service:hover { transform: translateY(-4px); border-color: var(--accent); }
+    .service-icon { font-size: 2rem; color: var(--teal); margin-bottom: 24px; }
+    .card-service h3 { font-size: 1.6rem; font-weight: 700; margin-bottom: 16px; color: #fff; }
+    .card-service p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px; }
+    .service-features { list-style: none; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); }
+    .service-features li { font-size: 0.85rem; color: var(--text); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .service-features li::before { content: "✓"; color: var(--teal); font-weight: bold; }
+
+    /* Pilares del Programa */
+    .grid-benefits {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+    .benefit-item h3 { font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: 12px; }
+    .benefit-item p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
+    .benefit-number { font-size: 2.5rem; font-weight: 900; color: rgba(124,92,191,0.3); margin-bottom: 8px; display: block; }
+
+    /* Formulario */
+    .form-container {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 60px;
+      border-radius: 8px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 768px) {
+      .form-grid { grid-template-columns: 1fr; }
+      nav { padding: 20px; }
+      .section { padding: 80px 20px; }
+    }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group.full-width { grid-column: span 2; }
+    @media (max-width: 768px) { .form-group.full-width { grid-column: span 1; } }
+    .form-group label { font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; color: var(--text-muted); text-transform: uppercase; }
+    .form-group input, .form-group select, .form-group textarea {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      padding: 14px;
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      font-size: 1rem;
+      border-radius: 4px;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent-bright);
+    }
+  </style>
 </head>
 <body>
 
-<nav>
-  <span style="font-weight: 900; font-size: 1.5rem; color: #fff;">Resility</span>
-  <a href="#inscribirse" class="cta-nav">Inscribirse como Partner →</a>
-</nav>
+  <!-- Navegación -->
+  <nav>
+    <a href="#" class="brand">Resility</a>
+    <a href="#inscribirse" class="cta-nav">Inscribirse como Partner →</a>
+  </nav>
 
-<div class="hero">
-  <div class="hero-grid"></div>
-  <div class="badge">PROGRAMA DE CANAL · PARTNER PROGRAM</div>
-  <h1>Vende ciberseguridad.<br><em>Nosotros operamos todo.</em></h1>
-  <p>Resility CyberSOC-as-a-Service. Ingresos recurrentes mensuales para integradores, consultores y partners tecnológicos en LATAM.</p>
-  <div class="hero-cta">
-    <a href="#servicios" class="btn-primary">Ver servicios →</a>
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="hero-grid"></div>
+    <div class="badge">PROGRAMA DE CANAL · LATAM</div>
+    <h1>Vende ciberseguridad.<br><em>Nosotros operamos todo.</em></h1>
+    <p>Resility CyberSOC-as-a-Service. Genera ingresos recurrentes mensuales estables para integradores, consultores y empresas de tecnología sin los costos de operar un SOC propio.</p>
+    <div class="hero-cta">
+      <a href="#inscribirse" class="btn-primary">Postular al Programa →</a>
+      <a href="#servicios" class="btn-secondary">Ver Servicios</a>
+    </div>
   </div>
-</div>
+
+  <!-- Servicios Section -->
+  <div id="servicios" class="section">
+    <div class="section-header">
+      <h2>Portafolio de CyberSOC listo para comercializar.</h2>
+      <p>Soluciones empaquetadas de nivel corporativo que tus clientes ya necesitan. Tú pones la relación comercial; nuestro equipo de ingenieros opera la infraestructura 24/7 de forma experta.</p>
+    </div>
+
+    <div class="grid-services">
+      <!-- Servicio 1 -->
+      <div class="card-service">
+        <div>
+          <div class="service-icon">🛡️</div>
+          <h3>MDR / SIEM Avanzado</h3>
+          <p>Monitoreo continuo de eventos de seguridad (SIEM), detección proactiva de amenazas y respuesta ante incidentes (MDR) en tiempo real para nubes, servidores y endpoints.</p>
+        </div>
+        <ul class="service-features">
+          <li>Correlación de eventos asistida por IA</li>
+          <li>Notificación de alertas críticas < 15 min</li>
+          <li>Trazabilidad total de incidentes</li>
+        </ul>
+      </div>
+
+      <!-- Servicio 2 -->
+      <div class="card-service">
+        <div>
+          <div class="service-icon">💻</div>
+          <h3>EDR Gestionado</h3>
+          <p>Protección de última generación para estaciones de trabajo y servidores. Bloqueo automático de Ransomware y malware de día cero totalmente administrado por nuestro equipo.</p>
+        </div>
+        <ul class="service-features">
+          <li>Aislamiento de red ante ataques inminentes</li>
+          <li>Rollback automático de archivos cifrados</li>
+          <li>Reportabilidad mensual ejecutiva detallada</li>
+        </ul>
+      </div>
+
+      <!-- Servicio 3 -->
+      <div class="card-service">
+        <div>
+          <div class="service-icon">🎯</div>
+          <h3>Gestión de Vulnerabilidades</h3>
+          <p>Análisis periódicos automatizados sobre la superficie expuesta a internet y redes internas de tus clientes para remediar brechas de seguridad antes de que sean explotadas.</p>
+        </div>
+        <ul class="service-features">
+          <li>Escaneos automatizados mensuales continuos</li>
+          <li>Clasificación basada en criticidad y riesgo</li>
+          <li>Planes guiados de remediación técnica</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Beneficios del Programa Section -->
+  <div class="section" style="border-top: 1px solid var(--border);">
+    <div class="section-header">
+      <h2>Por qué aliarte con Resility.</h2>
+      <p>Diseñamos un modelo de negocio donde nuestro éxito depende directamente del crecimiento y la rentabilidad de tu negocio técnico o comercial.</p>
+    </div>
+
+    <div class="grid-benefits">
+      <div class="benefit-item">
+        <span class="benefit-number">01</span>
+        <h3>Ingresos Recurrentes Mensuales</h3>
+        <p>Asegura márgenes atractivos y predecibles cobrando mes a mes por la protección activa de tus clientes, incrementando el valor de tu empresa.</p>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-number">02</span>
+        <h3>Soporte Preventa Experto</h3>
+        <p>Te acompañamos en las reuniones comerciales críticas y te apoyamos en el diseño de las propuestas técnicas para asegurar el cierre de nuevos negocios.</p>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-number">03</span>
+        <h3>Cero Inversión en Infraestructura</h3>
+        <p>Evita los altos costos de implementar, licenciar y certificar un CyberSOC propio. Utiliza nuestra capacidad instalada desde el primer día bajo tu propia marca o en co-branding.</p>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-number">04</span>
+        <h3>Operación 24/7/365 Real</h3>
+        <p>Garantiza a tus clientes la tranquilidad de contar con analistas de seguridad dedicados resguardando su operación crítica mientras tú te enfocas en el core de tu negocio.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulario de Postulación Section -->
+  <div id="inscribirse" class="section" style="border-top: 1px solid var(--border);">
+    <div class="section-header" style="text-align: center; margin: 0 auto 60px;">
+      <h2>Inicia tu camino como Partner</h2>
+      <p>Completa el formulario técnico-comercial a continuación y un ejecutivo de canales se contactará contigo para habilitar tu cuenta.</p>
+    </div>
+
+    <div class="form-container">
+      <form action="#" method="POST">
+        <div class="form-grid">
+          
+          <div class="form-group">
+            <label for="nombre">Nombre Completo</label>
+            <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan Pérez">
+          </div>
+
+          <div class="form-group">
+            <label for="email">Correo Corporativo</label>
+            <input type="email" id="email" name="email" required placeholder="Ej: juan@empresa.com">
+          </div>
+
+          <div class="form-group">
+            <label for="empresa">Nombre de la Empresa</label>
+            <input type="text" id="empresa" name="empresa" required placeholder="Ej: TecnoSoluciones LATAM">
+          </div>
+
+          <div class="form-group">
+            <label for="pais">País Base</label>
+            <select id="pais" name="pais" required>
+              <option value="" disabled selected>Selecciona tu país</option>
+              <option value="chile">Chile</option>
+              <option value="colombia">Colombia</option>
+              <option value="mexico">México</option>
+              <option value="peru">Perú</option>
+              <option value="argentina">Argentina</option>
+              <option value="otro">Otro país LATAM</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="perfil">Perfil de la Empresa</label>
+            <select id="perfil" name="perfil" required>
+              <option value="" disabled selected>Selecciona una opción</option>
+              <option value="integrador">Integrador de Tecnología / TI</option>
+              <option value="consultora">Consultora de Riesgo / Auditoría</option>
+              <option value="msp">MSP / Proveedor de Servicios Gestionados</option>
+              <option value="comercial">Agente Comercial Independiente</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="clientes">N° Clientes Potenciales</label>
+            <select id="clientes" name="clientes" required>
+              <option value="" disabled selected>Selecciona un rango</option>
+              <option value="1-5">1 a 5 empresas</option>
+              <option value="6-20">6 a 20 empresas</option>
+              <option value="21+">Más de 20 empresas</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="mensaje">Cuéntanos brevemente sobre tu negocio</label>
+            <textarea id="mensaje" name="mensaje" rows="4" placeholder="¿Qué tipo de soluciones vendes actualmente y cómo te gustaría integrar el portafolio de CyberSOC de Resility?"></textarea>
+          </div>
+
+        </div>
+
+        <div style="text-align: center;">
+          <button type="submit" class="btn-primary" style="width: 100%; max-width: 400px;">Enviar Postulación al Programa</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="padding: 40px; text-align: center; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--text-muted);">
+    <p>&copy; 2026 Resility. Todos los derechos reservados. Infraestructura CyberSOC-as-a-Service para Canales de Tecnología.</p>
+  </footer>
+
+</body>
+</html>
+
+```
