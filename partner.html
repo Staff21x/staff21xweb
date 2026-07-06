@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Nuevos Partners | Resility</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #0b0f19;       /* Azul oscuro profundo - Ciberseguridad */
+            --bg-surface: #131c2e;       /* Superficie de tarjetas y contenedores */
+            --bg-input: #0b0f19;         /* Fondo de inputs */
+            --text-main: #f8fafc;        /* Texto principal claro */
+            --text-muted: #94a3b8;       /* Texto secundario / ayuda */
+            --brand-color: #3b82f6;      /* Azul corporativo Resility */
+            --brand-success: #10b981;    /* Verde para destacar márgenes y aciertos */
+            --border-color: #24334d;     /* Bordes sutiles de alta tecnología */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 700px;
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Encabezado */
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 25px;
+        }
+
+        .header .badge {
+            display: inline-block;
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--brand-color);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Secciones del Formulario */
+        .form-section {
+            margin-bottom: 35px;
+            padding-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+
+        /* Grupos de campos */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--brand-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        /* Texto didáctico / ayuda */
+        .help-text {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+
+        /* Bloque informativo de valor (Didáctico) */
+        .info-card {
+            background-color: rgba(59, 130, 246, 0.05);
+            border: 1px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .info-card-text {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .info-card-text strong {
+            color: var(--brand-success);
+        }
+
+        /* Opciones de Selección Múltiple Estilizadas */
+        .checkbox-group {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .checkbox-group:hover {
+            background-color: rgba(59, 130, 246, 0.03);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 4px;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--brand-color);
+        }
+
+        .checkbox-label-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .checkbox-desc {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+            font-weight: 400;
+        }
+
+        /* Botón de Envío */
+        .submit-btn {
+            width: 100%;
+            background-color: var(--brand-color);
+            color: #ffffff;
+            border: none;
+            padding: 15px 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #2563eb;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Aviso de Confidencialidad */
+        .footer-note {
+            text-align: center;
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 25px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        
+        <div class="header">
+            <span class="badge">Programa de Partners v5.0</span>
+            <h1>Postulación de Canal Resility</h1>
+            <p>Suma servicios White-Label de CyberSOC, NOC y la plataforma Zentris AI a tu portafolio sin construir infraestructura propia[cite: 2, 8].</p>
+        </div>
+        
+        <form id="partnerForm" onsubmit="handleFormSubmit(event)">
+            
+            <div class="form-section">
+                <div class="section-title">1. Datos e Identificación del Partner</div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="empresa">Nombre de la Empresa</label>
+                        <input type="text" id="empresa" name="empresa" placeholder="Ej. NetSec Integradores" required>
+                        <span class="help-text">Razón social o nombre comercial de tu MSP, VAR o Consultora IT[cite: 4].</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Correo de Contacto</label>
+                        <input type="email" id="email" name="email" placeholder="canal@tuempresa.com" required>
+                        <span class="help-text">Correo oficial donde recibirás la información y el acuerdo de confidencialidad[cite: 38, 42].</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pais">País de Operación Principal</label>
+                        <select id="pais" name="pais" required>
+                            <option value="" disabled selected>Selecciona un país</option>
+                            <option value="Chile">Chile</option>
+                            <option value="España">España</option>
+                            <option value="Colombia">Colombia</option>
+                            <option value="México">México</option>
+                            <option value="Perú">Perú</option>
+                            <option value="Argentina">Argentina</option>
+                            <option value="Otro">Otro / LATAM</option>
+                        </select>
+                        <span class="help-text">Ubicación de tu base comercial principal[cite: 38, 49].</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cartera">Perfil de Cartera Actual</label>
+                        <select id="cartera" name="cartera" required>
+                            <option value="" disabled selected>Selecciona tu enfoque</option>
+                            <option value="pyme">Principalmente PYMEs y Empresas Medianas</option>
+                            <option value="enterprise">Corporativos / Grandes Empresas (Enterprise)</option>
+                            <option value="gobierno">Sector Público / Gobierno</option>
+                            <option value="mixto">Mixto (Pyme y Corporativo)</option>
+                        </select>
+                        <span class="help-text">Nos ayuda a entender las necesidades técnicas y regulatorias de tus clientes[cite: 38].</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title">2. Líneas de Servicio de Interés</div>
+                
+                <div class="info-card">
+                    <div class="info-card-text">
+                        💡 Todos los servicios seleccionados operan de manera <strong>100% marca blanca (White-Label)</strong>. Tus clientes verán tu marca, mientras Resility opera como tu brazo técnico especializado 24/7[cite: 9, 21].
+                    </div>
+                </div>
+
+                <label style="margin-bottom: 12px; font-weight: 500;">Selecciona las soluciones que deseas incorporar a tu catálogo:</label>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="srv_cybersoc" name="servicios" value="CyberSOC 24/7">
+                    <label for="srv_cybersoc" style="margin-bottom: 0; cursor: pointer;">
+                        <span class="checkbox-label-text">CyberSOC 24×7 + Zentris AI Platform</span>
+                        <span class="checkbox-desc">Monitoreo continuo de endpoints, redes y nube con correlación asistida por IA y respuesta a incidentes bajo SLA[cite: 14]. Incluye dashboards con tu marca[cite: 20].</span>
+                    </label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="srv_noc" name="servicios" value="NOC 24/7">
+                    <label for="srv_noc" style="margin-bottom: 0; cursor: pointer;">
+                        <span class="checkbox-label-text">NOC 24×7 (Gestión de Infraestructura)</span>
+                        <span class="checkbox-desc">Operación remota de redes y servidores sobre plataforma Zabbix. Monitoreo de salud, disponibilidad y rendimiento[cite: 17].</span>
+                    </label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="srv_avanzados" name="servicios" value="Servicios Profesionales">
+                    <label for="srv_avanzados" style="margin-bottom: 0; cursor: pointer;">
+                        <span class="checkbox-label-text">Servicios Gestionados y Profesionales a Demanda</span>
+                        <span class="checkbox-desc">MDR con threat hunting, Ethical Hacking (Caja Blanca/Gris/Negra), Pentesting, gestión de vulnerabilidades (RBVM) y respuesta forense[cite: 26].</span>
+                    </label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="srv_cumplimiento" name="servicios" value="Cumplimiento">
+                    <label for="srv_cumplimiento" style="margin-bottom: 0; cursor: pointer;">
+                        <span class="checkbox-label-text">Cumplimiento Normativo y Capacitación</span>
+                        <span class="checkbox-desc">Consultoría bajo Ley 21.663 (ANCI), Ley 21.719 (Datos Personales), ISO 27001, campañas controladas de Ethical Phishing y Awareness[cite: 28].</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title">3. Modelo de Negocio y Próximo Paso</div>
+                
+                <div class="info-card" style="background-color: rgba(16, 185, 129, 0.04); border-color: rgba(16, 185, 129, 0.2);">
+                    <div class="info-card-text" style="color: var(--text-main);">
+                        📈 <strong>Margen Asegurado:</strong> El programa otorga al partner un margen de utilidad de entre el <strong>15% y el 25%</strong> sobre el precio operado[cite: 9, 33]. Tú mantienes el contrato, facturas con tus condiciones y manejas la relación comercial[cite: 11, 35].
+                    </div>
+                </div>
+
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">
+                    Al enviar este formulario, el equipo de canales de Resility coordinará una <strong>reunión de presentación (60 min)</strong> para definir tu tramo de margen definitivo, habilitar tus materiales comerciales y acompañarte en tu primera operación facturada[cite: 39, 40, 44, 46].
+                </p>
+            </div>
+
+            <button type="submit" class="submit-btn">Enviar Solicitud de Partner</button>
+            
+            <div class="footer-note">
+                🔒 CONFIDENCIAL — DISTRIBUCIÓN LIMITADA A PARTNERS AUTORIZADOS — RESILITY 2026 [cite: 4, 5]
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            // Recolección de datos básica para simular el éxito
+            const empresa = document.getElementById('empresa').value;
+            const email = document.getElementById('email').value;
+            
+            alert(`¡Solicitud recibida con éxito!\n\nGracias por postular a ${empresa}. En breve enviaremos los detalles al correo: ${email} para coordinar la reunión técnica y comercial.`);
+            
+            // Aquí se conectaría la lógica con tu backend, webhook o automatización (como tu SDR/Digital Worker)
+        }
+    </script>
+</body>
+</html>
