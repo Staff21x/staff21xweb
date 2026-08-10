@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zentris AI Cyber Workforce | Autonomous Digital Workforce + Expert-in-the-Loop</title>
+    <meta name="description" content="Zentris AI Cyber Workforce: Fuerza laboral digital autónoma respaldada 24/7 por un equipo de expertos especializados en ciberseguridad enterprise.">
+    <style>
+        /* ==========================================================================
+           1. APPLE ULTRA-TECH DESIGN SYSTEM
+           ========================================================================== */
+        :root {
+            --bg-white: #ffffff;
+            --bg-offwhite: #f5f5f7;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --bg-dark-card: #000000;
+            
+            --border-light: rgba(0, 0, 0, 0.08);
+            --border-hover: rgba(0, 0, 0, 0.25);
+            
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --text-tertiary: #6e6e73;
+            
+            --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            --font-mono: "SF Mono", "Fira Code", Monaco, Consolas, monospace;
+            
+            --ease-apple: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-family: var(--font-sans);
+            background-color: var(--bg-offwhite);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            position: relative;
+            background: var(--bg-offwhite);
+            line-height: 1.4;
+            font-weight: 400;
+            letter-spacing: -0.015em;
+        }
+
+        #ambient-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .apple-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 20px;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            transition: transform 0.15s ease-out, box-shadow 0.4s var(--ease-apple), border-color 0.4s var(--ease-apple);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .apple-card::before {
+            content: '';
+            position: absolute;
+            top: var(--glare-y, 0%);
+            left: var(--glare-x, 0%);
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 3;
+        }
+
+        .apple-card:hover::before { opacity: 0.6; }
+        .apple-card:hover {
+            border-color: var(--border-hover);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+        }
+
+        .typing-effect {
+            display: inline-block;
+            border-right: 2px solid var(--text-primary);
+            white-space: pre-wrap;
+            animation: blinkCursor 0.75s step-end infinite;
+        }
+
+        @keyframes blinkCursor {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--text-primary); }
+        }
+
+        .section-tag {
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.025em;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .section-subtitle {
+            font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+            color: var(--text-secondary);
+            max-width: 620px;
+            margin: 0 auto 36px auto;
+            text-align: center;
+        }
+
+        .btn-magnetic {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            will-change: transform;
+        }
+
+        .btn-apple-black {
+            background: #000000;
+            color: #ffffff;
+            padding: 9px 20px;
+            border-radius: 980px;
+            font-weight: 500;
+            font-size: 0.82rem;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .btn-apple-black:hover {
+            background: #2d2d2d;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+        }
+
+        .btn-apple-subtle {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--text-primary);
+            padding: 9px 20px;
+            border-radius: 980px;
+            font-weight: 500;
+            font-size: 0.82rem;
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-apple-subtle:hover { background: rgba(0, 0, 0, 0.09); }
+
+        /* ==========================================================================
+           2. HEADER
+           ========================================================================== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 10px 0;
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 26px;
+            height: 26px;
+            background: #000000;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.4s var(--ease-bounce);
+        }
+
+        .logo:hover .logo-icon { transform: rotate(180deg) scale(1.1); }
+        .logo-icon svg { width: 14px; height: 14px; fill: #ffffff; }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.82rem;
+            position: relative;
+            padding: 4px 0;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 1.5px;
+            background: #000000;
+            transition: width 0.3s var(--ease-apple);
+        }
+
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* ==========================================================================
+           3. HERO SECTION
+           ========================================================================== */
+        .hero {
+            padding-top: 120px;
+            padding-bottom: 50px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 980px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            margin-bottom: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #b64400;
+        }
+
+        .hero-title {
+            font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+            font-weight: 700;
+            line-height: 1.18;
+            letter-spacing: -0.025em;
+            margin-bottom: 16px;
+            max-width: 920px;
+            margin-left: auto;
+            margin-right: auto;
+            min-height: 110px;
+        }
+
+        .hero-description {
+            font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+            color: var(--text-secondary);
+            max-width: 740px;
+            margin: 0 auto 28px auto;
+            line-height: 1.45;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 36px;
+        }
+
+        .hero-viewport {
+            width: 100%;
+            height: 420px;
+            border-radius: 20px;
+            background: #080809;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .viewport-header {
+            height: 38px;
+            background: #141416;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            z-index: 10;
+        }
+
+        .window-dots { display: flex; gap: 6px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+
+        .viewport-title {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.05em;
+        }
+
+        .viewport-body {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            position: relative;
+        }
+
+        #hero-interactive-canvas {
+            width: 100%;
+            height: 100%;
+            cursor: grab;
+        }
+
+        .viewport-sidebar {
+            background: rgba(18, 18, 20, 0.95);
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+            z-index: 5;
+        }
+
+        .side-metric {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 10px 12px;
+        }
+
+        .side-metric-label {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .side-metric-val {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .side-feed {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+            height: 140px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .feed-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            padding-bottom: 4px;
+        }
+
+        .tag-active {
+            font-size: 0.6rem;
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* ==========================================================================
+           4. METRICS & SECTIONS
+           ========================================================================== */
+        .metrics-section {
+            padding: 40px 0;
+            background: #ffffff;
+            border-y: 1px solid var(--border-light);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
+            color: var(--text-primary);
+            margin-bottom: 2px;
+            letter-spacing: -0.03em;
+        }
+
+        .metric-label {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 600;
+        }
+
+        .problem-section { padding: 80px 0; }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 32px;
+        }
+
+        .problem-card { padding: 26px; background: #ffffff; }
+
+        .problem-card .num {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .problem-card h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: -0.015em;
+        }
+
+        .problem-card p {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            line-height: 1.45;
+        }
+
+        /* ==========================================================================
+           5. EXPERT IN THE LOOP (EITL)
+           ========================================================================== */
+        .hitl-section {
+            padding: 80px 0;
+            background: #ffffff;
+            border-y: 1px solid var(--border-light);
+        }
+
+        .hitl-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .hitl-box {
+            padding: 36px;
+            background: var(--bg-offwhite);
+            border-radius: 20px;
+            border: 1px solid var(--border-light);
+        }
+
+        .hitl-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: #000000;
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+
+        /* ==========================================================================
+           6. COST MODEL & WORKFORCE DISRUPTION
+           ========================================================================== */
+        .cost-section { padding: 80px 0; background: var(--bg-offwhite); }
+
+        .cost-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .role-card {
+            padding: 16px;
+            border: 1px solid var(--border-light);
+            background: #ffffff;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .role-card:hover { transform: scale(1.02); }
+
+        .role-title { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 4px; }
+        .role-cost-monthly { font-size: 1.3rem; font-weight: 700; font-family: var(--font-mono); }
+        .role-cost-annual { font-size: 0.72rem; color: var(--text-tertiary); }
+
+        .total-cost-box {
+            margin-top: 24px;
+            padding: 30px;
+            background: #000000;
+            color: #ffffff;
+            border-radius: 18px;
+            text-align: center;
+        }
+
+        .total-cost-val {
+            font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+            font-weight: 800;
+            font-family: var(--font-mono);
+            margin: 8px 0;
+        }
+
+        .zentris-single-card {
+            display: none;
+            padding: 36px;
+            background: #000000;
+            color: #ffffff;
+            border-radius: 18px;
+            text-align: center;
+            animation: appleZoom 0.5s var(--ease-apple) forwards;
+        }
+
+        @keyframes appleZoom {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* ==========================================================================
+           7. DASHBOARD ENTERPRISE REAL-TIME WITH KASPERSKY REALTIME MAP ENGINE
+           ========================================================================== */
+        .dashboard-section { padding: 80px 0; background: #ffffff; }
+
+        .dash-frame {
+            border-radius: 20px;
+            background: #09090b;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+            color: #ffffff;
+        }
+
+        .dash-top-bar {
+            height: 42px;
+            background: #121215;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 18px;
+        }
+
+        .dash-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 10px;
+            border-radius: 980px;
+            background: rgba(39, 201, 63, 0.12);
+            border: 1px solid rgba(39, 201, 63, 0.3);
+            color: #27c93f;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            font-weight: 600;
+        }
+
+        .dash-status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #27c93f;
+            box-shadow: 0 0 8px #27c93f;
+        }
+
+        .dash-layout {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            min-height: 520px;
+        }
+
+        .dash-nav {
+            background: #0e0e11;
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .dash-nav-title {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.35);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 8px;
+            padding-left: 8px;
+            font-weight: 700;
+        }
+
+        .dash-nav-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 12px;
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .dash-nav-btn:hover, .dash-nav-btn.active {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+
+        .dash-nav-badge {
+            font-size: 0.65rem;
+            font-family: var(--font-mono);
+            background: rgba(255, 255, 255, 0.12);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .dash-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background: #09090b;
+        }
+
+        .dash-stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .dash-stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .dash-stat-hdr {
+            font-size: 0.68rem;
+            color: rgba(255, 255, 255, 0.45);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .dash-stat-num {
+            font-family: var(--font-mono);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .dash-stat-sub {
+            font-size: 0.68rem;
+            color: #27c93f;
+            margin-top: 2px;
+        }
+
+        .dash-middle-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 12px;
+        }
+
+        .dash-panel {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .dash-panel-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Canvas del Mapa de Kaspersky Realtime Style */
+        #dash-matrix-canvas {
+            width: 100%;
+            height: 280px;
+            border-radius: 8px;
+            background: #000000;
+        }
+
+        .terminal-box {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: #ffffff;
+            background: #000000;
+            padding: 14px;
+            border-radius: 10px;
+            height: 140px;
+            overflow-y: auto;
+            line-height: 1.45;
+        }
+
+        /* ==========================================================================
+           8. OODA REASONING ENGINE
+           ========================================================================== */
+        .thinking-section { padding: 80px 0; background: #ffffff; }
+
+        .ooda-viewport {
+            margin-top: 36px;
+            padding: 32px;
+            background: #000000;
+            color: #ffffff;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .ooda-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .ooda-node {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .ooda-node:hover {
+            border-color: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        /* CTA & FOOTER */
+        .cta-section { padding: 90px 0; text-align: center; background: #ffffff; }
+        .cta-box { padding: 50px 20px; background: var(--bg-offwhite); border-radius: 20px; border: 1px solid var(--border-light); }
+
+        footer { padding: 40px 0 20px 0; border-top: 1px solid var(--border-light); background: var(--bg-offwhite); }
+
+        .footer-grid { display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: 20px; margin-bottom: 28px; }
+        .footer-brand p { color: var(--text-tertiary); margin-top: 8px; font-size: 0.78rem; max-width: 220px; }
+        .footer-col h5 { font-size: 0.8rem; font-weight: 600; margin-bottom: 10px; }
+        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+        .footer-col a { color: var(--text-secondary); text-decoration: none; font-size: 0.78rem; }
+
+        .footer-bottom {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-top: 16px; border-top: 1px solid var(--border-light); color: var(--text-tertiary); font-size: 0.75rem;
+        }
+
+        @media (max-width: 992px) {
+            .hitl-grid { grid-template-columns: 1fr; }
+            .dash-layout { grid-template-columns: 1fr; }
+            .dash-nav { border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+            .dash-stats-row { grid-template-columns: repeat(2, 1fr); }
+            .dash-middle-grid { grid-template-columns: 1fr; }
+            .viewport-body { grid-template-columns: 1fr; }
+            .viewport-sidebar { display: none; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .nav-links { display: none; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .dash-stats-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CANVAS MATEMÁTICO ABSTRACTO (#ambient-canvas) -->
+    <canvas id="ambient-canvas"></canvas>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </div>
+                <span>ZENTRIS</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#hitl">Expert-in-the-Loop</a></li>
+                <li><a href="#problema">El Problema</a></li>
+                <li><a href="#costos">Escalabilidad</a></li>
+                <li><a href="#dashboard">Plataforma</a></li>
+                <li><a href="#pensamiento">Bucle OODA</a></li>
+            </ul>
+            <a href="#demo" class="btn-magnetic btn-apple-black">Solicitar Demo</a>
+        </div>
+    </header>
+
+    <!-- 1. HERO SECTION -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-badge">
+                <span>NUEVO</span> · Zentris Cyber Workforce 4.2 (Agentes + Expert-in-the-Loop)
+            </div>
+            
+            <!-- TYPING EFFECT EN TÍTULO HERO -->
+            <h1 class="hero-title" id="hero-typing-title">
+                <span class="typing-effect"></span>
+            </h1>
+            
+            <p class="hero-description">
+                El trabajo pesado y repetitivo lo ejecutan los Agentes IA. La supervisión y resolución de incidentes críticos la sostiene nuestro Equipo de Expertos Especializados (Expert-in-the-Loop).
+            </p>
+            
+            <div class="hero-actions">
+                <a href="#demo" class="btn-magnetic btn-apple-black">Desplegar Fuerza Digital</a>
+                <a href="#dashboard" class="btn-magnetic btn-apple-subtle">Explorar Dashboard</a>
+            </div>
+
+            <!-- APPLE-CARD CON TILT 3D E INTERACCIÓN -->
+            <div class="hero-viewport apple-card">
+                <div class="viewport-header">
+                    <div class="window-dots">
+                        <div class="dot dot-red"></div>
+                        <div class="dot dot-yellow"></div>
+                        <div class="dot dot-green"></div>
+                    </div>
+                    <div class="viewport-title">ZENTRIS AUTONOMOUS ENGINE — ACTIVE DEFENSE MESH v4.2</div>
+                    <div style="font-family: var(--font-mono); font-size: 0.65rem; color: #27c93f;">● ONLINE + EXPERT BACKED</div>
+                </div>
+                <div class="viewport-body">
+                    <canvas id="hero-interactive-canvas"></canvas>
+                    <div class="viewport-sidebar">
+                        <div class="side-metric">
+                            <div class="side-metric-label">Procesamiento Digital</div>
+                            <div class="side-metric-val">1,482,910 <span style="font-size:0.6rem; font-weight:normal; color:#86868b;">req/m</span></div>
+                        </div>
+                        <div class="side-metric">
+                            <div class="side-metric-label">Expert-in-the-Loop</div>
+                            <div class="side-metric-val" style="color:#27c93f;">24/7 ACTIVE</div>
+                        </div>
+                        <div class="side-metric-label" style="margin-top: 4px;">Actividad Híbrida Live</div>
+                        <div class="side-feed" id="side-feed-box">
+                            <div class="feed-item"><span class="tag-active">RECON</span> Mapeando *.empresa.com</div>
+                            <div class="feed-item"><span class="tag-active">EXPERT</span> Validación Experta aprobada</div>
+                            <div class="feed-item"><span class="tag-active">PATCH</span> Regla aplicada en Cloudflare</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. REAL-TIME METRICS -->
+    <section class="metrics-section" id="contadores">
+        <div class="container">
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value" id="cnt-events">1,482,910</div>
+                    <div class="metric-label">Eventos / min (IA)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="cnt-attacks">42,819</div>
+                    <div class="metric-label">Ataques Mitigados</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="color: #000;">100%</div>
+                    <div class="metric-label">Validación Experta Crítica</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="cnt-iocs">194,220</div>
+                    <div class="metric-label">IOCs Correlacionados</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. EXPERT-IN-THE-LOOP SECTION -->
+    <section class="hitl-section" id="hitl">
+        <div class="container">
+            <div class="hitl-grid">
+                <div>
+                    <span class="hitl-badge">ARQUITECTURA DE ALTA CONFIANZA</span>
+                    <h2 class="section-title">Agentes Digitales + Expert-in-the-Loop (EITL)</h2>
+                    <p style="color: var(--text-secondary); font-size: 1.02rem; line-height: 1.55; margin-bottom: 20px;">
+                        Eliminamos la sobrecarga operativa de las tareas mecánicas que consumen el 85% del tiempo. Los agentes procesan volúmenes masivos de datos en milisegundos, pero cuando se presenta una amenaza compleja o un evento crítico, nuestro Equipo de Expertos Especializados toma el control inmediato para respaldar la operación.
+                    </p>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px;">
+                        <li style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.92rem; color: var(--text-primary);">
+                            <span style="font-weight: 700; color: #000;">✓</span>
+                            <span><strong>Zero False Positives:</strong> Ninguna acción destructiva en producción ocurre sin la validación previa de nuestro equipo de expertos.</span>
+                        </li>
+                        <li style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.92rem; color: var(--text-primary);">
+                            <span style="font-weight: 700; color: #000;">✓</span>
+                            <span><strong>Tranquilidad Enterprise:</strong> Despliegue la velocidad del software respaldada directamente por ingenieros especializados en ciberseguridad.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="hitl-box apple-card">
+                    <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-tertiary); margin-bottom: 12px; text-transform: uppercase;">
+                        EXPERT-IN-THE-LOOP (EITL) ARCHITECTURE
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 14px;">
+                        <div style="background: #fff; padding: 14px; border-radius: 12px; border: 1px solid var(--border-light);">
+                            <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-primary);">FASE 01-03: Procesamiento Masivo IA</div>
+                            <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px;">Ingesta de logs, correlación Bayesiana y pruebas de explotación no destructivas.</div>
+                        </div>
+                        <div style="background: #000; color: #fff; padding: 14px; border-radius: 12px;">
+                            <div style="font-size: 0.82rem; font-weight: 700; color: #fff; display: flex; justify-content: space-between;">
+                                <span>FASE 04: Expert Gatekeeper Oversight</span>
+                                <span style="color: #27c93f;">ACTIVE</span>
+                            </div>
+                            <div style="font-size: 0.78rem; color: #a1a1a6; margin-top: 4px;">Un Ingeniero Especialista valida, respalda y resuelve los casos de amenaza crítica.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. THE PROBLEM -->
+    <section class="problem-section" id="problema">
+        <div class="container">
+            <div style="text-align: center;">
+                <span class="section-tag">La Realidad Operativa</span>
+                <h2 class="section-title">Mientras usted duerme...</h2>
+                <p class="section-subtitle">Su infraestructura cambia. Las amenazas evolucionan. El equipo humano colapsa por fatiga.</p>
+            </div>
+
+            <div class="problem-grid">
+                <div class="problem-card apple-card">
+                    <div class="num">01</div>
+                    <h3>Infraestructura Mutante</h3>
+                    <p>Shadow IT, despliegues continuos y multi-cloud abren vectores indetectables para revisiones estáticas.</p>
+                </div>
+                <div class="problem-card apple-card">
+                    <div class="num">02</div>
+                    <h3>Fatiga de Alertas</h3>
+                    <p>Más de 10,000 alertas diarias. El 74% queda sin revisar por falta de tiempo de los analistas.</p>
+                </div>
+                <div class="problem-card apple-card">
+                    <div class="num">03</div>
+                    <h3>Fuga de Credenciales</h3>
+                    <p>Accesos filtrados en Dark Web permiten el ingreso directo sin levantar sospechas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. COST MODEL & WORKFORCE DISRUPTION -->
+    <section class="cost-section" id="costos">
+        <div class="container">
+            <div style="text-align: center;">
+                <span class="section-tag">Eficiencia Operativa & Escalabilidad</span>
+                <h2 class="section-title">Escalar la Capacidad 10x Sin Expandir Carga Operativa</h2>
+                <p class="section-subtitle">Aumentar turnos humanos para tareas repetitivas de Nivel 1/2 es financieramente insostenible.</p>
+            </div>
+
+            <div class="cost-grid" id="roles-grid">
+                <div class="role-card"><div class="role-title">SOC Analyst L1 (x4)</div><div class="role-cost-monthly">$16,000 USD/m</div><div class="role-cost-annual">$192,000/año</div></div>
+                <div class="role-card"><div class="role-title">SOC Analyst L2 (x2)</div><div class="role-cost-monthly">$14,000 USD/m</div><div class="role-cost-annual">$168,000/año</div></div>
+                <div class="role-card"><div class="role-title">SOC Analyst L3 (Lead)</div><div class="role-cost-monthly">$10,000 USD/m</div><div class="role-cost-annual">$120,000/año</div></div>
+                <div class="role-card"><div class="role-title">Threat Hunter Sr.</div><div class="role-cost-monthly">$11,000 USD/m</div><div class="role-cost-annual">$132,000/año</div></div>
+                <div class="role-card"><div class="role-title">Ethical Hacker</div><div class="role-cost-monthly">$10,500 USD/m</div><div class="role-cost-annual">$126,000/año</div></div>
+                <div class="role-card"><div class="role-title">Vulnerability Mgr.</div><div class="role-cost-monthly">$8,500 USD/m</div><div class="role-cost-annual">$102,000/año</div></div>
+                <div class="role-card"><div class="role-title">Cloud Sec. Spec.</div><div class="role-cost-monthly">$12,000 USD/m</div><div class="role-cost-annual">$144,000/año</div></div>
+                <div class="role-card"><div class="role-title">Incident Responder</div><div class="role-cost-monthly">$11,500 USD/m</div><div class="role-cost-annual">$138,000/año</div></div>
+            </div>
+
+            <div class="total-cost-box" id="total-cost-container">
+                <p style="text-transform: uppercase; letter-spacing: 0.08em; color: #86868b; font-size: 0.78rem;">Costo Anual Consolidado de Expansión Humana Repetitiva</p>
+                <div class="total-cost-val">$1,122,000 USD</div>
+                <button id="btn-transform" class="btn-magnetic btn-apple-black" style="background:#fff; color:#000;">Transformar en Agentes Digitales + Expert-in-the-Loop</button>
+            </div>
+
+            <div class="transform-stage" id="transform-stage">
+                <div class="zentris-single-card" id="zentris-card">
+                    <div style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase; color: #86868b; margin-bottom: 6px;">Solución Unificada</div>
+                    <h3 style="font-size: 2.2rem; font-weight: 800;">Agentes Digitales + Expert-in-the-Loop</h3>
+                    <p style="font-size: 1.1rem; font-weight: 500; margin: 8px 0 16px 0; color: #e8e8ed;">Zentris Autonomous Cyber Workforce</p>
+                    <p style="color: #86868b; max-width: 580px; margin: 0 auto; font-size: 0.95rem;">
+                        Elimina la carga de trabajo repetitiva con Agentes IA y respalda los problemas complejos con nuestro equipo de expertos especializados a una fracción del costo.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. DASHBOARD ENTERPRISE REAL-TIME WITH KASPERSKY CYBER MAP STYLE -->
+    <section class="dashboard-section" id="dashboard">
+        <div class="container">
+            <div style="text-align: center;">
+                <span class="section-tag">NIVEL ENTERPRISE</span>
+                <h2 class="section-title">Zentris Autonomous Cyber Command</h2>
+                <p class="section-subtitle">Plataforma de supervisión ejecutiva y telemetría autónoma en tiempo real con monitoreo multiregión.</p>
+            </div>
+
+            <div class="dash-frame apple-card">
+                <div class="dash-top-bar">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="window-dots">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                        </div>
+                        <span style="font-family: var(--font-mono); font-size: 0.72rem; color: rgba(255,255,255,0.4);">ZENTRIS-CORE-OS // REGION: CHILE-LATAM-NODE-01</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <div class="dash-status-pill">
+                            <span class="dash-status-dot"></span>
+                            GLOBAL THREAT INTELLIGENCE STREAM
+                        </div>
+                        <span style="font-family: var(--font-mono); font-size: 0.72rem; color: rgba(255,255,255,0.4);" id="dash-clock-pro">12:30:00 UTC</span>
+                    </div>
+                </div>
+
+                <div class="dash-layout">
+                    <div class="dash-nav">
+                        <div class="dash-nav-title">Módulos Activos</div>
+                        <div class="dash-nav-btn active"><span>🛡️ Cyber Threat Map 3D</span><span class="dash-nav-badge">LIVE</span></div>
+                        <div class="dash-nav-btn"><span>🎯 Attack Surface (CTEM)</span><span class="dash-nav-badge">14 Assets</span></div>
+                        <div class="dash-nav-btn"><span>👨‍💻 Expert Overseer Gate</span><span class="dash-nav-badge">READY</span></div>
+                        <div class="dash-nav-btn"><span>🔑 Identity Sentinel</span><span class="dash-nav-badge">SSO Safe</span></div>
+                        <div class="dash-nav-btn"><span>☁️ Multi-Cloud Guard</span><span class="dash-nav-badge">AWS/Azure</span></div>
+                        <div class="dash-nav-btn"><span>🛠️ Auto-Remediation</span><span class="dash-nav-badge">240ms</span></div>
+                    </div>
+
+                    <div class="dash-content">
+                        <div class="dash-stats-row">
+                            <div class="dash-stat-card">
+                                <div class="dash-stat-hdr">Eventos / Minuto</div>
+                                <div class="dash-stat-num" id="pro-events">1,482,910</div>
+                                <div class="dash-stat-sub">↑ Ingesta Activa Chile</div>
+                            </div>
+                            <div class="dash-stat-card">
+                                <div class="dash-stat-hdr">Correlación MITRE</div>
+                                <div class="dash-stat-num" style="color: #ffffff;">99.4%</div>
+                                <div class="dash-stat-sub">Tácticas Analizadas</div>
+                            </div>
+                            <div class="dash-stat-card">
+                                <div class="dash-stat-hdr">MTTR Promedio</div>
+                                <div class="dash-stat-num" style="color: #27c93f;">240 ms</div>
+                                <div class="dash-stat-sub">Respuesta Autónomas</div>
+                            </div>
+                            <div class="dash-stat-card">
+                                <div class="dash-stat-hdr">Validación Experta</div>
+                                <div class="dash-stat-num" style="color: #ffffff;">100%</div>
+                                <div class="dash-stat-sub">Casos Críticos Resueltos</div>
+                            </div>
+                        </div>
+
+                        <!-- Panel del Globo Terráqueo 3D Dinámico Estilo Kaspersky Map Engine -->
+                        <div class="dash-middle-grid">
+                            <div class="dash-panel">
+                                <div class="dash-panel-title">
+                                    <span>Mapa 3D de Ciberamenazas en Tiempo Real (Nodo Chile / Latam)</span>
+                                    <span style="font-family: var(--font-mono); font-size: 0.65rem; color: #27c93f;">● LIVE VECTOR STREAM</span>
+                                </div>
+                                <canvas id="dash-matrix-canvas"></canvas>
+                            </div>
+
+                            <div class="dash-panel">
+                                <div class="dash-panel-title">Nodos Monitoreados Chile</div>
+                                <div style="display:flex; flex-direction:column; gap:8px;">
+                                    <div style="display:flex; justify-content:space-between; padding:8px 10px; background:rgba(255,255,255,0.02); border-radius:8px; font-size:0.75rem;">
+                                        <span>Santiago Central (SCL-01)</span>
+                                        <span style="font-family:var(--font-mono); color:#27c93f;">ONLINE</span>
+                                    </div>
+                                    <div style="display:flex; justify-content:space-between; padding:8px 10px; background:rgba(255,255,255,0.02); border-radius:8px; font-size:0.75rem;">
+                                        <span>Valparaíso Hub</span>
+                                        <span style="font-family:var(--font-mono); color:#27c93f;">ONLINE</span>
+                                    </div>
+                                    <div style="display:flex; justify-content:space-between; padding:8px 10px; background:rgba(255,255,255,0.02); border-radius:8px; font-size:0.75rem;">
+                                        <span>Concepción Industrial</span>
+                                        <span style="font-family:var(--font-mono); color:#27c93f;">ONLINE</span>
+                                    </div>
+                                    <div style="display:flex; justify-content:space-between; padding:8px 10px; background:rgba(255,255,255,0.02); border-radius:8px; font-size:0.75rem;">
+                                        <span>Antofagasta Gateway</span>
+                                        <span style="font-family:var(--font-mono); color:#ff5f56;">ALERT MITIGATED</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dash-panel" style="padding: 12px;">
+                            <div class="dash-panel-title" style="margin-bottom: 8px;">Consola de Ejecución en Vivo (Engine Stream Log Chile)</div>
+                            <div class="terminal-box" id="terminal-output">
+                                [12:30:01] [AGENT-RECON] Escaneando subdominios expuestos en *.empresa.cl...<br>
+                                [12:30:02] [AGENT-THREAT-INTEL] Correlacionando hashes SHA256 con inteligencia global...<br>
+                                [12:30:03] [AGENT-EXPLOIT] Simulando prueba RCE no destructiva en nodo SCL-01...<br>
+                                [12:30:04] [ALERT] Explotabilidad confirmada: CVE-2026-3819 (Spring Core RCE).<br>
+                                [12:30:05] [EXPERT-OVERSEER] Aprobación y supervisión experta activada para producción.<br>
+                                [12:30:05] [AGENT-REMEDIATION] Desplegando regla de mitigación en WAF Cloudflare... [SUCCESS]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. OODA REASONING ENGINE -->
+    <section class="thinking-section" id="pensamiento">
+        <div class="container">
+            <div style="text-align: center;">
+                <span class="section-tag" style="letter-spacing: 0.12em; color: var(--text-secondary); font-weight: 700;">ARQUITECTURA COGNITIVA</span>
+                <h2 class="section-title">Autonomous OODA Reasoning Engine + EITL Gate</h2>
+                <p class="section-subtitle">
+                    A diferencia de los scripts lineales, Zentris opera mediante un bucle cibernético continuo de inferencia Bayesiana, evaluación de vectores en grafos y validación de nuestro equipo de expertos.
+                </p>
+            </div>
+
+            <div class="ooda-viewport apple-card">
+                <div class="ooda-grid">
+                    <div class="ooda-node">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: #86868b;">PHASE 01 // 12ms</span>
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background: #ffffff;"></span>
+                        </div>
+                        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; color: #fff;">Telemetry Ingestion</h3>
+                        <p style="font-size: 0.8rem; color: #a1a1a6; line-height: 1.4; margin-bottom: 12px;">
+                            Mapeo en tiempo real de la superficie de ataque mediante grafos dinámicos e ingesta continua de logs, DNS y Dark Web.
+                        </p>
+                        <div style="font-family: var(--font-mono); font-size: 0.68rem; color: rgba(255,255,255,0.4); border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px;">
+                            Tech: Graph Neural Mesh & OSINT
+                        </div>
+                    </div>
+
+                    <div class="ooda-node">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: #86868b;">PHASE 02 // 45ms</span>
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background: #ffffff;"></span>
+                        </div>
+                        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; color: #fff;">Bayesian Correlation</h3>
+                        <p style="font-size: 0.8rem; color: #a1a1a6; line-height: 1.4; margin-bottom: 12px;">
+                            Cruce multidominio (SIEM + EDR + Identity). Reconstrucción de la cadena de ataque en MITRE ATT&CK.
+                        </p>
+                        <div style="font-family: var(--font-mono); font-size: 0.68rem; color: rgba(255,255,255,0.4); border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px;">
+                            Tech: MITRE Alignment Engine
+                        </div>
+                    </div>
+
+                    <div class="ooda-node">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: #ff5f56;">PHASE 03 // 80ms</span>
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background: #ff5f56;"></span>
+                        </div>
+                        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; color: #fff;">Safe Exploitation</h3>
+                        <p style="font-size: 0.8rem; color: #a1a1a6; line-height: 1.4; margin-bottom: 12px;">
+                            Simulaciones no destructivas en sandboxes aisladas para confirmar explotabilidad real y descartar falsos positivos.
+                        </p>
+                        <div style="font-family: var(--font-mono); font-size: 0.68rem; color: rgba(255,255,255,0.4); border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px;">
+                            Tech: Non-Destructive Pentest
+                        </div>
+                    </div>
+
+                    <div class="ooda-node">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: #27c93f;">PHASE 04 // 240ms</span>
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background: #27c93f;"></span>
+                        </div>
+                        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; color: #fff;">Expert-Backed Remediation</h3>
+                        <p style="font-size: 0.8rem; color: #a1a1a6; line-height: 1.4; margin-bottom: 12px;">
+                            Contención inmediata respaldada por nuestro equipo de expertos: bloqueo de IPs, revocación SSO y aislamiento.
+                        </p>
+                        <div style="font-family: var(--font-mono); font-size: 0.68rem; color: rgba(255,255,255,0.4); border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px;">
+                            Tech: SOAR Playbook + Expert Oversight (EITL)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA & FOOTER -->
+    <section class="cta-section" id="demo">
+        <div class="container">
+            <div class="cta-box">
+                <h2 class="section-title" style="margin-bottom: 12px;">
+                    No contrate otro analista.<br>Despliegue Agentes Digitales respaldados por una Élite de Expertos.
+                </h2>
+                <p style="font-size: 1rem; color: var(--text-secondary); max-width: 540px; margin: 0 auto 24px auto;">
+                    Despliegue Zentris AI Cyber Workforce en menos de 15 minutos. Sin agentes pesados ni integraciones complejas.
+                </p>
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                    <a href="#" class="btn-magnetic btn-apple-black" style="padding: 10px 24px;">Solicitar Proof of Concept (PoC)</a>
+                    <a href="#" class="btn-magnetic btn-apple-subtle" style="padding: 10px 24px;">Hablar con Advisor</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+                        <span>ZENTRIS</span>
+                    </a>
+                    <p>Fuerza laboral digital autónoma para ciberseguridad enterprise respaldada por expertos.</p>
+                </div>
+                <div class="footer-col"><h5>Plataforma</h5><ul><li><a href="#hitl">Expert-in-the-Loop</a></li><li><a href="#dashboard">Dashboard</a></li></ul></div>
+                <div class="footer-col"><h5>Recursos</h5><ul><li><a href="#">Documentación</a></li><li><a href="#">Trust Center</a></li></ul></div>
+                <div class="footer-col"><h5>Legal</h5><ul><li><a href="#">Privacidad</a></li><li><a href="#">Términos</a></li></ul></div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>&copy; 2026 Zentris AI Inc. Todos los derechos reservados.</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // 1. Ambient Canvas
+        const aCanvas = document.getElementById('ambient-canvas');
+        if (aCanvas) {
+            const aCtx = aCanvas.getContext('2d');
+            let aWidth, aHeight;
+
+            function resizeAmbient() {
+                aWidth = aCanvas.width = window.innerWidth;
+                aHeight = aCanvas.height = window.innerHeight;
+            }
+            resizeAmbient();
+            window.addEventListener('resize', resizeAmbient);
+
+            const numParticles = 65;
+            const particles = Array.from({ length: numParticles }, () => ({
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                baseX: Math.random() * window.innerWidth,
+                baseY: Math.random() * window.innerHeight,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                radius: Math.random() * 1.5 + 1
+            }));
+
+            function animateAmbient() {
+                aCtx.clearRect(0, 0, aWidth, aHeight);
+
+                aCtx.strokeStyle = 'rgba(0, 0, 0, 0.02)';
+                aCtx.lineWidth = 1;
+                const gridSize = 60;
+                for (let x = 0; x < aWidth; x += gridSize) {
+                    aCtx.beginPath(); aCtx.moveTo(x, 0); aCtx.lineTo(x, aHeight); aCtx.stroke();
+                }
+                for (let y = 0; y < aHeight; y += gridSize) {
+                    aCtx.beginPath(); aCtx.moveTo(0, y); aCtx.lineTo(aWidth, y); aCtx.stroke();
+                }
+
+                particles.forEach((p, i) => {
+                    p.x += p.vx; p.y += p.vy;
+                    if (p.x < 0 || p.x > aWidth) p.vx *= -1;
+                    if (p.y < 0 || p.y > aHeight) p.vy *= -1;
+
+                    const dx = mouseX - p.x;
+                    const dy = mouseY - p.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const maxDist = 180;
+
+                    if (dist < maxDist) {
+                        const force = (maxDist - dist) / maxDist;
+                        p.x -= (dx / dist) * force * 1.2;
+                        p.y -= (dy / dist) * force * 1.2;
+                    }
+
+                    aCtx.beginPath();
+                    aCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    aCtx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+                    aCtx.fill();
+
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p2 = particles[j];
+                        const ldx = p.x - p2.x;
+                        const ldy = p.y - p2.y;
+                        const ldist = Math.sqrt(ldx * ldx + ldy * ldy);
+
+                        if (ldist < 130) {
+                            aCtx.beginPath();
+                            aCtx.moveTo(p.x, p.y);
+                            aCtx.lineTo(p2.x, p2.y);
+                            aCtx.strokeStyle = `rgba(0, 0, 0, ${0.05 * (1 - ldist / 130)})`;
+                            aCtx.lineWidth = 0.8;
+                            aCtx.stroke();
+                        }
+                    }
+                });
+
+                requestAnimationFrame(animateAmbient);
+            }
+            animateAmbient();
+        }
+
+        // 2. Typing Effect
+        const textToType = "El primer trabajador digital que piensa como un Analista SOC, investiga como un Threat Hunter y actúa como un Ethical Hacker.";
+        const heroTitleContainer = document.querySelector("#hero-typing-title .typing-effect");
+        let charIndex = 0;
+
+        function typeWriterText() {
+            if (heroTitleContainer && charIndex < textToType.length) {
+                heroTitleContainer.textContent += textToType.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriterText, 24);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(typeWriterText, 300);
+        });
+
+        // 3. Card 3D Tilt
+        const tiltCards = document.querySelectorAll('.apple-card');
+        tiltCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const cardX = e.clientX - rect.left;
+                const cardY = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((cardY - centerY) / centerY) * -8;
+                const rotateY = ((cardX - centerX) / centerX) * 8;
+
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
+                card.style.setProperty('--glare-x', `${(cardX / rect.width) * 100}%`);
+                card.style.setProperty('--glare-y', `${(cardY / rect.height) * 100}%`);
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            });
+        });
+
+        // 4. Magnetic Buttons
+        const magneticBtns = document.querySelectorAll('.btn-magnetic');
+        magneticBtns.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const btnCenterX = rect.left + rect.width / 2;
+                const btnCenterY = rect.top + rect.height / 2;
+                const distMouseX = e.clientX - btnCenterX;
+                const distMouseY = e.clientY - btnCenterY;
+                btn.style.transform = `translate3d(${distMouseX * 0.28}px, ${distMouseY * 0.28}px, 0px) scale(1.03)`;
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = `translate3d(0px, 0px, 0px) scale(1)`;
+            });
+        });
+
+        // 5. Command Viewport 3D Canvas
+        const hCanvas = document.getElementById('hero-interactive-canvas');
+        if (hCanvas) {
+            const hCtx = hCanvas.getContext('2d');
+            let width, height;
+
+            function resizeHeroCanvas() {
+                width = hCanvas.width = hCanvas.offsetWidth;
+                height = hCanvas.height = hCanvas.offsetHeight;
+            }
+            resizeHeroCanvas();
+            window.addEventListener('resize', resizeHeroCanvas);
+
+            let rotX = 0, rotY = 0;
+            const nodes3D = Array.from({ length: 55 }, () => {
+                const theta = Math.acos(2 * Math.random() - 1);
+                const phi = 2 * Math.PI * Math.random();
+                const radius = 110;
+                return {
+                    x: radius * Math.sin(theta) * Math.cos(phi),
+                    y: radius * Math.sin(theta) * Math.sin(phi),
+                    z: radius * Math.cos(theta),
+                    alert: Math.random() > 0.88
+                };
+            });
+
+            function animate3DEngine() {
+                hCtx.fillStyle = '#080809';
+                hCtx.fillRect(0, 0, width, height);
+
+                rotX += 0.002;
+                rotY += 0.003;
+
+                const cx = width / 2;
+                const cy = height / 2;
+
+                const projected = nodes3D.map(n => {
+                    let x1 = n.x * Math.cos(rotY) - n.z * Math.sin(rotY);
+                    let z1 = n.x * Math.sin(rotY) + n.z * Math.cos(rotY);
+                    let y2 = n.y * Math.cos(rotX) - z1 * Math.sin(rotX);
+                    let z2 = n.y * Math.sin(rotX) + z1 * Math.cos(rotX);
+
+                    const scale = 280 / (280 + z2);
+                    return { px: cx + x1 * scale, py: cy + y2 * scale, scale: scale, alert: n.alert };
+                });
+
+                for (let i = 0; i < projected.length; i++) {
+                    for (let j = i + 1; j < projected.length; j++) {
+                        const dx = projected[i].px - projected[j].px;
+                        const dy = projected[i].py - projected[j].py;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < 70) {
+                            hCtx.beginPath();
+                            hCtx.moveTo(projected[i].px, projected[i].py);
+                            hCtx.lineTo(projected[j].px, projected[j].py);
+                            hCtx.strokeStyle = projected[i].alert || projected[j].alert ? 
+                                `rgba(255, 95, 86, ${0.4 * (1 - dist / 70)})` : 
+                                `rgba(255, 255, 255, ${0.15 * (1 - dist / 70)})`;
+                            hCtx.lineWidth = 0.8 * projected[i].scale;
+                            hCtx.stroke();
+                        }
+                    }
+                }
+
+                projected.forEach(p => {
+                    hCtx.beginPath();
+                    hCtx.arc(p.px, p.py, 2.2 * p.scale, 0, Math.PI * 2);
+                    hCtx.fillStyle = p.alert ? '#ff5f56' : '#ffffff';
+                    hCtx.fill();
+                });
+
+                requestAnimationFrame(animate3DEngine);
+            }
+            animate3DEngine();
+        }
+
+        /* ==========================================================================
+           6. PRO DASHBOARD: KASPERSKY CYBER MAP 3D EXACT CLONE
+           ========================================================================== */
+        const mCanvas = document.getElementById('dash-matrix-canvas');
+        if (mCanvas) {
+            const mCtx = mCanvas.getContext('2d');
+            let mWidth, mHeight, cx, cy;
+
+            function resizeMatrix() {
+                mWidth = mCanvas.width = mCanvas.offsetWidth;
+                mHeight = mCanvas.height = mCanvas.offsetHeight;
+                cx = mWidth / 2;
+                cy = mHeight / 2;
+            }
+            resizeMatrix();
+            window.addEventListener('resize', resizeMatrix);
+
+            let globeRotY = 0;
+            const globeRadius = 100;
+            const fov = 300; // Perspectiva
+
+            // Proyección 3D a 2D
+            function project(x, y, z) {
+                // Rotación en Y
+                const rotX = x * Math.cos(globeRotY) - z * Math.sin(globeRotY);
+                const rotZ = x * Math.sin(globeRotY) + z * Math.cos(globeRotY);
+                const scale = fov / (fov + rotZ);
+                return {
+                    x: cx + rotX * scale,
+                    y: cy + y * scale,
+                    z: rotZ,
+                    scale: scale
+                };
+            }
+
+            // 1. Construir el Globo (Puntos alineados en latitudes y longitudes exactas como en la imagen)
+            const globeNodes = [];
+            for (let lat = -85; lat <= 85; lat += 10) {
+                const rLat = (lat * Math.PI) / 180;
+                const r = globeRadius * Math.cos(rLat);
+                const y = globeRadius * Math.sin(rLat);
+                
+                // Calcular cuántos puntos caben en este anillo para mantener la misma densidad
+                const circumference = 2 * Math.PI * r;
+                const numPoints = Math.max(8, Math.floor(circumference / 12)); 
+
+                for (let i = 0; i < numPoints; i++) {
+                    const rLon = (i / numPoints) * Math.PI * 2;
+                    globeNodes.push({
+                        x: r * Math.cos(rLon),
+                        y: y,
+                        z: r * Math.sin(rLon)
+                    });
+                }
+            }
+
+            // 2. Nodo Objetivo (SCL-01 Chile)
+            const tgtLat = (-33.45 * Math.PI) / 180;
+            const tgtLon = (-70.66 * Math.PI) / 180;
+            const targetNode = {
+                x: globeRadius * Math.cos(tgtLat) * Math.cos(tgtLon),
+                y: globeRadius * Math.sin(tgtLat),
+                z: globeRadius * Math.cos(tgtLat) * Math.sin(tgtLon)
+            };
+
+            // 3. Sistema de Ataques (Estelas 3D)
+            const attackColors = ['255, 68, 68', '255, 204, 0']; // Rojo y Amarillo como en la foto
+            let missiles = [];
+
+            function spawnMissile() {
+                // Origen aleatorio en el hemisferio norte/lejos
+                const srcLat = (Math.random() * 60 + 20) * (Math.random() > 0.5 ? 1 : -1) * Math.PI / 180;
+                const srcLon = (Math.random() * 360) * Math.PI / 180;
+                
+                const srcNode = {
+                    x: globeRadius * Math.cos(srcLat) * Math.cos(srcLon),
+                    y: globeRadius * Math.sin(srcLat),
+                    z: globeRadius * Math.cos(srcLat) * Math.sin(srcLon)
+                };
+
+                // Punto de control de la curva Bézier (elevado en el espacio para hacer el arco)
+                let midX = (srcNode.x + targetNode.x) / 2;
+                let midY = (srcNode.y + targetNode.y) / 2;
+                let midZ = (srcNode.z + targetNode.z) / 2;
+                const midLen = Math.sqrt(midX*midX + midY*midY + midZ*midZ);
+                const arcHeight = 1.6; // Qué tan alto vuela el misil
+                midX = (midX / midLen) * globeRadius * arcHeight;
+                midY = (midY / midLen) * globeRadius * arcHeight;
+                midZ = (midZ / midLen) * globeRadius * arcHeight;
+
+                missiles.push({
+                    src: srcNode,
+                    tgt: targetNode,
+                    cp: { x: midX, y: midY, z: midZ },
+                    t: 0,
+                    speed: 0.008 + Math.random() * 0.005,
+                    color: attackColors[Math.floor(Math.random() * attackColors.length)],
+                    trail: [] // Historial para pintar la estela (cometa)
+                });
+            }
+
+            setInterval(spawnMissile, 800);
+            let pulseTime = 0;
+
+            function render() {
+                // Fondo negro profundo
+                mCtx.fillStyle = '#060608';
+                mCtx.fillRect(0, 0, mWidth, mHeight);
+
+                globeRotY -= 0.002;
+                pulseTime += 0.05;
+
+                // Ordenar nodos del globo por Z para evitar pintar los de atrás encima
+                const projectedNodes = globeNodes.map(n => project(n.x, n.y, n.z));
+                projectedNodes.sort((a, b) => b.z - a.z);
+
+                // Dibujar puntos del globo (Violeta tenue)
+                projectedNodes.forEach(p => {
+                    if (p.z > -globeRadius) { // Solo dibujar la cara frontal
+                        // Opacidad basada en la profundidad Z
+                        const alpha = Math.max(0.05, 1 - (p.z + globeRadius) / (globeRadius * 1.5));
+                        mCtx.fillStyle = `rgba(100, 100, 180, ${alpha * 0.6})`;
+                        mCtx.beginPath();
+                        mCtx.arc(p.x, p.y, 1 * p.scale, 0, Math.PI * 2);
+                        mCtx.fill();
+                    }
+                });
+
+                // Dibujar Target (SCL-01) con anillos exactos a la captura
+                const tProj = project(targetNode.x, targetNode.y, targetNode.z);
+                if (tProj.z > -globeRadius * 1.2) {
+                    mCtx.save();
+                    mCtx.translate(tProj.x, tProj.y);
+
+                    // 1. Escudo Azul Transparente (Onda expansiva)
+                    const pulse = Math.sin(pulseTime) * 2;
+                    mCtx.beginPath();
+                    mCtx.arc(0, 0, (18 + pulse) * tProj.scale, 0, Math.PI * 2);
+                    mCtx.fillStyle = 'rgba(0, 130, 255, 0.15)';
+                    mCtx.fill();
+                    mCtx.lineWidth = 1;
+                    mCtx.strokeStyle = 'rgba(0, 130, 255, 0.4)';
+                    mCtx.stroke();
+
+                    // 2. Anillo Amarillo Interno
+                    mCtx.beginPath();
+                    mCtx.arc(0, 0, 7 * tProj.scale, 0, Math.PI * 2);
+                    mCtx.strokeStyle = 'rgba(255, 200, 0, 0.8)';
+                    mCtx.lineWidth = 1.5;
+                    mCtx.stroke();
+
+                    // 3. Núcleo Verde/Blanco brillante
+                    mCtx.beginPath();
+                    mCtx.arc(0, 0, 3 * tProj.scale, 0, Math.PI * 2);
+                    mCtx.fillStyle = '#ffffff';
+                    mCtx.shadowBlur = 10;
+                    mCtx.shadowColor = '#00ff00';
+                    mCtx.fill();
+                    mCtx.shadowBlur = 0; // reset
+
+                    // Texto SCL-01
+                    mCtx.fillStyle = '#ffffff';
+                    mCtx.font = 'bold 9px var(--font-mono)';
+                    mCtx.fillText('SCL-01', 12 * tProj.scale, 3);
+                    mCtx.restore();
+                }
+
+                // Dibujar Misiles y Estelas
+                for (let i = missiles.length - 1; i >= 0; i--) {
+                    let m = missiles[i];
+                    m.t += m.speed;
+
+                    // Posición actual 3D en la curva de Bézier
+                    const mt = 1 - m.t;
+                    const x = mt*mt*m.src.x + 2*mt*m.t*m.cp.x + m.t*m.t*m.tgt.x;
+                    const y = mt*mt*m.src.y + 2*mt*m.t*m.cp.y + m.t*m.t*m.tgt.y;
+                    const z = mt*mt*m.src.z + 2*mt*m.t*m.cp.z + m.t*m.t*m.tgt.z;
+                    
+                    // Guardar en el historial para la estela
+                    m.trail.unshift({x, y, z});
+                    if (m.trail.length > 25) m.trail.pop(); // Largo de la estela
+
+                    if (m.trail.length > 1) {
+                        mCtx.lineCap = 'round';
+                        mCtx.lineJoin = 'round';
+                        
+                        // Dibujar segmento por segmento para lograr el difuminado "cometa"
+                        for (let j = 0; j < m.trail.length - 1; j++) {
+                            const p1 = project(m.trail[j].x, m.trail[j].y, m.trail[j].z);
+                            const p2 = project(m.trail[j+1].x, m.trail[j+1].y, m.trail[j+1].z);
+                            
+                            // Solo dibujar si está de frente o en los bordes
+                            if (p1.z > -globeRadius * 1.5) {
+                                mCtx.beginPath();
+                                mCtx.moveTo(p1.x, p1.y);
+                                mCtx.lineTo(p2.x, p2.y);
+                                
+                                // El grosor y la opacidad disminuyen hacia la cola
+                                const ratio = 1 - (j / m.trail.length);
+                                mCtx.lineWidth = (2.5 * ratio) * p1.scale;
+                                mCtx.strokeStyle = `rgba(${m.color}, ${ratio * 0.8})`;
+                                mCtx.stroke();
+                            }
+                        }
+
+                        // Cabeza del misil (Punto blanco brillante)
+                        const headProj = project(x, y, z);
+                        if (headProj.z > -globeRadius * 1.2) {
+                            mCtx.beginPath();
+                            mCtx.arc(headProj.x, headProj.y, 1.5 * headProj.scale, 0, Math.PI * 2);
+                            mCtx.fillStyle = '#ffffff';
+                            mCtx.shadowBlur = 8;
+                            mCtx.shadowColor = `rgb(${m.color})`;
+                            mCtx.fill();
+                            mCtx.shadowBlur = 0;
+                        }
+                    }
+
+                    if (m.t >= 1) {
+                        missiles.splice(i, 1);
+                    }
+                }
+
+                requestAnimationFrame(render);
+            }
+            render();
+        }
+
+        // Live Feed Updates & Counter Simulation
+        const feedBox = document.getElementById('side-feed-box');
+        const feedItems = [
+            '<div class="feed-item"><span class="tag-active">IDENTITY</span> Validando SSO Azure AD</div>',
+            '<div class="feed-item"><span class="tag-active">EXPERT</span> Validación Experta aprobada</div>',
+            '<div class="feed-item"><span class="tag-active">DARKWEB</span> Monitoreo credenciales</div>',
+            '<div class="feed-item"><span class="tag-active">CONTAINER</span> Auditando Pods K8s</div>'
+        ];
+
+        setInterval(() => {
+            if (feedBox) {
+                const item = feedItems[Math.floor(Math.random() * feedItems.length)];
+                feedBox.innerHTML = item + feedBox.innerHTML;
+                if (feedBox.children.length > 4) feedBox.removeChild(feedBox.lastChild);
+            }
+        }, 2500);
+
+        setInterval(() => {
+            const elEvents = document.getElementById('cnt-events');
+            const elProEvents = document.getElementById('pro-events');
+            if (elEvents) {
+                let cur = parseInt(elEvents.innerText.replace(/,/g, ''));
+                let newVal = (cur + Math.floor(Math.random() * 20 + 5)).toLocaleString();
+                elEvents.innerText = newVal;
+                if (elProEvents) elProEvents.innerText = newVal;
+            }
+            const clockPro = document.getElementById('dash-clock-pro');
+            if (clockPro) {
+                const now = new Date().toISOString().substr(11, 8);
+                clockPro.innerText = `${now} UTC`;
+            }
+        }, 1500);
+
+        // Cost Transformation Interaction
+        const btnTransform = document.getElementById('btn-transform');
+        const rolesGrid = document.getElementById('roles-grid');
+        const totalBox = document.getElementById('total-cost-container');
+        const zentrisCard = document.getElementById('zentris-card');
+
+        if (btnTransform) {
+            btnTransform.addEventListener('click', () => {
+                rolesGrid.style.opacity = '0';
+                rolesGrid.style.transform = 'scale(0.95)';
+                totalBox.style.opacity = '0';
+                
+                setTimeout(() => {
+                    rolesGrid.style.display = 'none';
+                    totalBox.style.display = 'none';
+                    zentrisCard.style.display = 'block';
+                }, 300);
+            });
+        }
+    </script>
+</body>
+</html>
