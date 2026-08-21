@@ -141,7 +141,27 @@ img{max-width:100%;display:block}
 .shot .frame{clip-path:inset(0 0 100% 0);transition:clip-path 1.05s var(--ease)}
 .shot.is-in .frame{clip-path:inset(0 0 0 0)}
 
-/* 3.5 — Barra de progreso de lectura */
+/* 3.5 — Disgregación en bits
+   La captura se arma desde partículas cuadradas al entrar y vuelve a
+   dispersarse al salir. El movimiento lo manda la posición de scroll,
+   no un temporizador: si te detenés a medio camino, queda a medio armar. */
+.px-holder{position:relative;line-height:0;font-size:0}
+.px-holder img{opacity:0;transition:opacity .3s linear}
+.px-holder.px-off img{opacity:1}
+.px-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.px-holder.px-off .px-canvas{display:none}
+
+/* 3.6 — Titulares que se materializan carácter a carácter */
+.bits .ch{
+  display:inline-block;white-space:pre;
+  opacity:0;filter:blur(3px);
+  transform:translate(var(--dx),var(--dy)) scale(.35);
+  transition:opacity .7s var(--ease),transform .8s var(--ease),filter .7s var(--ease);
+  transition-delay:var(--d);
+}
+.bits.is-in .ch{opacity:1;filter:none;transform:none}
+
+/* 3.7 — Barra de progreso de lectura */
 #progress{position:fixed;top:0;left:0;height:2px;width:0;background:#000;z-index:2000;transition:width .1s linear}
 
 /* ==========================================================================
@@ -492,6 +512,9 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
   .up,.seq>*{opacity:1!important;transform:none!important}
   .w>i{transform:none!important}
   .shot .frame{clip-path:none!important}
+  .px-holder img{opacity:1!important}
+  .px-canvas{display:none!important}
+  .bits .ch{opacity:1!important;filter:none!important;transform:none!important}
   .pin-pane{position:static;opacity:1;transform:none}
   .pin-panes{display:flex;flex-direction:column;gap:44px;min-height:0}
   .flow-s{opacity:1}
@@ -543,8 +566,8 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
       <a href="#plataforma" class="btn btn-ghost">Ver la plataforma</a>
     </div>
 
-    <div class="up shot">
-      <div class="frame">
+    <div class="up">
+      <div class="frame px">
         <div class="frame-bar">
           <div class="dots"><i></i><i></i><i></i></div>
           <div class="frame-t">ZENTRIS CYBERSOC — CENTRO DE MANDO</div>
@@ -731,7 +754,7 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
   <div class="wrap">
     <div class="head">
       <span class="eyebrow up">Gestión continua de exposición · CTEM</span>
-      <h2 class="h-sec split">Primero se descubre lo que nadie sabía que estaba expuesto.</h2>
+      <h2 class="h-sec bits">Primero se descubre lo que nadie sabía que estaba expuesto.</h2>
       <p class="lead up" style="max-width:830px">
         El inventario declarado casi nunca coincide con lo que realmente está conectado. Zentris levanta el parque
         completo por observación, marca los activos que nadie registró y prioriza por explotabilidad confirmada,
@@ -740,8 +763,8 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
     </div>
 
     <div class="g2">
-      <div class="sticky-col shot">
-        <div class="frame">
+      <div class="sticky-col">
+        <div class="frame px">
           <div class="frame-bar">
             <div class="dots"><i></i><i></i><i></i></div>
             <div class="frame-t">ZENTRIS — PARQUE / INVENTARIO</div>
@@ -767,7 +790,7 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
   <div class="wrap">
     <div class="head head--c">
       <span class="eyebrow up">Secuencia operativa real</span>
-      <h2 class="h-sec split">De la señal a la contención aprobada.</h2>
+      <h2 class="h-sec bits">De la señal a la contención aprobada.</h2>
       <p class="lead lead--c up">La máquina resuelve el análisis en milisegundos. La decisión con impacto en producción la firma una persona.</p>
     </div>
 
@@ -852,8 +875,8 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
       </p>
     </div>
 
-    <div class="shot">
-      <div class="frame">
+    <div>
+      <div class="frame px">
         <div class="frame-bar">
           <div class="dots"><i></i><i></i><i></i></div>
           <div class="frame-t">CYBERSOC / APROBACIONES — 353 PENDIENTES</div>
@@ -1140,7 +1163,7 @@ var io = new IntersectionObserver(function(entries){
   });
 }, { threshold: .16, rootMargin: '0px 0px -6% 0px' });
 
-document.querySelectorAll('.up, .seq, .split, .shot').forEach(function(el){ io.observe(el); });
+document.querySelectorAll('.up, .seq, .split, .shot, .bits').forEach(function(el){ io.observe(el); });
 document.querySelectorAll('.hl').forEach(function(h){
   if (!h.closest('.up, .seq, .split')) io.observe(h);
 });
@@ -1166,7 +1189,175 @@ function countUp(el){
 }
 
 /* ==========================================================================
-   C · Cabecera que se retira al bajar y vuelve al subir
+   C · Disgregación en bits
+   Cada captura marcada con .px se dibuja en un lienzo troceado en celdas
+   cuadradas. La posición de scroll decide cuánto están dispersas: entran
+   armándose y se deshacen al salir por arriba. Se aplica solo a tres
+   momentos del recorrido, no a todo el documento.
+   ========================================================================== */
+var pixelUnits = [];
+
+function initPixel(frame){
+  var img = frame.querySelector('img');
+  if (!img) return;
+
+  var holder = document.createElement('div');
+  holder.className = 'px-holder';
+  img.parentNode.insertBefore(holder, img);
+  holder.appendChild(img);
+
+  var cv = document.createElement('canvas');
+  cv.className = 'px-canvas';
+  cv.setAttribute('aria-hidden', 'true');
+  holder.appendChild(cv);
+
+  var ctx = cv.getContext('2d');
+  if (!ctx){ holder.classList.add('px-off'); return; }
+
+  var unit = {
+    frame: frame, holder: holder, img: img, cv: cv, ctx: ctx,
+    cols: 0, rows: 0, cw: 0, ch: 0, w: 0, hgt: 0,
+    ang: null, dist: null, delay: null,
+    last: -1, ready: false
+  };
+
+  function build(){
+    var rect = holder.getBoundingClientRect();
+    if (rect.width < 10 || !img.naturalWidth) return;
+
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    unit.w = rect.width;
+    unit.hgt = rect.height;
+    cv.width  = Math.round(rect.width * dpr);
+    cv.height = Math.round(rect.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    // celdas de ~15 px en pantalla; menos celdas en móvil
+    var target = rect.width < 620 ? 22 : 15;
+    unit.cols = Math.max(8, Math.round(rect.width / target));
+    unit.rows = Math.max(6, Math.round(rect.height / target));
+    unit.cw = rect.width / unit.cols;
+    unit.ch = rect.height / unit.rows;
+
+    var total = unit.cols * unit.rows;
+    unit.ang   = new Float32Array(total);
+    unit.dist  = new Float32Array(total);
+    unit.delay = new Float32Array(total);
+
+    for (var i = 0; i < total; i++){
+      unit.ang[i]   = Math.random() * Math.PI * 2;
+      unit.dist[i]  = 26 + Math.random() * 130;
+      // las celdas de abajo se van primero: la imagen se deshace hacia arriba
+      var row = Math.floor(i / unit.cols);
+      unit.delay[i] = Math.min(.72, (1 - row / unit.rows) * .34 + Math.random() * .38);
+    }
+
+    unit.ready = true;
+    unit.last = -1;
+  }
+
+  function draw(s){
+    if (!unit.ready) return;
+    ctx.clearRect(0, 0, unit.w, unit.hgt);
+
+    var iw = img.naturalWidth, ih = img.naturalHeight;
+    var sx = iw / unit.cols, sy = ih / unit.rows;
+
+    for (var r = 0; r < unit.rows; r++){
+      for (var c = 0; c < unit.cols; c++){
+        var i = r * unit.cols + c;
+        var dl = unit.delay[i];
+        var d = (s - dl) / (1 - dl);
+        if (d < 0) d = 0; else if (d > 1) d = 1;
+
+        if (d > .985) continue;                 // celda ya desintegrada
+        var e = d * d;                          // arranque suave
+
+        var ox = Math.cos(unit.ang[i]) * unit.dist[i] * e;
+        var oy = Math.sin(unit.ang[i]) * unit.dist[i] * e - e * 26;
+        var k  = 1 - e * .55;
+
+        ctx.globalAlpha = 1 - d;
+        ctx.drawImage(
+          img,
+          c * sx, r * sy, sx, sy,
+          c * unit.cw + ox + (unit.cw * (1 - k)) / 2,
+          r * unit.ch + oy + (unit.ch * (1 - k)) / 2,
+          unit.cw * k + .6, unit.ch * k + .6
+        );
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  unit.build = build;
+  unit.draw = draw;
+
+  function ready(){
+    build();
+    unit.last = -1;
+    updatePixels();
+  }
+  if (img.complete && img.naturalWidth) ready();
+  else img.addEventListener('load', ready);
+
+  window.addEventListener('resize', function(){ build(); unit.last = -1; updatePixels(); });
+
+  pixelUnits.push(unit);
+}
+
+function updatePixels(){
+  var vh = window.innerHeight;
+  for (var i = 0; i < pixelUnits.length; i++){
+    var u = pixelUnits[i];
+    if (!u.ready) continue;
+
+    var r = u.frame.getBoundingClientRect();
+    if (r.bottom < -220 || r.top > vh + 220) continue;   // fuera de alcance
+
+    // se arma mientras entra
+    var pIn = (vh * .94 - r.top) / (vh * .5);
+    if (pIn < 0) pIn = 0; else if (pIn > 1) pIn = 1;
+
+    // se deshace mientras sale por arriba
+    var pOut = (vh * .12 - r.bottom) / (vh * .42);
+    if (pOut < 0) pOut = 0; else if (pOut > 1) pOut = 1;
+
+    var s = Math.max(1 - pIn, pOut);
+    if (Math.abs(s - u.last) < .004) continue;
+    u.last = s;
+    u.draw(s);
+  }
+}
+
+if (!reduce){
+  document.querySelectorAll('.frame.px').forEach(initPixel);
+} else {
+  document.querySelectorAll('.frame.px img').forEach(function(im){ im.style.opacity = 1; });
+}
+
+/* ==========================================================================
+   D · Titulares que se materializan carácter a carácter
+   ========================================================================== */
+document.querySelectorAll('.bits').forEach(function(el){
+  if (reduce) return;
+  var txt = el.textContent;
+  el.textContent = '';
+  for (var i = 0; i < txt.length; i++){
+    var s = document.createElement('span');
+    s.className = 'ch';
+    s.textContent = txt[i];
+    var a = Math.random() * Math.PI * 2;
+    var d = 18 + Math.random() * 46;
+    s.style.setProperty('--dx', (Math.cos(a) * d).toFixed(1) + 'px');
+    s.style.setProperty('--dy', (Math.sin(a) * d).toFixed(1) + 'px');
+    s.style.setProperty('--d', (i * 0.012 + Math.random() * 0.16).toFixed(3) + 's');
+    el.appendChild(s);
+  }
+});
+
+/* ==========================================================================
+   E · Cabecera que se retira al bajar y vuelve al subir
    ========================================================================== */
 var hdr = document.getElementById('hdr'), lastY = 0;
 function updateHeader(){
@@ -1177,7 +1368,7 @@ function updateHeader(){
 }
 
 /* ==========================================================================
-   D · Enlace activo en la navegación
+   F · Enlace activo en la navegación
    ========================================================================== */
 var links = Array.prototype.slice.call(document.querySelectorAll('.nav-links a'));
 var targets = links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
@@ -1188,7 +1379,7 @@ function updateNav(){
 }
 
 /* ==========================================================================
-   E · Barra de progreso de lectura
+   G · Barra de progreso de lectura
    ========================================================================== */
 var pb = document.getElementById('progress');
 function updateProgress(){
@@ -1197,7 +1388,7 @@ function updateProgress(){
 }
 
 /* ==========================================================================
-   F · Escena fijada de las tres capas
+   H · Escena fijada de las tres capas
    ========================================================================== */
 var pin = document.getElementById('pin');
 var panes = document.querySelectorAll('#panes .pin-pane');
@@ -1221,7 +1412,7 @@ function updatePin(){
 }
 
 /* ==========================================================================
-   G · Secuencia operativa con línea de avance
+   I · Secuencia operativa con línea de avance
    ========================================================================== */
 var flow = document.getElementById('flow');
 var flowFill = document.getElementById('flow-fill');
@@ -1237,7 +1428,7 @@ function updateFlow(){
 }
 
 /* ==========================================================================
-   H · Carrusel de capturas
+   J · Carrusel de capturas
    ========================================================================== */
 var tr = document.getElementById('car-tr');
 if (tr){
@@ -1314,7 +1505,7 @@ if (tr){
 }
 
 /* ==========================================================================
-   I · Un solo ciclo por cuadro
+   K · Un solo ciclo por cuadro
    ========================================================================== */
 var ticking = false;
 function onScroll(){
@@ -1326,6 +1517,7 @@ function onScroll(){
     updateNav();
     updatePin();
     updateFlow();
+    updatePixels();
     ticking = false;
   });
 }
