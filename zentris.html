@@ -133,9 +133,13 @@ img{max-width:100%;display:block}
 .seq.is-in > *:nth-child(5){transition-delay:.32s}
 .seq.is-in > *:nth-child(6){transition-delay:.40s}
 
-/* 3.4 — Barrido de imagen: la captura se descubre de abajo hacia arriba */
-.wipe{clip-path:inset(0 0 100% 0);transition:clip-path 1.05s var(--ease)}
-.wipe.is-in{clip-path:inset(0 0 0 0)}
+/* 3.4 — Barrido de imagen: la captura se descubre de abajo hacia arriba.
+   El recorte se aplica al marco, pero quien lo dispara es el contenedor:
+   un elemento totalmente recortado tiene área cero y el detector de scroll
+   nunca lo daría por visible. */
+.shot{position:relative}
+.shot .frame{clip-path:inset(0 0 100% 0);transition:clip-path 1.05s var(--ease)}
+.shot.is-in .frame{clip-path:inset(0 0 0 0)}
 
 /* 3.5 — Barra de progreso de lectura */
 #progress{position:fixed;top:0;left:0;height:2px;width:0;background:#000;z-index:2000;transition:width .1s linear}
@@ -186,7 +190,7 @@ header.hidden{transform:translateY(-101%)}
 /* ==========================================================================
    5 · HERO
    ========================================================================== */
-.hero{padding:calc(var(--nav-h) + 70px) 0 66px;text-align:center}
+.hero{padding:calc(var(--nav-h) + 64px) 0 56px;text-align:center}
 .hero .mark-z--xl{margin-bottom:26px}
 .hero-tag{
   display:inline-block;font-family:var(--mono);font-size:.66rem;font-weight:600;
@@ -197,7 +201,7 @@ header.hidden{transform:translateY(-101%)}
 .hero h1{font-size:clamp(1.9rem,4vw,3rem);font-weight:700;line-height:1.16;letter-spacing:-.032em;max-width:950px;margin:0 auto 22px}
 .hero h1 .dim{color:var(--tx-2)}
 .hero-sub{font-size:clamp(.98rem,1.4vw,1.12rem);color:var(--tx-2);max-width:660px;margin:0 auto 32px;line-height:1.5}
-.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:54px}
+.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:46px}
 
 /* ---------- Marco de producto ---------- */
 .frame{
@@ -205,6 +209,7 @@ header.hidden{transform:translateY(-101%)}
   border:1px solid rgba(255,255,255,.14);
   box-shadow:0 30px 70px rgba(0,0,0,.26);
 }
+.frame img{width:100%;height:auto;display:block}
 .frame-bar{height:38px;background:#141416;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;padding:0 14px;gap:12px}
 .dots{display:flex;gap:6px;flex-shrink:0}
 .dots i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.2);display:block}
@@ -230,10 +235,10 @@ header.hidden{transform:translateY(-101%)}
    7 · ESTRUCTURA DE SECCIONES
    ========================================================================== */
 section[id]{scroll-margin-top:var(--nav-h)}
-.sec{padding:100px 0}
+.sec{padding:84px 0}
 .sec--w{background:#fff}
 .sec--o{background:var(--bg)}
-.head{max-width:780px;margin-bottom:48px}
+.head{max-width:780px;margin-bottom:42px}
 .head--c{margin-left:auto;margin-right:auto;text-align:center}
 
 .g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
@@ -300,7 +305,7 @@ section[id]{scroll-margin-top:var(--nav-h)}
 .layer.on .ln{color:#fff}
 .layer.on::after{transform:scaleY(1)}
 
-.pin-panes{position:relative;min-height:250px}
+.pin-panes{position:relative;min-height:230px}
 .pin-pane{
   position:absolute;inset:0;opacity:0;transform:translateY(22px);
   transition:opacity .5s var(--ease),transform .5s var(--ease);pointer-events:none;
@@ -343,7 +348,7 @@ section[id]{scroll-margin-top:var(--nav-h)}
 /* ==========================================================================
    11 · SECUENCIA OPERATIVA
    ========================================================================== */
-.flow{position:relative;margin-top:56px}
+.flow{position:relative;margin-top:48px}
 .flow-line{position:absolute;top:7px;left:0;right:0;height:1px;background:var(--line-mid)}
 .flow-line i{position:absolute;left:0;top:0;height:100%;width:0;background:#000;display:block;transition:width .25s linear}
 .flow-g{display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
@@ -363,7 +368,7 @@ section[id]{scroll-margin-top:var(--nav-h)}
 /* ==========================================================================
    12 · CARRUSEL
    ========================================================================== */
-.car{position:relative;margin-top:38px}
+.car{position:relative;margin-top:32px}
 .car-vp{overflow:hidden;border-radius:20px}
 .car-tr{display:flex;transition:transform .75s var(--ease);will-change:transform}
 .car-sl{min-width:100%;transition:opacity .6s var(--ease);opacity:.28}
@@ -412,7 +417,7 @@ section[id]{scroll-margin-top:var(--nav-h)}
 /* ==========================================================================
    14 · CIERRE Y CONTACTO
    ========================================================================== */
-.close-box{padding:66px 28px;background:#000;color:#fff;border-radius:24px;text-align:center}
+.close-box{padding:58px 28px;background:#000;color:#fff;border-radius:24px;text-align:center}
 .close-box .mark-z--xl{margin-bottom:26px;box-shadow:0 10px 44px rgba(245,158,11,.34)}
 .close-box h2{font-size:clamp(1.6rem,3.2vw,2.4rem);font-weight:700;line-height:1.18;letter-spacing:-.03em;margin-bottom:16px}
 .close-box p{color:rgba(255,255,255,.6);max-width:580px;margin:0 auto 30px;font-size:1rem;line-height:1.55}
@@ -486,7 +491,7 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
   .up,.seq>*{opacity:1!important;transform:none!important}
   .w>i{transform:none!important}
-  .wipe{clip-path:none!important}
+  .shot .frame{clip-path:none!important}
   .pin-pane{position:static;opacity:1;transform:none}
   .pin-panes{display:flex;flex-direction:column;gap:44px;min-height:0}
   .flow-s{opacity:1}
@@ -538,8 +543,8 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
       <a href="#plataforma" class="btn btn-ghost">Ver la plataforma</a>
     </div>
 
-    <div class="up">
-      <div class="frame wipe">
+    <div class="up shot">
+      <div class="frame">
         <div class="frame-bar">
           <div class="dots"><i></i><i></i><i></i></div>
           <div class="frame-t">ZENTRIS CYBERSOC — CENTRO DE MANDO</div>
@@ -600,7 +605,7 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
 
 <!-- ====================== ARQUITECTURA · ESCENA FIJADA ====================== -->
 <section class="sec--w" id="arquitectura">
-  <div class="wrap" style="padding-top:100px">
+  <div class="wrap" style="padding-top:84px">
     <div class="head head--c">
       <span class="eyebrow up">La solución</span>
       <h2 class="h-sec split">Un orquestador cognitivo, no otra herramienta más.</h2>
@@ -608,7 +613,7 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
     </div>
   </div>
 
-  <div class="pin" id="pin" style="height:300vh">
+  <div class="pin" id="pin" style="height:250vh">
     <div class="pin-stage">
       <div class="pin-in">
 
@@ -640,7 +645,7 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
     </div>
   </div>
 
-  <div class="wrap" style="padding-bottom:100px">
+  <div class="wrap" style="padding-bottom:84px">
     <div class="note up">
       <span class="chip chip--o">Arquitectura</span>
       <span>Nube híbrida · <strong>sin agentes en el endpoint</strong> · recolector containerizado. Si el cliente ya tiene EDR o SIEM, no se instala nada nuevo en los equipos.</span>
@@ -735,8 +740,8 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
     </div>
 
     <div class="g2">
-      <div class="sticky-col">
-        <div class="frame wipe">
+      <div class="sticky-col shot">
+        <div class="frame">
           <div class="frame-bar">
             <div class="dots"><i></i><i></i><i></i></div>
             <div class="frame-t">ZENTRIS — PARQUE / INVENTARIO</div>
@@ -777,7 +782,7 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
       </div>
     </div>
 
-    <div class="note up" style="margin-top:44px">
+    <div class="note up" style="margin-top:36px">
       <span class="chip">Umbral EITL</span>
       <span>Cuando el índice de impacto operativo es alto —aislar un nodo de un clúster de producción, por ejemplo— la IA <strong>no ejecuta</strong>: arma el árbol de decisión con los indicadores de compromiso y espera la firma del experto de turno.</span>
     </div>
@@ -847,8 +852,8 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
       </p>
     </div>
 
-    <div>
-      <div class="frame wipe">
+    <div class="shot">
+      <div class="frame">
         <div class="frame-bar">
           <div class="dots"><i></i><i></i><i></i></div>
           <div class="frame-t">CYBERSOC / APROBACIONES — 353 PENDIENTES</div>
@@ -859,7 +864,7 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
       <div class="cap">Cola de aprobaciones · acción propuesta, estado y decisión</div>
     </div>
 
-    <div class="g3 seq" style="margin-top:32px">
+    <div class="g3 seq" style="margin-top:28px">
       <div class="box"><h3>Acción legible</h3><p>Se declara el comando exacto: bloquear esta IP, aislar este equipo. No hay caja negra.</p></div>
       <div class="box"><h3>Decisión con dueño</h3><p>Aprobar o rechazar queda asociado a una persona y a una hora concreta.</p></div>
       <div class="box"><h3>Auditable</h3><p>La cola completa es evidencia para auditoría y para revisión posterior al incidente.</p></div>
@@ -876,8 +881,8 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
       <p class="lead lead--c up">Aprobar, corregir o rechazar una recomendación no es solo resolver un caso: es dejar escrito el criterio operativo.</p>
     </div>
 
-    <div>
-      <div class="frame wipe">
+    <div class="shot">
+      <div class="frame">
         <div class="frame-bar">
           <div class="dots"><i></i><i></i><i></i></div>
           <div class="frame-t">RESILITY ZENTRIS BRAIN — CICLO DE APRENDIZAJE</div>
@@ -888,7 +893,7 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
       <div class="cap">Zentris Brain · runbooks, decisiones, reglas y conceptos</div>
     </div>
 
-    <div class="g3 seq" style="margin-top:32px">
+    <div class="g3 seq" style="margin-top:28px">
       <div class="box"><h3>Calibración inicial</h3><p>Los primeros días la plataforma trabaja en modo observación: analiza y propone, pero no ejecuta nada sobre la red.</p></div>
       <div class="box"><h3>Contexto propio</h3><p>Los expertos calibran los falsos positivos propios de la operación del cliente antes de habilitar la contención.</p></div>
       <div class="box"><h3>Mejora acumulada</h3><p>El criterio queda en runbooks y reglas reutilizables, no en la cabeza del analista de turno.</p></div>
@@ -909,15 +914,15 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
     </div>
 
     <div class="g2 seq">
-      <div>
-        <div class="frame wipe">
+      <div class="shot">
+        <div class="frame">
           <div class="frame-bar"><div class="dots"><i></i><i></i><i></i></div><div class="frame-t">CUMPLIMIENTO</div><div class="frame-s"><i></i> EN VIVO</div></div>
           <img src="img/cumplimiento.jpg" alt="Score por marco normativo, controles por estado y activos en riesgo" loading="lazy">
         </div>
         <div class="cap">Score por marco y tendencia</div>
       </div>
-      <div>
-        <div class="frame wipe">
+      <div class="shot">
+        <div class="frame">
           <div class="frame-bar"><div class="dots"><i></i><i></i><i></i></div><div class="frame-t">REPORTERÍA</div><div class="frame-s"><i></i> EN VIVO</div></div>
           <img src="img/reporteria.jpg" alt="Informe del SOC generado sobre datos reales, exportable y enviable" loading="lazy">
         </div>
@@ -1135,7 +1140,7 @@ var io = new IntersectionObserver(function(entries){
   });
 }, { threshold: .16, rootMargin: '0px 0px -6% 0px' });
 
-document.querySelectorAll('.up, .seq, .split, .wipe').forEach(function(el){ io.observe(el); });
+document.querySelectorAll('.up, .seq, .split, .shot').forEach(function(el){ io.observe(el); });
 document.querySelectorAll('.hl').forEach(function(h){
   if (!h.closest('.up, .seq, .split')) io.observe(h);
 });
