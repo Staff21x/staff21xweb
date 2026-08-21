@@ -132,6 +132,10 @@ img{max-width:100%;display:block}
 .seq.is-in > *:nth-child(4){transition-delay:.24s}
 .seq.is-in > *:nth-child(5){transition-delay:.32s}
 .seq.is-in > *:nth-child(6){transition-delay:.40s}
+.seq.is-in > *:nth-child(7){transition-delay:.48s}
+.seq.is-in > *:nth-child(8){transition-delay:.56s}
+.seq.is-in > *:nth-child(9){transition-delay:.64s}
+.seq.is-in > *:nth-child(10){transition-delay:.72s}
 
 /* 3.4 — Barrido de imagen: la captura se descubre de abajo hacia arriba.
    El recorte se aplica al marco, pero quien lo dispara es el contenedor:
@@ -409,6 +413,70 @@ section[id]{scroll-margin-top:var(--nav-h)}
 .car-dots{display:flex;gap:8px;margin-top:22px;justify-content:center}
 .car-dots button{width:26px;height:3px;border-radius:3px;border:none;background:var(--line-mid);cursor:pointer;padding:0;transition:background .35s var(--ease),width .45s var(--ease)}
 .car-dots button.on{background:#000;width:44px}
+
+/* ==========================================================================
+   12b · MARCOS NORMATIVOS Y REPORTE LEGAL
+   ========================================================================== */
+.fws{display:grid;grid-template-columns:1fr 1fr;gap:0 44px;margin-top:6px}
+.fw{
+  display:grid;grid-template-columns:1fr auto;gap:18px;align-items:baseline;
+  padding:15px 0;border-bottom:1px solid var(--line);
+  opacity:0;transform:translateY(16px);
+  transition:opacity .6s var(--ease),transform .6s var(--ease);
+}
+.fw.on{opacity:1;transform:none}
+.fw b{font-size:.9rem;font-weight:600;letter-spacing:-.01em}
+.fw span{font-size:.76rem;color:var(--tx-2);text-align:right;line-height:1.4}
+.fw i{
+  display:block;font-style:normal;font-family:var(--mono);
+  font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--tx-3);margin-top:4px;
+}
+
+.legal{background:#000;color:#fff;border-radius:22px;padding:44px;margin-top:26px}
+.legal .eyebrow{color:rgba(255,255,255,.45)}
+.legal h3{font-size:clamp(1.4rem,2.6vw,2rem);font-weight:700;letter-spacing:-.028em;margin-bottom:14px;line-height:1.2}
+.legal > p{color:rgba(255,255,255,.62);font-size:.98rem;line-height:1.6;max-width:760px}
+.legal .flow-line{background:rgba(255,255,255,.18)}
+.legal .flow-line i{background:#fff}
+.legal .flow-s::before{background:#000;border-color:rgba(255,255,255,.3)}
+.legal .flow-s.on::before{background:#fff;border-color:#fff}
+.legal .flow-t{color:rgba(255,255,255,.5)}
+.legal .flow-n{color:#fff;font-size:1.2rem;letter-spacing:.02em}
+.legal .flow-s h4{color:#fff}
+.legal .flow-s p{color:rgba(255,255,255,.58)}
+.flow-g--3{grid-template-columns:repeat(3,1fr)!important}
+
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:34px}
+.dual-c{
+  border:1px solid rgba(255,255,255,.13);border-radius:16px;padding:22px;
+  transition:border-color .4s var(--ease),background .4s var(--ease);
+}
+.dual-c:hover{border-color:rgba(255,255,255,.34);background:rgba(255,255,255,.03)}
+.dual-c h5{font-size:.92rem;font-weight:600;margin-bottom:4px;color:#fff}
+.dual-c .who{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:12px}
+.dual-c p{font-size:.82rem;color:rgba(255,255,255,.58);line-height:1.55}
+
+.payload{margin-top:32px;border-top:1px solid rgba(255,255,255,.13);padding-top:26px}
+.payload .ttl{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:16px}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tags li{
+  list-style:none;font-family:var(--mono);font-size:.68rem;
+  padding:7px 13px;border-radius:980px;border:1px solid rgba(255,255,255,.16);
+  color:rgba(255,255,255,.75);
+  opacity:0;transform:translateY(10px) scale(.94);
+  transition:opacity .5s var(--ease),transform .5s var(--ease),border-color .3s ease;
+}
+.tags.on li{opacity:1;transform:none}
+.tags li:hover{border-color:rgba(255,255,255,.45);color:#fff}
+
+.disclaimer{font-size:.76rem;color:var(--tx-3);line-height:1.6;margin-top:22px;max-width:840px}
+
+@media (max-width:820px){
+  .fws,.dual{grid-template-columns:1fr}
+  .legal{padding:30px 22px}
+  .flow-g--3{grid-template-columns:1fr!important}
+}
 
 /* ==========================================================================
    13 · INTEGRACIÓN
@@ -795,7 +863,7 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
     </div>
 
     <div class="flow" id="flow">
-      <div class="flow-line"><i id="flow-fill"></i></div>
+      <div class="flow-line"><i></i></div>
       <div class="flow-g">
         <div class="flow-s"><div class="flow-t">T = 12 MS</div><div class="flow-n">01</div><h4>Normalización</h4><p>El evento se ingiere desde EDR o cloud y se contextualiza IP, usuario y activo.</p></div>
         <div class="flow-s"><div class="flow-t">T = 45 MS</div><div class="flow-n">02</div><h4>Mapeo MITRE</h4><p>Inferencia bayesiana sobre eventos dispersos para identificar la técnica en curso.</p></div>
@@ -929,20 +997,22 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
   <div class="wrap wrap--wide">
     <div class="head">
       <span class="eyebrow up">Cumplimiento y reportería</span>
-      <h2 class="h-sec split">La postura técnica traducida a marcos normativos.</h2>
-      <p class="lead up" style="max-width:830px">
-        La misma telemetría que alimenta la detección alimenta el cumplimiento: score por marco, controles cubiertos,
-        parciales y fuera de alcance, con tendencia en el tiempo y el informe listo para enviar.
+      <h2 class="h-sec bits">La postura técnica traducida a marcos normativos.</h2>
+      <p class="lead up" style="max-width:860px">
+        La misma telemetría que alimenta la detección alimenta el cumplimiento. Cada hallazgo, cada activo y
+        cada acción de contención queda cruzada contra los marcos que le aplican a su organización: score por marco,
+        controles cubiertos, parciales y fuera de alcance, con tendencia en el tiempo. El monitoreo continuo deja de
+        ser un gasto técnico y pasa a ser la evidencia que el regulador pide.
       </p>
     </div>
 
     <div class="g2 seq">
-      <div class="shot">
-        <div class="frame">
+      <div>
+        <div class="frame px">
           <div class="frame-bar"><div class="dots"><i></i><i></i><i></i></div><div class="frame-t">CUMPLIMIENTO</div><div class="frame-s"><i></i> EN VIVO</div></div>
           <img src="img/cumplimiento.jpg" alt="Score por marco normativo, controles por estado y activos en riesgo" loading="lazy">
         </div>
-        <div class="cap">Score por marco y tendencia</div>
+        <div class="cap">Score por marco y tendencia diaria</div>
       </div>
       <div class="shot">
         <div class="frame">
@@ -953,10 +1023,99 @@ footer{padding:50px 0 26px;background:var(--bg);border-top:1px solid var(--line)
       </div>
     </div>
 
-    <div class="note up" style="margin-top:30px">
-      <span class="chip chip--o">Alcance</span>
-      <span>Los marcos evaluados se configuran según el sector del cliente y la normativa local aplicable. El informe se genera sobre <strong>datos reales de la operación</strong>, no sobre un cuestionario declarativo.</span>
+    <!-- Marcos evaluados -->
+    <div style="margin-top:56px">
+      <span class="eyebrow up">Marcos evaluados en paralelo</span>
+      <p class="lead up" style="max-width:780px;margin-bottom:30px">
+        No es un cuestionario que alguien responde una vez al año. Cada control se evalúa contra la operación real
+        y se recalcula solo cuando la infraestructura cambia.
+      </p>
+
+      <div class="fws" id="fws">
+        <div class="fw"><div><b>ISO/IEC 27001</b><i>Sistema de gestión de seguridad</i></div><span>Controles del Anexo A verificados sobre evidencia técnica, no sobre declaración</span></div>
+        <div class="fw"><div><b>Ley 21.663 · Ley Marco de Ciberseguridad</b><i>Fiscaliza la ANCI</i></div><span>Gestión continua de riesgos, capacidad de respuesta y reporte de incidentes</span></div>
+        <div class="fw"><div><b>Ley 21.719 · Datos personales</b><i>Fiscaliza la Agencia de Protección de Datos</i></div><span>Medidas de seguridad apropiadas y notificación de vulneraciones</span></div>
+        <div class="fw"><div><b>Norma Técnica N.º 7 · Ley 21.180</b><i>Transformación Digital del Estado</i></div><span>Confidencialidad, integridad y disponibilidad de plataformas del Estado</span></div>
+        <div class="fw"><div><b>ISO 27799</b><i>Seguridad de la información en salud</i></div><span>Adaptación de ISO 27002 al dato clínico y al equipamiento médico</span></div>
+        <div class="fw"><div><b>HIPAA</b><i>Regla de seguridad</i></div><span>Salvaguardas técnicas y administrativas sobre información de salud</span></div>
+        <div class="fw"><div><b>Privacidad CENS 2024</b><i>Interoperabilidad en salud</i></div><span>Requisitos de privacidad del estándar nacional de salud digital</span></div>
+        <div class="fw"><div><b>Madurez IS4H · OPS</b><i>Sistemas de información para la salud</i></div><span>Nivel de madurez institucional según el modelo de la OPS</span></div>
+        <div class="fw"><div><b>Madurez operativa</b><i>Línea base propia</i></div><span>Cobertura de detección, tiempo de respuesta y calidad del triaje</span></div>
+        <div class="fw"><div><b>Marcos sectoriales</b><i>CMF · sector energía · salud</i></div><span>Se incorporan según la actividad regulada de cada cliente</span></div>
+      </div>
     </div>
+
+    <!-- Reporte con estructura legal -->
+    <div class="legal up" id="legal">
+      <span class="eyebrow">Reporte de incidentes · estructura legal</span>
+      <h3>El informe no se arma después del incidente. Ya viene armado.</h3>
+      <p>
+        Cuando ocurre un incidente con efecto significativo, la Ley 21.663 pone un reloj en marcha. Zentris registra
+        cada caso con los campos que el reglamento exige, así que el reporte a la ANCI se completa con lo que la
+        plataforma ya capturó: no hay que reconstruir la historia a mano mientras el equipo está apagando el incendio.
+      </p>
+
+      <div class="flow flow--clock" id="clock" style="margin-top:44px">
+        <div class="flow-line"><i></i></div>
+        <div class="flow-g flow-g--3">
+          <div class="flow-s">
+            <div class="flow-t">DESDE LA DETECCIÓN</div>
+            <div class="flow-n">≤ 3 h</div>
+            <h4>Alerta temprana</h4>
+            <p>El caso ya tiene hora de detección, activos afectados e indicadores de compromiso. Es lo mínimo que pide el formulario.</p>
+          </div>
+          <div class="flow-s">
+            <div class="flow-t">REPORTE COMPLETO</div>
+            <div class="flow-n">≤ 72 h</div>
+            <h4>Actualización técnica</h4>
+            <p>Vector, sistemas comprometidos y medidas de contención aplicadas. Para operadores de importancia vital con servicio interrumpido, el plazo baja a 24 horas.</p>
+          </div>
+          <div class="flow-s">
+            <div class="flow-t">CIERRE</div>
+            <div class="flow-n">≤ 15 d</div>
+            <h4>Informe final</h4>
+            <p>Causa raíz, impacto real y verificación de que la corrección cerró el vector. Sale de la misma trazabilidad, sin trabajo aparte.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dual">
+        <div class="dual-c">
+          <div class="who">ANCI · CSIRT Nacional</div>
+          <h5>Ley 21.663</h5>
+          <p>Plazos fijos y escalonados para incidentes con efecto significativo. Obliga a prestadores de servicios esenciales y operadores de importancia vital. El régimen de reporte rige desde marzo de 2025.</p>
+        </div>
+        <div class="dual-c">
+          <div class="who">Agencia de Protección de Datos</div>
+          <h5>Ley 21.719</h5>
+          <p>Notificación por el medio más expedito y sin dilaciones indebidas cuando la vulneración afecta datos personales. Además hay que avisar a las personas si los datos son sensibles, de menores o financieros. Vigencia plena desde diciembre de 2026.</p>
+        </div>
+      </div>
+
+      <div class="payload">
+        <div class="ttl">Campos que el caso ya trae resueltos</div>
+        <ul class="tags" id="tags">
+          <li>Fecha y hora de detección</li>
+          <li>Tipo de incidente</li>
+          <li>Descripción técnica</li>
+          <li>Indicadores de compromiso</li>
+          <li>Activos comprometidos</li>
+          <li>Sistemas afectados</li>
+          <li>Medidas de contención</li>
+          <li>Responsable de cada decisión</li>
+          <li>Cronología completa</li>
+          <li>Verificación de la corrección</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="disclaimer up">
+      Una misma vulneración puede activar dos relojes en paralelo, uno ante la ANCI y otro ante la Agencia de
+      Protección de Datos, con organismos y plazos distintos. Los marcos evaluados y los plazos aplicables se
+      configuran según el sector del cliente y su calificación regulatoria. Zentris entrega la evidencia técnica
+      y la estructura del reporte; la presentación ante el regulador y su calificación jurídica siguen siendo
+      responsabilidad de la organización y de sus asesores legales.
+    </p>
   </div>
 </section>
 
@@ -1145,6 +1304,7 @@ var io = new IntersectionObserver(function(entries){
     if (!en.isIntersecting) return;
     var el = en.target;
     el.classList.add('is-in');
+    if (el.classList.contains('tags')) el.classList.add('on');
 
     if (el.classList.contains('split')){
       var total = el.querySelectorAll('.w').length * 32 + 900;
@@ -1163,7 +1323,7 @@ var io = new IntersectionObserver(function(entries){
   });
 }, { threshold: .16, rootMargin: '0px 0px -6% 0px' });
 
-document.querySelectorAll('.up, .seq, .split, .shot, .bits').forEach(function(el){ io.observe(el); });
+document.querySelectorAll('.up, .seq, .split, .shot, .bits, .tags').forEach(function(el){ io.observe(el); });
 document.querySelectorAll('.hl').forEach(function(h){
   if (!h.closest('.up, .seq, .split')) io.observe(h);
 });
@@ -1414,17 +1574,40 @@ function updatePin(){
 /* ==========================================================================
    I · Secuencia operativa con línea de avance
    ========================================================================== */
-var flow = document.getElementById('flow');
-var flowFill = document.getElementById('flow-fill');
-var flowSteps = document.querySelectorAll('#flow .flow-s');
+var flows = Array.prototype.slice.call(document.querySelectorAll('.flow')).map(function(f){
+  return { el:f, fill:f.querySelector('.flow-line i'), steps:f.querySelectorAll('.flow-s') };
+});
 
 function updateFlow(){
-  if (!flow) return;
-  var r = flow.getBoundingClientRect();
-  var a = window.innerHeight * .86, b = window.innerHeight * .28;
-  var p = Math.min(Math.max((a - r.top) / (a - b), 0), 1);
-  if (flowFill) flowFill.style.width = (p * 100) + '%';
-  flowSteps.forEach(function(s, i){ s.classList.toggle('on', p >= i / flowSteps.length + .015); });
+  var vh = window.innerHeight;
+  flows.forEach(function(f){
+    var r = f.el.getBoundingClientRect();
+    if (r.bottom < -100 || r.top > vh + 100) return;
+    var a = vh * .86, b = vh * .28;
+    var p = Math.min(Math.max((a - r.top) / (a - b), 0), 1);
+    if (f.fill) f.fill.style.width = (p * 100) + '%';
+    f.steps.forEach(function(s, i){ s.classList.toggle('on', p >= i / f.steps.length + .015); });
+  });
+}
+
+/* Marcos normativos: cada línea aparece a su turno mientras se recorre la lista */
+var fwRows = document.querySelectorAll('#fws .fw');
+function updateFws(){
+  if (!fwRows.length) return;
+  var vh = window.innerHeight;
+  fwRows.forEach(function(row){
+    if (row.classList.contains('on')) return;
+    var r = row.getBoundingClientRect();
+    if (r.top < vh * .90 && r.bottom > 0) row.classList.add('on');
+  });
+}
+
+/* Campos del reporte: entran uno tras otro */
+var tagsBox = document.getElementById('tags');
+if (tagsBox){
+  Array.prototype.forEach.call(tagsBox.children, function(li, i){
+    li.style.transitionDelay = (i * 0.055).toFixed(3) + 's';
+  });
 }
 
 /* ==========================================================================
@@ -1517,6 +1700,7 @@ function onScroll(){
     updateNav();
     updatePin();
     updateFlow();
+    updateFws();
     updatePixels();
     ticking = false;
   });
