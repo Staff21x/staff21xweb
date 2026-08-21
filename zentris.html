@@ -369,8 +369,8 @@ section[id]{scroll-margin-top:var(--nav-h)}
    12 · CARRUSEL
    ========================================================================== */
 .car{position:relative;margin-top:32px}
-.car-vp{overflow:hidden;border-radius:20px}
-.car-tr{display:flex;transition:transform .75s var(--ease);will-change:transform}
+.car-vp{overflow:hidden;border-radius:20px;transition:height .75s var(--ease)}
+.car-tr{display:flex;align-items:flex-start;transition:transform .75s var(--ease);will-change:transform}
 .car-sl{min-width:100%;transition:opacity .6s var(--ease);opacity:.28}
 .car-sl.on{opacity:1}
 .car-sl .frame{border-radius:20px}
@@ -1277,7 +1277,23 @@ if (tr){
     next.disabled = idx === n - 1;
     txBox.innerHTML = '<h4>' + META[idx][0] + '</h4><p>' + META[idx][1] + '</p>';
     counter.textContent = ('0' + (idx + 1)).slice(-2) + ' / ' + ('0' + n).slice(-2);
+    fitHeight();
   }
+
+  // El visor se ajusta a la lámina activa: cada captura tiene su propia
+  // proporción y sin esto todas heredarían la altura de la más alta.
+  var vp = document.querySelector('.car-vp');
+  function fitHeight(){
+    if (!vp || !slides[idx]) return;
+    var hh = slides[idx].offsetHeight;
+    if (hh > 0) vp.style.height = hh + 'px';
+  }
+  window.addEventListener('resize', fitHeight);
+  window.addEventListener('load', fitHeight);
+  Array.prototype.forEach.call(tr.querySelectorAll('img'), function(im){
+    if (im.complete) return;
+    im.addEventListener('load', fitHeight);
+  });
 
   prev.addEventListener('click', function(){ go(idx - 1); });
   next.addEventListener('click', function(){ go(idx + 1); });
