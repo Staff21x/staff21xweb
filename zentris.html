@@ -168,6 +168,7 @@ h1,h2,h3,.h-sec{overflow-wrap:normal;word-break:normal;hyphens:none;text-wrap:ba
 /* Cada palabra es una unidad indivisible; los caracteres se animan dentro.
    Sin esto el navegador puede cortar entre dos letras cualesquiera. */
 .bits .wd{display:inline-block;white-space:nowrap}
+.bits .sp,.split .sp{display:inline;white-space:pre}
 .bits .ch{
   display:inline-block;
   opacity:0;filter:blur(3px);
@@ -1288,18 +1289,25 @@ function splitInto(el){
 
   nodes.forEach(function(node){
     if (node.nodeType === 3){
-      node.textContent.split(/(\s+)/).forEach(function(t){
-        if (t === '') return;
-        if (!t.trim()){ frag.appendChild(document.createTextNode(' ')); return; }
+      var parts = node.textContent.replace(/\u00A0/g, ' ').split(' ');
+      for (var pi = 0; pi < parts.length; pi++){
+        if (parts[pi] === ''){ continue; }
         var w = document.createElement('span'); w.className = 'w';
-        var i = document.createElement('i'); i.textContent = t;
-        w.appendChild(i); frag.appendChild(w);
-      });
+        var ii = document.createElement('i'); ii.textContent = parts[pi];
+        w.appendChild(ii); frag.appendChild(w);
+        if (pi < parts.length - 1){
+          var sp = document.createElement('span');
+          sp.className = 'sp'; sp.textContent = ' ';
+          frag.appendChild(sp);
+        }
+      }
     } else if (node.nodeType === 1){
       if (node.tagName === 'BR'){ frag.appendChild(node.cloneNode()); return; }
-      var w2 = document.createElement('span'); w2.className = 'w';
-      var i2 = document.createElement('i'); i2.appendChild(node.cloneNode(true));
-      w2.appendChild(i2); frag.appendChild(w2);
+      // Se añade tal cual, sin envolverlo: encerrarlo en un bloque lo volvería
+      // indivisible y en pantallas angostas desbordaría o partiría mal.
+      var el2 = node.cloneNode(true);
+      el2.classList.add('wx');
+      frag.appendChild(el2);
     }
   });
 
@@ -1518,18 +1526,52 @@ if (!reduce){
    ========================================================================== */
 document.querySelectorAll('.bits').forEach(function(el){
   if (reduce) return;
-  var txt = el.textContent;
+
+  // En pantallas angostas el efecto pasa a ser por palabra, no por carácter.
+  // Trocear letra a letra le da al navegador permiso para cortar una palabra
+  // por la mitad, y en un teléfono eso ocurre en casi todos los titulares.
+  if (window.innerWidth < 760){
+    el.classList.remove('bits');
+    el.classList.add('split');
+    splitInto(el);
+    return;
+  }
+
+  var txt = el.textContent.replace(/\u00A0/g, ' ').trim();
+  var words = txt.split(' ');
   el.textContent = '';
-  for (var i = 0; i < txt.length; i++){
-    var s = document.createElement('span');
-    s.className = 'ch';
-    s.textContent = txt[i];
-    var a = Math.random() * Math.PI * 2;
-    var d = 18 + Math.random() * 46;
-    s.style.setProperty('--dx', (Math.cos(a) * d).toFixed(1) + 'px');
-    s.style.setProperty('--dy', (Math.sin(a) * d).toFixed(1) + 'px');
-    s.style.setProperty('--d', (i * 0.012 + Math.random() * 0.16).toFixed(3) + 's');
-    el.appendChild(s);
+  var k = 0;
+
+  for (var wi = 0; wi < words.length; wi++){
+    var token = words[wi];
+    if (token === '') continue;
+
+    // La palabra es la unidad indivisible; las letras se animan dentro.
+    var word = document.createElement('span');
+    word.className = 'wd';
+
+    for (var i = 0; i < token.length; i++){
+      var s = document.createElement('span');
+      s.className = 'ch';
+      s.textContent = token.charAt(i);
+      var a = Math.random() * Math.PI * 2;
+      var d = 16 + Math.random() * 42;
+      s.style.setProperty('--dx', (Math.cos(a) * d).toFixed(1) + 'px');
+      s.style.setProperty('--dy', (Math.sin(a) * d).toFixed(1) + 'px');
+      s.style.setProperty('--d', (k * 0.012 + Math.random() * 0.15).toFixed(3) + 's');
+      word.appendChild(s);
+      k++;
+    }
+    el.appendChild(word);
+
+    // Separador propio: no se apoya en un nodo de texto suelto, que es
+    // frágil entre elementos de bloque en línea.
+    if (wi < words.length - 1){
+      var sp = document.createElement('span');
+      sp.className = 'sp';
+      sp.textContent = ' ';
+      el.appendChild(sp);
+    }
   }
 });
 
