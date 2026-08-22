@@ -167,7 +167,7 @@ h1,h2,h3,.h-sec{overflow-wrap:normal;word-break:normal;hyphens:none;text-wrap:ba
 /* 3.6 — Titulares que se materializan carácter a carácter */
 /* Cada palabra es una unidad indivisible; los caracteres se animan dentro.
    Sin esto el navegador puede cortar entre dos letras cualesquiera. */
-.bits .wd{display:inline-block;white-space:nowrap}
+.bits .wd{display:inline-block;white-space:nowrap;max-width:100%}
 .bits .sp,.split .sp{display:inline;white-space:pre}
 .bits .ch{
   display:inline-block;
@@ -1527,15 +1527,12 @@ if (!reduce){
 document.querySelectorAll('.bits').forEach(function(el){
   if (reduce) return;
 
-  // En pantallas angostas el efecto pasa a ser por palabra, no por carácter.
-  // Trocear letra a letra le da al navegador permiso para cortar una palabra
-  // por la mitad, y en un teléfono eso ocurre en casi todos los titulares.
-  if (window.innerWidth < 760){
-    el.classList.remove('bits');
-    el.classList.add('split');
-    splitInto(el);
-    return;
-  }
+  // El efecto va por carácter en todas las pantallas. Lo que impide que una
+  // palabra se parta no es renunciar a la animación, sino que cada palabra
+  // sea una unidad cerrada con las letras animándose dentro.
+  var narrow = window.innerWidth < 760;
+  var spread = narrow ? 22 : 42;   // en un teléfono la dispersión es más corta
+  var base   = narrow ? 10 : 16;
 
   var txt = el.textContent.replace(/\u00A0/g, ' ').trim();
   var words = txt.split(' ');
@@ -1555,7 +1552,7 @@ document.querySelectorAll('.bits').forEach(function(el){
       s.className = 'ch';
       s.textContent = token.charAt(i);
       var a = Math.random() * Math.PI * 2;
-      var d = 16 + Math.random() * 42;
+      var d = base + Math.random() * spread;
       s.style.setProperty('--dx', (Math.cos(a) * d).toFixed(1) + 'px');
       s.style.setProperty('--dy', (Math.sin(a) * d).toFixed(1) + 'px');
       s.style.setProperty('--d', (k * 0.012 + Math.random() * 0.15).toFixed(3) + 's');
