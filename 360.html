@@ -59,7 +59,7 @@ h1 .yn{display:block;margin-top:10px;font-size:.62em;color:var(--tx2);font-weigh
 .btn-g{font-size:14px;font-weight:600;color:var(--tx);text-decoration:none;padding:15px 22px;border:1px solid var(--line2);border-radius:11px;transition:.15s}
 .btn-g:hover{border-color:var(--blue);color:#fff}
 
-/* DASHBOARD WIDGET (Replaces old scanner) */
+/* DASHBOARD WIDGET */
 .dash-widget{background:linear-gradient(180deg,var(--bg1),var(--bg));border:1px solid var(--line2);border-radius:16px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5);padding:28px 24px}
 .dash-title{font-size:13px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:1px;margin-bottom:26px;display:flex;justify-content:space-between;align-items:center}
 .dash-title .live{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--c3);display:flex;align-items:center;gap:6px}
@@ -267,7 +267,7 @@ footer{margin-top:20px;border-top:1px solid var(--line);padding:34px 0;font-fami
         </div>
       </div>
 
-      <!-- DASHBOARD WIDGET (Replaces old scanner) -->
+      <!-- DASHBOARD WIDGET -->
       <div class="dash-widget">
         <div class="dash-title">Resumen de Impacto 360 <span class="live"><i></i>MONITOREO ACTIVO</span></div>
         <div class="dash-row">
@@ -505,6 +505,17 @@ function recalc(){
   const buy=document.getElementById('buyBtn');
   buy.classList.toggle('off',n===0);
   buy.textContent=n?(n===3?'Contratar 360 · '+usd(total):'Contratar · '+usd(total))+' →':'Contratar →';
+  
+  // Update link to checkout page with URL params
+  let urlParams = new URLSearchParams();
+  if(state[1]) { urlParams.append('ia', PRICES[1]); urlParams.append('ia_t', document.querySelector('input[name="t1"]:checked').parentElement.textContent.trim()); }
+  if(state[2]) { urlParams.append('sec', PRICES[2]); urlParams.append('sec_t', document.querySelector('input[name="t2"]:checked').parentElement.textContent.trim()); }
+  if(state[3]) { urlParams.append('leg', PRICES[3]); urlParams.append('leg_t', document.querySelector('input[name="t3"]:checked').parentElement.textContent.trim()); }
+  urlParams.append('total', total);
+  urlParams.append('sub', sub);
+  urlParams.append('disc', (disc*100)+'%');
+  
+  buy.href = n>0 ? 'staff21xpago.html?' + urlParams.toString() : '#';
 
   [1,2,3].forEach(k=>document.querySelector('.chip[data-c="'+k+'"]').classList.toggle('on',state[k]));
 }
