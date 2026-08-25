@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radiografía 360 — Staff21x</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --bg:#05060a;--bg1:#0a0d16;--bg2:#10141f;--bg3:#161b2b;
+  --line:#1c2338;--line2:#2b3450;
+  --tx:#e5e9f7;--tx2:#8b96b8;--tx3:#535d7e;
+  --blue:#4f6ef7;--violet:#8b5cf6;
+  --c1:#4f8bff;   /* IA */
+  --c2:#ff5c46;   /* seguridad */
+  --c3:#22c98a;   /* cumplimiento */
+  --gold:#ffcf4d;
+  --grad:linear-gradient(115deg,#4f6ef7,#8b5cf6);
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--tx);font-size:15px;line-height:1.6;overflow-x:hidden}
+.mono{font-family:'JetBrains Mono',monospace}
+.wrap{max-width:1200px;margin:0 auto;padding:0 40px}
+::selection{background:var(--violet);color:#fff}
+
+/* ambient grid + glow */
+.bgfx{position:fixed;inset:0;z-index:0;pointer-events:none}
+.bgfx::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;opacity:.35;mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 0%,transparent 75%)}
+.bgfx::after{content:"";position:absolute;top:-25%;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse,rgba(79,110,247,.16),transparent 65%);filter:blur(30px)}
+.page{position:relative;z-index:1}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:60;backdrop-filter:blur(16px);background:rgba(5,6,10,.75);border-bottom:1px solid var(--line)}
+.nav-in{max-width:1200px;margin:0 auto;padding:15px 40px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:800;font-size:18px;letter-spacing:-.5px;color:#fff;text-decoration:none;display:flex;align-items:center;gap:9px}
+.brand .dot{width:9px;height:9px;border-radius:50%;background:var(--grad);box-shadow:0 0 12px var(--blue)}
+.brand em{font-style:normal;color:var(--tx2);font-weight:500;font-size:13px;font-family:'JetBrains Mono',monospace}
+.nav-cta{font-size:13px;font-weight:600;text-decoration:none;color:#fff;background:var(--grad);padding:10px 20px;border-radius:9px;box-shadow:0 6px 24px rgba(79,110,247,.3);transition:.15s}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(79,110,247,.5)}
+
+/* HERO */
+.hero{padding:80px 0 40px;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:9px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--tx2);border:1px solid var(--line2);border-radius:999px;padding:6px 14px;margin-bottom:26px;background:var(--bg1)}
+.badge .pulse{width:6px;height:6px;border-radius:50%;background:var(--c3);box-shadow:0 0 8px var(--c3);animation:pulse 1.8s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-size:clamp(38px,5vw,62px);font-weight:900;letter-spacing:-2.5px;line-height:1.02;color:#fff;margin-bottom:22px}
+h1 .redact{position:relative;white-space:nowrap;color:#fff}
+h1 .g1{color:var(--c1)} h1 .g2{color:var(--c2)} h1 .g3{color:var(--c3)}
+h1 .yn{display:block;margin-top:10px;font-size:.62em;color:var(--tx2);font-weight:700}
+.hero-sub{font-size:17px;color:var(--tx2);max-width:520px;margin-bottom:32px}
+.hero-sub b{color:var(--tx);font-weight:600}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn-p{font-size:15px;font-weight:600;color:#fff;background:var(--grad);padding:15px 28px;border-radius:11px;text-decoration:none;box-shadow:0 8px 30px rgba(79,110,247,.35);transition:.15s;display:inline-flex;align-items:center;gap:9px}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(79,110,247,.55)}
+.btn-g{font-size:14px;font-weight:600;color:var(--tx);text-decoration:none;padding:15px 22px;border:1px solid var(--line2);border-radius:11px;transition:.15s}
+.btn-g:hover{border-color:var(--blue);color:#fff}
+
+/* SCANNER PANEL (hero signature) */
+.scanner{background:linear-gradient(180deg,var(--bg1),var(--bg));border:1px solid var(--line2);border-radius:16px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.scan-top{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--bg2)}
+.scan-top .tl{display:flex;gap:6px}
+.scan-top .tl i{width:11px;height:11px;border-radius:50%;background:var(--line2)}
+.scan-top .lbl{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--tx3);margin-left:6px}
+.scan-top .live{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--c3);display:flex;align-items:center;gap:6px}
+.scan-top .live i{width:6px;height:6px;border-radius:50%;background:var(--c3);animation:pulse 1.4s infinite}
+.scan-radar{position:relative;height:150px;border-bottom:1px solid var(--line);overflow:hidden;background:radial-gradient(circle at 50% 100%,rgba(79,110,247,.08),transparent 70%)}
+.radar-rings{position:absolute;left:50%;bottom:-120px;transform:translateX(-50%);width:280px;height:280px}
+.radar-rings i{position:absolute;border:1px solid var(--line2);border-radius:50%;inset:0;opacity:.5}
+.radar-rings i:nth-child(2){inset:35px} .radar-rings i:nth-child(3){inset:70px} .radar-rings i:nth-child(4){inset:105px}
+.sweep{position:absolute;left:50%;bottom:-120px;width:140px;height:280px;transform-origin:left bottom;background:conic-gradient(from -90deg at left bottom,rgba(79,110,247,.35),transparent 40%);animation:sweep 3.5s linear infinite}
+@keyframes sweep{to{transform:rotate(180deg)}}
+.blip{position:absolute;width:7px;height:7px;border-radius:50%;opacity:0;animation:blip 3.5s infinite}
+.blip.b1{background:var(--c1);box-shadow:0 0 10px var(--c1);left:32%;bottom:44px;animation-delay:.4s}
+.blip.b2{background:var(--c2);box-shadow:0 0 10px var(--c2);left:58%;bottom:70px;animation-delay:1.5s}
+.blip.b3{background:var(--c3);box-shadow:0 0 10px var(--c3);left:47%;bottom:100px;animation-delay:2.6s}
+@keyframes blip{0%,20%{opacity:0}25%{opacity:1;transform:scale(1.6)}45%{opacity:1;transform:scale(1)}90%,100%{opacity:.15}}
+.scan-feed{padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:12px;min-height:132px}
+.feed-line{display:flex;gap:10px;align-items:center;padding:4px 0;opacity:0;transform:translateY(4px);animation:feedin .5s forwards}
+.feed-line .tag{font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;flex-shrink:0}
+.t1{background:rgba(79,139,255,.15);color:var(--c1)} .t2{background:rgba(255,92,70,.15);color:var(--c2)} .t3{background:rgba(34,201,138,.15);color:var(--c3)}
+.feed-line .txt{color:var(--tx2)} .feed-line .hit{color:var(--tx);font-weight:500}
+@keyframes feedin{to{opacity:1;transform:translateY(0)}}
+
+/* TRUST STRIP */
+.trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:52px;background:var(--bg1)}
+.trust-in{display:grid;grid-template-columns:repeat(4,1fr)}
+.trust-in div{padding:22px 26px;border-right:1px solid var(--line)}
+.trust-in div:last-child{border-right:none}
+.trust .n{font-size:26px;font-weight:800;color:#fff;letter-spacing:-1px;line-height:1}
+.trust .n .u{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.trust .l{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;margin-top:7px}
+
+/* SECTION */
+.sec{padding:80px 0 0}
+.eb{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:10px}
+.eb::before{content:"";width:24px;height:1px;background:var(--blue)}
+h2{font-size:clamp(28px,3.6vw,40px);font-weight:800;letter-spacing:-1.5px;color:#fff;margin:14px 0 12px;line-height:1.08}
+.sec-lead{color:var(--tx2);max-width:600px;font-size:16px}
+
+/* MODULES */
+.mods{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.mod{background:var(--bg1);border:1px solid var(--line);border-radius:16px;overflow:hidden;position:relative;transition:.18s;display:flex;flex-direction:column}
+.mod:hover{transform:translateY(-3px);border-color:var(--line2)}
+.mod::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;opacity:.9}
+.mod[data-k="1"]::before{background:var(--c1)} .mod[data-k="2"]::before{background:var(--c2)} .mod[data-k="3"]::before{background:var(--c3)}
+.mod-h{padding:24px 24px 18px;border-bottom:1px solid var(--line)}
+.mod-k{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.mod[data-k="1"] .mod-k{color:var(--c1)} .mod[data-k="2"] .mod-k{color:var(--c2)} .mod[data-k="3"] .mod-k{color:var(--c3)}
+.mod-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin:16px 0 14px;border:1px solid var(--line2)}
+.mod[data-k="1"] .mod-icon{background:rgba(79,139,255,.1)} .mod[data-k="2"] .mod-icon{background:rgba(255,92,70,.1)} .mod[data-k="3"] .mod-icon{background:rgba(34,201,138,.1)}
+.mod-icon svg{width:21px;height:21px}
+.mod-name{font-size:21px;font-weight:800;letter-spacing:-.6px;color:#fff;line-height:1.1}
+.mod-q{font-size:14px;color:var(--tx2);margin-top:10px;line-height:1.5}
+.mod-b{padding:20px 24px;flex:1}
+.mod-b ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.mod-b li{font-size:13.5px;color:var(--tx2);display:flex;gap:10px;line-height:1.45}
+.mod-b li svg{width:15px;height:15px;flex-shrink:0;margin-top:2px}
+.mod[data-k="1"] li svg{color:var(--c1)} .mod[data-k="2"] li svg{color:var(--c2)} .mod[data-k="3"] li svg{color:var(--c3)}
+.mod-sample{margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--tx);background:var(--bg2);border:1px solid var(--line2);border-radius:8px;padding:9px 12px;width:100%;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s}
+.mod-sample:hover{border-color:var(--blue);color:#fff}
+.mod-f{padding:18px 24px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--bg2)}
+.mod-price{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.5px}
+.mod-price .cur{font-size:13px;color:var(--tx3);font-weight:500;margin-right:2px}
+.pick{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:#fff;background:transparent;border:1.5px solid var(--line2);border-radius:9px;padding:10px 16px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:.15s;white-space:nowrap}
+.pick .bx{width:15px;height:15px;border:1.5px solid var(--tx3);border-radius:4px;position:relative;transition:.15s}
+.pick:hover{border-color:var(--tx2)}
+.mod.on{border-color:var(--line2)}
+.mod.on .mod-f{background:var(--bg3)}
+.mod.on .pick{background:var(--grad);border-color:transparent}
+.mod.on .pick .bx{background:#fff;border-color:#fff}
+.mod.on .pick .bx::after{content:"✓";position:absolute;inset:-3px 0 0 2px;color:var(--blue);font-size:12px;font-weight:800}
+.mod.on::after{content:"";position:absolute;inset:0;border-radius:16px;pointer-events:none;box-shadow:inset 0 0 0 1.5px var(--line2),0 20px 50px -20px rgba(79,110,247,.4)}
+
+/* STICKY CALC */
+.calc{position:sticky;bottom:22px;z-index:45;margin-top:26px}
+.calc-in{background:rgba(10,13,22,.9);backdrop-filter:blur(18px);border:1px solid var(--line2);border-radius:16px;padding:18px 24px;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.calc-left{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.chips{display:flex;gap:8px}
+.chip{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.5px;padding:6px 11px;border-radius:7px;border:1px solid var(--line2);color:var(--tx3);transition:.15s}
+.chip.on{color:#fff}
+.chip.c1.on{background:rgba(79,139,255,.15);border-color:var(--c1);color:var(--c1)}
+.chip.c2.on{background:rgba(255,92,70,.15);border-color:var(--c2);color:var(--c2)}
+.chip.c3.on{background:rgba(34,201,138,.15);border-color:var(--c3);color:var(--c3)}
+.disc{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--gold)}
+.disc.none{color:var(--tx3)}
+.calc-right{display:flex;align-items:center;gap:22px}
+.calc-tot{text-align:right}
+.calc-tot .t{font-size:30px;font-weight:800;color:#fff;letter-spacing:-1px;line-height:1}
+.calc-tot .t s{font-size:15px;color:var(--tx3);font-weight:400;margin-right:8px}
+.calc-tot .n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--tx2);margin-top:5px}
+.buy{font-size:14px;font-weight:700;color:#fff;background:var(--grad);border:none;border-radius:11px;padding:15px 26px;cursor:pointer;text-decoration:none;white-space:nowrap;box-shadow:0 8px 26px rgba(79,110,247,.4);transition:.15s}
+.buy:hover{transform:translateY(-2px)}
+.buy.off{opacity:.35;pointer-events:none;box-shadow:none}
+
+/* HOW */
+.how{margin-top:40px;display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.step{background:var(--bg1);border:1px solid var(--line);border-radius:13px;padding:22px 20px;position:relative}
+.step .sn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--blue)}
+.step h4{font-size:16px;font-weight:700;color:#fff;margin:12px 0 7px;letter-spacing:-.3px}
+.step p{font-size:13px;color:var(--tx2)}
+.step .arw{position:absolute;right:-10px;top:50%;color:var(--line2);z-index:2}
+
+/* EITL */
+.eitl{margin-top:44px;border:1px solid var(--line2);border-radius:18px;overflow:hidden;background:linear-gradient(120deg,var(--bg1),var(--bg2));position:relative}
+.eitl::before{content:"";position:absolute;top:-40%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(139,92,246,.14),transparent 65%);filter:blur(20px)}
+.eitl-in{display:grid;grid-template-columns:1.1fr 1fr;position:relative}
+.eitl-l{padding:44px 44px;border-right:1px solid var(--line)}
+.eitl-l .eb{color:var(--violet)} .eitl-l .eb::before{background:var(--violet)}
+.eitl-l h2{margin-top:14px}
+.eitl-l p{color:var(--tx2);font-size:15.5px;line-height:1.65}
+.eitl-l p b{color:#fff;font-weight:600}
+.eitl-r{padding:36px 40px;display:flex;flex-direction:column;justify-content:center;gap:6px}
+.el-step{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.el-step:last-child{border-bottom:none}
+.el-num{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--violet);flex-shrink:0;padding-top:3px}
+.el-step b{font-size:16px;font-weight:700;color:#fff;display:block;margin-bottom:3px;letter-spacing:-.3px}
+.el-step p{font-size:13px;color:var(--tx2)}
+
+/* FREE */
+.free{margin-top:44px;border:1px solid var(--c2);border-radius:18px;padding:40px 44px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;background:linear-gradient(120deg,rgba(255,92,70,.07),var(--bg1));position:relative;overflow:hidden}
+.free .eb{color:var(--c2)} .free .eb::before{background:var(--c2)}
+.free h3{font-size:28px;font-weight:800;color:#fff;letter-spacing:-1px;margin:12px 0 8px}
+.free p{color:var(--tx2);max-width:560px}
+.free-form{display:flex;gap:10px;flex-wrap:wrap}
+.free-form input{background:var(--bg);border:1px solid var(--line2);border-radius:11px;padding:14px 16px;color:#fff;font-size:14px;font-family:'JetBrains Mono',monospace;min-width:220px}
+.free-form input:focus{outline:none;border-color:var(--c2)}
+.free-form button{font-size:14px;font-weight:700;color:#fff;background:var(--c2);border:none;border-radius:11px;padding:14px 24px;cursor:pointer;white-space:nowrap;transition:.15s}
+.free-form button:hover{filter:brightness(1.1)}
+.free-note{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--tx3);margin-top:12px}
+
+footer{margin-top:64px;border-top:1px solid var(--line);padding:34px 0;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--tx3)}
+.foot-in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;align-items:center}
+.foot-in a{color:var(--tx2);text-decoration:none}
+
+/* MODAL */
+.ov{position:fixed;inset:0;background:rgba(5,6,10,.82);backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center;padding:24px}
+.ov.show{display:flex}
+.modal{background:var(--bg1);border:1px solid var(--line2);border-radius:16px;max-width:720px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 40px 100px rgba(0,0,0,.7)}
+.modal::-webkit-scrollbar{width:8px} .modal::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px}
+.mhead{position:sticky;top:0;background:var(--bg2);border-bottom:1px solid var(--line);padding:16px 24px;display:flex;justify-content:space-between;align-items:center;z-index:2}
+.mhead .t{font-size:15px;font-weight:700;color:#fff}
+.mhead .x{background:none;border:none;color:var(--tx2);font-size:22px;cursor:pointer;line-height:1}
+.mhead .x:hover{color:#fff}
+.mbody{padding:26px 28px}
+.rband{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 11px;border-radius:6px;display:inline-block;margin-bottom:18px}
+.rb1{background:rgba(79,139,255,.15);color:var(--c1)} .rb2{background:rgba(255,92,70,.15);color:var(--c2)} .rb3{background:rgba(34,201,138,.15);color:var(--c3)}
+.rscore{display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:20px}
+.rscore .ring{position:relative;width:78px;height:78px;flex-shrink:0}
+.rscore .ring svg{transform:rotate(-90deg)}
+.rscore .ring .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rscore .ring .num b{font-size:24px;font-weight:800;color:#fff;line-height:1}
+.rscore .ring .num s{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--tx3);text-decoration:none}
+.rscore .rv b{font-size:15px;font-weight:700;color:#fff;display:block}
+.rscore .rv p{font-size:13px;color:var(--tx2);margin-top:3px}
+.rrow{border:1px solid var(--line);border-radius:11px;margin-bottom:9px;overflow:hidden}
+.rrow .rh{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 15px;background:var(--bg2)}
+.rrow .rh .rt{font-size:14px;font-weight:600;color:var(--tx)}
+.rrow .rh .sv{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;padding:3px 8px;border-radius:5px;flex-shrink:0;text-transform:uppercase}
+.sv-cr{background:rgba(255,92,70,.18);color:var(--c2)} .sv-hi{background:rgba(255,160,40,.18);color:#ffa028} .sv-me{background:rgba(255,207,77,.18);color:var(--gold)} .sv-ok{background:rgba(34,201,138,.18);color:var(--c3)}
+.rrow .rc{padding:12px 15px;font-size:13px;color:var(--tx2);line-height:1.55}
+.rrow .rc b{color:var(--tx)}
+.reitl{margin-top:20px;display:flex;align-items:center;gap:12px;background:linear-gradient(100deg,rgba(139,92,246,.12),transparent);border:1px solid var(--line2);border-radius:11px;padding:13px 16px}
+.reitl .av{width:34px;height:34px;border-radius:50%;background:var(--grad);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:13px}
+.reitl .rx{font-size:12px;color:var(--tx2);line-height:1.45}
+.reitl .rx b{color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;display:block}
+.rfoot{margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--tx3);border-top:1px dashed var(--line2);padding-top:13px}
+
+@media(max-width:980px){
+  .hero-grid{grid-template-columns:1fr;gap:36px}
+  .trust-in{grid-template-columns:1fr 1fr}
+  .trust-in div:nth-child(2){border-right:none}
+  .trust-in div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .mods{grid-template-columns:1fr}
+  .how{grid-template-columns:1fr 1fr}
+  .eitl-in{grid-template-columns:1fr}
+  .eitl-l{border-right:none;border-bottom:1px solid var(--line)}
+  .free{grid-template-columns:1fr}
+  .calc-in{grid-template-columns:1fr;gap:16px}
+  .calc-right{justify-content:space-between}
+}
+@media(max-width:560px){
+  .wrap{padding:0 22px}
+  .nav-in{padding:14px 22px}
+  h1{letter-spacing:-1.5px}
+  .how{grid-template-columns:1fr}
+  .trust-in{grid-template-columns:1fr}
+  .trust-in div{border-right:none;border-bottom:1px solid var(--line)}
+  .step .arw{display:none}
+}
+</style>
+</head>
+<body>
+<div class="bgfx"></div>
+<div class="page">
+
+<nav>
+  <div class="nav-in">
+    <a href="/" class="brand"><span class="dot"></span>staff21x <em>/360</em></a>
+    <a href="#modulos" class="nav-cta">Escanear mi empresa →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="badge mono"><span class="pulse"></span>DIAGNÓSTICO EN 3 CAPAS · 100% AUTOSERVICIO</div>
+        <h1>
+          Lo que un <span class="redact g2">atacante</span>,
+          un <span class="redact g3">auditor</span>
+          y la <span class="redact g1">IA</span>
+          ya saben de tu empresa.
+          <span class="yn">Y tú, todavía no.</span>
+        </h1>
+        <p class="hero-sub">Radiografía 360 escanea tu empresa desde tres ángulos —<b> madurez para IA, exposición a ataques y cumplimiento legal</b>— y te entrega el mapa completo en días, no en meses. Contratas en la web. El resto es automático.</p>
+        <div class="hero-btns">
+          <a href="#modulos" class="btn-p">Arma tu escaneo →</a>
+          <a href="#gratis" class="btn-g">Probar gratis con mi dominio</a>
+        </div>
+      </div>
+
+      <!-- SCANNER SIGNATURE -->
+      <div class="scanner">
+        <div class="scan-top">
+          <div class="tl"><i></i><i></i><i></i></div>
+          <span class="lbl mono">radiografia_360 — scan_engine</span>
+          <span class="live mono"><i></i>LIVE</span>
+        </div>
+        <div class="scan-radar">
+          <div class="radar-rings"><i></i><i></i><i></i><i></i></div>
+          <div class="sweep"></div>
+          <span class="blip b1"></span><span class="blip b2"></span><span class="blip b3"></span>
+        </div>
+        <div class="scan-feed" id="feed"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- TRUST STRIP -->
+<div class="trust">
+  <div class="trust-in wrap" style="padding-top:0;padding-bottom:0">
+    <div><div class="n"><span class="u">1 día</span></div><div class="l mono">levantamiento máx.</div></div>
+    <div><div class="n">2 h</div><div class="l mono">una sola reunión</div></div>
+    <div><div class="n">EITL</div><div class="l mono">experto valida cada informe</div></div>
+    <div><div class="n">3 mercados</div><div class="l mono">Chile · LATAM · España</div></div>
+  </div>
+</div>
+
+<!-- MODULES -->
+<section class="sec" id="modulos">
+  <div class="wrap">
+    <span class="eb mono">arma tu escaneo</span>
+    <h2>Elige tus capas. El precio baja solo.</h2>
+    <p class="sec-lead">Cada capa se contrata suelta y resuelve una pregunta distinta. Suma la segunda y descuentas 10%. Suma la tercera y descuentas 20% sobre el total. Mira un ejemplo real de informe antes de decidir.</p>
+
+    <div class="mods">
+      <!-- CAPA 1 -->
+      <div class="mod" data-k="1" data-price="900">
+        <div class="mod-h">
+          <div class="mod-k mono">Capa 01 · Staff21x</div>
+          <div class="mod-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--c1)" stroke-width="2"><path d="M12 2a4 4 0 0 0-4 4v1a3 3 0 0 0-3 3 3 3 0 0 0 1 5v1a3 3 0 0 0 5 2 3 3 0 0 0 5-2v-1a3 3 0 0 0 1-5 3 3 0 0 0-3-3V6a4 4 0 0 0-4-4z"/></svg></div>
+          <div class="mod-name">Preparación<br>para IA</div>
+          <div class="mod-q">¿Puedes adoptar IA hoy, o primero hay que ordenar la casa?</div>
+        </div>
+        <div class="mod-b">
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Qué se automatiza, qué necesita un agente y qué no es viable aún</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Estado real de tus datos: si un sistema puede consumirlos</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Riesgo operativo: procesos sin dueño, dependencia de una persona</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Nivel de madurez comparado con tu industria</li>
+          </ul>
+          <button class="mod-sample mono" data-r="1">▸ ver ejemplo de informe</button>
+        </div>
+        <div class="mod-f">
+          <div class="mod-price"><span class="cur">USD</span>$900</div>
+          <button class="pick"><span class="bx"></span>Agregar</button>
+        </div>
+      </div>
+
+      <!-- CAPA 2 -->
+      <div class="mod" data-k="2" data-price="1500">
+        <div class="mod-h">
+          <div class="mod-k mono">Capa 02 · Zentris</div>
+          <div class="mod-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--c2)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="mod-name">Nivel de<br>seguridad</div>
+          <div class="mod-q">¿Qué ve un atacante de tu empresa desde afuera, ahora mismo?</div>
+        </div>
+        <div class="mod-b">
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Todo lo que expones: dominios, puertos, servicios y tecnologías vulnerables</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Repositorios y buckets abiertos, correo suplantable (SPF/DKIM/DMARC)</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Credenciales de tus usuarios filtradas en la dark web</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Explotación controlada de hasta 3 hallazgos críticos, con evidencia</li>
+          </ul>
+          <button class="mod-sample mono" data-r="2">▸ ver ejemplo de informe</button>
+        </div>
+        <div class="mod-f">
+          <div class="mod-price"><span class="cur">USD</span>$1.500</div>
+          <button class="pick"><span class="bx"></span>Agregar</button>
+        </div>
+      </div>
+
+      <!-- CAPA 3 -->
+      <div class="mod" data-k="3" data-price="1900">
+        <div class="mod-h">
+          <div class="mod-k mono">Capa 03 · Resility</div>
+          <div class="mod-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--c3)" stroke-width="2"><path d="M3 6l9-4 9 4M4 10h16M6 10v8m4-8v8m4-8v8m4-8v8M3 22h18"/></svg></div>
+          <div class="mod-name">Cumplimiento<br>legal</div>
+          <div class="mod-q">¿Qué leyes estás incumpliendo hoy, y cuánto te puede costar?</div>
+        </div>
+        <div class="mod-b">
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Ley 21.719 de datos — vigente 1-dic-2026, multas hasta 20.000 UTM</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Ley 21.663 y ANCI — reporte de incidentes en 3 y 72 horas</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Inventario de tratamientos de datos y flujos transfronterizos</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Capacidad real de detectar y notificar una brecha en plazo</li>
+          </ul>
+          <button class="mod-sample mono" data-r="3">▸ ver ejemplo de informe</button>
+        </div>
+        <div class="mod-f">
+          <div class="mod-price"><span class="cur">USD</span>$1.900</div>
+          <button class="pick"><span class="bx"></span>Agregar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STICKY CALC -->
+    <div class="calc">
+      <div class="calc-in">
+        <div class="calc-left">
+          <div class="chips">
+            <span class="chip c1 mono" data-c="1">IA</span>
+            <span class="chip c2 mono" data-c="2">SEGURIDAD</span>
+            <span class="chip c3 mono" data-c="3">CUMPLIMIENTO</span>
+          </div>
+          <span class="disc none mono" id="discLabel">sin descuento — suma capas</span>
+        </div>
+        <div class="calc-right">
+          <div class="calc-tot">
+            <div class="t"><s id="strike"></s><span id="total">USD $0</span></div>
+            <div class="n mono" id="note">selecciona al menos una capa</div>
+          </div>
+          <a href="#" class="buy off mono" id="buyBtn">Contratar →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="sec">
+  <div class="wrap">
+    <span class="eb mono">cómo funciona</span>
+    <h2>Todo automático. Cero reuniones eternas.</h2>
+    <div class="how">
+      <div class="step"><div class="sn mono">01</div><h4>Eliges capas</h4><p>Armas tu escaneo y contratas en la web. El descuento se aplica solo.</p><svg class="arw" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="step"><div class="sn mono">02</div><h4>Formulario</h4><p>20 min: procesos, sistemas, dominios y autorización de escaneo firmada.</p><svg class="arw" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="step"><div class="sn mono">03</div><h4>Reunión 2 h</h4><p>Una videollamada agendada automático. Solo las capas que la requieren.</p><svg class="arw" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="step"><div class="sn mono">04</div><h4>Escaneo</h4><p>Corre en paralelo apenas firmas. Tú no haces nada. Máximo 1 día.</p><svg class="arw" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="step"><div class="sn mono">05</div><h4>Informes</h4><p>Un informe por capa + plan de acción 30/60/90 + minuta para directorio.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- EITL -->
+<section class="sec">
+  <div class="wrap">
+    <div class="eitl">
+      <div class="eitl-in">
+        <div class="eitl-l">
+          <span class="eb mono">expert in the loop</span>
+          <h2>Automático no significa sin humano.</h2>
+          <p>Los agentes hacen el trabajo pesado: escanean, cruzan datos y detectan patrones a una velocidad que ningún equipo humano alcanza. Pero <b>ningún informe sale sin que un experto lo revise, valide cada hallazgo y descarte los falsos positivos.</b> Lo que recibes no es la salida cruda de una máquina — es un análisis con criterio humano detrás de cada punto, firmado por alguien que responde por él.</p>
+        </div>
+        <div class="eitl-r">
+          <div class="el-step"><span class="el-num mono">01</span><div><b>Los agentes ejecutan</b><p>Escaneo, correlación y detección automática en paralelo.</p></div></div>
+          <div class="el-step"><span class="el-num mono">02</span><div><b>El experto valida</b><p>Un especialista revisa cada hallazgo, prioriza y elimina el ruido.</p></div></div>
+          <div class="el-step"><span class="el-num mono">03</span><div><b>Tú recibes</b><p>Un informe validado, con una persona que responde por cada conclusión.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FREE -->
+<section class="sec" id="gratis">
+  <div class="wrap">
+    <div class="free">
+      <div>
+        <span class="eb mono">empieza gratis</span>
+        <h3>3 hallazgos reales en 48 horas.</h3>
+        <p>Ingresa tu dominio y hacemos un escaneo 100% pasivo, sin tocar tu infraestructura. Te mostramos 3 cosas que un atacante ya puede ver de tu empresa. Sin tarjeta, sin compromiso.</p>
+        <div class="free-note mono">// escaneo pasivo · no intrusivo · resultado por correo en 48 h</div>
+      </div>
+      <div class="free-form">
+        <input type="text" placeholder="tuempresa.com" />
+        <button>Escanear gratis →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in wrap">
+    <span>staff21x.com/360 · Radiografía 360</span>
+    <span><a href="mailto:hola@staff21x.com">hola@staff21x.com</a> · +56 9 9907 6409</span>
+  </div>
+</footer>
+
+</div>
+
+<!-- MODAL -->
+<div class="ov" id="ov">
+  <div class="modal">
+    <div class="mhead">
+      <span class="t" id="mTitle">Ejemplo de informe</span>
+      <button class="x" id="mClose">✕</button>
+    </div>
+    <div class="mbody" id="mBody"></div>
+  </div>
+</div>
+
+<script>
+/* ---- live scanner feed ---- */
+const FEED=[
+  ['t2','hit','445 puertos analizados','· 3 servicios expuestos'],
+  ['t2','hit','dark web','· 14 credenciales @dominio filtradas'],
+  ['t3','hit','Ley 21.719','· sin registro de tratamientos'],
+  ['t1','hit','procesos mapeados','· 2 sin dueño definido'],
+  ['t2','hit','DMARC','· ausente — correo suplantable'],
+  ['t3','hit','brecha 72h','· sin capacidad de notificar'],
+  ['t1','hit','datos','· 3 fuentes fragmentadas'],
+];
+const feed=document.getElementById('feed');let fi=0;
+function pushFeed(){
+  if(feed.children.length>=5)feed.removeChild(feed.firstChild);
+  const f=FEED[fi%FEED.length];fi++;
+  const el=document.createElement('div');el.className='feed-line';
+  el.innerHTML='<span class="tag '+f[0]+'">'+(f[0]==='t1'?'IA':f[0]==='t2'?'SEC':'LEGAL')+'</span><span class="'+f[2].length?'hit':'txt'+'">'+f[2]+'</span><span class="txt">'+f[3]+'</span>';
+  feed.appendChild(el);
+}
+for(let i=0;i<4;i++)pushFeed();
+setInterval(pushFeed,1600);
+
+/* ---- calculator ---- */
+const PRICES={1:900,2:1500,3:1900};
+const usd=n=>'USD $'+n.toLocaleString('es-CL');
+const state={1:false,2:false,3:false};
+
+function recalc(){
+  const on=Object.keys(state).filter(k=>state[k]);
+  const n=on.length;
+  const sub=on.reduce((s,k)=>s+PRICES[k],0);
+  let disc=0; if(n===2)disc=.10; if(n===3)disc=.20;
+  const total=Math.round(sub*(1-disc));
+
+  document.getElementById('total').textContent=n?usd(total):'USD $0';
+  document.getElementById('strike').textContent=disc?usd(sub):'';
+
+  const dl=document.getElementById('discLabel');
+  dl.classList.toggle('none',n<2);
+  if(n===0)dl.textContent='sin descuento — suma capas';
+  else if(n===1)dl.textContent='+ agrega una capa y baja 10%';
+  else if(n===2)dl.textContent='✓ −10% aplicado · suma la 3ª → −20%';
+  else dl.textContent='✓ −20% aplicado · Radiografía 360 completa';
+
+  const note=document.getElementById('note');
+  if(n===0)note.textContent='selecciona al menos una capa';
+  else if(n===3)note.textContent='pack completo · entrega en 5 días hábiles';
+  else note.textContent=n+(n===1?' capa · ahorra sumando otra':' capas seleccionadas');
+
+  const buy=document.getElementById('buyBtn');
+  buy.classList.toggle('off',n===0);
+  buy.textContent=n?(n===3?'Contratar 360 · '+usd(total):'Contratar · '+usd(total))+' →':'Contratar →';
+
+  [1,2,3].forEach(k=>document.querySelector('.chip[data-c="'+k+'"]').classList.toggle('on',state[k]));
+}
+
+document.querySelectorAll('.mod').forEach(mod=>{
+  const k=mod.dataset.k;
+  mod.querySelector('.pick').addEventListener('click',()=>{
+    state[k]=!state[k];
+    mod.classList.toggle('on',state[k]);
+    mod.querySelector('.pick').lastChild.textContent=state[k]?'Quitar':'Agregar';
+    recalc();
+  });
+});
+
+/* ---- report modal ---- */
+const REPORTS={
+  1:{title:'Capa 01 · Preparación para IA',band:'rb1',score:54,color:'var(--c1)',verd:'Madurez media-baja',vsub:'Base parcialmente lista. Hay que ordenar datos antes de escalar.',
+    rows:[
+      ['Datos de clientes fragmentados en 3 planillas','sv-hi','Alto','Nombres y RUT sin criterio unificado. <b>Bloquea</b> cualquier agente que necesite identificar al cliente. Acción: consolidar en repositorio único antes de automatizar.'],
+      ['Proceso de cotización sin dueño','sv-cr','Crítico','Cada vendedor cotiza distinto y nadie describe el flujo estándar. Un agente no ejecuta lo que la empresa no sabe definir. Candidato #1 a ordenar.'],
+      ['Agendamiento por WhatsApp','sv-ok','Automatizable','Flujo claro, datos disponibles, alto volumen repetitivo. <b>Quick win</b>: agente operativo estimado en 10 días hábiles.'],
+      ['Atención post-venta','sv-me','Medio','Requiere agente con lógica de decisión. Viable una vez consolidados los datos de clientes.'],
+    ],
+    foot:'// Informe completo: listado de oportunidades priorizado · plan de acción por fases con horas ahorradas estimadas.'},
+  2:{title:'Capa 02 · Nivel de seguridad',band:'rb2',score:38,color:'var(--c2)',verd:'Exposición alta',vsub:'Superficie de ataque amplia y credenciales activas filtradas.',
+    rows:[
+      ['Panel de administración expuesto','sv-cr','Crítico','Interfaz de gestión accesible sin restricción de IP en <b>admin.—————.com</b>. Se llegó a la pantalla de login con usuario válido enumerado. Evidencia en anexo.'],
+      ['14 credenciales corporativas en dark web','sv-cr','Crítico','Correos <b>@tu-dominio</b> con contraseñas en filtraciones 2023-2025. Al menos 3 siguen activas. Forzar reseteo inmediato.'],
+      ['Correo suplantable — sin DMARC','sv-hi','Alto','Registro DMARC ausente. Cualquiera puede enviar correos que parecen venir de tu dominio. Riesgo directo de fraude a clientes.'],
+      ['Certificado TLS vencido','sv-me','Medio','Vencido hace 41 días en un subdominio activo. Degrada confianza y habilita intercepción.'],
+    ],
+    foot:'// Informe completo: ejecutivo + anexo técnico con evidencia visual de la cadena de ataque + sesión de 45 min. Explotación controlada en versión con re-test.'},
+  3:{title:'Capa 03 · Cumplimiento legal',band:'rb3',score:42,color:'var(--c3)',verd:'Brecha significativa',vsub:'Obligaciones clave sin evidencia operativa antes del plazo legal.',
+    rows:[
+      ['Sin registro de actividades de tratamiento','sv-cr','Crítico','La Ley 21.719 fiscaliza evidencia, no políticas. Hoy no existe inventario datado de qué datos tratas y con qué base legal. <b>Obligatorio</b> antes del 1-dic-2026.'],
+      ['Sin capacidad de notificar brecha en 72 h','sv-cr','Crítico','No hay detección ni procedimiento para cumplir el plazo legal. Una brecha hoy es incumplimiento automático.'],
+      ['Transferencia de datos al extranjero','sv-hi','Alto','Datos personales fluyen a un proveedor cloud fuera del país sin cláusula de resguardo. Requiere DPA actualizado.'],
+      ['Consentimiento en formularios web','sv-me','Medio','Los formularios capturan datos sin finalidad declarada ni opción de oposición. Ajuste de bajo esfuerzo, alto impacto.'],
+    ],
+    foot:'// Informe completo: matriz de brechas 21.719 + ANCI · plan de remediación 30/60/90 costeado · minuta de 2 páginas para directorio.'},
+};
+
+function ring(score,color){
+  const r=32,c=2*Math.PI*r,off=c*(1-score/100);
+  return '<div class="ring"><svg width="78" height="78"><circle cx="39" cy="39" r="32" fill="none" stroke="var(--line2)" stroke-width="6"/><circle cx="39" cy="39" r="32" fill="none" stroke="'+color+'" stroke-width="6" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+off+'"/></svg><div class="num"><b>'+score+'</b><s>/100</s></div></div>';
+}
+
+document.querySelectorAll('.mod-sample').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const r=REPORTS[btn.dataset.r];
+    document.getElementById('mTitle').textContent=r.title+' — extracto';
+    let h='<span class="rband '+r.band+' mono">Informe de muestra · datos ilustrativos</span>';
+    h+='<div class="rscore">'+ring(r.score,r.color)+'<div class="rv"><b>'+r.verd+'</b><p>'+r.vsub+'</p></div></div>';
+    r.rows.forEach(row=>{
+      h+='<div class="rrow"><div class="rh"><span class="rt">'+row[0]+'</span><span class="sv '+row[1]+' mono">'+row[2]+'</span></div><div class="rc">'+row[3]+'</div></div>';
+    });
+    h+='<div class="reitl"><div class="av">EX</div><div class="rx"><b>✓ EXPERT IN THE LOOP</b>Cada hallazgo fue revisado y validado por un especialista antes de la entrega. Nada de esto salió sin criterio humano.</div></div>';
+    h+='<div class="rfoot mono">'+r.foot+'</div>';
+    document.getElementById('mBody').innerHTML=h;
+    document.getElementById('ov').classList.add('show');
+  });
+});
+document.getElementById('mClose').addEventListener('click',()=>document.getElementById('ov').classList.remove('show'));
+document.getElementById('ov').addEventListener('click',e=>{if(e.target.id==='ov')document.getElementById('ov').classList.remove('show')});
+
+recalc();
+</script>
+</body>
+</html>
