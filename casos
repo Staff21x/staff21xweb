@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Casos de uso — staff21x</title>
+<meta name="description" content="Cuatro procesos operativos desarmados pieza por pieza: qué está roto, qué absorbe el trabajador digital, qué sigue siendo humano y cuándo no recomendamos un agente.">
+<link rel="canonical" href="https://www.staff21x.com/casos.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f6f7; --surface:#fff; --ink:#0a0a0b; --panel:#0b0b0d; --panel-2:#141417;
+  --amber:#F59E0B; --amber-dim:rgba(245,158,11,.12); --amber-line:rgba(245,158,11,.32);
+  --tx-1:#131316; --tx-2:#6a6a70; --tx-3:#9a9aa1;
+  --tx-inv-1:#f4f4f5; --tx-inv-2:#a1a1aa; --tx-inv-3:#6b6b73;
+  --line:rgba(0,0,0,.085); --line-mid:rgba(0,0,0,.15);
+  --line-inv:rgba(255,255,255,.10); --line-inv-mid:rgba(255,255,255,.18);
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --maxw:1200px; --nav-h:64px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--sans);background:var(--bg);color:var(--tx-1);font-size:16px;line-height:1.55;letter-spacing:-.011em;overflow-x:hidden}
+img{max-width:100%;display:block}
+::selection{background:var(--ink);color:#fff}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:3px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;position:relative}
+.mono{font-family:var(--mono)}
+
+.eyebrow{font-family:var(--mono);font-size:.66rem;font-weight:600;text-transform:uppercase;letter-spacing:.2em;color:var(--tx-3);display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.eyebrow::before{content:'';width:20px;height:1px;background:var(--amber);flex-shrink:0}
+.eyebrow--inv{color:var(--tx-inv-3)}
+.h-hero{font-size:clamp(2.35rem,5.6vw,4.4rem);font-weight:760;line-height:1.03;letter-spacing:-.043em;text-wrap:balance}
+.h-sec{font-size:clamp(1.7rem,3.4vw,2.7rem);font-weight:730;line-height:1.1;letter-spacing:-.034em;text-wrap:balance;margin-bottom:16px}
+.lead{font-size:clamp(1rem,1.3vw,1.1rem);color:var(--tx-2);line-height:1.62;max-width:60ch}
+.lead--inv{color:var(--tx-inv-2)}
+.amb{color:var(--amber)}
+
+.btn{display:inline-flex;align-items:center;gap:9px;padding:14px 24px;border-radius:10px;font-size:.92rem;font-weight:600;letter-spacing:-.012em;text-decoration:none;border:1px solid transparent;transition:all .22s var(--ease);cursor:pointer;white-space:nowrap}
+.btn--pri{background:var(--ink);color:#fff}
+.btn--pri:hover{background:#2a2a2e;transform:translateY(-1px);box-shadow:0 10px 26px rgba(0,0,0,.16)}
+.btn--ghost{background:transparent;color:var(--tx-1);border-color:var(--line-mid)}
+.btn--ghost:hover{border-color:var(--ink);background:rgba(0,0,0,.03)}
+.btn--inv{background:#fff;color:var(--ink)}
+.btn--inv:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(0,0,0,.4)}
+.btn--ghost-inv{background:transparent;color:var(--tx-inv-1);border-color:var(--line-inv-mid)}
+.btn--ghost-inv:hover{border-color:#fff;background:rgba(255,255,255,.06)}
+.btn--sm{padding:9px 17px;font-size:.82rem;border-radius:8px}
+.btn .ar{transition:transform .22s var(--ease)}
+.btn:hover .ar{transform:translateX(3px)}
+
+/* NAV — logo en una sola palabra */
+#nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:200;display:flex;align-items:center;padding:0 28px;background:rgba(246,246,247,.82);backdrop-filter:blur(20px) saturate(1.6);border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+#nav.on{border-bottom-color:var(--line);background:rgba(246,246,247,.95)}
+.nav-in{max-width:var(--maxw);margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{text-decoration:none;font-size:1.16rem;font-weight:800;letter-spacing:-.055em;color:var(--ink);display:inline-flex;align-items:center;gap:8px}
+.logo::before{content:'';width:7px;height:7px;border-radius:2px;background:var(--amber);flex-shrink:0}
+.logo--inv{color:#fff}
+.nav-links{display:flex;gap:26px;list-style:none}
+.nav-links a{font-size:.845rem;font-weight:500;color:var(--tx-2);text-decoration:none;transition:color .18s}
+.nav-links a:hover{color:var(--tx-1)}
+.nav-right{display:flex;align-items:center;gap:10px}
+
+.sec{padding:clamp(64px,8vw,112px) 0;position:relative}
+.sec--dark{background:var(--panel);color:var(--tx-inv-1)}
+.sec--dark .h-sec{color:#fff}
+.sec--white{background:var(--surface)}
+.sec-head{margin-bottom:clamp(36px,4.6vw,60px);max-width:70ch}
+.sec-num{font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.16em;color:var(--tx-3);display:block;margin-bottom:12px}
+.sec--dark .sec-num{color:var(--tx-inv-3)}
+
+.rv{opacity:0;transform:translateY(18px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+footer{background:var(--panel);color:var(--tx-inv-2);padding:56px 0 30px}
+.f-grid{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:36px;margin-bottom:40px}
+.f-h{font-family:var(--mono);font-size:.63rem;text-transform:uppercase;letter-spacing:.18em;color:var(--tx-inv-3);margin-bottom:14px}
+.f-list{list-style:none;display:flex;flex-direction:column;gap:9px}
+.f-list a{font-size:.87rem;color:var(--tx-inv-2);text-decoration:none;transition:color .18s}
+.f-list a:hover{color:#fff}
+.f-bot{border-top:1px solid var(--line-inv);padding-top:22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.77rem;color:var(--tx-inv-3)}
+
+@media(max-width:960px){ .f-grid{grid-template-columns:1fr 1fr;gap:30px} }
+@media(max-width:900px){ .nav-right .btn--ghost{display:none} }
+@media(max-width:760px){
+  .nav-links{display:none}
+  #nav{padding:0 18px}
+  .wrap{padding:0 20px}
+  .f-grid{grid-template-columns:1fr}
+}
+.chero{padding:calc(var(--nav-h) + clamp(44px,6vw,76px)) 0 clamp(30px,4vw,48px)}
+.chero h1{margin-bottom:20px;max-width:18ch;font-size:clamp(2.1rem,4.8vw,3.6rem)}
+.disc{margin-top:26px;background:var(--surface);border:1px solid var(--line);border-left:2px solid var(--amber);border-radius:12px;padding:18px 22px;font-size:.85rem;color:var(--tx-2);line-height:1.6;max-width:74ch}
+.disc b{color:var(--tx-1);font-weight:600}
+
+.idx{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.idx a{background:var(--bg);padding:20px 20px 20px 0;text-decoration:none;display:block;transition:background .2s}
+.idx a:not(:first-child){padding-left:20px}
+.idx a:hover{background:var(--surface)}
+.idx .k{font-family:var(--mono);font-size:.63rem;font-weight:600;letter-spacing:.14em;color:var(--amber);display:block;margin-bottom:8px}
+.idx .t{font-size:.92rem;font-weight:620;letter-spacing:-.02em;color:var(--tx-1);line-height:1.3}
+
+.cs{padding:clamp(56px,7vw,92px) 0;border-top:1px solid var(--line);scroll-margin-top:80px}
+.cs:nth-child(even){background:var(--surface)}
+.cs-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.cs-id{font-family:var(--mono);font-size:.7rem;font-weight:600;letter-spacing:.15em;color:#fff;background:var(--ink);padding:6px 12px;border-radius:7px}
+.cs-tag{font-size:.73rem;color:var(--tx-2);border:1px solid var(--line-mid);border-radius:20px;padding:5px 12px}
+.cs h2{font-size:clamp(1.5rem,3.1vw,2.3rem);font-weight:730;letter-spacing:-.034em;line-height:1.12;margin-bottom:32px;text-wrap:balance;max-width:20ch}
+
+.blk-t{font-family:var(--mono);font-size:.63rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--tx-3);display:block;margin-bottom:14px}
+.blk-t--amb{color:var(--amber)}
+
+.top{display:grid;grid-template-columns:1fr 1.08fr;gap:clamp(22px,3.4vw,44px);margin-bottom:clamp(30px,3.6vw,46px);align-items:start}
+.top p{font-size:.95rem;color:var(--tx-2);line-height:1.62}
+.top p b{color:var(--tx-1);font-weight:600}
+.find{background:var(--ink);border-radius:18px;padding:clamp(24px,2.8vw,32px)}
+.find .blk-t{color:var(--amber)}
+.find p{font-size:1rem;color:#d9d9dd;line-height:1.6}
+.find p+p{margin-top:12px}
+.top .find p b{color:var(--amber);font-weight:600}
+
+/* descomposición: 3 columnas de chips */
+.dec{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:clamp(26px,3.2vw,40px)}
+.dec-c{background:var(--bg);padding:22px}
+.cs:nth-child(even) .dec-c{background:var(--surface)}
+.dec-h{display:flex;align-items:center;gap:8px;font-size:.83rem;font-weight:660;letter-spacing:-.016em;margin-bottom:14px}
+.dec-h .pip{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.dec-c.rep .pip{background:var(--amber)}
+.dec-c.cri .pip{background:var(--ink)}
+.dec-c.sob .pip{background:var(--line-mid)}
+.dec-c ul{list-style:none}
+.dec-c li{font-size:.85rem;color:var(--tx-2);line-height:1.45;padding:8px 0;border-bottom:1px solid var(--line)}
+.dec-c li:last-child{border-bottom:none}
+.dec-c.sob li{color:var(--tx-3);text-decoration:line-through;text-decoration-color:var(--line-mid)}
+
+/* reparto */
+.rep-wrap{margin-bottom:clamp(26px,3.2vw,40px)}
+.bar{display:flex;height:12px;border-radius:7px;overflow:hidden;background:var(--line);margin-bottom:10px}
+.bar i{display:block;height:100%}
+.bar .a{background:var(--amber)}
+.bar .h{background:var(--ink);opacity:.24}
+.bar-l{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.65rem;color:var(--tx-3);letter-spacing:.04em;margin-bottom:20px}
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.dbox{border:1px solid var(--line);border-radius:14px;padding:20px;background:var(--bg)}
+.cs:nth-child(even) .dbox{background:var(--surface)}
+.dbox.robot{border-color:var(--amber-line);background:linear-gradient(180deg,rgba(245,158,11,.05),transparent 55%)}
+.dbox h4{font-size:.85rem;font-weight:660;margin-bottom:12px;letter-spacing:-.014em}
+.dbox ul{list-style:none}
+.dbox li{padding:8px 0;border-bottom:1px solid var(--line);font-size:.86rem;color:var(--tx-2);line-height:1.45}
+.dbox li:last-child{border-bottom:none}
+
+/* resultado + no */
+.bot{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(20px,3vw,36px);align-items:start}
+.res{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.rcell{background:var(--bg);padding:20px}
+.cs:nth-child(even) .rcell{background:var(--surface)}
+.rcell .v{font-size:clamp(1.35rem,2.3vw,1.8rem);font-weight:750;letter-spacing:-.04em;line-height:1}
+.rcell .v em{font-style:normal;color:var(--amber);font-size:.55em;margin-left:1px}
+.rcell .l{font-size:.79rem;color:var(--tx-2);margin-top:9px;line-height:1.42}
+.nono{border:1px solid var(--line-mid);border-radius:14px;padding:20px;background:rgba(0,0,0,.025)}
+.nono ul{list-style:none}
+.nono li{padding:8px 0 8px 18px;position:relative;font-size:.85rem;color:var(--tx-2);line-height:1.5}
+.nono li::before{content:'—';position:absolute;left:0;color:var(--tx-3)}
+.nono li b{color:var(--tx-1);font-weight:600}
+.fine{font-family:var(--mono);font-size:.66rem;color:var(--tx-3);line-height:1.6;margin-top:14px}
+
+.cta{background:var(--ink);border-radius:24px;padding:clamp(38px,5vw,64px);text-align:center;position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;top:-150px;left:50%;transform:translateX(-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(245,158,11,.17),transparent 68%)}
+.cta > *{position:relative}
+.cta h2{font-size:clamp(1.6rem,3.2vw,2.4rem);font-weight:730;letter-spacing:-.036em;line-height:1.1;color:#fff;margin-bottom:16px;text-wrap:balance}
+.cta p{color:var(--tx-inv-2);font-size:1rem;max-width:52ch;margin:0 auto 28px;line-height:1.6}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta-fine{margin-top:22px;font-family:var(--mono);font-size:.67rem;color:var(--tx-inv-3);letter-spacing:.04em}
+
+@media(max-width:960px){
+  .idx{grid-template-columns:1fr 1fr}
+  .top,.bot{grid-template-columns:1fr}
+  .dec{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  .idx{grid-template-columns:1fr} .idx a:not(:first-child){padding-left:0}
+  .dual,.res{grid-template-columns:1fr}
+}
+
+.cs h2 .wm{padding-bottom:.16em;margin-bottom:-.16em}
+.find{transition:box-shadow .35s}
+.find:hover{box-shadow:0 20px 50px rgba(0,0,0,.22)}
+.dbox,.dec-c,.nono,.rcell{transition:border-color .28s,background .28s}
+.dbox.robot:hover{border-color:var(--amber);box-shadow:0 12px 34px rgba(245,158,11,.13)}
+.dbox li,.dec-c li{transition:color .2s,padding-left .28s var(--ease)}
+.dbox li:hover,.dec-c li:hover{color:var(--tx-1);padding-left:6px}
+.idx a .t{transition:color .2s}
+.idx a:hover .t{color:var(--amber)}
+
+/* ============ EFECTOS ============ */
+/* 1 · revelado de texto por palabra */
+.wm{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.14em;margin-bottom:-.14em}
+.wi{display:inline-block;transform:translateY(110%);opacity:0;
+    transition:transform .85s var(--ease),opacity .6s var(--ease)}
+.rv.in .wi,.in .wi{transform:none;opacity:1}
+@media (prefers-reduced-motion:reduce){.wi{transform:none;opacity:1;transition:none}}
+
+/* 2 · nav con subrayado animado */
+.nav-links a{position:relative;padding-bottom:3px}
+.nav-links a::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1.5px;background:var(--amber);
+  transform:scaleX(0);transform-origin:right;transition:transform .38s var(--ease)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+
+/* 3 · camino: línea que se llena */
+.road::before{background:var(--line-mid)}
+.road-fill{position:absolute;left:0;top:23px;height:2px;background:var(--amber);width:0;z-index:1;
+  transition:width 1.4s cubic-bezier(.22,1,.36,1);box-shadow:0 0 12px rgba(245,158,11,.55)}
+.stop-n{transition:background .5s var(--ease),border-color .5s var(--ease),color .5s var(--ease),transform .5s var(--ease)}
+.stop.on .stop-n{background:var(--amber);border-color:var(--amber);color:#000;transform:scale(1.06)}
+.stop .give{transition:border-color .3s,box-shadow .3s}
+.stop:hover .give{border-color:var(--amber-line);box-shadow:0 6px 20px rgba(245,158,11,.12)}
+
+/* 4 · tarjetas de área desplegables */
+.area{cursor:pointer;position:relative}
+.area-more{margin-top:auto;padding-top:16px;background:none;border:0;border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;cursor:pointer;
+  font-family:var(--sans);font-size:.79rem;font-weight:620;color:var(--tx-2);letter-spacing:-.012em;
+  transition:color .22s;text-align:left}
+.area:hover .area-more{color:var(--tx-1)}
+.pm{position:relative;width:16px;height:16px;flex-shrink:0}
+.pm::before,.pm::after{content:'';position:absolute;background:var(--amber);border-radius:1px;
+  transition:transform .38s var(--ease),opacity .3s}
+.pm::before{left:0;top:7px;width:16px;height:2px}
+.pm::after{left:7px;top:0;width:2px;height:16px}
+.area.open .pm::after{transform:rotate(90deg);opacity:0}
+.area-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease)}
+.area.open .area-panel{grid-template-rows:1fr}
+.area-panel > div{overflow:hidden}
+.area-panel p{font-size:.83rem;color:var(--tx-2);line-height:1.6;padding-top:14px;
+  opacity:0;transform:translateY(6px);transition:opacity .45s .12s var(--ease),transform .45s .12s var(--ease)}
+.area.open .area-panel p{opacity:1;transform:none}
+
+/* 5 · brillo que sigue el cursor en superficies oscuras */
+.glow{position:relative;isolation:isolate}
+.glow::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;
+  transition:opacity .35s;z-index:0;
+  background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%),rgba(245,158,11,.14),transparent 62%)}
+.glow:hover::after{opacity:1}
+
+/* 6 · marquesina */
+.band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface);
+  overflow:hidden;position:relative;padding:15px 0}
+.band::before,.band::after{content:'';position:absolute;top:0;bottom:0;width:140px;z-index:2;pointer-events:none}
+.band::before{left:0;background:linear-gradient(90deg,var(--surface),transparent)}
+.band::after{right:0;background:linear-gradient(270deg,var(--surface),transparent)}
+.band-row{display:flex;gap:12px;white-space:nowrap;width:max-content;animation:slide 42s linear infinite}
+.band:hover .band-row{animation-play-state:paused}
+@keyframes slide{to{transform:translateX(-50%)}}
+.chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.72rem;
+  color:var(--tx-2);border:1px solid var(--line);border-radius:999px;padding:7px 15px;background:var(--bg);flex-shrink:0}
+.chip::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--amber);flex-shrink:0}
+@media (prefers-reduced-motion:reduce){.band-row{animation:none}}
+
+/* 7 · números que cuentan */
+.num{font-variant-numeric:tabular-nums}
+
+/* 8 · imán en los botones */
+.btn{will-change:transform}
+.case,.area,.line-c{will-change:transform}
+
+/* 9 · barras de reparto que crecen */
+.split i,.bar i{width:0;transition:width 1.1s .15s cubic-bezier(.22,1,.36,1)}
+.rv.in .split i,.rv.in .bar i{width:var(--w)}
+</style></head>
+<body>
+
+<nav id="nav">
+  <div class="nav-in">
+    <a href="index.html" class="logo">staff21x</a>
+    <ul class="nav-links">
+      <li><a href="index.html#camino">El camino</a></li>
+      <li><a href="casos.html" style="color:var(--tx-1)">Casos de uso</a></li>
+      <li><a href="index.html#seguridad">Seguridad</a></li>
+      <li><a href="index.html#soluciones">Agentes</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="seguridad.html" class="btn btn--ghost btn--sm">Política de seguridad</a>
+      <a href="index.html#contacto" class="btn btn--pri btn--sm">Agendar diagnóstico</a>
+    </div>
+  </div>
+</nav>
+
+<header class="chero">
+  <div class="wrap">
+    <div class="eyebrow rv">Casos de uso</div>
+    <h1 class="h-hero rv">Cuatro casos de uso, explicados paso a paso.</h1>
+    <p class="lead rv">Los cuatro procesos donde más veces vemos un equipo entero haciendo trabajo manual. Todos siguen la misma estructura, porque esa estructura es el método: qué pasa hoy, qué nadie había declarado, cómo se descompone el proceso, quién hace qué y cuánto se ahorra.</p>
+    <div class="disc rv">
+      <b>Sobre estos casos.</b> Son escenarios tipo construidos a partir de procesos reales de mercado relevados en operaciones medianas de Chile y LATAM. No se atribuyen a ningún cliente identificable y las cifras son estimaciones de modelo, no resultados auditados.
+    </div>
+  </div>
+</header>
+
+<div class="wrap rv">
+  <div class="idx">
+    <a href="#cn01"><span class="k">CN—01</span><span class="t">Recepción y clasificación de facturas</span></a>
+    <a href="#cn02"><span class="k">CN—02</span><span class="t">Comparación de proveedores y compra</span></a>
+    <a href="#cn03"><span class="k">CN—03</span><span class="t">Seguimiento comercial y venta cruzada</span></a>
+    <a href="#cn04"><span class="k">CN—04</span><span class="t">Agendamiento y reagendamiento</span></a>
+  </div>
+</div>
+
+<!-- CN-01 -->
+<section class="cs" id="cn01">
+  <div class="wrap">
+    <div class="rv">
+      <div class="cs-meta"><span class="cs-id">CN—01</span><span class="cs-tag">Administración y finanzas</span><span class="cs-tag">Alto volumen de proveedores</span></div>
+      <h2>Recepción y clasificación de facturas</h2>
+    </div>
+
+    <div class="top rv">
+      <div>
+        <span class="blk-t">El proceso hoy</span>
+        <p>Un equipo completo dedica la jornada a descargar adjuntos, abrir cada documento <b>para saber de qué proveedor es</b>, buscar o crear la carpeta, archivar y armar un resumen al cierre del día. Los formatos, los idiomas y los nombres de producto cambian con cada proveedor.</p>
+      </div>
+      <div class="find glow">
+        <span class="blk-t">Lo que nadie había declarado</span>
+        <p>Todos lo describen como “un problema de ordenar archivos”. Mover un PDF a una carpeta lo resuelve un script de veinte líneas.</p>
+        <p>El trabajo real —cerca del <b>60% del tiempo del equipo</b>— es <b>decidir a qué proveedor pertenece un documento que no viene identificado</b> y normalizar productos escritos de tres formas distintas. Eso es lógica de negocio, no automatización de tareas. Por eso el OCR y las plataformas “listas para usar” fracasan aquí.</p>
+      </div>
+    </div>
+
+    <div class="rv">
+      <span class="blk-t blk-t--amb">La descomposición del proceso</span>
+      <div class="dec">
+        <div class="dec-c rep"><div class="dec-h"><span class="pip"></span>Repetitivo puro</div><ul><li>Descargar el adjunto en cualquier formato</li><li>Renombrar según criterio único</li><li>Archivar y registrar la recepción</li></ul></div>
+        <div class="dec-c cri"><div class="dec-h"><span class="pip"></span>Exige criterio</div><ul><li>Identificar al emisor cruzando RUT, razón social y remitente</li><li>Normalizar productos contra el catálogo interno</li><li>Detectar duplicados y desvíos de la orden de compra</li></ul></div>
+        <div class="dec-c sob"><div class="dec-h"><span class="pip"></span>Sobra</div><ul><li>Crear carpetas a mano</li><li>Armar el resumen al cierre del día</li></ul></div>
+      </div>
+    </div>
+
+    <div class="rep-wrap rv">
+      <span class="blk-t">Reparto del trabajo</span>
+      <div class="bar"><i class="a" style="width:85%"></i><i class="h" style="width:15%"></i></div>
+      <div class="bar-l"><span>85% TRABAJADOR DIGITAL</span><span>15% HUMANO</span></div>
+      <div class="dual">
+        <div class="dbox robot glow-lite"><h4>Lo que absorbe el agente</h4><ul>
+          <li>Lectura y extracción del documento, incluido escaneo e imagen</li>
+          <li>Identificación del proveedor contra el maestro único</li>
+          <li>Normalización de productos y unidades</li>
+          <li>Detección de duplicados y montos anómalos</li>
+          <li>Estado de recepción en vivo, sin cierre manual</li>
+        </ul></div>
+        <div class="dbox"><h4>Lo que sigue siendo humano</h4><ul>
+          <li>Resolver los casos marcados como ambiguos, con el contexto ya armado</li>
+          <li>Decidir sobre desvíos comerciales: un precio distinto es una negociación, no un error</li>
+          <li>Dar de alta proveedores nuevos</li>
+          <li>Ajustar las reglas cuando el negocio cambia</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="bot rv">
+      <div>
+        <span class="blk-t">El resultado esperado</span>
+        <div class="res">
+          <div class="rcell"><div class="v">~85<em>%</em></div><div class="l">de los documentos procesados sin intervención humana</div></div>
+          <div class="rcell"><div class="v">En vivo</div><div class="l">el resumen deja de armarse: el estado existe todo el tiempo</div></div>
+          <div class="rcell"><div class="v">0</div><div class="l">duplicados llegando al cierre de mes</div></div>
+        </div>
+        <p class="fine">// el equipo no se reduce: se reasigna. el mismo headcount pasa de archivar a controlar excepciones y negociar.</p>
+      </div>
+      <div>
+        <span class="blk-t">Qué tiene que existir para que funcione</span>
+        <div class="nono"><ul>
+          <li><b>Volumen desde ~30 documentos diarios.</b> Ahí el retorno ya paga la implementación con holgura.</li>
+          <li><b>Un maestro de proveedores único.</b> Si todavía no existe, lo construimos en la etapa 02: es lo que hace que el agente acierte.</li>
+          <li><b>Revisar el ERP antes.</b> Si ya tiene recepción electrónica de documentos, la activamos primero y el agente se monta encima.</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CN-02 -->
+<section class="cs" id="cn02">
+  <div class="wrap">
+    <div class="rv">
+      <div class="cs-meta"><span class="cs-id">CN—02</span><span class="cs-tag">Compras y abastecimiento</span><span class="cs-tag">Distribución · retail · industria</span></div>
+      <h2>Comparación de proveedores y decisión de compra</h2>
+    </div>
+
+    <div class="top rv">
+      <div>
+        <span class="blk-t">El proceso hoy</span>
+        <p>Llegan listas de precios de 15 a 40 proveedores, cada una con su formato y su periodicidad. El comprador revisa las que alcanza y arma una planilla propia. <b>Cada proveedor llama al mismo producto de forma distinta</b> y lo vende en unidades distintas. Cuando hay urgencia, se compra al de siempre.</p>
+      </div>
+      <div class="find glow">
+        <span class="blk-t">Lo que nadie había declarado</span>
+        <p>La empresa cree que su problema es <em>comprar caro</em>. No lo es.</p>
+        <p>El problema es que <b>no puede comparar a tiempo</b>, y por eso compra por costumbre. La pérdida está en las decenas de decisiones diarias que se toman sin mirar la alternativa. Es un problema de <b>normalización de datos</b> disfrazado de problema de negociación — por eso ninguna capacitación en compras lo resuelve.</p>
+      </div>
+    </div>
+
+    <div class="rv">
+      <span class="blk-t blk-t--amb">La descomposición del proceso</span>
+      <div class="dec">
+        <div class="dec-c rep"><div class="dec-h"><span class="pip"></span>Repetitivo puro</div><ul><li>Leer listas en PDF, Excel, imagen y correo</li><li>Convertir unidades a costo comparable</li><li>Rankear por precio, plazo y condiciones</li></ul></div>
+        <div class="dec-c cri"><div class="dec-h"><span class="pip"></span>Exige criterio</div><ul><li>Mapear el nombre del proveedor al producto interno, con sinónimos e idiomas</li><li>Negociar y evaluar riesgo de proveedor</li><li>Decidir compras estratégicas o de oportunidad</li></ul></div>
+        <div class="dec-c sob"><div class="dec-h"><span class="pip"></span>Sobra</div><ul><li>Planillas personales de cada comprador</li><li>Revisar solo las listas que alcanzan</li></ul></div>
+      </div>
+    </div>
+
+    <div class="rep-wrap rv">
+      <span class="blk-t">Reparto del trabajo</span>
+      <div class="bar"><i class="a" style="width:75%"></i><i class="h" style="width:25%"></i></div>
+      <div class="bar-l"><span>75% TRABAJADOR DIGITAL</span><span>25% HUMANO</span></div>
+      <div class="dual">
+        <div class="dbox robot glow-lite"><h4>Lo que absorbe el agente</h4><ul>
+          <li>Lectura de toda lista que entre, en el formato que sea</li>
+          <li>Normalización de nombres y conversión a unidad comparable</li>
+          <li>Comparación permanente entre todos los proveedores</li>
+          <li>Alerta de variación de precio el día que se publica</li>
+          <li>Sugerencia de compra según stock, consumo y plazo</li>
+        </ul></div>
+        <div class="dbox"><h4>Lo que sigue siendo humano</h4><ul>
+          <li>Negociar: el agente prepara la posición, la conversación es de la persona</li>
+          <li>Evaluar riesgo de proveedor y dependencia excesiva</li>
+          <li>Compras estratégicas que rompen la lógica de costo</li>
+          <li>Aprobar el alta de proveedores nuevos</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="bot rv">
+      <div>
+        <span class="blk-t">El resultado esperado</span>
+        <div class="res">
+          <div class="rcell"><div class="v">100<em>%</em></div><div class="l">de proveedores comparados en cada decisión, no solo los habituales</div></div>
+          <div class="rcell"><div class="v">Mismo día</div><div class="l">detección de variación de precio, contra semanas hoy</div></div>
+          <div class="rcell"><div class="v">2—6<em>%</em></div><div class="l">rango típico de ahorro al eliminar la compra por costumbre</div></div>
+        </div>
+        <p class="fine">// el rango depende de la dispersión de precios del rubro. se estima con datos reales del cliente en la etapa 02, antes de cotizar.</p>
+      </div>
+      <div>
+        <span class="blk-t">Qué tiene que existir para que funcione</span>
+        <div class="nono"><ul>
+          <li><b>Cinco proveedores o más con precios que se mueven.</b> Cuanta más dispersión de precios, mayor el ahorro.</li>
+          <li><b>Un catálogo interno de productos.</b> Es la referencia contra la que se normaliza; si no está, es el primer entregable de la etapa 02.</li>
+          <li><b>Histórico de consumo.</b> Con seis meses de datos el agente ya proyecta reposición y anticipa compras.</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CN-03 -->
+<section class="cs" id="cn03">
+  <div class="wrap">
+    <div class="rv">
+      <div class="cs-meta"><span class="cs-id">CN—03</span><span class="cs-tag">Comercial y ventas</span><span class="cs-tag">B2B con ciclo largo</span></div>
+      <h2>Seguimiento de oportunidades y venta cruzada</h2>
+    </div>
+
+    <div class="top rv">
+      <div>
+        <span class="blk-t">El proceso hoy</span>
+        <p>La empresa compró un CRM que usa el gerente para pedir reportes y evitan los vendedores. El contexto real vive en correos y WhatsApp. Las oportunidades <b>se enfrían en silencio</b>, y cuando un vendedor se va, se lleva su cartera con él.</p>
+      </div>
+      <div class="find glow">
+        <span class="blk-t">Lo que nadie había declarado</span>
+        <p>La lectura habitual es que “los vendedores no cargan el CRM porque son desordenados”. Se responde con capacitaciones y castigos en la comisión. Nunca funciona.</p>
+        <p>La razón es estructural: <b>registrar no forma parte del proceso de vender</b>. Es trabajo posterior y sin retorno para quien lo hace. La solución no es exigir mejor comportamiento humano, es <b>invertir la carga</b>.</p>
+      </div>
+    </div>
+
+    <div class="rv">
+      <span class="blk-t blk-t--amb">La descomposición del proceso</span>
+      <div class="dec">
+        <div class="dec-c rep"><div class="dec-h"><span class="pip"></span>Repetitivo puro</div><ul><li>Leer canales corporativos autorizados</li><li>Actualizar etapa, monto y próxima acción</li><li>Alertar por días sin contacto</li></ul></div>
+        <div class="dec-c cri"><div class="dec-h"><span class="pip"></span>Exige criterio</div><ul><li>Extraer los hechos comerciales: qué se cotizó, qué objeción apareció, qué se comprometió</li><li>Reconocer una necesidad mencionada al pasar que abre venta cruzada</li><li>Cerrar la venta — íntegramente humano</li></ul></div>
+        <div class="dec-c sob"><div class="dec-h"><span class="pip"></span>Sobra</div><ul><li>Carga manual semanal en el CRM</li><li>Reunión de pipeline para saber en qué está cada uno</li></ul></div>
+      </div>
+    </div>
+
+    <div class="rep-wrap rv">
+      <span class="blk-t">Reparto del trabajo</span>
+      <div class="bar"><i class="a" style="width:60%"></i><i class="h" style="width:40%"></i></div>
+      <div class="bar-l"><span>60% TRABAJADOR DIGITAL</span><span>40% HUMANO</span></div>
+      <div class="dual">
+        <div class="dbox robot glow-lite"><h4>Lo que absorbe el agente</h4><ul>
+          <li>Extracción de hechos comerciales desde canales corporativos</li>
+          <li>Actualización automática del pipeline</li>
+          <li>Alerta cuando una oportunidad supera su umbral de enfriamiento</li>
+          <li>Detección de venta cruzada con la cita textual y el enlace al hilo</li>
+          <li>Brief antes de cada reunión: historial, cotizaciones y objeciones abiertas</li>
+        </ul></div>
+        <div class="dbox"><h4>Lo que sigue siendo humano</h4><ul>
+          <li>Toda la relación con el cliente: el agente nunca escribe en nombre del vendedor</li>
+          <li>Descuento, condición comercial y estrategia de cierre</li>
+          <li>Calificar si una oportunidad detectada vale perseguirla</li>
+          <li>Definir el umbral de enfriamiento por tipo de negocio</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="bot rv">
+      <div>
+        <span class="blk-t">El resultado esperado</span>
+        <div class="res">
+          <div class="rcell"><div class="v">0<em>min</em></div><div class="l">de carga manual de CRM: el registro es consecuencia, no tarea</div></div>
+          <div class="rcell"><div class="v">En vivo</div><div class="l">pipeline actualizado sin depender de que alguien lo recuerde</div></div>
+          <div class="rcell"><div class="v">Retenido</div><div class="l">el contexto de la cartera queda en la empresa</div></div>
+        </div>
+      </div>
+      <div>
+        <span class="blk-t">Qué tiene que existir para que funcione</span>
+        <div class="nono"><ul>
+          <li><b>Canales comerciales corporativos.</b> El agente trabaja sobre correo y WhatsApp de la empresa; los canales personales quedan fuera por privacidad.</li>
+          <li><b>Un ciclo de venta con seguimiento.</b> Cuanto más largo el ciclo, más oportunidades rescata el agente antes de que se enfríen.</li>
+          <li><b>Un equipo de tres vendedores o más.</b> Es donde el contexto empieza a perderse entre personas y el agente lo retiene.</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CN-04 -->
+<section class="cs" id="cn04">
+  <div class="wrap">
+    <div class="rv">
+      <div class="cs-meta"><span class="cs-id">CN—04</span><span class="cs-tag">Servicios y atención</span><span class="cs-tag">Clínicas · consultorios · servicios por hora</span></div>
+      <h2>Agendamiento, confirmación y reagendamiento</h2>
+    </div>
+
+    <div class="top rv">
+      <div>
+        <span class="blk-t">El proceso hoy</span>
+        <p>Las solicitudes entran por teléfono, WhatsApp y web, sin una cola unificada. Recepción agenda a mano y confirma turno por turno el día anterior. Cuando alguien cancela a las 8 de la mañana, <b>ese hueco queda vacío</b>: llamar a la lista de espera toma un tiempo que nadie tiene.</p>
+      </div>
+      <div class="find glow">
+        <span class="blk-t">Lo que nadie había declarado</span>
+        <p>Todo el mercado vende “agendamiento online”. Y agendar es la parte fácil: ocurre una vez y con tiempo por delante.</p>
+        <p>El cuello de botella —y el 100% de la pérdida de ingreso— está en el <b>reagendamiento</b>. Ocurre justo cuando recepción está más ocupada. Un agente que solo agenda no mueve el número; uno que <b>reacciona a la cancelación en segundos</b>, sí.</p>
+      </div>
+    </div>
+
+    <div class="rv">
+      <span class="blk-t blk-t--amb">La descomposición del proceso</span>
+      <div class="dec">
+        <div class="dec-c rep"><div class="dec-h"><span class="pip"></span>Repetitivo puro</div><ul><li>Recibir la solicitud en cualquier canal</li><li>Asignar hora según disponibilidad y duración</li><li>Confirmar y recordar</li></ul></div>
+        <div class="dec-c cri"><div class="dec-h"><span class="pip"></span>Exige criterio</div><ul><li>A quién de la lista de espera ofrecer el hueco, en qué orden y con qué ventana de respuesta</li><li>Detectar el caso que sale del guion y escalarlo</li><li>La atención profesional — íntegramente humana</li></ul></div>
+        <div class="dec-c sob"><div class="dec-h"><span class="pip"></span>Sobra</div><ul><li>Confirmar turnos uno por uno el día anterior</li><li>Tres colas de solicitudes sin unificar</li></ul></div>
+      </div>
+    </div>
+
+    <div class="rep-wrap rv">
+      <span class="blk-t">Reparto del trabajo</span>
+      <div class="bar"><i class="a" style="width:80%"></i><i class="h" style="width:20%"></i></div>
+      <div class="bar-l"><span>80% TRABAJADOR DIGITAL</span><span>20% HUMANO</span></div>
+      <div class="dual">
+        <div class="dbox robot glow-lite"><h4>Lo que absorbe el agente</h4><ul>
+          <li>Cola unificada desde WhatsApp, web y teléfono</li>
+          <li>Agenda, confirma, recuerda y cancela de forma autónoma</li>
+          <li>Ante una cancelación, ofrece el hueco a la lista de espera en segundos</li>
+          <li>Gestiona la ventana de respuesta y pasa al siguiente</li>
+          <li>Escala a una persona con el contexto completo</li>
+        </ul></div>
+        <div class="dbox"><h4>Lo que sigue siendo humano</h4><ul>
+          <li>La atención profesional y toda decisión clínica</li>
+          <li>Casos sensibles, urgencias y pacientes con trato particular</li>
+          <li>Prioridades de la lista de espera y reglas de sobrecupo</li>
+          <li>Recepción presencial, ahora sin la carga de confirmar</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="bot rv">
+      <div>
+        <span class="blk-t">El resultado esperado</span>
+        <div class="res">
+          <div class="rcell"><div class="v">&lt;60<em>s</em></div><div class="l">entre la cancelación y la primera oferta del hueco</div></div>
+          <div class="rcell"><div class="v">24<em>/7</em></div><div class="l">agendamiento fuera de horario sin nadie disponible</div></div>
+          <div class="rcell"><div class="v">0</div><div class="l">llamadas manuales de confirmación</div></div>
+        </div>
+        <p class="fine">// el impacto en ingreso se calcula sobre la tasa real de inasistencia del cliente, medida en la etapa 02.</p>
+      </div>
+      <div>
+        <span class="blk-t">Qué tiene que existir para que funcione</span>
+        <div class="nono"><ul>
+          <li><b>Una lista de espera activa.</b> Es lo que convierte cada cancelación en un turno recuperado en vez de un hueco.</li>
+          <li><b>Agenda con demanda sostenida.</b> Mientras más llena la agenda, mayor el ingreso que rescata el agente.</li>
+          <li><b>Un sistema de agenda con API.</b> Si el actual no la expone, evaluamos la integración en la etapa 02.</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="cta glow rv">
+      <h2>¿Cuál de estos se parece a lo que pasa en tu empresa?</h2>
+      <p>Ninguno calza exacto con tu operación, y no hace falta: lo que se repite es el camino. Diagnóstico, declaración del proceso, arquitectura y ahorro medido. Empieza por la etapa 01.</p>
+      <div class="cta-btns">
+        <a href="mailto:walter@staff21x.com?subject=Diagn%C3%B3stico%20de%20preparaci%C3%B3n" class="btn btn--inv">Agendar diagnóstico <span class="ar">→</span></a>
+        <a href="index.html#camino" class="btn btn--ghost-inv">Ver el camino completo</a>
+      </div>
+      <div class="cta-fine">// walter@staff21x.com · staff21x.com · parte del Grupo Resility</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <a href="index.html" class="logo logo--inv">staff21x</a>
+        <p style="font-size:.87rem;color:var(--tx-inv-2);line-height:1.6;max-width:36ch;margin-top:14px">
+          Rediseñamos la operación antes de automatizarla. Trabajadores digitales con seguridad declarada. Parte del Grupo Resility.
+        </p>
+      </div>
+      <div>
+        <div class="f-h">Sitio</div>
+        <ul class="f-list">
+          <li><a href="index.html#camino">El camino</a></li>
+          <li><a href="casos.html">Casos de uso</a></li>
+          <li><a href="index.html#soluciones">Agentes</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-h">Confianza</div>
+        <ul class="f-list">
+          <li><a href="seguridad.html">Política de seguridad</a></li>
+          <li><a href="asesoria.html">Asesoría de IA</a></li>
+          <li><a href="zentris.html">Zentris AISOC</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-h">Grupo Resility</div>
+        <ul class="f-list">
+          <li><a href="https://resility.io" target="_blank" rel="noopener">resility.io</a></li>
+          <li><a href="mailto:walter@staff21x.com">walter@staff21x.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="f-bot">
+      <span>© 2026 staff21x · Todos los derechos reservados</span>
+      <span class="mono">// escenarios tipo · cifras estimadas, no auditadas</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* --- nav --- */
+  var nav=document.getElementById('nav');
+  var onScroll=function(){ nav.classList.toggle('on', window.scrollY>10); };
+  onScroll(); window.addEventListener('scroll',onScroll,{passive:true});
+
+  /* --- 1 · partir títulos en palabras --- */
+  function split(el){
+    if(el.dataset.sp) return; el.dataset.sp='1';
+    (function walk(node){
+      Array.prototype.slice.call(node.childNodes).forEach(function(n){
+        if(n.nodeType===3){
+          if(!n.textContent.trim()){ return; }
+          var frag=document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(function(t){
+            if(!t) return;
+            if(/^\s+$/.test(t)){ frag.appendChild(document.createTextNode(' ')); return; }
+            var o=document.createElement('span'); o.className='wm';
+            var i=document.createElement('span'); i.className='wi'; i.textContent=t;
+            o.appendChild(i); frag.appendChild(o);
+          });
+          node.replaceChild(frag,n);
+        } else if(n.nodeType===1 && n.tagName!=='BR'){ walk(n); }
+      });
+    })(el);
+    Array.prototype.slice.call(el.querySelectorAll('.wi')).forEach(function(w,i){
+      w.style.transitionDelay=(Math.min(i,18)*0.038)+'s';
+    });
+  }
+  if(!RM){
+    document.querySelectorAll('.h-hero, .h-sec, .cs h2, .cta h2').forEach(split);
+  }
+
+  /* --- 9 · anchos de barras diferidos --- */
+  document.querySelectorAll('.split i, .bar i').forEach(function(b){
+    if(b.style.width){ b.style.setProperty('--w', b.style.width); b.style.width=''; }
+  });
+
+  /* --- reveal general --- */
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){
+    els.forEach(function(e){e.classList.add('in')});
+  } else {
+    var io=new IntersectionObserver(function(en){
+      en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } });
+    },{rootMargin:'0px 0px -8% 0px',threshold:.05});
+    els.forEach(function(e){io.observe(e)});
+  }
+
+  /* --- 5 · brillo con el cursor --- */
+  document.querySelectorAll('.glow').forEach(function(el){
+    el.addEventListener('mousemove',function(e){
+      var r=el.getBoundingClientRect();
+      el.style.setProperty('--mx',(e.clientX-r.left)+'px');
+      el.style.setProperty('--my',(e.clientY-r.top)+'px');
+    });
+  });
+
+  /* --- 7 · contadores --- */
+  function countUp(el){
+    var end=parseFloat(el.dataset.count), dec=(el.dataset.count.split('.')[1]||'').length;
+    var pre=el.dataset.pre||'', t0=null, dur=1200;
+    function step(ts){
+      if(!t0) t0=ts;
+      var p=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-p,3);
+      el.firstChild.textContent = pre + (end*e).toFixed(dec);
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var nums=document.querySelectorAll('[data-count]');
+  if(nums.length && 'IntersectionObserver' in window && !RM){
+    var no=new IntersectionObserver(function(en){
+      en.forEach(function(x){ if(x.isIntersecting){ countUp(x.target); no.unobserve(x.target); } });
+    },{threshold:.6});
+    nums.forEach(function(n){ n.firstChild.textContent=(n.dataset.pre||'')+'0'; no.observe(n); });
+  }
+
+  /* --- 8 · imán en botones --- */
+  if(!RM && window.matchMedia('(pointer:fine)').matches){
+    document.querySelectorAll('.btn').forEach(function(b){
+      b.addEventListener('mousemove',function(e){
+        var r=b.getBoundingClientRect();
+        b.style.transform='translate('+((e.clientX-r.left-r.width/2)*0.10)+'px,'+((e.clientY-r.top-r.height/2)*0.16-1)+'px)';
+      });
+      b.addEventListener('mouseleave',function(){ b.style.transform=''; });
+    });
+  }
+})();
+</script>
+</body>
+</html>
