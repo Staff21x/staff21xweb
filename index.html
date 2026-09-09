@@ -2,1305 +2,785 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="canonical" href="https://www.staff21x.com/" />
-<title>Staff21x — Soluciones de Agentes Basadas en IA</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>staff21x — Reducimos costos. Aumentamos productividad.</title>
+<meta name="description" content="Agentes de IA que reducen costos operativos y aumentan la productividad. Diagnóstico, descomposición del proceso y trabajadores digitales con seguridad de la información declarada.">
+<link rel="canonical" href="https://www.staff21x.com/">
+<meta property="og:title" content="Reducimos costos. Aumentamos productividad.">
+<meta property="og:description" content="Agentes de IA que operan procesos completos de tu negocio. staff21x, parte del Grupo Resility.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
 :root{
-  --bg:#07090f;--bg1:#0c0f1a;--bg2:#131827;--bg3:#1a2035;
-  --border:#1e2540;--border2:#2d3658;
-  --text:#cdd5f0;--text2:#8898c0;--text3:#4a5478;
-  --accent:#4f6ef7;--accent2:#6c3fff;
-  --green:#1aad7e;--amber:#e8a020;
-  --grad:linear-gradient(135deg,#4f6ef7,#6c3fff);
-  --grad-dim:rgba(79,110,247,.10);--grad-border:rgba(79,110,247,.22);
-  --r:12px;
+  --bg:#f6f6f7; --surface:#fff; --ink:#0a0a0b; --panel:#0b0b0d; --panel-2:#141417;
+  --amber:#F59E0B; --amber-dim:rgba(245,158,11,.12); --amber-line:rgba(245,158,11,.32);
+  --tx-1:#131316; --tx-2:#6a6a70; --tx-3:#9a9aa1;
+  --tx-inv-1:#f4f4f5; --tx-inv-2:#a1a1aa; --tx-inv-3:#6b6b73;
+  --line:rgba(0,0,0,.085); --line-mid:rgba(0,0,0,.15);
+  --line-inv:rgba(255,255,255,.10); --line-inv-mid:rgba(255,255,255,.18);
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --maxw:1200px; --nav-h:64px;
 }
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;overflow-x:hidden}
-.mono{font-family:'JetBrains Mono',monospace}
-.syne{font-family:'Inter',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{font-family:var(--sans);background:var(--bg);color:var(--tx-1);font-size:16px;line-height:1.55;letter-spacing:-.011em;overflow-x:hidden}
+img{max-width:100%;display:block}
+::selection{background:var(--ink);color:#fff}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:3px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;position:relative}
+.mono{font-family:var(--mono)}
 
-/* ANIMS */
-.fade-in{opacity:0;transform:translateY(18px);animation:fadeUp .65s cubic-bezier(.16,1,.3,1) forwards}
-@keyframes fadeUp{to{opacity:1;transform:none}}
-.d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}
+.eyebrow{font-family:var(--mono);font-size:.66rem;font-weight:600;text-transform:uppercase;letter-spacing:.2em;color:var(--tx-3);display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.eyebrow::before{content:'';width:20px;height:1px;background:var(--amber);flex-shrink:0}
+.eyebrow--inv{color:var(--tx-inv-3)}
+.h-hero{font-size:clamp(2.35rem,5.6vw,4.4rem);font-weight:760;line-height:1.03;letter-spacing:-.043em;text-wrap:balance}
+.h-sec{font-size:clamp(1.7rem,3.4vw,2.7rem);font-weight:730;line-height:1.1;letter-spacing:-.034em;text-wrap:balance;margin-bottom:16px}
+.lead{font-size:clamp(1rem,1.3vw,1.1rem);color:var(--tx-2);line-height:1.62;max-width:60ch}
+.lead--inv{color:var(--tx-inv-2)}
+.amb{color:var(--amber)}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(7,9,15,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
-.logo{font-family:'Inter',sans-serif;font-size:19px;font-weight:800;color:#fff;text-decoration:none;letter-spacing:-1px}
-.logo span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.nav-links{display:flex;gap:28px;list-style:none}
-.nav-links a{font-size:13px;font-weight:500;color:var(--text2);text-decoration:none;transition:color .15s;font-family:'Inter',sans-serif}
-.nav-links a:hover{color:var(--text)}
-.nav-right{display:flex;gap:8px;align-items:center}
-.btn-nav-ghost{padding:8px 18px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;font-weight:500;text-decoration:none;transition:all .15s}
-.btn-nav-ghost:hover{border-color:var(--accent);color:var(--accent)}
-.btn-nav-cta{padding:8px 20px;border-radius:8px;background:var(--grad);color:#fff;font-size:13px;font-weight:600;text-decoration:none;transition:all .2s;box-shadow:0 0 20px rgba(79,110,247,.28)}
-.btn-nav-cta:hover{box-shadow:0 0 32px rgba(79,110,247,.5);transform:translateY(-1px)}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:14px 24px;border-radius:10px;font-size:.92rem;font-weight:600;letter-spacing:-.012em;text-decoration:none;border:1px solid transparent;transition:all .22s var(--ease);cursor:pointer;white-space:nowrap}
+.btn--pri{background:var(--ink);color:#fff}
+.btn--pri:hover{background:#2a2a2e;transform:translateY(-1px);box-shadow:0 10px 26px rgba(0,0,0,.16)}
+.btn--ghost{background:transparent;color:var(--tx-1);border-color:var(--line-mid)}
+.btn--ghost:hover{border-color:var(--ink);background:rgba(0,0,0,.03)}
+.btn--inv{background:#fff;color:var(--ink)}
+.btn--inv:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(0,0,0,.4)}
+.btn--ghost-inv{background:transparent;color:var(--tx-inv-1);border-color:var(--line-inv-mid)}
+.btn--ghost-inv:hover{border-color:#fff;background:rgba(255,255,255,.06)}
+.btn--sm{padding:9px 17px;font-size:.82rem;border-radius:8px}
+.btn .ar{transition:transform .22s var(--ease)}
+.btn:hover .ar{transform:translateX(3px)}
 
-/* HERO */
-.hero{min-height:100vh;display:flex;align-items:center;padding:90px 48px 60px;max-width:1280px;margin:0 auto;gap:60px}
-.hero-left{flex:1;min-width:0}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--grad-dim);border:1px solid var(--grad-border);border-radius:999px;padding:5px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:.3px;margin-bottom:28px}
-.bdot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:bdot 2s infinite}
-@keyframes bdot{0%,100%{opacity:1}50%{opacity:.4}}
+/* NAV — logo en una sola palabra */
+#nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:200;display:flex;align-items:center;padding:0 28px;background:rgba(246,246,247,.82);backdrop-filter:blur(20px) saturate(1.6);border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+#nav.on{border-bottom-color:var(--line);background:rgba(246,246,247,.95)}
+.nav-in{max-width:var(--maxw);margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{text-decoration:none;font-size:1.16rem;font-weight:800;letter-spacing:-.055em;color:var(--ink);display:inline-flex;align-items:center;gap:8px}
+.logo::before{content:'';width:7px;height:7px;border-radius:2px;background:var(--amber);flex-shrink:0}
+.logo--inv{color:#fff}
+.nav-links{display:flex;gap:26px;list-style:none}
+.nav-links a{font-size:.845rem;font-weight:500;color:var(--tx-2);text-decoration:none;transition:color .18s}
+.nav-links a:hover{color:var(--tx-1)}
+.nav-right{display:flex;align-items:center;gap:10px}
 
-h1{font-family:'Inter',sans-serif;font-size:clamp(44px,5.5vw,72px);font-weight:800;line-height:1.02;letter-spacing:-3px;color:#fff;margin-bottom:10px}
-.h1-sub{font-family:'Inter',sans-serif;font-size:clamp(44px,5.5vw,72px);font-weight:800;line-height:1.02;letter-spacing:-3px;margin-bottom:24px}
-.h1-sub .grad{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sec{padding:clamp(64px,8vw,112px) 0;position:relative}
+.sec--dark{background:var(--panel);color:var(--tx-inv-1)}
+.sec--dark .h-sec{color:#fff}
+.sec--white{background:var(--surface)}
+.sec-head{margin-bottom:clamp(36px,4.6vw,60px);max-width:70ch}
+.sec-num{font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.16em;color:var(--tx-3);display:block;margin-bottom:12px}
+.sec--dark .sec-num{color:var(--tx-inv-3)}
 
-.hero-kpis{display:flex;gap:32px;margin-bottom:28px}
-.kpi{border-left:2px solid var(--accent);padding-left:14px}
-.kpi-num{font-family:'Inter',sans-serif;font-size:36px;font-weight:800;color:#fff;line-height:1;letter-spacing:-2px}
-.kpi-num span{font-size:20px;color:var(--accent)}
-.kpi-label{font-size:12px;color:var(--text2);margin-top:3px}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
 
-.hero-sub{font-size:16px;color:var(--text2);line-height:1.75;max-width:500px;margin-bottom:36px}
-.hero-sub strong{color:var(--text);font-weight:500}
+footer{background:var(--panel);color:var(--tx-inv-2);padding:56px 0 30px}
+.f-grid{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:36px;margin-bottom:40px}
+.f-h{font-family:var(--mono);font-size:.63rem;text-transform:uppercase;letter-spacing:.18em;color:var(--tx-inv-3);margin-bottom:14px}
+.f-list{list-style:none;display:flex;flex-direction:column;gap:9px}
+.f-list a{font-size:.87rem;color:var(--tx-inv-2);text-decoration:none;transition:color .18s}
+.f-list a:hover{color:#fff}
+.f-bot{border-top:1px solid var(--line-inv);padding-top:22px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.77rem;color:var(--tx-inv-3)}
 
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn-primary{padding:14px 30px;border-radius:10px;background:var(--grad);color:#fff;font-size:15px;font-weight:600;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 24px rgba(79,110,247,.35)}
-.btn-primary:hover{box-shadow:0 4px 36px rgba(79,110,247,.55);transform:translateY(-2px)}
-.btn-outline{padding:14px 30px;border-radius:10px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:15px;font-weight:500;text-decoration:none;transition:all .2s}
-.btn-outline:hover{border-color:var(--accent);color:var(--text)}
+@media(max-width:960px){ .f-grid{grid-template-columns:1fr 1fr;gap:30px} }
+@media(max-width:900px){ .nav-right .btn--ghost{display:none} }
+@media(max-width:760px){
+  .nav-links{display:none}
+  #nav{padding:0 18px}
+  .wrap{padding:0 20px}
+  .f-grid{grid-template-columns:1fr}
+}
+/* ===== HERO ===== */
+.hero{padding:calc(var(--nav-h) + clamp(52px,7vw,92px)) 0 clamp(52px,6vw,84px);position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;top:-200px;right:-180px;width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(245,158,11,.13),transparent 66%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(36px,5vw,80px);align-items:center}
+.badge{display:inline-flex;align-items:center;gap:9px;background:var(--surface);border:1px solid var(--line-mid);border-radius:999px;padding:7px 16px;font-size:.775rem;color:var(--tx-2);margin-bottom:26px;line-height:1.4}
+.badge .d{flex-shrink:0}
+.badge b{color:var(--tx-1);font-weight:600}
+.badge .d{width:6px;height:6px;border-radius:50%;background:var(--amber)}
+.hero h1{margin-bottom:24px}
+.hero .lead{margin-bottom:32px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
 
-/* TERMINAL */
-.hero-right{width:480px;flex-shrink:0}
-.terminal{background:var(--bg1);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 32px 96px rgba(0,0,0,.6)}
-.term-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:13px 18px;display:flex;align-items:center;gap:7px}
-.tdot{width:11px;height:11px;border-radius:50%}
-.term-title{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-left:10px}
-.term-body{padding:20px;display:flex;flex-direction:column;gap:3px}
-.tl{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8}
-.tp{color:var(--accent)}.tc{color:var(--text)}.to{color:var(--text2);padding-left:16px}
-.to.ok{color:#1aad7e}.to.vi{color:#a78bfa}.to.wa{color:#e8a020}
-.tdiv{height:1px;background:var(--border);margin:6px 0}
-.tcur{display:inline-block;width:7px;height:13px;background:var(--accent);animation:cur .9s infinite;vertical-align:middle;margin-left:2px}
-@keyframes cur{0%,100%{opacity:1}50%{opacity:0}}
+/* tarjeta de resultados del hero */
+.gains{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 22px 60px rgba(0,0,0,.06)}
+.gains-h{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.17em;text-transform:uppercase;color:var(--tx-3);padding:18px 28px;border-bottom:1px solid var(--line);background:#fafafb}
+.gain{padding:24px 28px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:22px}
+.gain:last-child{border-bottom:none}
+.gain-v{font-size:clamp(1.75rem,2.7vw,2.3rem);font-weight:770;letter-spacing:-.045em;line-height:1;min-width:132px;flex-shrink:0}
+.gain-v em{font-style:normal;color:var(--amber);font-size:.46em;margin-left:2px;letter-spacing:-.02em}
+.gain-l{font-size:.9rem;color:var(--tx-2);line-height:1.45}
+.gain-l b{display:block;color:var(--tx-1);font-weight:620;font-size:.95rem;letter-spacing:-.018em;margin-bottom:2px}
 
-/* MARQUEE */
-.marquee-wrap{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:0;overflow:hidden;position:relative;background:var(--bg1)}
-.marquee-wrap::before,.marquee-wrap::after{content:'';position:absolute;top:0;bottom:0;width:160px;z-index:2;pointer-events:none}
-.marquee-wrap::before{left:0;background:linear-gradient(90deg,var(--bg1),transparent)}
-.marquee-wrap::after{right:0;background:linear-gradient(270deg,var(--bg1),transparent)}
-.marquee-row{display:flex;gap:10px;padding:14px 0;white-space:nowrap;animation:mleft 28s linear infinite}
-@keyframes mleft{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.mpill{display:inline-flex;align-items:center;gap:7px;background:var(--bg2);border:1px solid var(--border);border-radius:999px;padding:7px 16px;font-size:12px;color:var(--text2);white-space:nowrap;flex-shrink:0;font-family:'JetBrains Mono',monospace}
-.mpill-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;opacity:.7}
+/* dato de contexto */
+.why{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:26px 28px;margin-bottom:clamp(34px,4vw,50px)}
+.sec--white .why{background:#fafafb}
+.dots{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:168px;flex-shrink:0}
+.dot{aspect-ratio:1;border-radius:50%;background:var(--ink)}
+.dot.off{background:transparent;border:1.5px solid var(--line-mid)}
+.why-t{font-size:clamp(1.02rem,1.7vw,1.28rem);font-weight:650;letter-spacing:-.026em;line-height:1.32;color:var(--tx-1);margin-bottom:8px}
+.why-d{font-size:.9rem;color:var(--tx-2);line-height:1.55}
+.why-s{font-family:var(--mono);font-size:.62rem;color:var(--tx-3);margin-top:10px;letter-spacing:.03em}
 
-/* SECTION */
-.section{max-width:1280px;margin:0 auto;padding:96px 48px}
-.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;display:block}
-h2{font-family:'Inter',sans-serif;font-size:clamp(32px,4vw,52px);font-weight:800;letter-spacing:-2px;line-height:1.08;color:#fff;margin-bottom:16px}
-.sec-sub{font-size:16px;color:var(--text2);max-width:540px;line-height:1.75;margin-bottom:56px}
+/* ===== CAMINO ===== */
+.road{position:relative;margin-top:14px}
+.road::before{content:'';position:absolute;left:0;right:0;top:23px;height:2px;background:linear-gradient(90deg,var(--amber) 0%,var(--line-mid) 92%)}
+.road-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;position:relative}
+.stop{position:relative;padding-right:14px}
+.stop-n{width:48px;height:48px;border-radius:14px;background:var(--surface);border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.88rem;font-weight:700;color:var(--ink);margin-bottom:20px;position:relative;z-index:2}
+.stop:first-child .stop-n{background:var(--amber);border-color:var(--amber)}
+.stop h3{font-size:1.06rem;font-weight:680;letter-spacing:-.026em;line-height:1.25;margin-bottom:9px}
+.stop p{font-size:.875rem;color:var(--tx-2);line-height:1.55;margin-bottom:16px}
+.stop .give{font-family:var(--mono);font-size:.66rem;letter-spacing:.03em;color:var(--tx-1);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px;line-height:1.5;display:block}
+.stop .give b{color:var(--tx-3);font-weight:500;display:block;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
 
-/* ── AGENTE VS AUTOMATIZACIÓN ── */
-.avsa-wrap{background:var(--bg1);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.avsa-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:48px}
-.avsa-col{background:var(--bg1);padding:36px}
-.avsa-header{display:flex;align-items:center;gap:12px;margin-bottom:28px}
-.avsa-badge{font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 12px;border-radius:20px;font-weight:500;letter-spacing:.5px}
-.avsa-badge.auto{background:rgba(255,255,255,.06);color:var(--text3);border:1px solid var(--border)}
-.avsa-badge.agent{background:rgba(79,110,247,.15);color:#8ba4fa;border:1px solid rgba(79,110,247,.25)}
-.avsa-title{font-family:'Inter',sans-serif;font-size:22px;font-weight:800;color:#fff}
-.avsa-rows{display:flex;flex-direction:column;gap:0}
-.avsa-row{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}
-.avsa-row:last-child{border-bottom:none}
-.avsa-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.avsa-icon.auto{background:rgba(255,255,255,.05)}
-.avsa-icon.agent{background:rgba(79,110,247,.15)}
-.avsa-text{flex:1}
-.avsa-label{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
-.avsa-desc{font-size:12px;color:var(--text2);line-height:1.55}
+/* ===== CASOS ===== */
+.cases{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.case{display:block;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px 28px;transition:all .26s var(--ease);position:relative;overflow:hidden}
+.case::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--amber);transform:scaleY(0);transform-origin:top;transition:transform .35s var(--ease)}
+.case:hover{border-color:var(--line-mid);transform:translateY(-3px);box-shadow:0 18px 44px rgba(0,0,0,.07)}
+.case:hover::after{transform:scaleY(1)}
+.case-id{font-family:var(--mono);font-size:.64rem;font-weight:600;letter-spacing:.14em;color:var(--tx-3);display:block;margin-bottom:12px}
+.case h3{font-size:1.1rem;font-weight:680;letter-spacing:-.026em;line-height:1.26;margin-bottom:14px;color:var(--tx-1)}
+.split{display:flex;height:8px;border-radius:5px;overflow:hidden;background:var(--line);margin-bottom:9px}
+.split i{display:block;height:100%}
+.split .a{background:var(--amber)}
+.split .h{background:var(--ink);opacity:.22}
+.split-l{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.62rem;color:var(--tx-3);letter-spacing:.03em;margin-bottom:16px}
+.case-go{font-size:.82rem;font-weight:600;color:var(--tx-1);display:inline-flex;align-items:center;gap:7px}
 
-.avsa-case{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:28px 32px;max-width:780px;margin:0 auto}
-.avsa-case-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
-.avsa-case p{font-size:15px;color:var(--text2);line-height:1.7}
-.avsa-case strong{color:var(--text);font-weight:500}
+/* ===== SEGURIDAD: cadena ===== */
+.chain{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line-inv);border-radius:16px;margin-bottom:16px}
+.link-b{background:var(--panel-2);padding:20px 18px;position:relative;border-right:1px solid var(--line-inv)}
+.link-b:first-child{border-radius:15px 0 0 15px}
+.link-b:last-child{border-radius:0 15px 15px 0}
+.link-b:last-child{border-right:none}
+.link-b .k{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:9px}
+.link-b .v{font-size:.86rem;font-weight:600;color:#fff;line-height:1.35;letter-spacing:-.016em}
+.link-b::after{content:'';position:absolute;right:-5px;top:50%;transform:translateY(-50%) rotate(45deg);width:9px;height:9px;border-top:1.5px solid var(--amber);border-right:1.5px solid var(--amber);z-index:3}
+.link-b:last-child::after{display:none}
+.chain-note{font-family:var(--mono);font-size:.66rem;color:var(--tx-inv-3);letter-spacing:.02em;line-height:1.7;margin-bottom:30px}
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:26px}
+.sitem{background:var(--panel-2);border:1px solid var(--line-inv);border-radius:13px;padding:18px}
+.sitem h4{font-size:.87rem;font-weight:640;color:#fff;margin-bottom:7px;letter-spacing:-.016em}
+.sitem p{font-size:.8rem;color:var(--tx-inv-2);line-height:1.5}
+.norms{display:flex;gap:8px;flex-wrap:wrap}
+.norm{font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.05em;color:var(--tx-inv-1);border:1px solid var(--line-inv-mid);border-radius:7px;padding:6px 11px}
 
-/* ── PRODUCTOS ── */
-.products-bg{background:var(--bg)}
-.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.prod-card{background:var(--bg1);border:1px solid var(--border);border-radius:14px;padding:28px;transition:border-color .2s,background .2s;cursor:default}
-.prod-card:hover{border-color:var(--border2);background:var(--bg2)}
-.prod-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:16px}
-.prod-icon{font-size:28px;margin-bottom:14px}
-.prod-name{font-family:'Inter',sans-serif;font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:-.5px}
-.prod-tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);margin-bottom:14px;display:block}
-.prod-desc{font-size:13px;color:var(--text2);line-height:1.65;margin-bottom:18px}
-.prod-feats{list-style:none;display:flex;flex-direction:column;gap:7px}
-.prod-feats li{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text2)}
-.prod-feats li::before{content:"→";color:var(--accent);flex-shrink:0;font-family:'JetBrains Mono',monospace}
-.prod-cta{margin-top:20px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--accent);text-decoration:none;transition:gap .2s}
-.prod-cta:hover{gap:10px}
+/* ===== AGENTES POR ÁREA ===== */
+.areas{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px;align-items:start}
+.area{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;transition:all .26s var(--ease);display:flex;flex-direction:column}
+.area:hover{border-color:var(--line-mid);transform:translateY(-2px);box-shadow:0 14px 38px rgba(0,0,0,.06)}
+.area-k{font-family:var(--mono);font-size:.61rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--tx-3);margin-bottom:16px}
+.area h3{font-size:1.02rem;font-weight:680;letter-spacing:-.024em;line-height:1.24;margin-bottom:10px}
+.area p{font-size:.855rem;color:var(--tx-2);line-height:1.5}
 
-/* ── SOFTWARE FACTORY ── */
-.factory-bg{background:var(--bg1);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.factory-inner{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
-.factory-pillars{display:flex;flex-direction:column;gap:0}
-.fp{padding:20px 0;border-bottom:1px solid var(--border);display:flex;gap:16px;align-items:flex-start}
-.fp:last-child{border-bottom:none}
-.fp-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);min-width:24px;margin-top:2px}
-.fp-body h4{font-family:'Inter',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:4px}
-.fp-body p{font-size:13px;color:var(--text2);line-height:1.6}
-.factory-code{background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden}
-.fc-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 18px;display:flex;align-items:center;gap:7px}
-.fc-body{padding:24px}
-.fc-body pre{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.85;color:#6a7490;white-space:pre-wrap}
-pre .kw{color:#c084fc}pre .fn{color:#60a5fa}pre .str{color:#86efac}pre .cm{color:#3a4060}pre .num{color:#fb923c}
+/* tarjeta de ciberseguridad — Zentris */
+.zcard{background:var(--panel);border:1px solid var(--panel);border-radius:20px;padding:clamp(28px,3.4vw,44px);color:var(--tx-inv-1);position:relative;overflow:hidden}
+.zcard::before{content:'';position:absolute;top:-160px;right:-100px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(245,158,11,.16),transparent 68%);pointer-events:none}
+.zcard > *{position:relative}
+.zcard .area-k{color:var(--amber);margin-bottom:22px}
+.z-top{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(26px,4vw,56px);align-items:start}
+.zen-hd{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.zen-mark{width:54px;height:54px;border-radius:16px;background:var(--amber);color:#000;display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:800;letter-spacing:-.05em;flex-shrink:0;box-shadow:0 10px 30px rgba(245,158,11,.3)}
+.zen-name{font-size:1.35rem;font-weight:800;letter-spacing:.045em;color:#fff;line-height:1}
+.zen-sub{font-family:var(--mono);font-size:.64rem;color:var(--tx-inv-3);letter-spacing:.1em;margin-top:6px}
+.pitch{font-size:clamp(1.12rem,1.95vw,1.5rem);font-weight:650;letter-spacing:-.03em;line-height:1.26;color:#fff;margin-bottom:16px}
+.zcard .lead--inv{font-size:.93rem;line-height:1.6}
+.zmet{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-inv);border:1px solid var(--line-inv);border-radius:14px;overflow:hidden}
+.zcell{background:var(--panel-2);padding:20px}
+.zval{font-size:clamp(1.5rem,2.5vw,1.95rem);font-weight:760;letter-spacing:-.04em;line-height:1;color:#fff}
+.zval em{font-style:normal;font-size:.48em;color:var(--amber);font-weight:700;margin-left:2px}
+.zlab{font-size:.79rem;color:var(--tx-inv-2);margin-top:9px;line-height:1.4}
 
-/* ── SEGURIDAD ── */
-.sec-security{background:var(--bg1);border-top:1px solid rgba(79,110,247,.2);border-bottom:1px solid rgba(79,110,247,.2)}
-.security-inner{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
-.sec-data-points{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
-.sdp{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px}
-.sdp-num{font-family:'Inter',sans-serif;font-size:26px;font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:3px}
-.sdp-num span{font-size:15px;color:var(--accent)}
-.sdp-label{font-size:11px;color:var(--text2);line-height:1.4}
-.sec-standards{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
-.std-pill{font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 12px;border-radius:6px;border:1px solid var(--grad-border);background:var(--grad-dim);color:#8ba4fa;letter-spacing:.5px}
-.sec-cta-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:10px;background:var(--grad);color:#fff;font-size:14px;font-weight:600;text-decoration:none;transition:all .2s;box-shadow:0 4px 20px rgba(79,110,247,.3)}
-.sec-cta-btn:hover{transform:translateY(-1px);box-shadow:0 4px 32px rgba(79,110,247,.5)}
-.sec-policy-box{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:24px}
-.spb-title{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
-.spb-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
-.spb-item:last-child{border-bottom:none}
-.spb-ico{width:28px;height:28px;border-radius:7px;background:var(--grad-dim);border:1px solid var(--grad-border);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.spb-text{flex:1}
-.spb-text strong{font-size:12px;font-weight:600;color:var(--text);display:block;margin-bottom:2px}
-.spb-text span{font-size:11px;color:var(--text2);line-height:1.5}
-
-/* ── CASOS EN VIVO ── */
-.casos-bg{background:var(--bg)}
-.td-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.td-card{background:var(--bg1);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .2s}
-.td-card:hover{border-color:var(--border2)}
-.card-header{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--bg2)}
-.card-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;position:relative;border:2px solid}
-.sdot{position:absolute;bottom:0;right:0;width:10px;height:10px;border-radius:50%;border:2px solid var(--bg1)}
-.card-info{flex:1}
-.card-name{font-size:14px;font-weight:700;color:#fff;line-height:1.2;font-family:'Inter',sans-serif}
-.card-company{font-size:11px;color:var(--text3);margin-top:2px;font-family:'JetBrains Mono',monospace}
-.live-pill{display:flex;align-items:center;gap:5px;font-size:10px;padding:4px 10px;border-radius:20px;font-weight:600;white-space:nowrap;border:1px solid;font-family:'JetBrains Mono',monospace}
-.lpulse{width:6px;height:6px;border-radius:50%;animation:pulse 1.4s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);background:var(--bg);border-bottom:1px solid var(--border)}
-.stat{padding:10px 12px;text-align:center;border-right:1px solid var(--border)}
-.stat:last-child{border-right:none}
-.s-num{font-size:18px;font-weight:700;font-family:'Inter',sans-serif}
-.s-label{font-size:10px;color:var(--text3);margin-top:2px;line-height:1.3;font-family:'JetBrains Mono',monospace}
-.feed-wrap{height:240px;overflow-y:auto}
-.feed-wrap::-webkit-scrollbar{width:4px}
-.feed-wrap::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
-.feed-hdr{padding:8px 14px;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;font-family:'JetBrains Mono',monospace}
-.feed-item{display:flex;gap:9px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.03);animation:fadein .35s ease}
-.feed-item.escalado{background:rgba(79,110,247,.06);border-left:2px solid var(--accent)}
-@keyframes fadein{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
-.fi-ico{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px}
-.fi-body{flex:1}
-.fi-title{font-size:12px;font-weight:600;color:var(--text);line-height:1.3}
-.fi-desc{font-size:11px;color:var(--text3);margin-top:3px;line-height:1.4}
-.fi-meta{font-size:10px;margin-top:4px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.fpill{font-size:10px;padding:1px 7px;border-radius:8px;font-weight:600;font-family:'JetBrains Mono',monospace}
-.fp-green{background:rgba(26,173,126,.2);color:#3dd4a0}
-.fp-blue{background:rgba(79,110,247,.2);color:#8ba4fa}
-.fp-amber{background:rgba(232,160,32,.15);color:#e8c060}
-.fp-purple{background:rgba(167,139,250,.15);color:#c084fc}
-.fp-human{background:rgba(79,110,247,.2);color:#8ba4fa}
-.ic-mail{background:rgba(79,110,247,.15)}
-.ic-wsp{background:rgba(26,173,126,.15)}
-.ic-alert{background:rgba(232,160,32,.15)}
-.ic-check{background:rgba(26,173,126,.15)}
-.ic-human{background:rgba(79,110,247,.15)}
-.ic-cal{background:rgba(26,173,126,.15)}
-.ic-web{background:rgba(79,110,247,.15)}
-.ic-linkedin{background:rgba(56,133,192,.15)}
-.typing{display:none;align-items:center;gap:5px;padding:8px 14px;background:var(--bg2);border-bottom:1px solid var(--border);font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace}
-.typing-dots{display:flex;gap:2px}
-.dot{width:4px;height:4px;border-radius:50%;background:var(--border2);animation:bounce 1.2s infinite}
-.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
-@keyframes bounce{0%,100%{transform:translateY(0)}40%{transform:translateY(-3px)}}
-.t-tech .card-avatar{background:rgba(79,110,247,.15);color:#8ba4fa;border-color:var(--accent)}
-.t-tech .sdot{background:var(--accent)}
-.t-tech .live-pill{background:rgba(79,110,247,.12);color:#8ba4fa;border-color:rgba(79,110,247,.3)}
-.t-tech .lpulse{background:var(--accent)}
-.t-tech .s-num{color:#8ba4fa}
-.t-market .card-avatar{background:rgba(26,173,126,.15);color:#3dd4a0;border-color:var(--green)}
-.t-market .sdot{background:var(--green)}
-.t-market .live-pill{background:rgba(26,173,126,.12);color:#3dd4a0;border-color:rgba(26,173,126,.3)}
-.t-market .lpulse{background:var(--green)}
-.t-market .s-num{color:#3dd4a0}
-.t-clinic .card-avatar{background:rgba(232,160,32,.15);color:#e8c060;border-color:var(--amber)}
-.t-clinic .sdot{background:var(--amber)}
-.t-clinic .live-pill{background:rgba(232,160,32,.12);color:#e8c060;border-color:rgba(232,160,32,.3)}
-.t-clinic .lpulse{background:var(--amber)}
-.t-clinic .s-num{color:#e8c060}
-.t-sales .card-avatar{background:rgba(167,139,250,.15);color:#c084fc;border-color:#9f7aea}
-.t-sales .sdot{background:#9f7aea}
-.t-sales .live-pill{background:rgba(167,139,250,.12);color:#c084fc;border-color:rgba(167,139,250,.3)}
-.t-sales .lpulse{background:#9f7aea}
-.t-sales .s-num{color:#c084fc}
-
-/* CTA BAND */
-.cta-band{background:linear-gradient(135deg,rgba(79,110,247,.1),rgba(108,63,255,.1));border-top:1px solid rgba(79,110,247,.18);border-bottom:1px solid rgba(79,110,247,.18);padding:72px 48px;text-align:center}
-.cta-band h3{font-family:'Inter',sans-serif;font-size:38px;font-weight:800;color:#fff;letter-spacing:-1.5px;margin-bottom:10px}
-.cta-band p{font-size:16px;color:var(--text2);margin-bottom:28px}
+/* ===== CTA ===== */
+.cta{background:var(--ink);border-radius:24px;padding:clamp(40px,5.2vw,68px);text-align:center;position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;top:-150px;left:50%;transform:translateX(-50%);width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(245,158,11,.17),transparent 68%)}
+.cta > *{position:relative}
+.cta h2{font-size:clamp(1.65rem,3.4vw,2.5rem);font-weight:730;letter-spacing:-.036em;line-height:1.1;color:#fff;margin-bottom:16px;text-wrap:balance}
+.cta p{color:var(--tx-inv-2);font-size:1rem;max-width:54ch;margin:0 auto 30px;line-height:1.6}
 .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta-fine{margin-top:24px;font-family:var(--mono);font-size:.68rem;color:var(--tx-inv-3);letter-spacing:.04em}
 
-/* CONTACT */
-.contact-bg{background:var(--bg1);border-top:1px solid var(--border)}
-.fields{display:flex;flex-direction:column;gap:14px}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.fg{display:flex;flex-direction:column;gap:6px}
-.fg label{font-size:12px;color:var(--text2);font-weight:500;font-family:'JetBrains Mono',monospace;letter-spacing:.3px}
-.fg input,.fg select,.fg textarea{background:#141a2e;border:1px solid #2a3355;border-radius:10px;padding:12px 15px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;outline:none;transition:border-color .2s}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--accent)}
-.fg input::placeholder,.fg textarea::placeholder{color:#2a3355}
-.fg select{appearance:none;cursor:pointer;color:var(--text2)}
-.fg textarea{resize:none;min-height:90px}
-.btn-next{width:100%;padding:15px;border-radius:11px;border:none;background:var(--grad);color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(79,110,247,.3);display:flex;align-items:center;justify-content:center;gap:10px}
-.btn-next:hover{box-shadow:0 4px 32px rgba(79,110,247,.5);transform:translateY(-1px)}
-.btn-next.btn-dis{background:#131827!important;color:var(--text3)!important;box-shadow:none!important;transform:none!important;cursor:not-allowed!important;pointer-events:none!important}
-
-/* FOOTER */
-footer{border-top:1px solid var(--border);padding:60px 48px 32px;max-width:1280px;margin:0 auto}
-.ft{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
-.f-brand-sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);line-height:1.8;max-width:200px;margin-top:12px}
-.fc h5{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px}
-.fc ul{list-style:none;display:flex;flex-direction:column;gap:9px}
-.fc ul a{font-size:13px;color:var(--text2);text-decoration:none;transition:color .15s}
-.fc ul a:hover{color:var(--accent)}
-.fbot{border-top:1px solid var(--border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.fbot p{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)}
-.fbl{display:flex;gap:20px}
-.fbl a{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);text-decoration:none}
-.fbl a:hover{color:var(--text2)}
-
-/* WSP */
-.wsp-btn{position:fixed;bottom:24px;right:24px;z-index:99;width:52px;height:52px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.4);text-decoration:none;transition:transform .2s}
-.wsp-btn:hover{transform:scale(1.1)}
-
-/* RESPONSIVE */
-@media(max-width:1024px){
-  nav{padding:0 24px}.nav-links{display:none}
-  .hero{padding:90px 24px 60px;flex-direction:column;gap:40px;min-height:auto}.hero-right{width:100%}
-  .section{padding:72px 24px}
-  .prod-grid{grid-template-columns:1fr}
-  .factory-inner,.security-inner,.avsa-grid{grid-template-columns:1fr}
-  .td-grid{grid-template-columns:1fr}
-  .ft{grid-template-columns:1fr 1fr}
-  .frow{grid-template-columns:1fr}
-  .sec-data-points{grid-template-columns:1fr 1fr}
+@media(max-width:1020px){
+  .hero-grid{grid-template-columns:1fr}
+  .road-grid{grid-template-columns:1fr 1fr;gap:34px 22px}
+  .road::before{display:none}
+  .areas{grid-template-columns:1fr 1fr}
+  .z-top{grid-template-columns:1fr}
+  .chain{grid-template-columns:1fr 1fr;border-radius:16px;overflow:hidden}
+  .sgrid{grid-template-columns:1fr 1fr}
+  .link-b,.link-b:first-child,.link-b:last-child{border-radius:0}
+  .link-b::after{display:none}
+  .link-b:nth-child(-n+2){border-bottom:1px solid var(--line-inv)}
+  .link-b:nth-child(even){border-right:none}
 }
-@media(max-width:600px){
-  h1,.h1-sub{font-size:40px;letter-spacing:-2px}
-  .hero-kpis{gap:20px}
-  .kpi-num{font-size:28px}
-  .ft{grid-template-columns:1fr}
-  .fbot{flex-direction:column;text-align:center}
-  .sec-data-points{grid-template-columns:1fr}
+@media(max-width:760px){
+  .hide-sm{display:none}
+  .gain{gap:16px;padding:20px 22px}
+  .gain-v{min-width:100px}
+  .gains-h{padding:16px 22px}
+  .why{grid-template-columns:1fr;gap:20px}
+  .dots{width:150px}
+  .cases{grid-template-columns:1fr}
+  .road-grid{grid-template-columns:1fr;gap:26px}
+  .areas{grid-template-columns:1fr}
+  .chain,.sgrid,.zmet{grid-template-columns:1fr}
 }
-</style>
-</head>
+
+/* ============ EFECTOS ============ */
+/* 1 · revelado de texto por palabra */
+.wm{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.14em;margin-bottom:-.14em}
+.wi{display:inline-block;transform:translateY(110%);opacity:0;
+    transition:transform .85s var(--ease),opacity .6s var(--ease)}
+.rv.in .wi,.in .wi{transform:none;opacity:1}
+@media (prefers-reduced-motion:reduce){.wi{transform:none;opacity:1;transition:none}}
+
+/* 2 · nav con subrayado animado */
+.nav-links a{position:relative;padding-bottom:3px}
+.nav-links a::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1.5px;background:var(--amber);
+  transform:scaleX(0);transform-origin:right;transition:transform .38s var(--ease)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+
+/* 3 · camino: línea que se llena */
+.road::before{background:var(--line-mid)}
+.road-fill{position:absolute;left:0;top:23px;height:2px;background:var(--amber);width:0;z-index:1;
+  transition:width 1.4s cubic-bezier(.22,1,.36,1);box-shadow:0 0 12px rgba(245,158,11,.55)}
+.stop-n{transition:background .5s var(--ease),border-color .5s var(--ease),color .5s var(--ease),transform .5s var(--ease)}
+.stop.on .stop-n{background:var(--amber);border-color:var(--amber);color:#000;transform:scale(1.06)}
+.stop .give{transition:border-color .3s,box-shadow .3s}
+.stop:hover .give{border-color:var(--amber-line);box-shadow:0 6px 20px rgba(245,158,11,.12)}
+
+/* 4 · tarjetas de área desplegables */
+.area{cursor:pointer;position:relative}
+.area-more{margin-top:auto;padding-top:16px;background:none;border:0;border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;cursor:pointer;
+  font-family:var(--sans);font-size:.79rem;font-weight:620;color:var(--tx-2);letter-spacing:-.012em;
+  transition:color .22s;text-align:left}
+.area:hover .area-more{color:var(--tx-1)}
+.pm{position:relative;width:16px;height:16px;flex-shrink:0}
+.pm::before,.pm::after{content:'';position:absolute;background:var(--amber);border-radius:1px;
+  transition:transform .38s var(--ease),opacity .3s}
+.pm::before{left:0;top:7px;width:16px;height:2px}
+.pm::after{left:7px;top:0;width:2px;height:16px}
+.area.open .pm::after{transform:rotate(90deg);opacity:0}
+.area-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease)}
+.area.open .area-panel{grid-template-rows:1fr}
+.area-panel > div{overflow:hidden}
+.area-panel p{font-size:.83rem;color:var(--tx-2);line-height:1.6;padding-top:14px;
+  opacity:0;transform:translateY(6px);transition:opacity .45s .12s var(--ease),transform .45s .12s var(--ease)}
+.area.open .area-panel p{opacity:1;transform:none}
+
+/* 5 · brillo que sigue el cursor en superficies oscuras */
+.glow{position:relative;isolation:isolate}
+.glow::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;
+  transition:opacity .35s;z-index:0;
+  background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%),rgba(245,158,11,.14),transparent 62%)}
+.glow:hover::after{opacity:1}
+
+/* 6 · marquesina */
+.band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface);
+  overflow:hidden;position:relative;padding:15px 0}
+.band::before,.band::after{content:'';position:absolute;top:0;bottom:0;width:140px;z-index:2;pointer-events:none}
+.band::before{left:0;background:linear-gradient(90deg,var(--surface),transparent)}
+.band::after{right:0;background:linear-gradient(270deg,var(--surface),transparent)}
+.band-row{display:flex;gap:12px;white-space:nowrap;width:max-content;animation:slide 42s linear infinite}
+.band:hover .band-row{animation-play-state:paused}
+@keyframes slide{to{transform:translateX(-50%)}}
+.chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.72rem;
+  color:var(--tx-2);border:1px solid var(--line);border-radius:999px;padding:7px 15px;background:var(--bg);flex-shrink:0}
+.chip::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--amber);flex-shrink:0}
+@media (prefers-reduced-motion:reduce){.band-row{animation:none}}
+
+/* 7 · números que cuentan */
+.num{font-variant-numeric:tabular-nums}
+
+/* 8 · imán en los botones */
+.btn{will-change:transform}
+.case,.area,.line-c{will-change:transform}
+
+/* 9 · barras de reparto que crecen */
+.split i,.bar i{width:0;transition:width 1.1s .15s cubic-bezier(.22,1,.36,1)}
+.rv.in .split i,.rv.in .bar i{width:var(--w)}
+</style></head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="/" class="logo syne">staff<span>21x</span></a>
-  <ul class="nav-links">
-    <li><a href="#diferencias">agente vs automatización</a></li>
-    <li><a href="#productos">productos</a></li>
-    <li><a href="#nosotros">cómo trabajamos</a></li>
-    <li><a href="#seguridad">seguridad</a></li>
-    <li><a href="#en-vivo">en vivo</a></li>
-  </ul>
-  <div class="nav-right">
-    <a href="https://resility.io" target="_blank" style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);text-decoration:none;padding:5px 12px;border:1px solid var(--border);border-radius:20px;transition:border-color .2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
-      <div style="width:5px;height:5px;border-radius:50%;background:var(--green)"></div>
-      Grupo Resility
-    </a>
-    <a href="https://wa.me/56987345554?text=Hola%2C%20quiero%20info%20de%20Staff21x" class="btn-nav-ghost" target="_blank">WhatsApp</a>
-    <a href="#contacto" class="btn-nav-cta">Pedir demo →</a>
+<nav id="nav">
+  <div class="nav-in">
+    <a href="index.html" class="logo">staff21x</a>
+    <ul class="nav-links">
+      <li><a href="#camino">El camino</a></li>
+      <li><a href="casos.html">Casos de uso</a></li>
+      <li><a href="#seguridad">Seguridad</a></li>
+      <li><a href="#soluciones">Qué construimos</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="seguridad.html" class="btn btn--ghost btn--sm">Política de seguridad</a>
+      <a href="#contacto" class="btn btn--pri btn--sm">Agendar diagnóstico</a>
+    </div>
   </div>
 </nav>
 
-<!-- ══ HERO ══ -->
-<div class="hero">
-  <div class="hero-left">
-    <div class="hero-badge fade-in"><div class="bdot"></div><span class="mono">// agentes_ia.deploy() — LATAM</span></div>
-    <div style="display:inline-flex;align-items:center;gap:7px;margin-bottom:20px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">
-      <span>parte del</span>
-      <a href="https://resility.io" target="_blank" style="display:flex;align-items:center;gap:5px;color:var(--text2);text-decoration:none;font-weight:500;transition:color .15s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text2)'">
-        <div style="width:5px;height:5px;border-radius:50%;background:var(--green)"></div>
-        Grupo Resility
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="rv">
+        <span class="badge"><span class="d"></span><span>parte del <b>Grupo Resility</b><span class="hide-sm"> · agentes de IA para operación empresarial</span></span></span>
+        <h1 class="h-hero">Reducimos costos.<br>Aumentamos <span class="amb">productividad</span>.</h1>
+        <p class="lead">
+          Automatizamos las tareas operativas que hoy consumen equipos completos.
+          Antes de construir nada desarmamos el proceso —qué se repite, qué sobra, qué se puede optimizar—
+          y después desplegamos trabajadores digitales que lo operan de punta a punta.
+          El resultado se mide donde importa: en la última línea de gastos.
+        </p>
+        <div class="hero-cta">
+          <a href="#contacto" class="btn btn--pri">Agendar diagnóstico <span class="ar">→</span></a>
+          <a href="#camino" class="btn btn--ghost">Ver cómo funciona</a>
+        </div>
+      </div>
+
+      <div class="rv">
+        <div class="gains">
+          <div class="gains-h">Lo que cambia en tu operación</div>
+          <div class="gain">
+            <div class="gain-v num" data-count="60">60<em>%</em></div>
+            <div class="gain-l"><b>Menos carga operativa</b>Horas de personas liberadas de tareas que no exigen criterio</div>
+          </div>
+          <div class="gain">
+            <div class="gain-v num" data-count="24">24<em>/7</em></div>
+            <div class="gain-l"><b>Operación continua</b>Sin turnos, sin feriados y sin acumulación de pendientes</div>
+          </div>
+          <div class="gain">
+            <div class="gain-v">5–15<em>días</em></div>
+            <div class="gain-l"><b>Para estar operativo</b>Desde la aprobación de la arquitectura hasta producción</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<div class="band">
+  <div class="band-row">
+    <span class="chip">lectura de documentos en cualquier formato</span><span class="chip">normalización de catálogos</span><span class="chip">integración por API</span><span class="chip">detección de duplicados</span><span class="chip">comparación de proveedores</span><span class="chip">actualización de pipeline</span><span class="chip">agendamiento autónomo</span><span class="chip">escalado a humano con contexto</span><span class="chip">auditoría de datos</span><span class="chip">trazabilidad completa</span><span class="chip">pentesting continuo</span><span class="chip">detección de amenazas</span>
+    <span class="chip">lectura de documentos en cualquier formato</span><span class="chip">normalización de catálogos</span><span class="chip">integración por API</span><span class="chip">detección de duplicados</span><span class="chip">comparación de proveedores</span><span class="chip">actualización de pipeline</span><span class="chip">agendamiento autónomo</span><span class="chip">escalado a humano con contexto</span><span class="chip">auditoría de datos</span><span class="chip">trazabilidad completa</span><span class="chip">pentesting continuo</span><span class="chip">detección de amenazas</span>
+  </div>
+</div>
+
+<!-- 01 · EL CAMINO -->
+<section class="sec sec--white" id="camino">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">01 — EL CAMINO</span>
+      <h2 class="h-sec">De la primera reunión a la operación funcionando, en cuatro etapas.</h2>
+      <p class="lead">Un solo recorrido, con un entregable concreto en cada etapa: un diagnóstico, un mapa del proceso con su costo real, un agente operando y un número de ahorro medido.</p>
+    </div>
+
+    <div class="why rv">
+      <div class="dots" aria-hidden="true">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot off"></span><span class="dot off"></span>
+      </div>
+      <div>
+        <div class="why-t">Ocho de cada diez proyectos de IA no llegan a producción. Casi nunca es culpa del modelo.</div>
+        <div class="why-d">Fracasan porque se compró tecnología antes de entender el proceso. Por eso trabajamos al revés: primero el proceso, después la herramienta.</div>
+        <div class="why-s">// RAND Corporation, 2024</div>
+      </div>
+    </div>
+
+    <div class="road rv">
+      <div class="road-grid">
+        <div class="stop">
+          <div class="stop-n">01</div>
+          <h3>Diagnóstico de preparación</h3>
+          <p>Revisamos datos, sistemas y procesos para saber si la empresa está lista. La mayoría no lo está — y ese es el motivo real de que los proyectos se caigan al tercer mes.</p>
+          <span class="give"><b>Entregable</b>Informe de preparación</span>
+        </div>
+        <div class="stop">
+          <div class="stop-n">02</div>
+          <h3>Declaración y descomposición</h3>
+          <p>Escribimos qué está roto y cuánto cuesta hoy. Desarmamos el proceso en partes: qué se repite, qué sobra y qué exige criterio humano.</p>
+          <span class="give"><b>Entregable</b>Mapa del proceso + línea base de costo</span>
+        </div>
+        <div class="stop">
+          <div class="stop-n">03</div>
+          <h3>Arquitectura y despliegue</h3>
+          <p>Construimos el trabajador digital a medida, integrado por API a los sistemas que ya tienes, con el modelo de seguridad definido desde el primer día.</p>
+          <span class="give"><b>Entregable</b>Agente operando en producción</span>
+        </div>
+        <div class="stop">
+          <div class="stop-n">04</div>
+          <h3>Ahorro medido</h3>
+          <p>Medimos el resultado contra la línea base de la etapa 02 y ajustamos hasta que el número se mueva. El ahorro se demuestra con datos, no con una presentación.</p>
+          <span class="give"><b>Entregable</b>Métricas mensuales contra línea base</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 · CASOS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">02 — CASOS DE USO</span>
+      <h2 class="h-sec">Cuatro casos de uso, explicados paso a paso.</h2>
+      <p class="lead">
+        Los cuatro procesos donde más veces vemos un equipo entero haciendo trabajo manual.
+        En cada caso mostramos qué cuesta hoy, qué absorbe el agente, qué hace el equipo humano
+        y cuánto se ahorra.
+      </p>
+    </div>
+
+    <div class="cases rv">
+      <a href="casos.html#cn01" class="case">
+        <span class="case-id">CN—01 · ADMINISTRACIÓN Y FINANZAS</span>
+        <h3>Recepción y clasificación de facturas</h3>
+        <div class="split"><i class="a" style="width:85%"></i><i class="h" style="width:15%"></i></div>
+        <div class="split-l"><span>85% agente</span><span>15% humano</span></div>
+        <span class="case-go">Ver el caso <span class="ar">→</span></span>
       </a>
-      <span>· ciberseguridad empresarial</span>
-    </div>
-
-    <h1 class="syne fade-in d1">Reducimos costos.</h1>
-    <div class="h1-sub fade-in d2">Aumentamos <span class="grad">productividad.</span></div>
-
-    <div class="hero-kpis fade-in d2">
-      <div class="kpi">
-        <div class="kpi-num">60<span>%</span></div>
-        <div class="kpi-label">menos carga operativa</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-num">24<span>/7</span></div>
-        <div class="kpi-label">operación continua</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-num">5<span>–15d</span></div>
-        <div class="kpi-label">para estar operativo</div>
-      </div>
-    </div>
-
-    <p class="hero-sub fade-in d3">Automatizamos tareas operativas críticas con <strong>agentes de IA que ejecutan y toman decisiones.</strong> Diseñamos sistemas que operan procesos completos del negocio, integrando datos, ejecución y lógica en una sola arquitectura.</p>
-
-    <div class="hero-btns fade-in d4">
-      <a href="#contacto" class="btn-primary">Pedir demostración gratuita →</a>
-      <a href="#en-vivo" class="btn-outline">Ver en acción</a>
+      <a href="casos.html#cn02" class="case">
+        <span class="case-id">CN—02 · COMPRAS Y ABASTECIMIENTO</span>
+        <h3>Comparación de proveedores y compra</h3>
+        <div class="split"><i class="a" style="width:75%"></i><i class="h" style="width:25%"></i></div>
+        <div class="split-l"><span>75% agente</span><span>25% humano</span></div>
+        <span class="case-go">Ver el caso <span class="ar">→</span></span>
+      </a>
+      <a href="casos.html#cn03" class="case">
+        <span class="case-id">CN—03 · COMERCIAL Y VENTAS</span>
+        <h3>Seguimiento y venta cruzada</h3>
+        <div class="split"><i class="a" style="width:60%"></i><i class="h" style="width:40%"></i></div>
+        <div class="split-l"><span>60% agente</span><span>40% humano</span></div>
+        <span class="case-go">Ver el caso <span class="ar">→</span></span>
+      </a>
+      <a href="casos.html#cn04" class="case">
+        <span class="case-id">CN—04 · SERVICIOS Y ATENCIÓN</span>
+        <h3>Agendamiento y reagendamiento</h3>
+        <div class="split"><i class="a" style="width:80%"></i><i class="h" style="width:20%"></i></div>
+        <div class="split-l"><span>80% agente</span><span>20% humano</span></div>
+        <span class="case-go">Ver el caso <span class="ar">→</span></span>
+      </a>
     </div>
   </div>
+</section>
 
-  <div class="hero-right fade-in d3">
-    <div id="hero-dashboard" style="background:var(--bg1);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 32px 96px rgba(0,0,0,.6);width:100%">
-
-      <!-- header -->
-      <div style="background:var(--bg2);border-bottom:1px solid var(--border);padding:13px 18px;display:flex;align-items:center;justify-content:space-between">
-        <div style="display:flex;align-items:center;gap:8px">
-          <div style="width:7px;height:7px;border-radius:50%;background:#1aad7e;animation:bdot 1.5s infinite"></div>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">staff21x · operaciones en tiempo real</span>
-        </div>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3)" id="dash-time">--:--:--</span>
-      </div>
-
-      <!-- KPI row -->
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--border)">
-        <div style="padding:16px;border-right:1px solid var(--border);text-align:center">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:6px">tareas / hora</div>
-          <div style="font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1" id="kpi-tasks">247</div>
-          <div style="font-size:10px;color:#1aad7e;margin-top:4px;font-family:'JetBrains Mono',monospace">↑ 12%</div>
-        </div>
-        <div style="padding:16px;border-right:1px solid var(--border);text-align:center">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:6px">agentes activos</div>
-          <div style="font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1" id="kpi-agents">6</div>
-          <div style="font-size:10px;color:#1aad7e;margin-top:4px;font-family:'JetBrains Mono',monospace">uptime 99.9%</div>
-        </div>
-        <div style="padding:16px;text-align:center">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:6px">tiempo resp.</div>
-          <div style="font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px;line-height:1" id="kpi-resp">1.2<span style="font-size:14px;color:var(--accent)">s</span></div>
-          <div style="font-size:10px;color:#1aad7e;margin-top:4px;font-family:'JetBrains Mono',monospace">↓ 0.3s</div>
-        </div>
-      </div>
-
-      <!-- mini chart -->
-      <div style="padding:16px 18px;border-bottom:1px solid var(--border)">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3)">actividad · últimas 12 horas</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent)" id="chart-total">2,841 acciones</span>
-        </div>
-        <div style="display:flex;align-items:flex-end;gap:4px;height:52px" id="bar-chart"></div>
-      </div>
-
-      <!-- agent status -->
-      <div style="padding:14px 18px;border-bottom:1px solid var(--border)">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:10px">estado de agentes</div>
-        <div style="display:flex;flex-direction:column;gap:7px" id="agent-list"></div>
-      </div>
-
-      <!-- live feed -->
-      <div style="height:130px;overflow:hidden;position:relative">
-        <div style="padding:8px 14px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);border-bottom:1px solid var(--border);background:var(--bg2)">// eventos recientes</div>
-        <div id="live-feed" style="display:flex;flex-direction:column;gap:0"></div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-row">
-    <div class="mpill"><span class="mpill-dot"></span>Trabajador Digital</div>
-    <div class="mpill"><span class="mpill-dot"></span>CRM a medida</div>
-    <div class="mpill"><span class="mpill-dot"></span>Analista de Compras IA</div>
-    <div class="mpill"><span class="mpill-dot"></span>Supervisor de Ventas</div>
-    <div class="mpill"><span class="mpill-dot"></span>Agendamiento Digital</div>
-    <div class="mpill"><span class="mpill-dot"></span>Ciberseguridad AISOC</div>
-    <div class="mpill"><span class="mpill-dot"></span>Integración API</div>
-    <div class="mpill"><span class="mpill-dot"></span>Arquitectura de Agentes</div>
-    <div class="mpill"><span class="mpill-dot"></span>Automatización operativa</div>
-    <div class="mpill"><span class="mpill-dot"></span>Código a medida</div>
-    <div class="mpill"><span class="mpill-dot"></span>Trabajador Digital</div>
-    <div class="mpill"><span class="mpill-dot"></span>CRM a medida</div>
-    <div class="mpill"><span class="mpill-dot"></span>Analista de Compras IA</div>
-    <div class="mpill"><span class="mpill-dot"></span>Supervisor de Ventas</div>
-    <div class="mpill"><span class="mpill-dot"></span>Agendamiento Digital</div>
-    <div class="mpill"><span class="mpill-dot"></span>Ciberseguridad AISOC</div>
-    <div class="mpill"><span class="mpill-dot"></span>Integración API</div>
-    <div class="mpill"><span class="mpill-dot"></span>Arquitectura de Agentes</div>
-  </div>
-</div>
-
-<!-- ══ AGENTE VS AUTOMATIZACIÓN ══ -->
-<div class="avsa-wrap" id="diferencias">
-<div class="section">
-  <span class="eyebrow">// agente_vs_automatizacion</span>
-  <h2>Automatización o Agente de IA.<br>No es lo mismo.</h2>
-  <p class="sec-sub">Hay una diferencia técnica y operativa fundamental entre una automatización y un agente de IA. Antes de contratar cualquier servicio, conviene entenderla.</p>
-
-  <div class="avsa-grid">
-    <div class="avsa-col">
-      <div class="avsa-header">
-        <span class="avsa-badge auto">automatización</span>
-        <span class="avsa-title" style="font-size:18px;color:var(--text2)">Conecta herramientas</span>
-      </div>
-      <div class="avsa-rows">
-        <div class="avsa-row">
-          <div class="avsa-icon auto">🔗</div>
-          <div class="avsa-text">
-            <div class="avsa-label">Flujo fijo y predefinido</div>
-            <div class="avsa-desc">Ejecuta la misma secuencia siempre. Si algo cambia o falla, se detiene.</div>
-          </div>
-        </div>
-        <div class="avsa-row">
-          <div class="avsa-icon auto">⚙️</div>
-          <div class="avsa-text">
-            <div class="avsa-label">Sigue reglas, no decide</div>
-            <div class="avsa-desc">Hace lo que fue programado. No interpreta, no razona, no adapta.</div>
-          </div>
-        </div>
-        <div class="avsa-row">
-          <div class="avsa-icon auto">📋</div>
-          <div class="avsa-text">
-            <div class="avsa-label">Responde a eventos definidos</div>
-            <div class="avsa-desc">Solo actúa cuando el trigger específico ocurre exactamente como fue configurado.</div>
-          </div>
-        </div>
-        <div class="avsa-row">
-          <div class="avsa-icon auto">🧩</div>
-          <div class="avsa-text">
-            <div class="avsa-label">20 automatizaciones encadenadas</div>
-            <div class="avsa-desc">La complejidad crece sin límite. Difícil de mantener, difícil de escalar.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="avsa-col" style="background:var(--bg2)">
-      <div class="avsa-header">
-        <span class="avsa-badge agent">agente de IA</span>
-        <span class="avsa-title">Opera procesos completos</span>
-      </div>
-      <div class="avsa-rows">
-        <div class="avsa-row">
-          <div class="avsa-icon agent">🧠</div>
-          <div class="avsa-text">
-            <div class="avsa-label">Toma decisiones en contexto</div>
-            <div class="avsa-desc">Analiza la situación, entiende el contexto y elige la acción correcta.</div>
-          </div>
-        </div>
-        <div class="avsa-row">
-          <div class="avsa-icon agent">📊</div>
-          <div class="avsa-text">
-            <div class="avsa-label">Aprende del negocio</div>
-            <div class="avsa-desc">Se entrena con los datos reales de la operación. Mejora con el tiempo.</div>
-          </div>
-        </div>
-        <div class="avsa-row">
-          <div class="avsa-icon agent">⚡</div>
-          <div class="avsa-text">
-            <div class="avsa-label">Ejecuta flujos completos</div>
-            <div class="avsa-desc">Desde la detección del problema hasta la resolución, sin intervención humana.</div>
-          </div>
-        </div>
-        <div class="avsa-row">
-          <div class="avsa-icon agent">🔄</div>
-          <div class="avsa-text">
-            <div class="avsa-label">Se adapta a lo inesperado</div>
-            <div class="avsa-desc">Cuando algo no es exactamente como estaba previsto, razona y resuelve igual.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="avsa-case">
-    <div class="avsa-case-label">caso real de mercado</div>
-    <p>Una empresa contrató un "asistente con IA" por <strong>USD 12/mes</strong>. Al querer configurarlo con sus productos, precios y correos reales, el proveedor cotizó la personalización en <strong>más de USD 3.000</strong>. Lo que compraron era un chatbot con respuestas fijas. Lo que creyeron comprar era un agente. La diferencia no estaba en el precio inicial, estaba en lo que cada cosa realmente hace.</p>
-  </div>
-</div>
-</div>
-
-<!-- ══ PRODUCTOS ══ -->
-<div class="products-bg" id="productos">
-<div class="section">
-  <span class="eyebrow">// productos_y_soluciones</span>
-  <h2>Seis soluciones.<br>Una arquitectura.</h2>
-  <p class="sec-sub">Cada producto está desarrollado a medida sobre nuestra arquitectura de agentes. No son herramientas genéricas. Son sistemas construidos para operar tu negocio.</p>
-
-  <div class="prod-grid">
-
-    <div class="prod-card">
-      <div class="prod-num mono">01 / 06</div>
-      <div class="prod-icon">🤖</div>
-      <div class="prod-name syne">Trabajador Digital</div>
-      <span class="prod-tag">// punto_de_entrada · puerta principal</span>
-      <p class="prod-desc">Un agente que opera como colaborador real: tiene correo, WhatsApp y teléfono. Atiende, vende, responde, agenda y escala — 24/7, sin errores, sin contratar más.</p>
-      <ul class="prod-feats">
-        <li>Integración con todos tus sistemas vía API</li>
-        <li>Atención multicanal: WhatsApp, web, correo</li>
-        <li>Lógica de escalado a humanos con contexto</li>
-        <li>Entrega precios, stock y cotizaciones en tiempo real</li>
-      </ul>
-      <a href="#contacto" class="prod-cta">Cotizar este agente →</a>
+<!-- 04 · AGENTES POR ÁREA -->
+<section class="sec sec--white" id="soluciones">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">04 — LO QUE CONSTRUIMOS</span>
+      <h2 class="h-sec">Cinco agentes que construimos. El tuyo se diseña a medida.</h2>
+      <p class="lead">
+        Van desde un proceso administrativo hasta un CyberSOC completo operando 24/7.
+        No es una lista para elegir: son la referencia de lo que la arquitectura puede sostener.
+        El agente de tu empresa se construye sobre tu operación, tus datos y tus sistemas.
+      </p>
     </div>
 
-    <div class="prod-card">
-      <div class="prod-num mono">02 / 06</div>
-      <div class="prod-icon">📊</div>
-      <div class="prod-name syne">CRM a Medida</div>
-      <span class="prod-tag">// gestion_comercial · sin_licencias</span>
-      <p class="prod-desc">Plataforma liviana construida exactamente para tu proceso de ventas. Sin funciones que no usás, sin licencias que no necesitás, sin datos en servidores ajenos.</p>
-      <ul class="prod-feats">
-        <li>Pipeline adaptado a tu ciclo comercial real</li>
-        <li>Integrado nativamente con tus Trabajadores Digitales</li>
-        <li>Alertas automáticas de seguimiento y cierre</li>
-        <li>Reportes operativos en tiempo real</li>
-      </ul>
-      <a href="#contacto" class="prod-cta">Cotizar este producto →</a>
-    </div>
-
-    <div class="prod-card">
-      <div class="prod-num mono">03 / 06</div>
-      <div class="prod-icon">🔍</div>
-      <div class="prod-name syne">Analista de Compras IA</div>
-      <span class="prod-tag">// inteligencia_de_compras · ahorro_real</span>
-      <p class="prod-desc">Lee listas de precios en cualquier formato, compara proveedores, detecta oportunidades y recomienda la compra óptima. Decide con datos, no con intuición.</p>
-      <ul class="prod-feats">
-        <li>Lectura de catálogos en PDF, Excel, CSV, web</li>
-        <li>Comparación automática entre múltiples proveedores</li>
-        <li>Alertas de precios y oportunidades en tiempo real</li>
-        <li>Programación de compras basada en stock e historial</li>
-      </ul>
-      <a href="#contacto" class="prod-cta">Cotizar este agente →</a>
-    </div>
-
-    <div class="prod-card">
-      <div class="prod-num mono">04 / 06</div>
-      <div class="prod-icon">📈</div>
-      <div class="prod-name syne">Supervisor de Ventas</div>
-      <span class="prod-tag">// supervision_comercial · cross_selling</span>
-      <p class="prod-desc">Un supervisor que monitorea el equipo comercial en tiempo real: lee correos, WhatsApp y CRM, detecta oportunidades de cross-selling y alerta cuando un lead se enfría.</p>
-      <ul class="prod-feats">
-        <li>Monitoreo multicanal: correo, WhatsApp, CRM</li>
-        <li>Detección automática de oportunidades de venta cruzada</li>
-        <li>Alertas de leads sin seguimiento o en riesgo</li>
-        <li>Reportes de desempeño por vendedor</li>
-      </ul>
-      <a href="#contacto" class="prod-cta">Cotizar este agente →</a>
-    </div>
-
-    <div class="prod-card">
-      <div class="prod-num mono">05 / 06</div>
-      <div class="prod-icon">📅</div>
-      <div class="prod-name syne">Agendamiento Digital</div>
-      <span class="prod-tag">// gestion_de_turnos · sin_espera</span>
-      <p class="prod-desc">Gestiona citas, turnos y reservas de forma completamente autónoma. Ideal para clínicas, consultorios, servicios y cualquier operación basada en tiempo.</p>
-      <ul class="prod-feats">
-        <li>Agenda, reagenda y cancela sin intervención humana</li>
-        <li>Confirmaciones y recordatorios automáticos por WhatsApp</li>
-        <li>Gestión de lista de espera en tiempo real</li>
-        <li>Integración con Google Calendar y sistemas propios</li>
-      </ul>
-      <a href="#contacto" class="prod-cta">Cotizar este agente →</a>
-    </div>
-
-    <div class="prod-card">
-      <div class="prod-num mono">06 / 06</div>
-      <div class="prod-icon">🛡️</div>
-      <div class="prod-name syne">Ciberseguridad Operativa</div>
-      <span class="prod-tag">// powered_by_resility · zentris_aisoc</span>
-      <p class="prod-desc">La operación basada en agentes requiere una capa de seguridad real. Monitoreo 24/7, detección de amenazas con IA y respuesta automatizada a incidentes.</p>
-      <ul class="prod-feats">
-        <li>CyberSOC-as-a-Service con Zentris AISOC</li>
-        <li>Detección de amenazas MTTD menor a 15 minutos</li>
-        <li>196.000+ IPs en blocklist · 250.000+ CVEs</li>
-        <li>Cobertura de 14 tácticas MITRE ATT&CK</li>
-      </ul>
-      <a href="#contacto" class="prod-cta">Solicitar información →</a>
-    </div>
-
-  </div>
-</div>
-</div>
-
-<!-- ══ SOFTWARE FACTORY ══ -->
-<div class="factory-bg" id="nosotros">
-<div class="section">
-  <div class="factory-inner">
-    <div>
-      <span class="eyebrow">// cómo_trabajamos</span>
-      <h2>Soluciones de agentes basadas en IA.</h2>
-      <p style="font-size:16px;color:var(--text2);line-height:1.75;margin-bottom:36px">Somos un equipo de desarrollo que diseña sistemas operativos completos basados en agentes de IA. Cada solución se construye sobre la operación real del cliente: sus datos, su lógica de negocio, sus integraciones. No hay producto estándar. Hay arquitectura a medida.</p>
-
-      <div class="factory-pillars">
-        <div class="fp">
-          <div class="fp-n">01</div>
-          <div class="fp-body">
-            <h4>Declaración del problema</h4>
-            <p>Antes de escribir una línea de código, modelamos el proceso real. Identificamos dónde está la fricción, qué datos existen y qué decisiones se pueden sistematizar.</p>
-          </div>
-        </div>
-        <div class="fp">
-          <div class="fp-n">02</div>
-          <div class="fp-body">
-            <h4>Arquitectura de agentes</h4>
-            <p>Diseñamos la lógica operativa: qué hace el agente, qué datos consume, cómo se conecta con tus sistemas vía API y cuándo escala a un humano.</p>
-          </div>
-        </div>
-        <div class="fp">
-          <div class="fp-n">03</div>
-          <div class="fp-body">
-            <h4>Desarrollo a medida</h4>
-            <p>Código propio. No conectamos herramientas genéricas. Construimos el sistema que tu operación necesita, con estructura técnica real y seguridad de datos.</p>
-          </div>
-        </div>
-        <div class="fp">
-          <div class="fp-n">04</div>
-          <div class="fp-body">
-            <h4>Operación continua</h4>
-            <p>Post-venta real. Monitoreo, ajustes, mejoras iterativas. El agente no es un entregable, es un sistema vivo que mejora con el uso.</p>
-          </div>
-        </div>
-        <div class="fp">
-          <div class="fp-n">05</div>
-          <div class="fp-body">
-            <h4>Integración con todo</h4>
-            <p>Nos conectamos a cualquier sistema que tenga API. ERP, CRM, WhatsApp Business, correo, marketplaces, bases de datos propias. Todo habla con todo.</p>
-          </div>
-        </div>
+    <div class="areas rv">
+      <div class="area">
+        <div class="area-k">Administración y finanzas</div>
+        <h3>Procesa cientos de facturas al día sin abrir un archivo</h3>
+        <p>Identifica al emisor aunque el documento no lo diga, normaliza productos en cualquier idioma, valida contra la orden de compra y archiva.</p>
+      
+        <button class="area-more" aria-expanded="false">Cómo lo hace <span class="pm"></span></button>
+        <div class="area-panel"><div><p>Se conecta a la casilla por API, extrae el documento en cualquier formato —PDF, escaneo, imagen o XML— y cruza RUT, razón social y dominio del remitente contra el maestro de proveedores. Después normaliza cada producto contra tu catálogo interno, valida contra la orden de compra y deja el registro estructurado en el ERP. Los casos ambiguos llegan a una persona con todo el contexto ya armado.</p></div></div>
+      </div>
+      <div class="area">
+        <div class="area-k">Compras y abastecimiento</div>
+        <h3>Compara cuarenta proveedores con listas en formatos distintos</h3>
+        <p>Lee PDF, Excel, imagen y correo, convierte unidades a costo comparable y avisa el mismo día que se mueve un precio.</p>
+      
+        <button class="area-more" aria-expanded="false">Cómo lo hace <span class="pm"></span></button>
+        <div class="area-panel"><div><p>Ingiere cada lista apenas entra, mapea el nombre que usa el proveedor a tu SKU interno resolviendo sinónimos e idiomas, y convierte caja, docena o kilo a una unidad de costo comparable. Mantiene un ranking vivo por precio real, plazo de entrega y condiciones de pago, y avisa el mismo día que un precio se mueve.</p></div></div>
+      </div>
+      <div class="area">
+        <div class="area-k">Comercial y ventas</div>
+        <h3>Mantiene el pipeline al día sin que el vendedor cargue nada</h3>
+        <p>Lee los canales corporativos, actualiza cada oportunidad, avisa cuando una se enfría y detecta venta cruzada con la cita textual.</p>
+      
+        <button class="area-more" aria-expanded="false">Cómo lo hace <span class="pm"></span></button>
+        <div class="area-panel"><div><p>Lee los canales corporativos autorizados y extrae los hechos comerciales: qué se cotizó, a qué precio, qué objeción apareció y qué se comprometió para cuándo. Con eso actualiza la oportunidad, avisa cuando supera su umbral de enfriamiento y arma el brief antes de cada reunión con historial, cotizaciones previas y objeciones abiertas.</p></div></div>
+      </div>
+      <div class="area">
+        <div class="area-k">Atención y servicios</div>
+        <h3>Recupera un turno cancelado en menos de un minuto</h3>
+        <p>Agenda, confirma y recuerda solo, y cuando alguien cancela ofrece el hueco a la lista de espera antes de que quede vacío.</p>
+      
+        <button class="area-more" aria-expanded="false">Cómo lo hace <span class="pm"></span></button>
+        <div class="area-panel"><div><p>Unifica en una sola cola las solicitudes que entran por WhatsApp, web y teléfono, y agenda contra la disponibilidad real del profesional. Ante una cancelación ofrece el hueco a la lista de espera por orden de prioridad, gestiona la ventana de respuesta y pasa al siguiente si nadie contesta.</p></div></div>
       </div>
     </div>
 
-    <div>
-      <div class="factory-code">
-        <div class="fc-bar">
-          <div class="tdot" style="background:#ff5f57"></div>
-          <div class="tdot" style="background:#febc2e"></div>
-          <div class="tdot" style="background:#28c840"></div>
-          <span class="term-title">agent.architecture.ts</span>
-        </div>
-        <div class="fc-body">
-          <pre><span class="kw">const</span> <span class="fn">staff21x_agent</span> = {
-
-  <span class="cm">// no herramientas genéricas</span>
-  tipo: <span class="str">"desarrollo_a_medida"</span>,
-
-  <span class="cm">// el agente decide, no solo ejecuta</span>
-  capacidades: {
-    analiza_contexto:     <span class="str">true</span>,
-    toma_decisiones:      <span class="str">true</span>,
-    aprende_del_negocio:  <span class="str">true</span>,
-    opera_24_7:           <span class="str">true</span>,
-  },
-
-  <span class="cm">// conecta con todo tu stack</span>
-  integraciones: <span class="str">"cualquier_api"</span>,
-
-  <span class="cm">// seguridad como capa estructural</span>
-  seguridad: <span class="str">"resility_zentris_aisoc"</span>,
-
-  <span class="cm">// no termina con la entrega</span>
-  post_venta: <span class="str">"operacion_continua"</span>,
-
-  <span class="fn">principio_rector</span>: () => {
-    <span class="kw">return</span> <span class="str">"La eficiencia operativa"</span>
-         + <span class="str">" no se gestiona."</span>
-         + <span class="str">" Se diseña."</span>
-  }
-}</pre>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- ══ SEGURIDAD ══ -->
-<div class="sec-security" id="seguridad">
-<div class="section">
-  <div class="security-inner">
-    <div>
-      <span class="eyebrow">// seguridad_de_datos</span>
-      <h2>Seguridad de<br>tus datos.</h2>
-      <p style="font-size:19px;color:var(--text);font-weight:600;margin-bottom:16px">¿Sabés qué pasa con tus datos cuando contratás un servicio de IA?</p>
-      <p style="font-size:15px;color:var(--text2);line-height:1.75;margin-bottom:28px">Tus datos operativos — clientes, precios, inventario, comunicaciones — pasan por la infraestructura del proveedor. No todos tienen las mismas políticas. Nosotros operamos sobre estándares de seguridad internacionales y lo documentamos.</p>
-
-      <div class="sec-data-points">
-        <div class="sdp">
-          <div class="sdp-num">USD<span>4.88M</span></div>
-          <div class="sdp-label">costo promedio de una brecha de datos en LATAM (IBM, 2024)</div>
-        </div>
-        <div class="sdp">
-          <div class="sdp-num">83<span>%</span></div>
-          <div class="sdp-label">de empresas sufrieron más de una brecha de seguridad en el último año</div>
-        </div>
-        <div class="sdp">
-          <div class="sdp-num">15<span>min</span></div>
-          <div class="sdp-label">tiempo máximo de detección de amenazas en nuestra plataforma (MTTD)</div>
-        </div>
-        <div class="sdp">
-          <div class="sdp-num">93<span>%</span></div>
-          <div class="sdp-label">reducción de falsos positivos mediante análisis multicapa con IA</div>
-        </div>
-      </div>
-
-      <div class="sec-standards">
-        <span class="std-pill">PCI DSS</span>
-        <span class="std-pill">HIPAA</span>
-        <span class="std-pill">NIST 800-53</span>
-        <span class="std-pill">GDPR / RGPD</span>
-        <span class="std-pill">TLS 1.2+</span>
-        <span class="std-pill">Zero-trust</span>
-        <span class="std-pill">MITRE ATT&CK</span>
-      </div>
-
-      <p style="font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:24px">Operamos sobre la infraestructura de <strong style="color:var(--text)">Resility</strong>, empresa especializada en ciberseguridad con CyberSOC-as-a-Service. La seguridad no es un complemento. Es parte estructural del sistema.</p>
-
-      <a href="seguridad.html" class="sec-cta-btn">Ver políticas de seguridad completas →</a>
-    </div>
-
-    <div>
-      <div class="sec-policy-box">
-        <div class="spb-title">// políticas_de_protección</div>
-
-        <div class="spb-item">
-          <div class="spb-ico">🔒</div>
-          <div class="spb-text">
-            <strong>Tus datos no se almacenan en nuestros servidores</strong>
-            <span>Los datos procesados por un agente no quedan en infraestructura de Staff21x, salvo configuración explícita y documentada acordada con el cliente.</span>
-          </div>
-        </div>
-        <div class="spb-item">
-          <div class="spb-ico">🛡️</div>
-          <div class="spb-text">
-            <strong>Cifrado en tránsito obligatorio</strong>
-            <span>Toda comunicación entre el agente y tus sistemas viaja cifrada mediante TLS 1.2 mínimo. Sin excepciones.</span>
-          </div>
-        </div>
-        <div class="spb-item">
-          <div class="spb-ico">🎯</div>
-          <div class="spb-text">
-            <strong>Principio de mínimo privilegio</strong>
-            <span>El agente accede únicamente a los endpoints y recursos declarados explícitamente durante la configuración. Nada más.</span>
-          </div>
-        </div>
-        <div class="spb-item">
-          <div class="spb-ico">📋</div>
-          <div class="spb-text">
-            <strong>Trazabilidad completa y auditoría</strong>
-            <span>Cada acción del agente genera logs auditables. Podés solicitar la exportación completa en cualquier momento.</span>
-          </div>
-        </div>
-        <div class="spb-item">
-          <div class="spb-ico">🔍</div>
-          <div class="spb-text">
-            <strong>Monitoreo 24×7×365</strong>
-            <span>Zentris AISOC monitorea la infraestructura en tiempo real. Detección de amenazas, respuesta automatizada, uptime 99.9%.</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- ══ ASESORÍA ══ -->
-<div style="background:var(--bg);border-top:1px solid var(--border)" id="asesoria">
-<div class="section">
-  <span class="eyebrow">// asesoria_de_ia</span>
-  <h2>Asesoría Operativa de IA.</h2>
-  <p style="font-size:19px;color:var(--text);font-weight:600;line-height:1.4;margin-bottom:12px">Analizamos tu empresa, tus datos y tus procesos — y te decimos exactamente qué se puede automatizar, dónde necesitás un agente y qué hay que resolver antes de implementar.</p>
-  <p class="sec-sub">Antes de implementar cualquier agente, hay que entender qué procesos tienen potencial real de automatización y cuáles requieren un agente con lógica de decisión. Eso es lo que hacemos en una asesoría.</p>
-
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px">
-
-    <div style="background:var(--bg1);border:1px solid var(--border);border-radius:14px;padding:28px">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:14px">01 / análisis</div>
-      <div style="font-size:22px;margin-bottom:12px">🔍</div>
-      <div style="font-family:'Inter',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:8px">Diagnóstico operativo</div>
-      <p style="font-size:13px;color:var(--text2);line-height:1.65">Mapeamos los procesos de tu empresa, identificamos tareas repetitivas, decisiones frecuentes y flujos de datos. Determinamos qué tiene potencial real de automatización y qué requiere un agente.</p>
-    </div>
-
-    <div style="background:var(--bg1);border:1px solid var(--border);border-radius:14px;padding:28px">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:14px">02 / diseño</div>
-      <div style="font-size:22px;margin-bottom:12px">🏗️</div>
-      <div style="font-family:'Inter',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:8px">Arquitectura de solución</div>
-      <p style="font-size:13px;color:var(--text2);line-height:1.65">Diseñamos la arquitectura concreta: qué agentes se necesitan, cómo se conectan con tus sistemas, qué datos consumen y qué decisiones pueden tomar de forma autónoma.</p>
-    </div>
-
-    <div style="background:var(--bg1);border:1px solid var(--border);border-radius:14px;padding:28px">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-bottom:14px">03 / entregable</div>
-      <div style="font-size:22px;margin-bottom:12px">📋</div>
-      <div style="font-family:'Inter',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:8px">Informe ejecutivo</div>
-      <p style="font-size:13px;color:var(--text2);line-height:1.65">Entregamos un informe con procesos priorizados, estimación de impacto, arquitectura propuesta y hoja de ruta de implementación. Un documento accionable, no un PowerPoint genérico.</p>
-    </div>
-
-  </div>
-
-  <div style="background:var(--bg2);border:1px solid rgba(79,110,247,.2);border-radius:14px;padding:28px 32px;display:flex;align-items:center;gap:32px;flex-wrap:wrap">
-    <div style="flex:1;min-width:240px">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">// dato McKinsey 2025</div>
-      <p style="font-size:15px;color:var(--text2);line-height:1.7"><strong style="color:var(--text)">El 88% de las empresas ya usa IA en al menos una función.</strong> Pero solo el 1% describe su implementación como madura. La diferencia está en cómo se diseña la solución, no en qué herramienta se elige.</p>
-    </div>
-    <a href="asesoria.html" class="btn-primary" style="white-space:nowrap;flex-shrink:0">Ver detalle de asesoría →</a>
-  </div>
-</div>
-</div>
-
-<!-- ══ CTA ══ -->
-<div class="cta-band">
-  <div style="max-width:640px;margin:0 auto">
-    <h3 class="syne">Convertí tu operación<br>en un sistema que trabaja solo.</h3>
-    <p>Demo gratuita de 30 minutos. Te mostramos exactamente qué agente necesita tu operación.</p>
-    <div class="cta-btns">
-      <a href="#contacto" class="btn-primary">→ Agendar demo ahora</a>
-      <a href="https://wa.me/56987345554?text=Hola%2C%20quiero%20una%20demo%20Staff21x" class="btn-outline" target="_blank">WhatsApp directo</a>
-    </div>
-  </div>
-</div>
-
-<!-- ══ EN VIVO ══ -->
-<div class="casos-bg" id="en-vivo">
-<div class="section">
-  <span class="eyebrow">// agentes_en_operacion</span>
-  <h2 style="text-align:center">Así operan nuestros agentes.</h2>
-  <p class="sec-sub" style="margin:0 auto 48px;text-align:center">Operación en tiempo real. Cada card muestra un agente activo ejecutando tareas en este momento.</p>
-
-  <div class="td-grid">
-
-    <!-- COMPRAS -->
-    <div class="td-card t-tech">
-      <div class="card-header">
-        <div class="card-avatar"><div class="sdot"></div>🔍</div>
-        <div class="card-info">
-          <div class="card-name">Analista de Compras IA</div>
-          <div class="card-company">// agente_compras · mayorista_tecnología</div>
-        </div>
-        <div class="live-pill"><div class="lpulse"></div>en vivo</div>
-      </div>
-      <div class="stats-row">
-        <div class="stat"><div class="s-num" id="t1-cot">14</div><div class="s-label">cotizaciones analizadas</div></div>
-        <div class="stat"><div class="s-num" id="t1-prov">7</div><div class="s-label">proveedores comparados</div></div>
-        <div class="stat"><div class="s-num" id="t1-comp">5</div><div class="s-label">comparativas</div></div>
-        <div class="stat"><div class="s-num" id="t1-resp">3</div><div class="s-label">órdenes generadas</div></div>
-      </div>
-      <div class="feed-wrap">
-        <div class="feed-hdr">// actividad reciente</div>
-        <div class="typing" id="ty1"><div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>&nbsp;procesando...</div>
-        <div id="feed1"></div>
-      </div>
-    </div>
-
-    <!-- ECOMMERCE -->
-    <div class="td-card t-market">
-      <div class="card-header">
-        <div class="card-avatar"><div class="sdot"></div>🛒</div>
-        <div class="card-info">
-          <div class="card-name">Trabajador Digital · Ecommerce</div>
-          <div class="card-company">// agente_ventas · marketplace_tech</div>
-        </div>
-        <div class="live-pill"><div class="lpulse"></div>en vivo</div>
-      </div>
-      <div class="stats-row">
-        <div class="stat"><div class="s-num" id="t2-wsp">23</div><div class="s-label">WhatsApp respondidos</div></div>
-        <div class="stat"><div class="s-num" id="t2-web">18</div><div class="s-label">chats web</div></div>
-        <div class="stat"><div class="s-num" id="t2-ped">9</div><div class="s-label">pedidos procesados</div></div>
-        <div class="stat"><div class="s-num" id="t2-rec">4</div><div class="s-label">reclamos resueltos</div></div>
-      </div>
-      <div class="feed-wrap">
-        <div class="feed-hdr">// actividad reciente</div>
-        <div class="typing" id="ty2"><div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>&nbsp;procesando...</div>
-        <div id="feed2"></div>
-      </div>
-    </div>
-
-    <!-- AGENDAMIENTO -->
-    <div class="td-card t-clinic">
-      <div class="card-header">
-        <div class="card-avatar"><div class="sdot"></div>📅</div>
-        <div class="card-info">
-          <div class="card-name">Agendamiento Digital</div>
-          <div class="card-company">// agente_agenda · clínica_médica</div>
-        </div>
-        <div class="live-pill"><div class="lpulse"></div>en vivo</div>
-      </div>
-      <div class="stats-row">
-        <div class="stat"><div class="s-num" id="t3-age">31</div><div class="s-label">citas agendadas</div></div>
-        <div class="stat"><div class="s-num" id="t3-rec">48</div><div class="s-label">recordatorios</div></div>
-        <div class="stat"><div class="s-num" id="t3-reag">7</div><div class="s-label">reagendadas</div></div>
-        <div class="stat"><div class="s-num" id="t3-can">2</div><div class="s-label">cancelaciones</div></div>
-      </div>
-      <div class="feed-wrap">
-        <div class="feed-hdr">// actividad reciente</div>
-        <div class="typing" id="ty3"><div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>&nbsp;procesando...</div>
-        <div id="feed3"></div>
-      </div>
-    </div>
-
-    <!-- SUPERVISOR VENTAS -->
-    <div class="td-card t-sales">
-      <div class="card-header">
-        <div class="card-avatar"><div class="sdot"></div>📈</div>
-        <div class="card-info">
-          <div class="card-name">Supervisor de Ventas IA</div>
-          <div class="card-company">// agente_supervisor · equipo_comercial</div>
-        </div>
-        <div class="live-pill"><div class="lpulse"></div>en vivo</div>
-      </div>
-      <div class="stats-row">
-        <div class="stat"><div class="s-num" id="t4-mail">47</div><div class="s-label">seguimientos</div></div>
-        <div class="stat"><div class="s-num" id="t4-li">29</div><div class="s-label">oportunidades</div></div>
-        <div class="stat"><div class="s-num" id="t4-resp">11</div><div class="s-label">respuestas</div></div>
-        <div class="stat"><div class="s-num" id="t4-meet">3</div><div class="s-label">reuniones</div></div>
-      </div>
-      <div class="feed-wrap">
-        <div class="feed-hdr">// actividad reciente</div>
-        <div class="typing" id="ty4"><div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>&nbsp;procesando...</div>
-        <div id="feed4"></div>
-      </div>
-    </div>
-
-  </div>
-</div>
-</div>
-
-<!-- ══ CONTACTO ══ -->
-<div class="contact-bg">
-<div class="section" id="contacto">
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center" class="contact-grid-inner">
-    <div>
-      <span class="eyebrow">// agendar_demo</span>
-      <h2>Hablemos de<br>tu operación.</h2>
-      <p style="font-size:16px;color:var(--text2);line-height:1.7;margin-bottom:32px">Analizamos tu proceso, identificamos dónde están las ineficiencias y te presentamos una arquitectura concreta — en 30 minutos, con datos reales de tu negocio.</p>
-      <a href="demo.html" style="display:flex;align-items:center;gap:16px;padding:24px 28px;background:var(--grad);border-radius:14px;text-decoration:none;box-shadow:0 8px 32px rgba(79,110,247,.35);transition:all .2s;margin-bottom:14px" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
-        <div style="width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🎯</div>
+    <div class="zcard glow rv">
+      <div class="area-k">Ciberseguridad</div>
+      <div class="z-top">
         <div>
-          <div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:3px;font-family:'Inter',sans-serif">Descubrí tu agente ideal</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.7)">// diagnóstico gratuito · 5 preguntas · 3 minutos</div>
+          <div class="zen-hd">
+            <div class="zen-mark">Z</div>
+            <div><div class="zen-name">ZENTRIS</div><div class="zen-sub">// CYBERSOC AGÉNTICO · BY RESILITY</div></div>
+          </div>
+          <p class="pitch">Un CyberSOC que piensa como analista, investiga como threat hunter y actúa como ethical hacker.</p>
+          <p class="lead lead--inv">
+            Este es el techo del rango. Una flota de veinte agentes especializados sostiene una operación
+            de seguridad completa 24/7 sobre infraestructura crítica, con un equipo de expertos validando
+            toda decisión que impacta producción, pentesting continuo y gestión de exposición.
+            Si la arquitectura aguanta esto, aguanta tu proceso.
+          </p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:26px">
+            <a href="zentris.html" class="btn btn--inv">Ver Zentris en detalle <span class="ar">→</span></a>
+            <a href="https://resility.io" target="_blank" rel="noopener" class="btn btn--ghost-inv">resility.io</a>
+          </div>
         </div>
-        <div style="margin-left:auto;font-size:20px;color:rgba(255,255,255,.8)">→</div>
-      </a>
-      <a href="https://calendar.app.google/8gXWWVzvjTJNZwyX7" target="_blank" style="display:flex;align-items:center;gap:16px;padding:20px 24px;background:var(--bg2);border:1px solid var(--border2);border-radius:14px;text-decoration:none;transition:all .2s">
-        <div style="width:42px;height:42px;border-radius:10px;background:var(--grad-dim);border:1px solid var(--grad-border);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">📅</div>
-        <div>
-          <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:2px;font-family:'Inter',sans-serif">Agendar directo en calendario</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">// elegí día y hora ahora mismo</div>
+        <div class="zmet">
+          <div class="zcell"><div class="zval num" data-count="20">20</div><div class="zlab">Agentes especializados en flota</div></div>
+          <div class="zcell"><div class="zval">&lt;15<em>min</em></div><div class="zlab">MTTD — detección de amenazas</div></div>
+          <div class="zcell"><div class="zval">24<em>/7</em></div><div class="zlab">Pentesting continuo</div></div>
+          <div class="zcell"><div class="zval num" data-count="93">93<em>%</em></div><div class="zlab">Reducción de falsos positivos</div></div>
         </div>
-        <div style="margin-left:auto;font-size:16px;color:var(--text3)">→</div>
-      </a>
+      </div>
     </div>
-    <div>
-      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px">// contacto_directo</div>
-        <a href="https://wa.me/56987345554?text=Hola%2C%20quiero%20una%20demo%20de%20Staff21x" target="_blank" style="display:flex;align-items:center;gap:12px;text-decoration:none;padding:14px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg1);margin-bottom:10px;transition:border-color .2s">
-          <div style="width:36px;height:36px;border-radius:9px;background:rgba(37,211,102,.15);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">💬</div>
-          <div><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);display:block;text-transform:uppercase;letter-spacing:.5px">WhatsApp</span><span style="font-size:13px;color:#fff;font-weight:600">+56 9 8734 5554</span></div>
-        </a>
-        <a href="mailto:hola@staff21x.com" style="display:flex;align-items:center;gap:12px;text-decoration:none;padding:14px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg1);margin-bottom:10px">
-          <div style="width:36px;height:36px;border-radius:9px;background:var(--grad-dim);border:1px solid var(--grad-border);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">✉️</div>
-          <div><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);display:block;text-transform:uppercase;letter-spacing:.5px">Email</span><span style="font-size:13px;color:#fff;font-weight:600">hola@staff21x.com</span></div>
-        </a>
-        <div style="margin-top:20px;padding:16px;background:var(--grad-dim);border:1px solid var(--grad-border);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);text-align:center;line-height:1.6">
-          // respuesta &lt; 24h · reunión de análisis · 30 minutos
-        </div>
+
+    <p class="rv" style="margin-top:22px;font-size:.92rem;color:var(--tx-2);line-height:1.6;max-width:70ch">
+      Tu proceso no va a ser ninguno de estos cinco. El agente que construyamos parte de tu operación,
+      no de esta lista.
+    </p>
+  </div>
+</section>
+
+<!-- 05 · SEGURIDAD -->
+<section class="sec sec--dark" id="seguridad">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">05 — SEGURIDAD DE LA INFORMACIÓN</span>
+      <h2 class="h-sec">Nuestro proceso de seguridad de la información está declarado.</h2>
+      <p class="lead lead--inv">
+        No es una promesa en una reunión: es un documento público y versionado que dice exactamente
+        a qué accede un trabajador digital, a qué no, qué se registra y quién responde por cada parte.
+        Tu área de TI puede auditarlo antes de que empecemos.
+      </p>
+    </div>
+
+    <div class="rv">
+      <div class="chain">
+        <div class="link-b"><span class="k">Origen</span><span class="v">Tu sistema</span></div>
+        <div class="link-b"><span class="k">Puerta</span><span class="v">API autorizada</span></div>
+        <div class="link-b"><span class="k">Proceso</span><span class="v">Trabajador digital</span></div>
+        <div class="link-b"><span class="k">Retorno</span><span class="v">Acción en tu sistema</span></div>
+      </div>
+      <p class="chain-note">// cada eslabón opera con autenticación, cifrado TLS 1.2+ y logs auditables · el agente nunca inicia conexiones no declaradas · sin acceso a sistema operativo, red interna ni datos fuera del alcance acordado</p>
+
+      <div class="sgrid">
+        <div class="sitem glow"><h4>No copiamos tu base</h4><p>El agente no replica ni retiene tus bases de datos. Procesa solo lo que expones por API.</p></div>
+        <div class="sitem glow"><h4>Sin retención</h4><p>Los datos de una sesión no se almacenan en servidores nuestros, salvo acuerdo explícito y documentado.</p></div>
+        <div class="sitem glow"><h4>Mínimo privilegio</h4><p>Acceso únicamente a los endpoints declarados. Cada implementación corre aislada de las demás.</p></div>
+        <div class="sitem glow"><h4>Responsabilidades por escrito</h4><p>Qué asegura staff21x y qué asegura el cliente, definido antes de empezar. Sin zonas grises.</p></div>
+      </div>
+
+      <div class="norms">
+        <span class="norm">PCI DSS</span><span class="norm">HIPAA</span><span class="norm">NIST 800-53</span>
+        <span class="norm">GDPR / RGPD</span><span class="norm">TLS 1.2+</span><span class="norm">Zero-trust</span><span class="norm">Mínimo privilegio</span>
+      </div>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px">
+        <a href="seguridad.html" class="btn btn--inv">Leer la política completa <span class="ar">→</span></a>
+        <a href="#contacto" class="btn btn--ghost-inv">Validación técnica con tu área de TI</a>
       </div>
     </div>
   </div>
+</section>
 
-  <div style="margin-top:64px;max-width:800px;margin-left:auto;margin-right:auto">
-    <div style="text-align:center;margin-bottom:24px">
-      <h3 class="syne" style="font-size:24px;font-weight:800;color:#fff;margin-bottom:8px">O envianos un mensaje directo</h3>
-      <p style="color:var(--text2);font-size:15px">Completá el formulario y un especialista te contacta a la brevedad.</p>
-    </div>
-    <div class="fields" style="background:var(--bg2);padding:32px;border-radius:16px;border:1px solid var(--border)">
-      <div class="frow">
-        <div class="fg"><label>Nombre</label><input type="text" id="c-nombre" placeholder="Tu nombre" oninput="chkContacto()"></div>
-        <div class="fg"><label>Empresa</label><input type="text" id="c-empresa" placeholder="Tu empresa" oninput="chkContacto()"></div>
+<!-- CTA -->
+<section class="sec" id="contacto">
+  <div class="wrap">
+    <div class="cta glow rv">
+      <h2>Empieza por saber cuánto te está costando tu operación actual.</h2>
+      <p>
+        El diagnóstico es la etapa 01 del camino: salimos de esa conversación con la línea base
+        de costo de tu proceso y una estimación concreta de cuánto se puede bajar, con qué agente
+        y en qué plazo.
+      </p>
+      <div class="cta-btns">
+        <a href="mailto:walter@staff21x.com?subject=Diagn%C3%B3stico%20de%20preparaci%C3%B3n" class="btn btn--inv">Agendar diagnóstico <span class="ar">→</span></a>
+        <a href="casos.html" class="btn btn--ghost-inv">Ver casos de uso</a>
       </div>
-      <div class="fg"><label>Correo</label><input type="email" id="c-correo" placeholder="correo@tuempresa.cl" oninput="chkContacto()"></div>
-      <div class="fg">
-        <label>WhatsApp</label>
-        <div style="display:flex;gap:8px">
-          <select id="c-pais" style="background:#141a2e;border:1px solid #2a3355;border-radius:10px;padding:12px 10px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;outline:none;cursor:pointer;flex-shrink:0;width:130px">
-            <option value="+56" selected>🇨🇱 +56</option>
-            <option value="+54">🇦🇷 +54</option>
-            <option value="+55">🇧🇷 +55</option>
-            <option value="+57">🇨🇴 +57</option>
-            <option value="+52">🇲🇽 +52</option>
-          </select>
-          <input type="tel" id="c-wsp" placeholder="9 XXXX XXXX" style="flex:1;background:#141a2e;border:1px solid #2a3355;border-radius:10px;padding:12px 15px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;outline:none">
-        </div>
-      </div>
-      <div class="fg"><label>¿En qué te podemos ayudar?</label><textarea id="c-extra" placeholder="Contanos tu operación o el proceso que querés automatizar..."></textarea></div>
-      <button class="btn-next btn-dis" id="btn-contacto" onclick="if(!this.classList.contains('btn-dis')) enviarContacto()">Enviar Mensaje →</button>
-      <div id="msg-exito" style="display:none;color:#a7f3d0;margin-top:20px;text-align:center;font-weight:600;font-size:15px">✅ ¡Mensaje enviado! Nos pondremos en contacto.</div>
+      <div class="cta-fine">// walter@staff21x.com · staff21x.com · parte del Grupo Resility</div>
     </div>
   </div>
-</div>
-</div>
+</section>
 
-<!-- FOOTER -->
-<div style="border-top:1px solid var(--border)">
 <footer>
-  <div class="ft">
-    <div>
-      <a href="/" class="logo syne">staff<span>21x</span></a>
-      <p class="f-brand-sub">// soluciones_de_agentes<br>// basadas_en_ia<br>// chile · arg · per · col · mex</p>
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <a href="index.html" class="logo logo--inv">staff21x</a>
+        <p style="font-size:.87rem;color:var(--tx-inv-2);line-height:1.6;max-width:36ch;margin-top:14px">
+          Agentes de IA que reducen costos operativos y aumentan la productividad,
+          con seguridad de la información declarada. Parte del Grupo Resility.
+        </p>
+      </div>
+      <div>
+        <div class="f-h">Sitio</div>
+        <ul class="f-list">
+          <li><a href="#camino">El camino</a></li>
+          <li><a href="casos.html">Casos de uso</a></li>
+          <li><a href="#soluciones">Qué construimos</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-h">Confianza</div>
+        <ul class="f-list">
+          <li><a href="seguridad.html">Política de seguridad</a></li>
+          <li><a href="asesoria.html">Asesoría de IA</a></li>
+          <li><a href="zentris.html">Zentris AISOC</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-h">Grupo Resility</div>
+        <ul class="f-list">
+          <li><a href="https://resility.io" target="_blank" rel="noopener">resility.io</a></li>
+          <li><a href="mailto:walter@staff21x.com">walter@staff21x.com</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="fc"><h5>// productos</h5><ul>
-      <li><a href="#productos">Trabajador Digital</a></li>
-      <li><a href="#productos">CRM a medida</a></li>
-      <li><a href="#productos">Analista de Compras</a></li>
-      <li><a href="#productos">Supervisor de Ventas</a></li>
-      <li><a href="#productos">Agendamiento Digital</a></li>
-      <li><a href="#productos">Ciberseguridad</a></li>
-    </ul></div>
-    <div class="fc"><h5>// empresa</h5><ul>
-      <li><a href="#diferencias">Agente vs Automatización</a></li>
-      <li><a href="#nosotros">Cómo trabajamos</a></li>
-      <li><a href="#seguridad">Seguridad de datos</a></li>
-      <li><a href="#en-vivo">En vivo</a></li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul></div>
-    <div class="fc"><h5>// contacto</h5><ul>
-      <li><a href="mailto:hola@staff21x.com">hola@staff21x.com</a></li>
-      <li><a href="https://wa.me/56987345554" target="_blank">+56 9 8734 5554</a></li>
-      <li><a href="https://resility.io" target="_blank">resility.io</a></li>
-    </ul></div>
-  </div>
-  <div class="fbot">
-    <p>// © 2026 staff21x.com — todos los derechos reservados</p>
-    <div class="fbl"><a href="#">privacidad</a><a href="#">términos</a><a href="#seguridad">políticas de seguridad</a></div>
+    <div class="f-bot">
+      <span>© 2026 staff21x · Todos los derechos reservados</span>
+      <span class="mono">// eficiencia operativa · menos costo · más productividad</span>
+    </div>
   </div>
 </footer>
-</div>
-
-<!-- WSP -->
-<a href="https://wa.me/56987345554?text=Hola%2C%20quiero%20conocer%20Staff21x" class="wsp-btn" target="_blank">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-</a>
 
 <script>
-// CONTACTO
-function chkContacto(){
-  const n=document.getElementById('c-nombre').value.trim();
-  const e=document.getElementById('c-empresa').value.trim();
-  const c=document.getElementById('c-correo').value.trim();
-  const btn=document.getElementById('btn-contacto');
-  const ok=n&&e&&c&&c.includes('@');
-  btn.classList.toggle('btn-dis',!ok);
-}
-function enviarContacto(){
-  const nombre=document.getElementById('c-nombre').value.trim();
-  const empresa=document.getElementById('c-empresa').value.trim();
-  const correo=document.getElementById('c-correo').value.trim();
-  const pais=document.getElementById('c-pais').value;
-  const wsp=document.getElementById('c-wsp').value.trim();
-  const extra=document.getElementById('c-extra').value.trim();
-  const msg=`Hola! Contacto desde staff21x.com%0ANombre: ${encodeURIComponent(nombre)}%0AEmpresa: ${encodeURIComponent(empresa)}%0ACorreo: ${encodeURIComponent(correo)}%0AWsp: ${encodeURIComponent(pais+' '+wsp)}%0AMensaje: ${encodeURIComponent(extra||'Sin mensaje adicional')}`;
-  window.open(`https://wa.me/56987345554?text=${msg}`,'_blank');
-  document.getElementById('msg-exito').style.display='block';
-  document.getElementById('btn-contacto').classList.add('btn-dis');
-}
-
-// FEEDS
-const ev1=[
-  {ico:'🔍',cls:'ic-alert',title:'Precio bajo detectado — RAM DDR5 32GB',desc:'Tecnoglobal ofrece 18% menos que el promedio. Alerta enviada al gerente de compras.',pill:'fp-amber',ptxt:'Oportunidad detectada',t:'cot'},
-  {ico:'✓',cls:'ic-check',title:'Orden confirmada — 50 laptops HP',desc:'Mejor oferta: Compusoluciones. Orden generada automáticamente y enviada para aprobación.',pill:'fp-green',ptxt:'Orden generada',t:'resp'},
-  {ico:'📧',cls:'ic-mail',title:'Consulta a Network1 — equipos de red',desc:'Cliente necesita infraestructura para nueva sucursal. Agente solicitó cotización completa.',pill:'fp-blue',ptxt:'Cotización enviada',t:'cot'},
-  {ico:'👤',cls:'ic-human',title:'Escalado a compras — pedido fuera de rango',desc:'500 unidades con condiciones especiales. Agente preparó resumen y derivó al gerente.',pill:'fp-human',ptxt:'Escalado a humano',t:'prov',cls2:'escalado'},
-  {ico:'📊',cls:'ic-check',title:'Comparativa — Impresoras Epson B2B',desc:'LifeMax $890K vs Microcare $940K. Diferencia 5.6%. Recomendación automática enviada.',pill:'fp-green',ptxt:'Mejor precio',t:'comp'},
-];
-const ev2=[
-  {ico:'💬',cls:'ic-wsp',title:'WhatsApp — "¿tienen iPhone 15 en negro?"',desc:'"Sí, stock en 128GB y 256GB. Envío en 24 hrs." — Respondido en 8 segundos.',pill:'fp-green',ptxt:'WSP respondido',t:'wsp'},
-  {ico:'🌐',cls:'ic-web',title:'Chat web — consulta de garantía TV Samsung 55"',desc:'Agente explicó términos, envió PDF y ofreció seguro extendido. Cliente satisfecho.',pill:'fp-blue',ptxt:'Chat web atendido',t:'web'},
-  {ico:'📦',cls:'ic-check',title:'Pedido procesado — MacBook Air M3',desc:'Pago confirmado. Agente generó la orden, actualizó inventario y envió tracking.',pill:'fp-green',ptxt:'Pedido confirmado',t:'ped'},
-  {ico:'💬',cls:'ic-wsp',title:'WhatsApp — reclamo por entrega tardía',desc:'Agente pidió disculpas, ofreció descuento en próxima compra y coordinó nueva fecha.',pill:'fp-amber',ptxt:'Reclamo resuelto',t:'rec'},
-  {ico:'🌐',cls:'ic-web',title:'Chat web — cotización corporativa 30 equipos',desc:'Empresa solicitó cotización para renovación de flota. Propuesta con descuento por volumen.',pill:'fp-purple',ptxt:'Propuesta enviada',t:'web'},
-];
-const ev3=[
-  {ico:'📅',cls:'ic-cal',title:'Cita agendada — Dr. Ramírez · Cardiología',desc:'Paciente Mario González. Lunes 14, 10:30. Confirmación por WhatsApp y correo enviada.',pill:'fp-green',ptxt:'Cita confirmada',t:'age'},
-  {ico:'💬',cls:'ic-wsp',title:'WhatsApp — reagendamiento urgente',desc:'"No puedo el jueves." — Agente verificó disponibilidad y ofreció 3 opciones en tiempo real.',pill:'fp-amber',ptxt:'Reagendada',t:'reag'},
-  {ico:'📱',cls:'ic-check',title:'Recordatorio masivo — 48 pacientes mañana',desc:'Mensaje personalizado a cada paciente con médico, hora y preparación necesaria.',pill:'fp-blue',ptxt:'Recordatorios enviados',t:'rec'},
-  {ico:'👤',cls:'ic-human',title:'Escalado — síntoma urgente detectado',desc:'Paciente describió dolor en el pecho. Agente no agendó, escaló de inmediato a enfermería.',pill:'fp-human',ptxt:'Escalado urgente',t:'rec',cls2:'escalado'},
-  {ico:'📅',cls:'ic-cal',title:'3 citas — control post-operatorio',desc:'Agente coordinó fechas automáticamente con el equipo quirúrgico para pacientes del lunes.',pill:'fp-green',ptxt:'Seguimiento programado',t:'age'},
-];
-const ev4=[
-  {ico:'📧',cls:'ic-mail',title:'Seguimiento — CEO Constructora Vial Sur',desc:'Propuesta personalizada. Lead sin respuesta hace 5 días. Segundo ángulo enviado.',pill:'fp-purple',ptxt:'Seguimiento enviado',t:'mail'},
-  {ico:'🔗',cls:'ic-linkedin',title:'Cross-sell detectado — cliente activo',desc:'Cliente con servicio A lleva 3 meses. Agente detectó fit con servicio B y alertó al vendedor.',pill:'fp-blue',ptxt:'Oportunidad detectada',t:'li'},
-  {ico:'💬',cls:'ic-wsp',title:'Respuesta caliente — interés confirmado',desc:'"Me parece interesante, ¿podemos hablar?" — Agente propuso 3 horarios al instante.',pill:'fp-green',ptxt:'Lead caliente',t:'resp'},
-  {ico:'📅',cls:'ic-cal',title:'Reunión agendada — Gerente Comercial',desc:'Llamada de 30 min el miércoles 9:00. Zoom generado, invitación y recordatorio enviados.',pill:'fp-green',ptxt:'Reunión confirmada',t:'meet'},
-  {ico:'👤',cls:'ic-human',title:'Escalado — lead muy caliente',desc:'Director de TI con 800 empleados respondió con urgencia. Agente pasó historial completo.',pill:'fp-human',ptxt:'Escalado a vendedor',t:'resp',cls2:'escalado'},
-];
-
-function makeEngine(feedId,typingId,events,counters){
-  let idx=0;
-  const feed=document.getElementById(feedId);
-  const typing=document.getElementById(typingId);
-  const counts={};
-  counters.forEach(c=>{counts[c.key]=c.init});
-  function addItem(){
-    const e=events[idx%events.length];idx++;
-    typing.style.display='flex';
-    setTimeout(()=>{
-      typing.style.display='none';
-      const el=document.createElement('div');
-      el.className='feed-item'+(e.cls2?' '+e.cls2:'');
-      el.innerHTML='<div class="fi-ico '+e.cls+'">'+e.ico+'</div>'
-        +'<div class="fi-body"><div class="fi-title">'+e.title+'</div>'
-        +'<div class="fi-desc">'+e.desc+'</div>'
-        +'<div class="fi-meta"><span class="fpill '+e.pill+'">'+e.ptxt+'</span></div></div>';
-      feed.insertBefore(el,feed.firstChild);
-      while(feed.children.length>10)feed.removeChild(feed.lastChild);
-      counters.forEach(c=>{if(c.type===e.t){counts[c.key]++;document.getElementById(c.id).textContent=counts[c.key]}});
-    },700);
-  }
-  setTimeout(()=>addItem(),Math.random()*800+300);
-  setInterval(()=>addItem(),Math.random()*1500+3000);
-}
-
-makeEngine('feed1','ty1',ev1,[
-  {key:'cot',id:'t1-cot',init:14,type:'cot'},
-  {key:'prov',id:'t1-prov',init:7,type:'prov'},
-  {key:'comp',id:'t1-comp',init:5,type:'comp'},
-  {key:'resp',id:'t1-resp',init:3,type:'resp'},
-]);
-makeEngine('feed2','ty2',ev2,[
-  {key:'wsp',id:'t2-wsp',init:23,type:'wsp'},
-  {key:'web',id:'t2-web',init:18,type:'web'},
-  {key:'ped',id:'t2-ped',init:9,type:'ped'},
-  {key:'rec',id:'t2-rec',init:4,type:'rec'},
-]);
-makeEngine('feed3','ty3',ev3,[
-  {key:'age',id:'t3-age',init:31,type:'age'},
-  {key:'rec',id:'t3-rec',init:48,type:'rec'},
-  {key:'reag',id:'t3-reag',init:7,type:'reag'},
-  {key:'can',id:'t3-can',init:2,type:'can'},
-]);
-makeEngine('feed4','ty4',ev4,[
-  {key:'mail',id:'t4-mail',init:47,type:'mail'},
-  {key:'li',id:'t4-li',init:29,type:'li'},
-  {key:'resp',id:'t4-resp',init:11,type:'resp'},
-  {key:'meet',id:'t4-meet',init:3,type:'meet'},
-]);
-// HERO DASHBOARD
 (function(){
-  // Clock
-  function tick(){
-    const now=new Date();
-    document.getElementById('dash-time').textContent=
-      now.toTimeString().slice(0,8);
-  }
-  tick(); setInterval(tick,1000);
+  var RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Bar chart
-  const bars=[180,220,195,310,280,340,290,410,380,450,390,480];
-  const chart=document.getElementById('bar-chart');
-  const max=Math.max(...bars);
-  bars.forEach((v,i)=>{
-    const b=document.createElement('div');
-    b.style.cssText=`flex:1;border-radius:3px 3px 0 0;background:${i===bars.length-1?'var(--accent)':'rgba(79,110,247,.35)'};transition:height .6s ease`;
-    b.style.height='4px';
-    b.id='bar-'+i;
-    chart.appendChild(b);
-    setTimeout(()=>{ b.style.height=(v/max*52)+'px'; }, 200+i*60);
-  });
-  let total=2841;
-  setInterval(()=>{
-    const add=Math.floor(Math.random()*8+2);
-    total+=add;
-    document.getElementById('chart-total').textContent=total.toLocaleString()+' acciones';
-    const last=document.getElementById('bar-'+(bars.length-1));
-    if(last){ const h=parseFloat(last.style.height)||20; last.style.height=Math.min(52,h+1)+'px'; }
-  },2200);
+  /* --- nav --- */
+  var nav=document.getElementById('nav');
+  var onScroll=function(){ nav.classList.toggle('on', window.scrollY>10); };
+  onScroll(); window.addEventListener('scroll',onScroll,{passive:true});
 
-  // Agents
-  const agents=[
-    {name:'agent.ventas',color:'#1aad7e',tasks:0,label:'Vendedor Digital'},
-    {name:'agent.compras',color:'#4f6ef7',tasks:0,label:'Analista Compras'},
-    {name:'agent.agenda',color:'#e8a020',tasks:0,label:'Agendamiento'},
-    {name:'agent.supervisor',color:'#c084fc',tasks:0,label:'Supervisor Ventas'},
-  ];
-  const list=document.getElementById('agent-list');
-  agents.forEach((a,i)=>{
-    a.tasks=Math.floor(Math.random()*80+40);
-    const row=document.createElement('div');
-    row.style.cssText='display:flex;align-items:center;gap:8px';
-    row.innerHTML=`
-      <div style="width:6px;height:6px;border-radius:50%;background:${a.color};flex-shrink:0;animation:bdot ${1.2+i*.3}s infinite"></div>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text2);flex:1">${a.name}</span>
-      <div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden">
-        <div id="bar-agent-${i}" style="height:100%;border-radius:2px;background:${a.color};width:0%;transition:width .8s ease"></div>
-      </div>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);min-width:32px;text-align:right" id="task-${i}">${a.tasks}</span>`;
-    list.appendChild(row);
-    setTimeout(()=>{ document.getElementById('bar-agent-'+i).style.width=(a.tasks/120*100)+'%'; },400+i*100);
-  });
-  setInterval(()=>{
-    agents.forEach((a,i)=>{
-      a.tasks+=Math.floor(Math.random()*3);
-      document.getElementById('task-'+i).textContent=a.tasks;
-      const pct=Math.min(100,a.tasks/120*100);
-      document.getElementById('bar-agent-'+i).style.width=pct+'%';
+  /* --- 1 · partir títulos en palabras --- */
+  function split(el){
+    if(el.dataset.sp) return; el.dataset.sp='1';
+    (function walk(node){
+      Array.prototype.slice.call(node.childNodes).forEach(function(n){
+        if(n.nodeType===3){
+          if(!n.textContent.trim()){ return; }
+          var frag=document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(function(t){
+            if(!t) return;
+            if(/^\s+$/.test(t)){ frag.appendChild(document.createTextNode(' ')); return; }
+            var o=document.createElement('span'); o.className='wm';
+            var i=document.createElement('span'); i.className='wi'; i.textContent=t;
+            o.appendChild(i); frag.appendChild(o);
+          });
+          node.replaceChild(frag,n);
+        } else if(n.nodeType===1 && n.tagName!=='BR'){ walk(n); }
+      });
+    })(el);
+    Array.prototype.slice.call(el.querySelectorAll('.wi')).forEach(function(w,i){
+      w.style.transitionDelay=(Math.min(i,18)*0.038)+'s';
     });
-  },1800);
-
-  // Live feed
-  const events=[
-    {c:'#1aad7e',t:'Cotización enviada','d':'Cliente consultó precio notebook HP — respondido en 4s'},
-    {c:'#4f6ef7',t:'Precio óptimo','d':'RAM DDR5: proveedor B es 18% más barato que proveedor A'},
-    {c:'#e8a020',t:'Cita agendada','d':'Dr. Ramírez · martes 10:30 · confirmación enviada por WSP'},
-    {c:'#c084fc',t:'Cross-sell detectado','d':'Cliente #0047 sin comprar hace 60 días — alerta activada'},
-    {c:'#1aad7e',t:'Pedido procesado','d':'MacBook Air M3 · orden generada · tracking enviado'},
-    {c:'#4f6ef7',t:'Orden de compra','d':'50 unidades HP aprobadas · enviada a proveedor automáticamente'},
-    {c:'#e8a020',t:'Reagendamiento','d':'Paciente solicitó cambio · nueva hora asignada en tiempo real'},
-    {c:'#c084fc',t:'Lead caliente','d':'Gerente TI respondió propuesta · escalado a vendedor con historial'},
-  ];
-  const feed=document.getElementById('live-feed');
-  let evIdx=0;
-  function addEvent(){
-    const e=events[evIdx%events.length]; evIdx++;
-    const row=document.createElement('div');
-    row.style.cssText='display:flex;align-items:flex-start;gap:8px;padding:7px 14px;border-bottom:1px solid rgba(255,255,255,.03);animation:fadeUp .3s ease both';
-    row.innerHTML=`<div style="width:6px;height:6px;border-radius:50%;background:${e.c};flex-shrink:0;margin-top:4px"></div>
-      <div style="flex:1;min-width:0">
-        <div style="display:flex;align-items:center;gap:6px">
-          <span style="font-size:11px;font-weight:600;color:#fff">${e.t}</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3)">${new Date().toTimeString().slice(0,8)}</span>
-        </div>
-        <div style="font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e.d}</div>
-      </div>`;
-    feed.insertBefore(row,feed.firstChild);
-    while(feed.children.length>4)feed.removeChild(feed.lastChild);
   }
-  addEvent();
-  setInterval(addEvent, 2800);
+  if(!RM){
+    document.querySelectorAll('.h-hero, .h-sec, .cta h2, .pitch, .why-t').forEach(split);
+  }
 
-  // KPI flicker
-  let tasks=247;
-  setInterval(()=>{
-    tasks+=Math.floor(Math.random()*4+1);
-    document.getElementById('kpi-tasks').textContent=tasks;
-    const r=(Math.random()*0.4+1.0).toFixed(1);
-    document.getElementById('kpi-resp').innerHTML=r+'<span style="font-size:14px;color:var(--accent)">s</span>';
-  },3000);
+  /* --- 9 · anchos de barras diferidos --- */
+  document.querySelectorAll('.split i, .bar i').forEach(function(b){
+    if(b.style.width){ b.style.setProperty('--w', b.style.width); b.style.width=''; }
+  });
+
+  /* --- reveal general --- */
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){
+    els.forEach(function(e){e.classList.add('in')});
+  } else {
+    var io=new IntersectionObserver(function(en){
+      en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } });
+    },{rootMargin:'0px 0px -8% 0px',threshold:.05});
+    els.forEach(function(e){io.observe(e)});
+  }
+
+  /* --- 3 · camino --- */
+  var road=document.querySelector('.road');
+  if(road && 'IntersectionObserver' in window){
+    var fill=document.createElement('span'); fill.className='road-fill'; road.appendChild(fill);
+    var stops=Array.prototype.slice.call(road.querySelectorAll('.stop'));
+    var done=0;
+    var ro=new IntersectionObserver(function(en){
+      en.forEach(function(x){
+        if(!x.isIntersecting) return;
+        x.target.classList.add('on'); ro.unobserve(x.target);
+        done=Math.max(done, stops.indexOf(x.target)+1);
+        fill.style.width=Math.min(100,(done-0.5)/stops.length*100+6)+'%';
+      });
+    },{rootMargin:'0px 0px -22% 0px',threshold:.4});
+    stops.forEach(function(s){ro.observe(s)});
+  }
+
+  /* --- 4 · tarjetas desplegables --- */
+  document.querySelectorAll('.area').forEach(function(card){
+    var btn=card.querySelector('.area-more');
+    if(!btn) return;
+    var toggle=function(e){
+      e.preventDefault(); e.stopPropagation();
+      var open=card.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open?'true':'false');
+      btn.firstChild.textContent = open ? 'Ocultar detalle ' : 'Cómo lo hace ';
+    };
+    btn.addEventListener('click',toggle);
+    card.addEventListener('click',function(e){ if(e.target.closest('.area-more')) return; toggle(e); });
+  });
+
+  /* --- 5 · brillo con el cursor --- */
+  document.querySelectorAll('.glow').forEach(function(el){
+    el.addEventListener('mousemove',function(e){
+      var r=el.getBoundingClientRect();
+      el.style.setProperty('--mx',(e.clientX-r.left)+'px');
+      el.style.setProperty('--my',(e.clientY-r.top)+'px');
+    });
+  });
+
+  /* --- 7 · contadores --- */
+  function countUp(el){
+    var end=parseFloat(el.dataset.count), dec=(el.dataset.count.split('.')[1]||'').length;
+    var pre=el.dataset.pre||'', t0=null, dur=1200;
+    function step(ts){
+      if(!t0) t0=ts;
+      var p=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-p,3);
+      el.firstChild.textContent = pre + (end*e).toFixed(dec);
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var nums=document.querySelectorAll('[data-count]');
+  if(nums.length && 'IntersectionObserver' in window && !RM){
+    var no=new IntersectionObserver(function(en){
+      en.forEach(function(x){ if(x.isIntersecting){ countUp(x.target); no.unobserve(x.target); } });
+    },{threshold:.6});
+    nums.forEach(function(n){ n.firstChild.textContent=(n.dataset.pre||'')+'0'; no.observe(n); });
+  }
+
+  /* --- 8 · imán en botones --- */
+  if(!RM && window.matchMedia('(pointer:fine)').matches){
+    document.querySelectorAll('.btn').forEach(function(b){
+      b.addEventListener('mousemove',function(e){
+        var r=b.getBoundingClientRect();
+        b.style.transform='translate('+((e.clientX-r.left-r.width/2)*0.10)+'px,'+((e.clientY-r.top-r.height/2)*0.16-1)+'px)';
+      });
+      b.addEventListener('mouseleave',function(){ b.style.transform=''; });
+    });
+  }
 })();
 </script>
 </body>
